@@ -33,11 +33,18 @@ Add the dependency in your `pom.xml`:
 
 ## Usage
 
-Check out the [sample app](.sample-app/app.java) which consumes this SDK!
+Check out the [sample app](sample-app/src/main/java/sample/App.java) which consumes this SDK!
 
 ```java
-// start with env variables
-TODO
+SeamApiClient seam = SeamApiClient.builder()
+        .token("MY_API_KEY")
+        .build();
+AccessCodesCreateResponse accessCodesCreateResponse = seam.accessCodes().create(
+        AccessCodesCreateRequest.builder()
+            .deviceId("123e4567-e89b-12d3-a456-426614174000")
+        .commonCodeKey("My first code")
+        .build());
+System.out.println(accessCodesCreateResponse.getAccessCode());
 ```
 
 ## Beta status
