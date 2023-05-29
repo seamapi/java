@@ -25,6 +25,6 @@ public final class SeamApiClientBuilder {
 
     public SeamApiClient build() {
         clientOptionsBuilder.environment(this.environment);
-        return new SeamApiClientImpl(clientOptionsBuilder.build());
+        return new SeamApiClient(clientOptionsBuilder.build());
     }
 }
