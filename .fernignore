@@ -2,5 +2,5 @@
 
 README.md
 sample-app/src/main/java/sample/App.java
-src/main/com/seam/api/SeamApiClient.java
-src/main/com/seam/api/AccessCodesClient.java
+src/main/java/com/seam/api/SeamApiClient.java
+src/main/java/com/seam/api/AccessCodesClient.java
