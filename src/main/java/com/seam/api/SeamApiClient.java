@@ -2,7 +2,6 @@ package com.seam.api;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.Suppliers;
-import com.seam.api.resources.accesscodes.AccessCodesClient;
 import com.seam.api.resources.actionattempts.ActionAttemptsClient;
 import java.util.function.Supplier;
 
@@ -15,7 +14,7 @@ public class SeamApiClient {
 
     public SeamApiClient(ClientOptions clientOptions) {
         this.clientOptions = clientOptions;
-        this.accessCodesClient = Suppliers.memoize(() -> new AccessCodesClient(clientOptions));
+        this.accessCodesClient = Suppliers.memoize(() -> new AccessCodesClient(clientOptions, this));
         this.actionAttemptsClient = Suppliers.memoize(() -> new ActionAttemptsClient(clientOptions));
     }
 

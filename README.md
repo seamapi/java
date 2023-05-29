@@ -47,6 +47,19 @@ AccessCodesCreateResponse accessCodesCreateResponse =
 System.out.println(accessCodesCreateResponse.getAccessCode());
 ```
 
+### Built-in polling
+
+The SDK has convenience methods to poll until access code updates have successfully finished. 
+
+```java
+Object accessCode = seam.accessCodes().updateAndWaitUntilReady(AccessCodesUpdatePutRequest.builder()
+        .accessCodeId("my-access-code-id")
+        .name("access-code-name")
+        .code("access-code")
+        .build());
+System.out.println(accessCode);
+``` 
+
 ## Beta status
 
 This SDK is in beta, and there may be breaking changes between versions without a major version update. Therefore, we recommend pinning the package version to a specific version in your build.gradle file. This way, you can install the same version each time without breaking changes unless you are intentionally looking for the latest version.
