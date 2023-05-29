@@ -18,7 +18,7 @@ public final class ActionAttemptsClientImpl implements ActionAttemptsClient {
     }
 
     @Override
-    public ActionAttemptsGetResponse actionAttemptsGet(ActionAttemptsGetRequest request) {
+    public ActionAttemptsGetResponse get(ActionAttemptsGetRequest request) {
         HttpUrl.Builder _httpUrl = HttpUrl.parse(
                         this.clientOptions.environment().getUrl())
                 .newBuilder()

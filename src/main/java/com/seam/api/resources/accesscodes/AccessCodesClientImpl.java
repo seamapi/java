@@ -25,7 +25,7 @@ public final class AccessCodesClientImpl implements AccessCodesClient {
     }
 
     @Override
-    public AccessCodesCreateResponse accessCodesCreate(AccessCodesCreateRequest request) {
+    public AccessCodesCreateResponse create(AccessCodesCreateRequest request) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/create")
@@ -65,7 +65,7 @@ public final class AccessCodesClientImpl implements AccessCodesClient {
     }
 
     @Override
-    public AccessCodesDeleteResponse accessCodesDelete(AccessCodesDeleteRequest request) {
+    public AccessCodesDeleteResponse delete(AccessCodesDeleteRequest request) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/delete")
@@ -100,7 +100,7 @@ public final class AccessCodesClientImpl implements AccessCodesClient {
     }
 
     @Override
-    public AccessCodesUpdatePutResponse accessCodesUpdatePut(AccessCodesUpdatePutRequest request) {
+    public AccessCodesUpdatePutResponse updatePut(AccessCodesUpdatePutRequest request) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/update")

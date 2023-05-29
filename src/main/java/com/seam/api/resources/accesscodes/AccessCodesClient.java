@@ -8,9 +8,9 @@ import com.seam.api.types.AccessCodesDeleteResponse;
 import com.seam.api.types.AccessCodesUpdatePutResponse;
 
 public interface AccessCodesClient {
-    AccessCodesCreateResponse accessCodesCreate(AccessCodesCreateRequest request);
+    AccessCodesCreateResponse create(AccessCodesCreateRequest request);
 
-    AccessCodesDeleteResponse accessCodesDelete(AccessCodesDeleteRequest request);
+    AccessCodesDeleteResponse delete(AccessCodesDeleteRequest request);
 
-    AccessCodesUpdatePutResponse accessCodesUpdatePut(AccessCodesUpdatePutRequest request);
+    AccessCodesUpdatePutResponse updatePut(AccessCodesUpdatePutRequest request);
 }

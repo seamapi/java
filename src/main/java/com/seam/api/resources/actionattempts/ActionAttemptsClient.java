@@ -4,5 +4,5 @@ import com.seam.api.resources.actionattempts.requests.ActionAttemptsGetRequest;
 import com.seam.api.types.ActionAttemptsGetResponse;
 
 public interface ActionAttemptsClient {
-    ActionAttemptsGetResponse actionAttemptsGet(ActionAttemptsGetRequest request);
+    ActionAttemptsGetResponse get(ActionAttemptsGetRequest request);
 }
