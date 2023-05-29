@@ -39,10 +39,11 @@ Check out the [sample app](sample-app/src/main/java/sample/App.java) which consu
 SeamApiClient seam = SeamApiClient.builder()
         .token("MY_API_KEY")
         .build();
-AccessCodesCreateResponse accessCodesCreateResponse = seam.accessCodes().create(AccessCodesCreateRequest.builder()
-        .deviceId("123e4567-e89b-12d3-a456-426614174000")
-        .commonCodeKey("My first code")
-        .build());
+AccessCodesCreateResponse accessCodesCreateResponse =
+        seam.accessCodes().create(AccessCodesCreateRequest.builder()
+            .deviceId("123e4567-e89b-12d3-a456-426614174000")
+            .commonCodeKey("My first code")
+            .build());
 System.out.println(accessCodesCreateResponse.getAccessCode());
 ```
 
