@@ -31,9 +31,9 @@ java {
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = 'io.github.fern-api'
-            artifactId = 'seam'
-            version = '0.0.16'
+            groupId = 'io.github.seamapi'
+            artifactId = 'java'
+            version = '0.0.19'
             from components.java
         }
     }
