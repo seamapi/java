@@ -67,6 +67,9 @@ public final class AccessCodesUpdatePutRequest {
         return endsAt;
     }
 
+    /**
+     * @return &lt;span style=&quot;white-space: nowrap&quot;&gt;<code>&lt;= 8 characters</code>&lt;/span&gt;
+     */
     @JsonProperty("code")
     public Optional<String> getCode() {
         return code;
@@ -280,6 +283,10 @@ public final class AccessCodesUpdatePutRequest {
             return this;
         }
 
+        /**
+         * <p>&lt;span style=&quot;white-space: nowrap&quot;&gt;<code>&lt;= 8 characters</code>&lt;/span&gt;</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         public _FinalStage code(String code) {
             this.code = Optional.of(code);

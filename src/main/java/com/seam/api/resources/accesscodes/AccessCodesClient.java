@@ -24,7 +24,7 @@ public class AccessCodesClient {
         this.clientOptions = clientOptions;
     }
 
-    public AccessCodesCreateResponse create(AccessCodesCreateRequest request) {
+    public AccessCodesCreateResponse accessCodesCreate(AccessCodesCreateRequest request) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/create")
@@ -63,7 +63,7 @@ public class AccessCodesClient {
         }
     }
 
-    public AccessCodesDeleteResponse delete(AccessCodesDeleteRequest request) {
+    public AccessCodesDeleteResponse accessCodesDelete(AccessCodesDeleteRequest request) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/delete")
@@ -97,7 +97,7 @@ public class AccessCodesClient {
         }
     }
 
-    public AccessCodesUpdatePutResponse updatePut(AccessCodesUpdatePutRequest request) {
+    public AccessCodesUpdatePutResponse accessCodesUpdatePut(AccessCodesUpdatePutRequest request) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/update")

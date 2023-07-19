@@ -17,7 +17,7 @@ public class ActionAttemptsClient {
         this.clientOptions = clientOptions;
     }
 
-    public ActionAttemptsGetResponse get(ActionAttemptsGetRequest request) {
+    public ActionAttemptsGetResponse actionAttemptsGet(ActionAttemptsGetRequest request) {
         HttpUrl.Builder _httpUrl = HttpUrl.parse(
                         this.clientOptions.environment().getUrl())
                 .newBuilder()
