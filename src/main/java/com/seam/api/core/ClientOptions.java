@@ -23,6 +23,7 @@ public final class ClientOptions {
         this.headers = headers;
         this.headerSuppliers = headerSuppliers;
         this.httpClient = httpClient;
+        ;
     }
 
     public Environment environment() {

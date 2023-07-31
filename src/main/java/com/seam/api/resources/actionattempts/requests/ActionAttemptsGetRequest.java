@@ -10,9 +10,7 @@ import java.util.Objects;
 public final class ActionAttemptsGetRequest {
     private final String actionAttemptId;
 
-    private int _cachedHashCode;
-
-    ActionAttemptsGetRequest(String actionAttemptId) {
+    private ActionAttemptsGetRequest(String actionAttemptId) {
         this.actionAttemptId = actionAttemptId;
     }
 
@@ -33,10 +31,7 @@ public final class ActionAttemptsGetRequest {
 
     @Override
     public int hashCode() {
-        if (_cachedHashCode == 0) {
-            _cachedHashCode = Objects.hash(this.actionAttemptId);
-        }
-        return _cachedHashCode;
+        return Objects.hash(this.actionAttemptId);
     }
 
     @Override

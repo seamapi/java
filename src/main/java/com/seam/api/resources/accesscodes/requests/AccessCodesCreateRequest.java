@@ -26,9 +26,11 @@ public final class AccessCodesCreateRequest {
 
     private final Optional<String> commonCodeKey;
 
-    private int _cachedHashCode;
+    private final Optional<Boolean> preferNativeScheduling;
 
-    AccessCodesCreateRequest(
+    private final Optional<Boolean> useBackupAccessCodePool;
+
+    private AccessCodesCreateRequest(
             String deviceId,
             Optional<String> name,
             Optional<String> startsAt,
@@ -36,7 +38,9 @@ public final class AccessCodesCreateRequest {
             Optional<String> code,
             Optional<Boolean> sync,
             Optional<Boolean> attemptForOfflineDevice,
-            Optional<String> commonCodeKey) {
+            Optional<String> commonCodeKey,
+            Optional<Boolean> preferNativeScheduling,
+            Optional<Boolean> useBackupAccessCodePool) {
         this.deviceId = deviceId;
         this.name = name;
         this.startsAt = startsAt;
@@ -45,6 +49,8 @@ public final class AccessCodesCreateRequest {
         this.sync = sync;
         this.attemptForOfflineDevice = attemptForOfflineDevice;
         this.commonCodeKey = commonCodeKey;
+        this.preferNativeScheduling = preferNativeScheduling;
+        this.useBackupAccessCodePool = useBackupAccessCodePool;
     }
 
     @JsonProperty("device_id")
@@ -90,6 +96,16 @@ public final class AccessCodesCreateRequest {
         return commonCodeKey;
     }
 
+    @JsonProperty("prefer_native_scheduling")
+    public Optional<Boolean> getPreferNativeScheduling() {
+        return preferNativeScheduling;
+    }
+
+    @JsonProperty("use_backup_access_code_pool")
+    public Optional<Boolean> getUseBackupAccessCodePool() {
+        return useBackupAccessCodePool;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -104,30 +120,32 @@ public final class AccessCodesCreateRequest {
                 && code.equals(other.code)
                 && sync.equals(other.sync)
                 && attemptForOfflineDevice.equals(other.attemptForOfflineDevice)
-                && commonCodeKey.equals(other.commonCodeKey);
+                && commonCodeKey.equals(other.commonCodeKey)
+                && preferNativeScheduling.equals(other.preferNativeScheduling)
+                && useBackupAccessCodePool.equals(other.useBackupAccessCodePool);
     }
 
     @Override
     public int hashCode() {
-        if (_cachedHashCode == 0) {
-            _cachedHashCode = Objects.hash(
-                    this.deviceId,
-                    this.name,
-                    this.startsAt,
-                    this.endsAt,
-                    this.code,
-                    this.sync,
-                    this.attemptForOfflineDevice,
-                    this.commonCodeKey);
-        }
-        return _cachedHashCode;
+        return Objects.hash(
+                this.deviceId,
+                this.name,
+                this.startsAt,
+                this.endsAt,
+                this.code,
+                this.sync,
+                this.attemptForOfflineDevice,
+                this.commonCodeKey,
+                this.preferNativeScheduling,
+                this.useBackupAccessCodePool);
     }
 
     @Override
     public String toString() {
         return "AccessCodesCreateRequest{" + "deviceId: " + deviceId + ", name: " + name + ", startsAt: " + startsAt
                 + ", endsAt: " + endsAt + ", code: " + code + ", sync: " + sync + ", attemptForOfflineDevice: "
-                + attemptForOfflineDevice + ", commonCodeKey: " + commonCodeKey + "}";
+                + attemptForOfflineDevice + ", commonCodeKey: " + commonCodeKey + ", preferNativeScheduling: "
+                + preferNativeScheduling + ", useBackupAccessCodePool: " + useBackupAccessCodePool + "}";
     }
 
     public static DeviceIdStage builder() {
@@ -170,11 +188,23 @@ public final class AccessCodesCreateRequest {
         _FinalStage commonCodeKey(Optional<String> commonCodeKey);
 
         _FinalStage commonCodeKey(String commonCodeKey);
+
+        _FinalStage preferNativeScheduling(Optional<Boolean> preferNativeScheduling);
+
+        _FinalStage preferNativeScheduling(Boolean preferNativeScheduling);
+
+        _FinalStage useBackupAccessCodePool(Optional<Boolean> useBackupAccessCodePool);
+
+        _FinalStage useBackupAccessCodePool(Boolean useBackupAccessCodePool);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements DeviceIdStage, _FinalStage {
         private String deviceId;
+
+        private Optional<Boolean> useBackupAccessCodePool = Optional.empty();
+
+        private Optional<Boolean> preferNativeScheduling = Optional.empty();
 
         private Optional<String> commonCodeKey = Optional.empty();
 
@@ -202,6 +232,8 @@ public final class AccessCodesCreateRequest {
             sync(other.getSync());
             attemptForOfflineDevice(other.getAttemptForOfflineDevice());
             commonCodeKey(other.getCommonCodeKey());
+            preferNativeScheduling(other.getPreferNativeScheduling());
+            useBackupAccessCodePool(other.getUseBackupAccessCodePool());
             return this;
         }
 
@@ -209,6 +241,32 @@ public final class AccessCodesCreateRequest {
         @JsonSetter("device_id")
         public _FinalStage deviceId(String deviceId) {
             this.deviceId = deviceId;
+            return this;
+        }
+
+        @Override
+        public _FinalStage useBackupAccessCodePool(Boolean useBackupAccessCodePool) {
+            this.useBackupAccessCodePool = Optional.of(useBackupAccessCodePool);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "use_backup_access_code_pool", nulls = Nulls.SKIP)
+        public _FinalStage useBackupAccessCodePool(Optional<Boolean> useBackupAccessCodePool) {
+            this.useBackupAccessCodePool = useBackupAccessCodePool;
+            return this;
+        }
+
+        @Override
+        public _FinalStage preferNativeScheduling(Boolean preferNativeScheduling) {
+            this.preferNativeScheduling = Optional.of(preferNativeScheduling);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "prefer_native_scheduling", nulls = Nulls.SKIP)
+        public _FinalStage preferNativeScheduling(Optional<Boolean> preferNativeScheduling) {
+            this.preferNativeScheduling = preferNativeScheduling;
             return this;
         }
 
@@ -310,7 +368,16 @@ public final class AccessCodesCreateRequest {
         @Override
         public AccessCodesCreateRequest build() {
             return new AccessCodesCreateRequest(
-                    deviceId, name, startsAt, endsAt, code, sync, attemptForOfflineDevice, commonCodeKey);
+                    deviceId,
+                    name,
+                    startsAt,
+                    endsAt,
+                    code,
+                    sync,
+                    attemptForOfflineDevice,
+                    commonCodeKey,
+                    preferNativeScheduling,
+                    useBackupAccessCodePool);
         }
     }
 }

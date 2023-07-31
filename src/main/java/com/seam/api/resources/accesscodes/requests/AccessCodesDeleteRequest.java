@@ -16,9 +16,7 @@ public final class AccessCodesDeleteRequest {
 
     private final Optional<Boolean> sync;
 
-    private int _cachedHashCode;
-
-    AccessCodesDeleteRequest(Optional<String> deviceId, String accessCodeId, Optional<Boolean> sync) {
+    private AccessCodesDeleteRequest(Optional<String> deviceId, String accessCodeId, Optional<Boolean> sync) {
         this.deviceId = deviceId;
         this.accessCodeId = accessCodeId;
         this.sync = sync;
@@ -51,10 +49,7 @@ public final class AccessCodesDeleteRequest {
 
     @Override
     public int hashCode() {
-        if (_cachedHashCode == 0) {
-            _cachedHashCode = Objects.hash(this.deviceId, this.accessCodeId, this.sync);
-        }
-        return _cachedHashCode;
+        return Objects.hash(this.deviceId, this.accessCodeId, this.sync);
     }
 
     @Override

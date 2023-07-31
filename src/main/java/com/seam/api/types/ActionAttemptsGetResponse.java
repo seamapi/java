@@ -8,19 +8,17 @@ import java.util.Objects;
 
 @JsonDeserialize(builder = ActionAttemptsGetResponse.Builder.class)
 public final class ActionAttemptsGetResponse {
-    private final ActionAttemptsGetResponseActionAttempt actionAttempt;
+    private final ActionAttempt actionAttempt;
 
     private final boolean ok;
 
-    private int _cachedHashCode;
-
-    ActionAttemptsGetResponse(ActionAttemptsGetResponseActionAttempt actionAttempt, boolean ok) {
+    private ActionAttemptsGetResponse(ActionAttempt actionAttempt, boolean ok) {
         this.actionAttempt = actionAttempt;
         this.ok = ok;
     }
 
     @JsonProperty("action_attempt")
-    public ActionAttemptsGetResponseActionAttempt getActionAttempt() {
+    public ActionAttempt getActionAttempt() {
         return actionAttempt;
     }
 
@@ -41,10 +39,7 @@ public final class ActionAttemptsGetResponse {
 
     @Override
     public int hashCode() {
-        if (_cachedHashCode == 0) {
-            _cachedHashCode = Objects.hash(this.actionAttempt, this.ok);
-        }
-        return _cachedHashCode;
+        return Objects.hash(this.actionAttempt, this.ok);
     }
 
     @Override
@@ -57,7 +52,7 @@ public final class ActionAttemptsGetResponse {
     }
 
     public interface ActionAttemptStage {
-        OkStage actionAttempt(ActionAttemptsGetResponseActionAttempt actionAttempt);
+        OkStage actionAttempt(ActionAttempt actionAttempt);
 
         Builder from(ActionAttemptsGetResponse other);
     }
@@ -72,7 +67,7 @@ public final class ActionAttemptsGetResponse {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ActionAttemptStage, OkStage, _FinalStage {
-        private ActionAttemptsGetResponseActionAttempt actionAttempt;
+        private ActionAttempt actionAttempt;
 
         private boolean ok;
 
@@ -87,7 +82,7 @@ public final class ActionAttemptsGetResponse {
 
         @Override
         @JsonSetter("action_attempt")
-        public OkStage actionAttempt(ActionAttemptsGetResponseActionAttempt actionAttempt) {
+        public OkStage actionAttempt(ActionAttempt actionAttempt) {
             this.actionAttempt = actionAttempt;
             return this;
         }
