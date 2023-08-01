@@ -1,6 +1,3 @@
 # Specify files that shouldn't be modified by Fern
 
 README.md
-sample-app/src/main/java/sample/App.java
-src/main/java/com/seam/api/SeamApiClient.java
-src/main/java/com/seam/api/AccessCodesClient.java
