@@ -8,8 +8,8 @@ public final class SeamApiClientBuilder {
 
     private Environment environment = Environment.DEFAULT;
 
-    public SeamApiClientBuilder apiKey(String apiKey) {
-        this.clientOptionsBuilder.addHeader("seam-workspace", apiKey);
+    public SeamApiClientBuilder token(String token) {
+        this.clientOptionsBuilder.addHeader("Authorization", "Bearer " + token);
         return this;
     }
 
