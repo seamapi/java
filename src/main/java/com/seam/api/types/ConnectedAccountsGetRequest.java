@@ -28,9 +28,9 @@ public final class ConnectedAccountsGetRequest {
 
     public <T> T visit(Visitor<T> visitor) {
         if (this.type == 0) {
-            return visitor.visit((ConnectedAccountsGetRequestConnectedAccountsGetRequest) this.value);
+            return visitor.visit((ConnectedAccountsGetRequestConnectedAccountId) this.value);
         } else if (this.type == 1) {
-            return visitor.visit((ConnectedAccountsGetRequestConnectedAccountsGetRequest) this.value);
+            return visitor.visit((ConnectedAccountsGetRequestEmail) this.value);
         }
         throw new IllegalStateException("Failed to visit value. This should never happen.");
     }
@@ -55,18 +55,18 @@ public final class ConnectedAccountsGetRequest {
         return this.value.toString();
     }
 
-    public static ConnectedAccountsGetRequest of(ConnectedAccountsGetRequestConnectedAccountsGetRequest value) {
+    public static ConnectedAccountsGetRequest of(ConnectedAccountsGetRequestConnectedAccountId value) {
         return new ConnectedAccountsGetRequest(value, 0);
     }
 
-    public static ConnectedAccountsGetRequest of(ConnectedAccountsGetRequestConnectedAccountsGetRequest value) {
+    public static ConnectedAccountsGetRequest of(ConnectedAccountsGetRequestEmail value) {
         return new ConnectedAccountsGetRequest(value, 1);
     }
 
     public interface Visitor<T> {
-        T visit(ConnectedAccountsGetRequestConnectedAccountsGetRequest value);
+        T visit(ConnectedAccountsGetRequestConnectedAccountId value);
 
-        T visit(ConnectedAccountsGetRequestConnectedAccountsGetRequest value);
+        T visit(ConnectedAccountsGetRequestEmail value);
     }
 
     static final class Deserializer extends StdDeserializer<ConnectedAccountsGetRequest> {
@@ -79,12 +79,11 @@ public final class ConnectedAccountsGetRequest {
             Object value = p.readValueAs(Object.class);
             try {
                 return of(ObjectMappers.JSON_MAPPER.convertValue(
-                        value, ConnectedAccountsGetRequestConnectedAccountsGetRequest.class));
+                        value, ConnectedAccountsGetRequestConnectedAccountId.class));
             } catch (IllegalArgumentException e) {
             }
             try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(
-                        value, ConnectedAccountsGetRequestConnectedAccountsGetRequest.class));
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ConnectedAccountsGetRequestEmail.class));
             } catch (IllegalArgumentException e) {
             }
             throw new JsonParseException(p, "Failed to deserialize");

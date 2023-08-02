@@ -1,110 +1,67 @@
 package com.seam.api.types;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.seam.api.core.ObjectMappers;
-import java.io.IOException;
-import java.util.Objects;
 
-@JsonDeserialize(using = LocksListRequestDeviceTypesItem.Deserializer.class)
-public final class LocksListRequestDeviceTypesItem {
-    private final Object value;
+public enum LocksListRequestDeviceTypesItem {
+    AKUVOX_LOCK("akuvox_lock"),
 
-    private final int type;
+    AUGUST_LOCK("august_lock"),
 
-    private LocksListRequestDeviceTypesItem(Object value, int type) {
+    BRIVO_ACCESS_POINT("brivo_access_point"),
+
+    BUTTERFLYMX_PANEL("butterflymx_panel"),
+
+    DOORKING_LOCK("doorking_lock"),
+
+    GENIE_DOOR("genie_door"),
+
+    IGLOO_LOCK("igloo_lock"),
+
+    LINEAR_LOCK("linear_lock"),
+
+    LOCKLY_LOCK("lockly_lock"),
+
+    KWIKSET_LOCK("kwikset_lock"),
+
+    NUKI_LOCK("nuki_lock"),
+
+    SALTO_LOCK("salto_lock"),
+
+    SCHLAGE_LOCK("schlage_lock"),
+
+    SEAM_RELAY("seam_relay"),
+
+    SMARTTHINGS_LOCK("smartthings_lock"),
+
+    YALE_LOCK("yale_lock"),
+
+    TWO_N_INTERCOM("two_n_intercom"),
+
+    CONTROLBYWEB_DEVICE("controlbyweb_device"),
+
+    TTLOCK_LOCK("ttlock_lock"),
+
+    IGLOOHOME_LOCK("igloohome_lock"),
+
+    HUBITAT_LOCK("hubitat_lock"),
+
+    NOISEAWARE_ACTIVITY_ZONE("noiseaware_activity_zone"),
+
+    MINUT_SENSOR("minut_sensor"),
+
+    ECOBEE_THERMOSTAT("ecobee_thermostat"),
+
+    NEST_THERMOSTAT("nest_thermostat");
+
+    private final String value;
+
+    LocksListRequestDeviceTypesItem(String value) {
         this.value = value;
-        this.type = type;
     }
 
     @JsonValue
-    public Object get() {
-        return this.value;
-    }
-
-    public <T> T visit(Visitor<T> visitor) {
-        if (this.type == 0) {
-            return visitor.visit((LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem) this.value);
-        } else if (this.type == 1) {
-            return visitor.visit((LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem) this.value);
-        } else if (this.type == 2) {
-            return visitor.visit((LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem) this.value);
-        }
-        throw new IllegalStateException("Failed to visit value. This should never happen.");
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) return true;
-        return other instanceof LocksListRequestDeviceTypesItem && equalTo((LocksListRequestDeviceTypesItem) other);
-    }
-
-    private boolean equalTo(LocksListRequestDeviceTypesItem other) {
-        return value.equals(other.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.value);
-    }
-
     @Override
     public String toString() {
-        return this.value.toString();
-    }
-
-    public static LocksListRequestDeviceTypesItem of(
-            LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem value) {
-        return new LocksListRequestDeviceTypesItem(value, 0);
-    }
-
-    public static LocksListRequestDeviceTypesItem of(
-            LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem value) {
-        return new LocksListRequestDeviceTypesItem(value, 1);
-    }
-
-    public static LocksListRequestDeviceTypesItem of(
-            LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem value) {
-        return new LocksListRequestDeviceTypesItem(value, 2);
-    }
-
-    public interface Visitor<T> {
-        T visit(LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem value);
-
-        T visit(LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem value);
-
-        T visit(LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem value);
-    }
-
-    static final class Deserializer extends StdDeserializer<LocksListRequestDeviceTypesItem> {
-        Deserializer() {
-            super(LocksListRequestDeviceTypesItem.class);
-        }
-
-        @Override
-        public LocksListRequestDeviceTypesItem deserialize(JsonParser p, DeserializationContext ctxt)
-                throws IOException {
-            Object value = p.readValueAs(Object.class);
-            try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(
-                        value, LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem.class));
-            } catch (IllegalArgumentException e) {
-            }
-            try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(
-                        value, LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem.class));
-            } catch (IllegalArgumentException e) {
-            }
-            try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(
-                        value, LocksListRequestDeviceTypesItemLocksListRequestDeviceTypesItem.class));
-            } catch (IllegalArgumentException e) {
-            }
-            throw new JsonParseException(p, "Failed to deserialize");
-        }
+        return this.value;
     }
 }

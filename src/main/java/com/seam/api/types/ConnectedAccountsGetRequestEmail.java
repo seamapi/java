@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Objects;
 
-@JsonDeserialize(builder = ConnectedAccountsGetRequestConnectedAccountsGetRequest.Builder.class)
-public final class ConnectedAccountsGetRequestConnectedAccountsGetRequest {
+@JsonDeserialize(builder = ConnectedAccountsGetRequestEmail.Builder.class)
+public final class ConnectedAccountsGetRequestEmail {
     private final String email;
 
-    private ConnectedAccountsGetRequestConnectedAccountsGetRequest(String email) {
+    private ConnectedAccountsGetRequestEmail(String email) {
         this.email = email;
     }
 
@@ -22,11 +22,10 @@ public final class ConnectedAccountsGetRequestConnectedAccountsGetRequest {
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof ConnectedAccountsGetRequestConnectedAccountsGetRequest
-                && equalTo((ConnectedAccountsGetRequestConnectedAccountsGetRequest) other);
+        return other instanceof ConnectedAccountsGetRequestEmail && equalTo((ConnectedAccountsGetRequestEmail) other);
     }
 
-    private boolean equalTo(ConnectedAccountsGetRequestConnectedAccountsGetRequest other) {
+    private boolean equalTo(ConnectedAccountsGetRequestEmail other) {
         return email.equals(other.email);
     }
 
@@ -37,7 +36,7 @@ public final class ConnectedAccountsGetRequestConnectedAccountsGetRequest {
 
     @Override
     public String toString() {
-        return "ConnectedAccountsGetRequestConnectedAccountsGetRequest{" + "email: " + email + "}";
+        return "ConnectedAccountsGetRequestEmail{" + "email: " + email + "}";
     }
 
     public static EmailStage builder() {
@@ -47,11 +46,11 @@ public final class ConnectedAccountsGetRequestConnectedAccountsGetRequest {
     public interface EmailStage {
         _FinalStage email(String email);
 
-        Builder from(ConnectedAccountsGetRequestConnectedAccountsGetRequest other);
+        Builder from(ConnectedAccountsGetRequestEmail other);
     }
 
     public interface _FinalStage {
-        ConnectedAccountsGetRequestConnectedAccountsGetRequest build();
+        ConnectedAccountsGetRequestEmail build();
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -61,7 +60,7 @@ public final class ConnectedAccountsGetRequestConnectedAccountsGetRequest {
         private Builder() {}
 
         @Override
-        public Builder from(ConnectedAccountsGetRequestConnectedAccountsGetRequest other) {
+        public Builder from(ConnectedAccountsGetRequestEmail other) {
             email(other.getEmail());
             return this;
         }
@@ -74,8 +73,8 @@ public final class ConnectedAccountsGetRequestConnectedAccountsGetRequest {
         }
 
         @Override
-        public ConnectedAccountsGetRequestConnectedAccountsGetRequest build() {
-            return new ConnectedAccountsGetRequestConnectedAccountsGetRequest(email);
+        public ConnectedAccountsGetRequestEmail build() {
+            return new ConnectedAccountsGetRequestEmail(email);
         }
     }
 }
