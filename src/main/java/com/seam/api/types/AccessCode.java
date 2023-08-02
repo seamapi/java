@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public final class AccessCode {
 
     private final Optional<String> code;
 
-    private final String createdAt;
+    private final OffsetDateTime createdAt;
 
     private final Optional<Object> errors;
 
@@ -34,9 +35,9 @@ public final class AccessCode {
 
     private final String isManaged;
 
-    private final Optional<String> startsAt;
+    private final Optional<OffsetDateTime> startsAt;
 
-    private final Optional<String> endsAt;
+    private final Optional<OffsetDateTime> endsAt;
 
     private final AccessCodeStatus status;
 
@@ -55,12 +56,12 @@ public final class AccessCode {
             String deviceId,
             Optional<String> name,
             Optional<String> code,
-            String createdAt,
+            OffsetDateTime createdAt,
             Optional<Object> errors,
             Optional<Object> warnings,
             String isManaged,
-            Optional<String> startsAt,
-            Optional<String> endsAt,
+            Optional<OffsetDateTime> startsAt,
+            Optional<OffsetDateTime> endsAt,
             AccessCodeStatus status,
             boolean isBackupAccessCodeAvailable,
             Optional<Boolean> isBackup,
@@ -126,7 +127,7 @@ public final class AccessCode {
     }
 
     @JsonProperty("created_at")
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
@@ -146,12 +147,12 @@ public final class AccessCode {
     }
 
     @JsonProperty("starts_at")
-    public Optional<String> getStartsAt() {
+    public Optional<OffsetDateTime> getStartsAt() {
         return startsAt;
     }
 
     @JsonProperty("ends_at")
-    public Optional<String> getEndsAt() {
+    public Optional<OffsetDateTime> getEndsAt() {
         return endsAt;
     }
 
@@ -255,7 +256,7 @@ public final class AccessCode {
     }
 
     public interface CreatedAtStage {
-        IsManagedStage createdAt(String createdAt);
+        IsManagedStage createdAt(OffsetDateTime createdAt);
     }
 
     public interface IsManagedStage {
@@ -301,13 +302,13 @@ public final class AccessCode {
 
         _FinalStage warnings(Object warnings);
 
-        _FinalStage startsAt(Optional<String> startsAt);
+        _FinalStage startsAt(Optional<OffsetDateTime> startsAt);
 
-        _FinalStage startsAt(String startsAt);
+        _FinalStage startsAt(OffsetDateTime startsAt);
 
-        _FinalStage endsAt(Optional<String> endsAt);
+        _FinalStage endsAt(Optional<OffsetDateTime> endsAt);
 
-        _FinalStage endsAt(String endsAt);
+        _FinalStage endsAt(OffsetDateTime endsAt);
 
         _FinalStage isBackup(Optional<Boolean> isBackup);
 
@@ -334,7 +335,7 @@ public final class AccessCode {
 
         private String deviceId;
 
-        private String createdAt;
+        private OffsetDateTime createdAt;
 
         private String isManaged;
 
@@ -346,9 +347,9 @@ public final class AccessCode {
 
         private Optional<Boolean> isBackup = Optional.empty();
 
-        private Optional<String> endsAt = Optional.empty();
+        private Optional<OffsetDateTime> endsAt = Optional.empty();
 
-        private Optional<String> startsAt = Optional.empty();
+        private Optional<OffsetDateTime> startsAt = Optional.empty();
 
         private Optional<Object> warnings = Optional.empty();
 
@@ -412,7 +413,7 @@ public final class AccessCode {
 
         @Override
         @JsonSetter("created_at")
-        public IsManagedStage createdAt(String createdAt) {
+        public IsManagedStage createdAt(OffsetDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }
@@ -465,27 +466,27 @@ public final class AccessCode {
         }
 
         @Override
-        public _FinalStage endsAt(String endsAt) {
+        public _FinalStage endsAt(OffsetDateTime endsAt) {
             this.endsAt = Optional.of(endsAt);
             return this;
         }
 
         @Override
         @JsonSetter(value = "ends_at", nulls = Nulls.SKIP)
-        public _FinalStage endsAt(Optional<String> endsAt) {
+        public _FinalStage endsAt(Optional<OffsetDateTime> endsAt) {
             this.endsAt = endsAt;
             return this;
         }
 
         @Override
-        public _FinalStage startsAt(String startsAt) {
+        public _FinalStage startsAt(OffsetDateTime startsAt) {
             this.startsAt = Optional.of(startsAt);
             return this;
         }
 
         @Override
         @JsonSetter(value = "starts_at", nulls = Nulls.SKIP)
-        public _FinalStage startsAt(Optional<String> startsAt) {
+        public _FinalStage startsAt(Optional<OffsetDateTime> startsAt) {
             this.startsAt = startsAt;
             return this;
         }

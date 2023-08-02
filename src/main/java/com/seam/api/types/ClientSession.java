@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +17,7 @@ public final class ClientSession {
 
     private final Optional<String> userIdentifierKey;
 
-    private final String createdAt;
+    private final OffsetDateTime createdAt;
 
     private final String token;
 
@@ -31,7 +32,7 @@ public final class ClientSession {
     private ClientSession(
             String clientSessionId,
             Optional<String> userIdentifierKey,
-            String createdAt,
+            OffsetDateTime createdAt,
             String token,
             double deviceCount,
             List<String> connectedAccountIds,
@@ -58,7 +59,7 @@ public final class ClientSession {
     }
 
     @JsonProperty("created_at")
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
@@ -136,7 +137,7 @@ public final class ClientSession {
     }
 
     public interface CreatedAtStage {
-        TokenStage createdAt(String createdAt);
+        TokenStage createdAt(OffsetDateTime createdAt);
     }
 
     public interface TokenStage {
@@ -181,7 +182,7 @@ public final class ClientSession {
                     _FinalStage {
         private String clientSessionId;
 
-        private String createdAt;
+        private OffsetDateTime createdAt;
 
         private String token;
 
@@ -219,7 +220,7 @@ public final class ClientSession {
 
         @Override
         @JsonSetter("created_at")
-        public TokenStage createdAt(String createdAt) {
+        public TokenStage createdAt(OffsetDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }

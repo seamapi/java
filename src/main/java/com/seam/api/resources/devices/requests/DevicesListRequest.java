@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.types.DevicesListRequestDeviceType;
 import com.seam.api.types.DevicesListRequestDeviceTypesItem;
 import com.seam.api.types.DevicesListRequestManufacturer;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public final class DevicesListRequest {
 
     private final Optional<Double> limit;
 
-    private final Optional<String> createdBefore;
+    private final Optional<OffsetDateTime> createdBefore;
 
     private DevicesListRequest(
             Optional<String> connectedAccountId,
@@ -41,7 +42,7 @@ public final class DevicesListRequest {
             Optional<DevicesListRequestManufacturer> manufacturer,
             Optional<List<String>> deviceIds,
             Optional<Double> limit,
-            Optional<String> createdBefore) {
+            Optional<OffsetDateTime> createdBefore) {
         this.connectedAccountId = connectedAccountId;
         this.connectedAccountIds = connectedAccountIds;
         this.connectWebviewId = connectWebviewId;
@@ -94,7 +95,7 @@ public final class DevicesListRequest {
     }
 
     @JsonProperty("created_before")
-    public Optional<String> getCreatedBefore() {
+    public Optional<OffsetDateTime> getCreatedBefore() {
         return createdBefore;
     }
 
@@ -160,7 +161,7 @@ public final class DevicesListRequest {
 
         private Optional<Double> limit = Optional.empty();
 
-        private Optional<String> createdBefore = Optional.empty();
+        private Optional<OffsetDateTime> createdBefore = Optional.empty();
 
         private Builder() {}
 
@@ -266,12 +267,12 @@ public final class DevicesListRequest {
         }
 
         @JsonSetter(value = "created_before", nulls = Nulls.SKIP)
-        public Builder createdBefore(Optional<String> createdBefore) {
+        public Builder createdBefore(Optional<OffsetDateTime> createdBefore) {
             this.createdBefore = createdBefore;
             return this;
         }
 
-        public Builder createdBefore(String createdBefore) {
+        public Builder createdBefore(OffsetDateTime createdBefore) {
             this.createdBefore = Optional.of(createdBefore);
             return this;
         }

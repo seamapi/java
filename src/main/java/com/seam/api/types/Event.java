@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -18,17 +19,17 @@ public final class Event {
 
     private final String workspaceId;
 
-    private final String createdAt;
+    private final OffsetDateTime createdAt;
 
-    private final String occurredAt;
+    private final OffsetDateTime occurredAt;
 
     private Event(
             String eventId,
             Optional<String> deviceId,
             String eventType,
             String workspaceId,
-            String createdAt,
-            String occurredAt) {
+            OffsetDateTime createdAt,
+            OffsetDateTime occurredAt) {
         this.eventId = eventId;
         this.deviceId = deviceId;
         this.eventType = eventType;
@@ -58,12 +59,12 @@ public final class Event {
     }
 
     @JsonProperty("created_at")
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
     @JsonProperty("occurred_at")
-    public String getOccurredAt() {
+    public OffsetDateTime getOccurredAt() {
         return occurredAt;
     }
 
@@ -113,11 +114,11 @@ public final class Event {
     }
 
     public interface CreatedAtStage {
-        OccurredAtStage createdAt(String createdAt);
+        OccurredAtStage createdAt(OffsetDateTime createdAt);
     }
 
     public interface OccurredAtStage {
-        _FinalStage occurredAt(String occurredAt);
+        _FinalStage occurredAt(OffsetDateTime occurredAt);
     }
 
     public interface _FinalStage {
@@ -137,9 +138,9 @@ public final class Event {
 
         private String workspaceId;
 
-        private String createdAt;
+        private OffsetDateTime createdAt;
 
-        private String occurredAt;
+        private OffsetDateTime occurredAt;
 
         private Optional<String> deviceId = Optional.empty();
 
@@ -179,14 +180,14 @@ public final class Event {
 
         @Override
         @JsonSetter("created_at")
-        public OccurredAtStage createdAt(String createdAt) {
+        public OccurredAtStage createdAt(OffsetDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }
 
         @Override
         @JsonSetter("occurred_at")
-        public _FinalStage occurredAt(String occurredAt) {
+        public _FinalStage occurredAt(OffsetDateTime occurredAt) {
             this.occurredAt = occurredAt;
             return this;
         }

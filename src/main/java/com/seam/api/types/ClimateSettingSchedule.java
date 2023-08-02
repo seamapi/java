@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public final class ClimateSettingSchedule {
 
     private final String scheduleEndsAt;
 
-    private final String createdAt;
+    private final OffsetDateTime createdAt;
 
     private final Optional<Boolean> automaticHeatingEnabled;
 
@@ -44,7 +45,7 @@ public final class ClimateSettingSchedule {
             Optional<String> name,
             String scheduleStartsAt,
             String scheduleEndsAt,
-            String createdAt,
+            OffsetDateTime createdAt,
             Optional<Boolean> automaticHeatingEnabled,
             Optional<Boolean> automaticCoolingEnabled,
             Optional<ClimateSettingScheduleHvacModeSetting> hvacModeSetting,
@@ -100,7 +101,7 @@ public final class ClimateSettingSchedule {
     }
 
     @JsonProperty("created_at")
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
@@ -221,7 +222,7 @@ public final class ClimateSettingSchedule {
     }
 
     public interface CreatedAtStage {
-        _FinalStage createdAt(String createdAt);
+        _FinalStage createdAt(OffsetDateTime createdAt);
     }
 
     public interface _FinalStage {
@@ -280,7 +281,7 @@ public final class ClimateSettingSchedule {
 
         private String scheduleEndsAt;
 
-        private String createdAt;
+        private OffsetDateTime createdAt;
 
         private Optional<Boolean> manualOverrideAllowed = Optional.empty();
 
@@ -351,7 +352,7 @@ public final class ClimateSettingSchedule {
 
         @Override
         @JsonSetter("created_at")
-        public _FinalStage createdAt(String createdAt) {
+        public _FinalStage createdAt(OffsetDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }

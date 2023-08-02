@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -13,7 +14,7 @@ import java.util.Optional;
 public final class ConnectedAccount {
     private final Optional<String> connectedAccountId;
 
-    private final Optional<String> createdAt;
+    private final Optional<OffsetDateTime> createdAt;
 
     private final Optional<ConnectedAccountUserIdentifier> userIdentifier;
 
@@ -27,7 +28,7 @@ public final class ConnectedAccount {
 
     private ConnectedAccount(
             Optional<String> connectedAccountId,
-            Optional<String> createdAt,
+            Optional<OffsetDateTime> createdAt,
             Optional<ConnectedAccountUserIdentifier> userIdentifier,
             Optional<String> accountType,
             Optional<Object> errors,
@@ -48,7 +49,7 @@ public final class ConnectedAccount {
     }
 
     @JsonProperty("created_at")
-    public Optional<String> getCreatedAt() {
+    public Optional<OffsetDateTime> getCreatedAt() {
         return createdAt;
     }
 
@@ -120,7 +121,7 @@ public final class ConnectedAccount {
     public static final class Builder {
         private Optional<String> connectedAccountId = Optional.empty();
 
-        private Optional<String> createdAt = Optional.empty();
+        private Optional<OffsetDateTime> createdAt = Optional.empty();
 
         private Optional<ConnectedAccountUserIdentifier> userIdentifier = Optional.empty();
 
@@ -157,12 +158,12 @@ public final class ConnectedAccount {
         }
 
         @JsonSetter(value = "created_at", nulls = Nulls.SKIP)
-        public Builder createdAt(Optional<String> createdAt) {
+        public Builder createdAt(Optional<OffsetDateTime> createdAt) {
             this.createdAt = createdAt;
             return this;
         }
 
-        public Builder createdAt(String createdAt) {
+        public Builder createdAt(OffsetDateTime createdAt) {
             this.createdAt = Optional.of(createdAt);
             return this;
         }

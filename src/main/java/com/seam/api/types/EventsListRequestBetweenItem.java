@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.seam.api.core.ObjectMappers;
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @JsonDeserialize(using = EventsListRequestBetweenItem.Deserializer.class)
@@ -30,7 +31,7 @@ public final class EventsListRequestBetweenItem {
         if (this.type == 0) {
             return visitor.visit((String) this.value);
         } else if (this.type == 1) {
-            return visitor.visit((String) this.value);
+            return visitor.visit((OffsetDateTime) this.value);
         }
         throw new IllegalStateException("Failed to visit value. This should never happen.");
     }
@@ -59,14 +60,14 @@ public final class EventsListRequestBetweenItem {
         return new EventsListRequestBetweenItem(value, 0);
     }
 
-    public static EventsListRequestBetweenItem of(String value) {
+    public static EventsListRequestBetweenItem of(OffsetDateTime value) {
         return new EventsListRequestBetweenItem(value, 1);
     }
 
     public interface Visitor<T> {
         T visit(String value);
 
-        T visit(String value);
+        T visit(OffsetDateTime value);
     }
 
     static final class Deserializer extends StdDeserializer<EventsListRequestBetweenItem> {
@@ -82,7 +83,7 @@ public final class EventsListRequestBetweenItem {
             } catch (IllegalArgumentException e) {
             }
             try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(value, String.class));
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, OffsetDateTime.class));
             } catch (IllegalArgumentException e) {
             }
             throw new JsonParseException(p, "Failed to deserialize");

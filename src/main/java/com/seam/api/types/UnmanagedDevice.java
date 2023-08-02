@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +26,7 @@ public final class UnmanagedDevice {
 
     private final List<UnmanagedDeviceWarningsItem> warnings;
 
-    private final String createdAt;
+    private final OffsetDateTime createdAt;
 
     private final String isManaged;
 
@@ -39,7 +40,7 @@ public final class UnmanagedDevice {
             String workspaceId,
             List<UnmanagedDeviceErrorsItem> errors,
             List<UnmanagedDeviceWarningsItem> warnings,
-            String createdAt,
+            OffsetDateTime createdAt,
             String isManaged,
             UnmanagedDeviceProperties properties) {
         this.deviceId = deviceId;
@@ -90,7 +91,7 @@ public final class UnmanagedDevice {
     }
 
     @JsonProperty("created_at")
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
@@ -169,7 +170,7 @@ public final class UnmanagedDevice {
     }
 
     public interface CreatedAtStage {
-        IsManagedStage createdAt(String createdAt);
+        IsManagedStage createdAt(OffsetDateTime createdAt);
     }
 
     public interface IsManagedStage {
@@ -220,7 +221,7 @@ public final class UnmanagedDevice {
 
         private String workspaceId;
 
-        private String createdAt;
+        private OffsetDateTime createdAt;
 
         private String isManaged;
 
@@ -279,7 +280,7 @@ public final class UnmanagedDevice {
 
         @Override
         @JsonSetter("created_at")
-        public IsManagedStage createdAt(String createdAt) {
+        public IsManagedStage createdAt(OffsetDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }
