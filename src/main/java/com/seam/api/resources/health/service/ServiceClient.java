@@ -2,6 +2,7 @@ package com.seam.api.resources.health.service;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.health.service.requests.HealthServiceByServiceNameRequest;
 import com.seam.api.types.HealthServiceByServiceNameResponse;
 import java.util.HashMap;
@@ -21,6 +22,11 @@ public class ServiceClient {
     }
 
     public HealthServiceByServiceNameResponse byServiceName(HealthServiceByServiceNameRequest request) {
+        return byServiceName(request, null);
+    }
+
+    public HealthServiceByServiceNameResponse byServiceName(
+            HealthServiceByServiceNameRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("health/service/[service_name]")
@@ -38,7 +44,7 @@ public class ServiceClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {

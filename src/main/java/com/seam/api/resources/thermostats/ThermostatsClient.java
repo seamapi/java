@@ -2,6 +2,7 @@ package com.seam.api.resources.thermostats;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.core.Suppliers;
 import com.seam.api.resources.thermostats.climatesettingschedules.ClimateSettingSchedulesClient;
 import com.seam.api.resources.thermostats.requests.ThermostatsGetRequest;
@@ -33,13 +34,21 @@ public class ThermostatsClient {
     }
 
     public ThermostatsGetResponse get(ThermostatsGetRequest request) {
+        return get(request, null);
+    }
+
+    public ThermostatsGetResponse get(ThermostatsGetRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("thermostats/get")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("device_id", request.getDeviceId());
-        _requestBodyProperties.put("name", request.getName());
+        if (request.getDeviceId().isPresent()) {
+            _requestBodyProperties.put("device_id", request.getDeviceId());
+        }
+        if (request.getName().isPresent()) {
+            _requestBodyProperties.put("name", request.getName());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -51,7 +60,7 @@ public class ThermostatsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -66,15 +75,25 @@ public class ThermostatsClient {
     }
 
     public ThermostatsHeatResponse heat(ThermostatsHeatRequest request) {
+        return heat(request, null);
+    }
+
+    public ThermostatsHeatResponse heat(ThermostatsHeatRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("thermostats/heat")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
         _requestBodyProperties.put("device_id", request.getDeviceId());
-        _requestBodyProperties.put("heating_set_point_celsius", request.getHeatingSetPointCelsius());
-        _requestBodyProperties.put("heating_set_point_fahrenheit", request.getHeatingSetPointFahrenheit());
-        _requestBodyProperties.put("sync", request.getSync());
+        if (request.getHeatingSetPointCelsius().isPresent()) {
+            _requestBodyProperties.put("heating_set_point_celsius", request.getHeatingSetPointCelsius());
+        }
+        if (request.getHeatingSetPointFahrenheit().isPresent()) {
+            _requestBodyProperties.put("heating_set_point_fahrenheit", request.getHeatingSetPointFahrenheit());
+        }
+        if (request.getSync().isPresent()) {
+            _requestBodyProperties.put("sync", request.getSync());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -86,7 +105,7 @@ public class ThermostatsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -101,20 +120,42 @@ public class ThermostatsClient {
     }
 
     public ThermostatsListResponse list(ThermostatsListRequest request) {
+        return list(request, null);
+    }
+
+    public ThermostatsListResponse list(ThermostatsListRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("thermostats/list")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("connected_account_id", request.getConnectedAccountId());
-        _requestBodyProperties.put("connected_account_ids", request.getConnectedAccountIds());
-        _requestBodyProperties.put("connect_webview_id", request.getConnectWebviewId());
-        _requestBodyProperties.put("device_type", request.getDeviceType());
-        _requestBodyProperties.put("device_types", request.getDeviceTypes());
-        _requestBodyProperties.put("manufacturer", request.getManufacturer());
-        _requestBodyProperties.put("device_ids", request.getDeviceIds());
-        _requestBodyProperties.put("limit", request.getLimit());
-        _requestBodyProperties.put("created_before", request.getCreatedBefore());
+        if (request.getConnectedAccountId().isPresent()) {
+            _requestBodyProperties.put("connected_account_id", request.getConnectedAccountId());
+        }
+        if (request.getConnectedAccountIds().isPresent()) {
+            _requestBodyProperties.put("connected_account_ids", request.getConnectedAccountIds());
+        }
+        if (request.getConnectWebviewId().isPresent()) {
+            _requestBodyProperties.put("connect_webview_id", request.getConnectWebviewId());
+        }
+        if (request.getDeviceType().isPresent()) {
+            _requestBodyProperties.put("device_type", request.getDeviceType());
+        }
+        if (request.getDeviceTypes().isPresent()) {
+            _requestBodyProperties.put("device_types", request.getDeviceTypes());
+        }
+        if (request.getManufacturer().isPresent()) {
+            _requestBodyProperties.put("manufacturer", request.getManufacturer());
+        }
+        if (request.getDeviceIds().isPresent()) {
+            _requestBodyProperties.put("device_ids", request.getDeviceIds());
+        }
+        if (request.getLimit().isPresent()) {
+            _requestBodyProperties.put("limit", request.getLimit());
+        }
+        if (request.getCreatedBefore().isPresent()) {
+            _requestBodyProperties.put("created_before", request.getCreatedBefore());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -126,7 +167,7 @@ public class ThermostatsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -141,6 +182,10 @@ public class ThermostatsClient {
     }
 
     public ThermostatsUpdateResponse update(ThermostatsUpdateRequest request) {
+        return update(request, null);
+    }
+
+    public ThermostatsUpdateResponse update(ThermostatsUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("thermostats/update")
@@ -159,7 +204,7 @@ public class ThermostatsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {

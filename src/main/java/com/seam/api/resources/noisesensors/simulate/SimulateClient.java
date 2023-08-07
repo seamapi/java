@@ -2,6 +2,7 @@ package com.seam.api.resources.noisesensors.simulate;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.noisesensors.simulate.requests.NoiseSensorsSimulateTriggerNoiseThresholdRequest;
 import com.seam.api.types.NoiseSensorsSimulateTriggerNoiseThresholdResponse;
 import java.util.HashMap;
@@ -22,6 +23,11 @@ public class SimulateClient {
 
     public NoiseSensorsSimulateTriggerNoiseThresholdResponse triggerNoiseThreshold(
             NoiseSensorsSimulateTriggerNoiseThresholdRequest request) {
+        return triggerNoiseThreshold(request, null);
+    }
+
+    public NoiseSensorsSimulateTriggerNoiseThresholdResponse triggerNoiseThreshold(
+            NoiseSensorsSimulateTriggerNoiseThresholdRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("noise_sensors/simulate/trigger_noise_threshold")
@@ -39,7 +45,7 @@ public class SimulateClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {

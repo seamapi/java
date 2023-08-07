@@ -2,6 +2,7 @@ package com.seam.api.resources.connectwebviews;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsCreateRequest;
 import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsDeleteRequest;
 import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsGetRequest;
@@ -27,17 +28,33 @@ public class ConnectWebviewsClient {
     }
 
     public ConnectWebviewsCreateResponse create(ConnectWebviewsCreateRequest request) {
+        return create(request, null);
+    }
+
+    public ConnectWebviewsCreateResponse create(ConnectWebviewsCreateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connect_webviews/create")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("device_selection_mode", request.getDeviceSelectionMode());
-        _requestBodyProperties.put("custom_redirect_url", request.getCustomRedirectUrl());
-        _requestBodyProperties.put("custom_redirect_failure_url", request.getCustomRedirectFailureUrl());
-        _requestBodyProperties.put("accepted_providers", request.getAcceptedProviders());
-        _requestBodyProperties.put("provider_category", request.getProviderCategory());
-        _requestBodyProperties.put("custom_metadata", request.getCustomMetadata());
+        if (request.getDeviceSelectionMode().isPresent()) {
+            _requestBodyProperties.put("device_selection_mode", request.getDeviceSelectionMode());
+        }
+        if (request.getCustomRedirectUrl().isPresent()) {
+            _requestBodyProperties.put("custom_redirect_url", request.getCustomRedirectUrl());
+        }
+        if (request.getCustomRedirectFailureUrl().isPresent()) {
+            _requestBodyProperties.put("custom_redirect_failure_url", request.getCustomRedirectFailureUrl());
+        }
+        if (request.getAcceptedProviders().isPresent()) {
+            _requestBodyProperties.put("accepted_providers", request.getAcceptedProviders());
+        }
+        if (request.getProviderCategory().isPresent()) {
+            _requestBodyProperties.put("provider_category", request.getProviderCategory());
+        }
+        if (request.getCustomMetadata().isPresent()) {
+            _requestBodyProperties.put("custom_metadata", request.getCustomMetadata());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -49,7 +66,7 @@ public class ConnectWebviewsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -65,6 +82,10 @@ public class ConnectWebviewsClient {
     }
 
     public ConnectWebviewsDeleteResponse delete(ConnectWebviewsDeleteRequest request) {
+        return delete(request, null);
+    }
+
+    public ConnectWebviewsDeleteResponse delete(ConnectWebviewsDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connect_webviews/delete")
@@ -82,7 +103,7 @@ public class ConnectWebviewsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -98,6 +119,10 @@ public class ConnectWebviewsClient {
     }
 
     public ConnectWebviewsGetResponse get(ConnectWebviewsGetRequest request) {
+        return get(request, null);
+    }
+
+    public ConnectWebviewsGetResponse get(ConnectWebviewsGetRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connect_webviews/get")
@@ -115,7 +140,7 @@ public class ConnectWebviewsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -130,6 +155,10 @@ public class ConnectWebviewsClient {
     }
 
     public ConnectWebviewsListResponse list() {
+        return list(null);
+    }
+
+    public ConnectWebviewsListResponse list(RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connect_webviews/list")
@@ -137,7 +166,7 @@ public class ConnectWebviewsClient {
         Request _request = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", null)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
         try {
@@ -153,6 +182,10 @@ public class ConnectWebviewsClient {
     }
 
     public void view(ConnectWebviewsViewRequest request) {
+        view(request, null);
+    }
+
+    public void view(ConnectWebviewsViewRequest request, RequestOptions requestOptions) {
         HttpUrl.Builder _httpUrl = HttpUrl.parse(
                         this.clientOptions.environment().getUrl())
                 .newBuilder()
@@ -163,7 +196,7 @@ public class ConnectWebviewsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl.build())
                 .method("GET", _requestBody)
-                .headers(Headers.of(clientOptions.headers()));
+                .headers(Headers.of(clientOptions.headers(requestOptions)));
         Request _request = _requestBuilder.build();
         try {
             Response _response = clientOptions.httpClient().newCall(_request).execute();

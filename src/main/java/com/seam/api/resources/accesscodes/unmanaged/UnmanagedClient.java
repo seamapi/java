@@ -2,6 +2,7 @@ package com.seam.api.resources.accesscodes.unmanaged;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.accesscodes.unmanaged.requests.AccessCodesUnmanagedConvertToManagedRequest;
 import com.seam.api.resources.accesscodes.unmanaged.requests.AccessCodesUnmanagedDeleteRequest;
 import com.seam.api.resources.accesscodes.unmanaged.requests.AccessCodesUnmanagedGetRequest;
@@ -30,14 +31,23 @@ public class UnmanagedClient {
 
     public AccessCodesUnmanagedConvertToManagedResponse convertToManaged(
             AccessCodesUnmanagedConvertToManagedRequest request) {
+        return convertToManaged(request, null);
+    }
+
+    public AccessCodesUnmanagedConvertToManagedResponse convertToManaged(
+            AccessCodesUnmanagedConvertToManagedRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/unmanaged/convert_to_managed")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
         _requestBodyProperties.put("access_code_id", request.getAccessCodeId());
-        _requestBodyProperties.put("force", request.getForce());
-        _requestBodyProperties.put("sync", request.getSync());
+        if (request.getForce().isPresent()) {
+            _requestBodyProperties.put("force", request.getForce());
+        }
+        if (request.getSync().isPresent()) {
+            _requestBodyProperties.put("sync", request.getSync());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -49,7 +59,7 @@ public class UnmanagedClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -65,13 +75,20 @@ public class UnmanagedClient {
     }
 
     public AccessCodesUnmanagedDeleteResponse delete(AccessCodesUnmanagedDeleteRequest request) {
+        return delete(request, null);
+    }
+
+    public AccessCodesUnmanagedDeleteResponse delete(
+            AccessCodesUnmanagedDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/unmanaged/delete")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
         _requestBodyProperties.put("access_code_id", request.getAccessCodeId());
-        _requestBodyProperties.put("sync", request.getSync());
+        if (request.getSync().isPresent()) {
+            _requestBodyProperties.put("sync", request.getSync());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -83,7 +100,7 @@ public class UnmanagedClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -99,14 +116,24 @@ public class UnmanagedClient {
     }
 
     public AccessCodesUnmanagedGetResponse get(AccessCodesUnmanagedGetRequest request) {
+        return get(request, null);
+    }
+
+    public AccessCodesUnmanagedGetResponse get(AccessCodesUnmanagedGetRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/unmanaged/get")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("device_id", request.getDeviceId());
-        _requestBodyProperties.put("access_code_id", request.getAccessCodeId());
-        _requestBodyProperties.put("code", request.getCode());
+        if (request.getDeviceId().isPresent()) {
+            _requestBodyProperties.put("device_id", request.getDeviceId());
+        }
+        if (request.getAccessCodeId().isPresent()) {
+            _requestBodyProperties.put("access_code_id", request.getAccessCodeId());
+        }
+        if (request.getCode().isPresent()) {
+            _requestBodyProperties.put("code", request.getCode());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -118,7 +145,7 @@ public class UnmanagedClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -134,6 +161,11 @@ public class UnmanagedClient {
     }
 
     public AccessCodesUnmanagedListResponse list(AccessCodesUnmanagedListRequest request) {
+        return list(request, null);
+    }
+
+    public AccessCodesUnmanagedListResponse list(
+            AccessCodesUnmanagedListRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/unmanaged/list")
@@ -151,7 +183,7 @@ public class UnmanagedClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -167,6 +199,11 @@ public class UnmanagedClient {
     }
 
     public AccessCodesUnmanagedUpdateResponse update(AccessCodesUnmanagedUpdateRequest request) {
+        return update(request, null);
+    }
+
+    public AccessCodesUnmanagedUpdateResponse update(
+            AccessCodesUnmanagedUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/unmanaged/update")
@@ -174,7 +211,9 @@ public class UnmanagedClient {
         Map<String, Object> _requestBodyProperties = new HashMap<>();
         _requestBodyProperties.put("access_code_id", request.getAccessCodeId());
         _requestBodyProperties.put("is_managed", request.getIsManaged());
-        _requestBodyProperties.put("force", request.getForce());
+        if (request.getForce().isPresent()) {
+            _requestBodyProperties.put("force", request.getForce());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -186,7 +225,7 @@ public class UnmanagedClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {

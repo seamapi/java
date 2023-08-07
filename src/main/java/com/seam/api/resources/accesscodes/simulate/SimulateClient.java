@@ -2,6 +2,7 @@ package com.seam.api.resources.accesscodes.simulate;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.accesscodes.simulate.requests.AccessCodesSimulateCreateUnmanagedAccessCodeRequest;
 import com.seam.api.types.AccessCodesSimulateCreateUnmanagedAccessCodeResponse;
 import java.util.HashMap;
@@ -22,6 +23,11 @@ public class SimulateClient {
 
     public AccessCodesSimulateCreateUnmanagedAccessCodeResponse createUnmanagedAccessCode(
             AccessCodesSimulateCreateUnmanagedAccessCodeRequest request) {
+        return createUnmanagedAccessCode(request, null);
+    }
+
+    public AccessCodesSimulateCreateUnmanagedAccessCodeResponse createUnmanagedAccessCode(
+            AccessCodesSimulateCreateUnmanagedAccessCodeRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/simulate/create_unmanaged_access_code")
@@ -41,7 +47,7 @@ public class SimulateClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {

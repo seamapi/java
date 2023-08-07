@@ -2,6 +2,7 @@ package com.seam.api.resources.accesscodes;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.core.Suppliers;
 import com.seam.api.resources.accesscodes.requests.AccessCodesCreateMultipleRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesCreateRequest;
@@ -43,21 +44,43 @@ public class AccessCodesClient {
     }
 
     public AccessCodesCreateResponse create(AccessCodesCreateRequest request) {
+        return create(request, null);
+    }
+
+    public AccessCodesCreateResponse create(AccessCodesCreateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/create")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
         _requestBodyProperties.put("device_id", request.getDeviceId());
-        _requestBodyProperties.put("name", request.getName());
-        _requestBodyProperties.put("starts_at", request.getStartsAt());
-        _requestBodyProperties.put("ends_at", request.getEndsAt());
-        _requestBodyProperties.put("code", request.getCode());
-        _requestBodyProperties.put("sync", request.getSync());
-        _requestBodyProperties.put("attempt_for_offline_device", request.getAttemptForOfflineDevice());
-        _requestBodyProperties.put("common_code_key", request.getCommonCodeKey());
-        _requestBodyProperties.put("prefer_native_scheduling", request.getPreferNativeScheduling());
-        _requestBodyProperties.put("use_backup_access_code_pool", request.getUseBackupAccessCodePool());
+        if (request.getName().isPresent()) {
+            _requestBodyProperties.put("name", request.getName());
+        }
+        if (request.getStartsAt().isPresent()) {
+            _requestBodyProperties.put("starts_at", request.getStartsAt());
+        }
+        if (request.getEndsAt().isPresent()) {
+            _requestBodyProperties.put("ends_at", request.getEndsAt());
+        }
+        if (request.getCode().isPresent()) {
+            _requestBodyProperties.put("code", request.getCode());
+        }
+        if (request.getSync().isPresent()) {
+            _requestBodyProperties.put("sync", request.getSync());
+        }
+        if (request.getAttemptForOfflineDevice().isPresent()) {
+            _requestBodyProperties.put("attempt_for_offline_device", request.getAttemptForOfflineDevice());
+        }
+        if (request.getCommonCodeKey().isPresent()) {
+            _requestBodyProperties.put("common_code_key", request.getCommonCodeKey());
+        }
+        if (request.getPreferNativeScheduling().isPresent()) {
+            _requestBodyProperties.put("prefer_native_scheduling", request.getPreferNativeScheduling());
+        }
+        if (request.getUseBackupAccessCodePool().isPresent()) {
+            _requestBodyProperties.put("use_backup_access_code_pool", request.getUseBackupAccessCodePool());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -69,7 +92,7 @@ public class AccessCodesClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -84,20 +107,42 @@ public class AccessCodesClient {
     }
 
     public AccessCodesCreateMultipleResponse createMultiple(AccessCodesCreateMultipleRequest request) {
+        return createMultiple(request, null);
+    }
+
+    public AccessCodesCreateMultipleResponse createMultiple(
+            AccessCodesCreateMultipleRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/create_multiple")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
         _requestBodyProperties.put("device_ids", request.getDeviceIds());
-        _requestBodyProperties.put("behavior_when_code_cannot_be_shared", request.getBehaviorWhenCodeCannotBeShared());
-        _requestBodyProperties.put("name", request.getName());
-        _requestBodyProperties.put("starts_at", request.getStartsAt());
-        _requestBodyProperties.put("ends_at", request.getEndsAt());
-        _requestBodyProperties.put("code", request.getCode());
-        _requestBodyProperties.put("attempt_for_offline_device", request.getAttemptForOfflineDevice());
-        _requestBodyProperties.put("prefer_native_scheduling", request.getPreferNativeScheduling());
-        _requestBodyProperties.put("use_backup_access_code_pool", request.getUseBackupAccessCodePool());
+        if (request.getBehaviorWhenCodeCannotBeShared().isPresent()) {
+            _requestBodyProperties.put(
+                    "behavior_when_code_cannot_be_shared", request.getBehaviorWhenCodeCannotBeShared());
+        }
+        if (request.getName().isPresent()) {
+            _requestBodyProperties.put("name", request.getName());
+        }
+        if (request.getStartsAt().isPresent()) {
+            _requestBodyProperties.put("starts_at", request.getStartsAt());
+        }
+        if (request.getEndsAt().isPresent()) {
+            _requestBodyProperties.put("ends_at", request.getEndsAt());
+        }
+        if (request.getCode().isPresent()) {
+            _requestBodyProperties.put("code", request.getCode());
+        }
+        if (request.getAttemptForOfflineDevice().isPresent()) {
+            _requestBodyProperties.put("attempt_for_offline_device", request.getAttemptForOfflineDevice());
+        }
+        if (request.getPreferNativeScheduling().isPresent()) {
+            _requestBodyProperties.put("prefer_native_scheduling", request.getPreferNativeScheduling());
+        }
+        if (request.getUseBackupAccessCodePool().isPresent()) {
+            _requestBodyProperties.put("use_backup_access_code_pool", request.getUseBackupAccessCodePool());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -109,7 +154,7 @@ public class AccessCodesClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -125,14 +170,22 @@ public class AccessCodesClient {
     }
 
     public AccessCodesDeleteResponse delete(AccessCodesDeleteRequest request) {
+        return delete(request, null);
+    }
+
+    public AccessCodesDeleteResponse delete(AccessCodesDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/delete")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("device_id", request.getDeviceId());
+        if (request.getDeviceId().isPresent()) {
+            _requestBodyProperties.put("device_id", request.getDeviceId());
+        }
         _requestBodyProperties.put("access_code_id", request.getAccessCodeId());
-        _requestBodyProperties.put("sync", request.getSync());
+        if (request.getSync().isPresent()) {
+            _requestBodyProperties.put("sync", request.getSync());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -144,7 +197,7 @@ public class AccessCodesClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -159,14 +212,24 @@ public class AccessCodesClient {
     }
 
     public AccessCodesGetResponse get(AccessCodesGetRequest request) {
+        return get(request, null);
+    }
+
+    public AccessCodesGetResponse get(AccessCodesGetRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/get")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("device_id", request.getDeviceId());
-        _requestBodyProperties.put("access_code_id", request.getAccessCodeId());
-        _requestBodyProperties.put("code", request.getCode());
+        if (request.getDeviceId().isPresent()) {
+            _requestBodyProperties.put("device_id", request.getDeviceId());
+        }
+        if (request.getAccessCodeId().isPresent()) {
+            _requestBodyProperties.put("access_code_id", request.getAccessCodeId());
+        }
+        if (request.getCode().isPresent()) {
+            _requestBodyProperties.put("code", request.getCode());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -178,7 +241,7 @@ public class AccessCodesClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -193,13 +256,19 @@ public class AccessCodesClient {
     }
 
     public AccessCodesListResponse list(AccessCodesListRequest request) {
+        return list(request, null);
+    }
+
+    public AccessCodesListResponse list(AccessCodesListRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/list")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
         _requestBodyProperties.put("device_id", request.getDeviceId());
-        _requestBodyProperties.put("access_code_ids", request.getAccessCodeIds());
+        if (request.getAccessCodeIds().isPresent()) {
+            _requestBodyProperties.put("access_code_ids", request.getAccessCodeIds());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -211,7 +280,7 @@ public class AccessCodesClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -227,6 +296,11 @@ public class AccessCodesClient {
 
     public AccessCodesPullBackupAccessCodeResponse pullBackupAccessCode(
             AccessCodesPullBackupAccessCodeRequest request) {
+        return pullBackupAccessCode(request, null);
+    }
+
+    public AccessCodesPullBackupAccessCodeResponse pullBackupAccessCode(
+            AccessCodesPullBackupAccessCodeRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/pull_backup_access_code")
@@ -244,7 +318,7 @@ public class AccessCodesClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -260,22 +334,46 @@ public class AccessCodesClient {
     }
 
     public AccessCodesUpdateResponse update(AccessCodesUpdateRequest request) {
+        return update(request, null);
+    }
+
+    public AccessCodesUpdateResponse update(AccessCodesUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/update")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("name", request.getName());
-        _requestBodyProperties.put("starts_at", request.getStartsAt());
-        _requestBodyProperties.put("ends_at", request.getEndsAt());
-        _requestBodyProperties.put("code", request.getCode());
-        _requestBodyProperties.put("sync", request.getSync());
-        _requestBodyProperties.put("attempt_for_offline_device", request.getAttemptForOfflineDevice());
-        _requestBodyProperties.put("prefer_native_scheduling", request.getPreferNativeScheduling());
-        _requestBodyProperties.put("use_backup_access_code_pool", request.getUseBackupAccessCodePool());
+        if (request.getName().isPresent()) {
+            _requestBodyProperties.put("name", request.getName());
+        }
+        if (request.getStartsAt().isPresent()) {
+            _requestBodyProperties.put("starts_at", request.getStartsAt());
+        }
+        if (request.getEndsAt().isPresent()) {
+            _requestBodyProperties.put("ends_at", request.getEndsAt());
+        }
+        if (request.getCode().isPresent()) {
+            _requestBodyProperties.put("code", request.getCode());
+        }
+        if (request.getSync().isPresent()) {
+            _requestBodyProperties.put("sync", request.getSync());
+        }
+        if (request.getAttemptForOfflineDevice().isPresent()) {
+            _requestBodyProperties.put("attempt_for_offline_device", request.getAttemptForOfflineDevice());
+        }
+        if (request.getPreferNativeScheduling().isPresent()) {
+            _requestBodyProperties.put("prefer_native_scheduling", request.getPreferNativeScheduling());
+        }
+        if (request.getUseBackupAccessCodePool().isPresent()) {
+            _requestBodyProperties.put("use_backup_access_code_pool", request.getUseBackupAccessCodePool());
+        }
         _requestBodyProperties.put("access_code_id", request.getAccessCodeId());
-        _requestBodyProperties.put("device_id", request.getDeviceId());
-        _requestBodyProperties.put("type", request.getType());
+        if (request.getDeviceId().isPresent()) {
+            _requestBodyProperties.put("device_id", request.getDeviceId());
+        }
+        if (request.getType().isPresent()) {
+            _requestBodyProperties.put("type", request.getType());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -287,7 +385,7 @@ public class AccessCodesClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {

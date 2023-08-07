@@ -2,6 +2,7 @@ package com.seam.api.resources.health;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.core.Suppliers;
 import com.seam.api.resources.health.requests.HealthGetServiceHealthRequest;
 import com.seam.api.resources.health.service.ServiceClient;
@@ -28,6 +29,10 @@ public class HealthClient {
     }
 
     public HealthGetHealthResponse getHealth() {
+        return getHealth(null);
+    }
+
+    public HealthGetHealthResponse getHealth(RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("health/get_health")
@@ -35,7 +40,7 @@ public class HealthClient {
         Request _request = new Request.Builder()
                 .url(_httpUrl)
                 .method("GET", null)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
         try {
@@ -50,6 +55,11 @@ public class HealthClient {
     }
 
     public HealthGetServiceHealthResponse getServiceHealth(HealthGetServiceHealthRequest request) {
+        return getServiceHealth(request, null);
+    }
+
+    public HealthGetServiceHealthResponse getServiceHealth(
+            HealthGetServiceHealthRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("health/get_service_health")
@@ -67,7 +77,7 @@ public class HealthClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {

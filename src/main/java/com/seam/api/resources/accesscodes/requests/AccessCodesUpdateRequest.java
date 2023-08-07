@@ -1,6 +1,7 @@
 package com.seam.api.resources.accesscodes.requests;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
@@ -9,6 +10,7 @@ import com.seam.api.types.AccessCodesUpdateRequestType;
 import java.util.Objects;
 import java.util.Optional;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = AccessCodesUpdateRequest.Builder.class)
 public final class AccessCodesUpdateRequest {
     private final Optional<String> name;

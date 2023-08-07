@@ -2,6 +2,7 @@ package com.seam.api.resources.webhooks;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.webhooks.requests.WebhooksCreateRequest;
 import com.seam.api.resources.webhooks.requests.WebhooksDeleteRequest;
 import com.seam.api.resources.webhooks.requests.WebhooksGetRequest;
@@ -26,13 +27,19 @@ public class WebhooksClient {
     }
 
     public WebhooksCreateResponse create(WebhooksCreateRequest request) {
+        return create(request, null);
+    }
+
+    public WebhooksCreateResponse create(WebhooksCreateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("webhooks/create")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
         _requestBodyProperties.put("url", request.getUrl());
-        _requestBodyProperties.put("event_types", request.getEventTypes());
+        if (request.getEventTypes().isPresent()) {
+            _requestBodyProperties.put("event_types", request.getEventTypes());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -44,7 +51,7 @@ public class WebhooksClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -59,6 +66,10 @@ public class WebhooksClient {
     }
 
     public WebhooksDeleteResponse delete(WebhooksDeleteRequest request) {
+        return delete(request, null);
+    }
+
+    public WebhooksDeleteResponse delete(WebhooksDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("webhooks/delete")
@@ -76,7 +87,7 @@ public class WebhooksClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -91,6 +102,10 @@ public class WebhooksClient {
     }
 
     public WebhooksGetResponse get(WebhooksGetRequest request) {
+        return get(request, null);
+    }
+
+    public WebhooksGetResponse get(WebhooksGetRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("webhooks/get")
@@ -108,7 +123,7 @@ public class WebhooksClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -123,6 +138,10 @@ public class WebhooksClient {
     }
 
     public WebhooksListResponse list() {
+        return list(null);
+    }
+
+    public WebhooksListResponse list(RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("webhooks/list")
@@ -130,7 +149,7 @@ public class WebhooksClient {
         Request _request = new Request.Builder()
                 .url(_httpUrl)
                 .method("GET", null)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
         try {

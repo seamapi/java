@@ -2,6 +2,7 @@ package com.seam.api.resources.devices.unmanaged;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.devices.unmanaged.requests.DevicesUnmanagedListRequest;
 import com.seam.api.resources.devices.unmanaged.requests.DevicesUnmanagedUpdateRequest;
 import com.seam.api.types.DevicesUnmanagedListResponse;
@@ -23,20 +24,42 @@ public class UnmanagedClient {
     }
 
     public DevicesUnmanagedListResponse list(DevicesUnmanagedListRequest request) {
+        return list(request, null);
+    }
+
+    public DevicesUnmanagedListResponse list(DevicesUnmanagedListRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/unmanaged/list")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("connected_account_id", request.getConnectedAccountId());
-        _requestBodyProperties.put("connected_account_ids", request.getConnectedAccountIds());
-        _requestBodyProperties.put("connect_webview_id", request.getConnectWebviewId());
-        _requestBodyProperties.put("device_type", request.getDeviceType());
-        _requestBodyProperties.put("device_types", request.getDeviceTypes());
-        _requestBodyProperties.put("manufacturer", request.getManufacturer());
-        _requestBodyProperties.put("device_ids", request.getDeviceIds());
-        _requestBodyProperties.put("limit", request.getLimit());
-        _requestBodyProperties.put("created_before", request.getCreatedBefore());
+        if (request.getConnectedAccountId().isPresent()) {
+            _requestBodyProperties.put("connected_account_id", request.getConnectedAccountId());
+        }
+        if (request.getConnectedAccountIds().isPresent()) {
+            _requestBodyProperties.put("connected_account_ids", request.getConnectedAccountIds());
+        }
+        if (request.getConnectWebviewId().isPresent()) {
+            _requestBodyProperties.put("connect_webview_id", request.getConnectWebviewId());
+        }
+        if (request.getDeviceType().isPresent()) {
+            _requestBodyProperties.put("device_type", request.getDeviceType());
+        }
+        if (request.getDeviceTypes().isPresent()) {
+            _requestBodyProperties.put("device_types", request.getDeviceTypes());
+        }
+        if (request.getManufacturer().isPresent()) {
+            _requestBodyProperties.put("manufacturer", request.getManufacturer());
+        }
+        if (request.getDeviceIds().isPresent()) {
+            _requestBodyProperties.put("device_ids", request.getDeviceIds());
+        }
+        if (request.getLimit().isPresent()) {
+            _requestBodyProperties.put("limit", request.getLimit());
+        }
+        if (request.getCreatedBefore().isPresent()) {
+            _requestBodyProperties.put("created_before", request.getCreatedBefore());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -48,7 +71,7 @@ public class UnmanagedClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -64,6 +87,10 @@ public class UnmanagedClient {
     }
 
     public DevicesUnmanagedUpdateResponse update(DevicesUnmanagedUpdateRequest request) {
+        return update(request, null);
+    }
+
+    public DevicesUnmanagedUpdateResponse update(DevicesUnmanagedUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/unmanaged/update")
@@ -82,7 +109,7 @@ public class UnmanagedClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {

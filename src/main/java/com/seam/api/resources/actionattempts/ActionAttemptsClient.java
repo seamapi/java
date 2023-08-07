@@ -2,6 +2,7 @@ package com.seam.api.resources.actionattempts;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.actionattempts.requests.ActionAttemptsGetRequest;
 import com.seam.api.resources.actionattempts.requests.ActionAttemptsListRequest;
 import com.seam.api.types.ActionAttemptsGetResponse;
@@ -23,6 +24,10 @@ public class ActionAttemptsClient {
     }
 
     public ActionAttemptsGetResponse get(ActionAttemptsGetRequest request) {
+        return get(request, null);
+    }
+
+    public ActionAttemptsGetResponse get(ActionAttemptsGetRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("action_attempts/get")
@@ -40,7 +45,7 @@ public class ActionAttemptsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -55,6 +60,10 @@ public class ActionAttemptsClient {
     }
 
     public ActionAttemptsListResponse list(ActionAttemptsListRequest request) {
+        return list(request, null);
+    }
+
+    public ActionAttemptsListResponse list(ActionAttemptsListRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("action_attempts/list")
@@ -72,7 +81,7 @@ public class ActionAttemptsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {

@@ -2,6 +2,7 @@ package com.seam.api.resources.connectedaccounts;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.connectedaccounts.requests.ConnectedAccountsDeleteRequest;
 import com.seam.api.types.ConnectedAccountsDeleteResponse;
 import com.seam.api.types.ConnectedAccountsGetRequest;
@@ -24,6 +25,11 @@ public class ConnectedAccountsClient {
     }
 
     public ConnectedAccountsDeleteResponse delete(ConnectedAccountsDeleteRequest request) {
+        return delete(request, null);
+    }
+
+    public ConnectedAccountsDeleteResponse delete(
+            ConnectedAccountsDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connected_accounts/delete")
@@ -41,7 +47,7 @@ public class ConnectedAccountsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -57,6 +63,10 @@ public class ConnectedAccountsClient {
     }
 
     public ConnectedAccountsGetResponse get(ConnectedAccountsGetRequest request) {
+        return get(request, null);
+    }
+
+    public ConnectedAccountsGetResponse get(ConnectedAccountsGetRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connected_accounts/get")
@@ -71,7 +81,7 @@ public class ConnectedAccountsClient {
         Request _request = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
         try {
@@ -87,6 +97,10 @@ public class ConnectedAccountsClient {
     }
 
     public ConnectedAccountsListResponse list() {
+        return list(null);
+    }
+
+    public ConnectedAccountsListResponse list(RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connected_accounts/list")
@@ -94,7 +108,7 @@ public class ConnectedAccountsClient {
         Request _request = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", null)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
         try {

@@ -20,7 +20,10 @@ public final class ClientOptions {
             Map<String, Supplier<String>> headerSuppliers,
             OkHttpClient httpClient) {
         this.environment = environment;
-        this.headers = headers;
+        this.headers = new HashMap<>();
+        this.headers.putAll(headers);
+        this.headers.putAll(Map.of(
+                "X-Fern-SDK-Name", "com.seam.fern:api-sdk", "X-Fern-SDK-Version", "0.0.26", "X-Fern-Language", "JAVA"));
         this.headerSuppliers = headerSuppliers;
         this.httpClient = httpClient;
         ;
@@ -30,11 +33,14 @@ public final class ClientOptions {
         return this.environment;
     }
 
-    public Map<String, String> headers() {
+    public Map<String, String> headers(RequestOptions requestOptions) {
         Map<String, String> values = new HashMap<>(this.headers);
         headerSuppliers.forEach((key, supplier) -> {
             values.put(key, supplier.get());
         });
+        if (requestOptions != null) {
+            values.putAll(requestOptions.getHeaders());
+        }
         return values;
     }
 

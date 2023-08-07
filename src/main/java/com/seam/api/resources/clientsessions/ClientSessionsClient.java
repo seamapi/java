@@ -2,6 +2,7 @@ package com.seam.api.resources.clientsessions;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.clientsessions.requests.ClientSessionsCreateRequest;
 import com.seam.api.resources.clientsessions.requests.ClientSessionsDeleteRequest;
 import com.seam.api.resources.clientsessions.requests.ClientSessionsGetRequest;
@@ -27,14 +28,24 @@ public class ClientSessionsClient {
     }
 
     public ClientSessionsCreateResponse create(ClientSessionsCreateRequest request) {
+        return create(request, null);
+    }
+
+    public ClientSessionsCreateResponse create(ClientSessionsCreateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("client_sessions/create")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("user_identifier_key", request.getUserIdentifierKey());
-        _requestBodyProperties.put("connect_webview_ids", request.getConnectWebviewIds());
-        _requestBodyProperties.put("connected_account_ids", request.getConnectedAccountIds());
+        if (request.getUserIdentifierKey().isPresent()) {
+            _requestBodyProperties.put("user_identifier_key", request.getUserIdentifierKey());
+        }
+        if (request.getConnectWebviewIds().isPresent()) {
+            _requestBodyProperties.put("connect_webview_ids", request.getConnectWebviewIds());
+        }
+        if (request.getConnectedAccountIds().isPresent()) {
+            _requestBodyProperties.put("connected_account_ids", request.getConnectedAccountIds());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -46,7 +57,7 @@ public class ClientSessionsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -62,6 +73,10 @@ public class ClientSessionsClient {
     }
 
     public ClientSessionsDeleteResponse delete(ClientSessionsDeleteRequest request) {
+        return delete(request, null);
+    }
+
+    public ClientSessionsDeleteResponse delete(ClientSessionsDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("client_sessions/delete")
@@ -79,7 +94,7 @@ public class ClientSessionsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -95,13 +110,21 @@ public class ClientSessionsClient {
     }
 
     public ClientSessionsGetResponse get(ClientSessionsGetRequest request) {
+        return get(request, null);
+    }
+
+    public ClientSessionsGetResponse get(ClientSessionsGetRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("client_sessions/get")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("client_session_id", request.getClientSessionId());
-        _requestBodyProperties.put("user_identifier_key", request.getUserIdentifierKey());
+        if (request.getClientSessionId().isPresent()) {
+            _requestBodyProperties.put("client_session_id", request.getClientSessionId());
+        }
+        if (request.getUserIdentifierKey().isPresent()) {
+            _requestBodyProperties.put("user_identifier_key", request.getUserIdentifierKey());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -113,7 +136,7 @@ public class ClientSessionsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -128,14 +151,24 @@ public class ClientSessionsClient {
     }
 
     public ClientSessionsListResponse list(ClientSessionsListRequest request) {
+        return list(request, null);
+    }
+
+    public ClientSessionsListResponse list(ClientSessionsListRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("client_sessions/list")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("client_session_id", request.getClientSessionId());
-        _requestBodyProperties.put("user_identifier_key", request.getUserIdentifierKey());
-        _requestBodyProperties.put("without_user_identifier_key", request.getWithoutUserIdentifierKey());
+        if (request.getClientSessionId().isPresent()) {
+            _requestBodyProperties.put("client_session_id", request.getClientSessionId());
+        }
+        if (request.getUserIdentifierKey().isPresent()) {
+            _requestBodyProperties.put("user_identifier_key", request.getUserIdentifierKey());
+        }
+        if (request.getWithoutUserIdentifierKey().isPresent()) {
+            _requestBodyProperties.put("without_user_identifier_key", request.getWithoutUserIdentifierKey());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -147,7 +180,7 @@ public class ClientSessionsClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {

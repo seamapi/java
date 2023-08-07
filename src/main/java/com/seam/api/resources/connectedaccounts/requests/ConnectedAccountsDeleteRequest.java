@@ -1,11 +1,13 @@
 package com.seam.api.resources.connectedaccounts.requests;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = ConnectedAccountsDeleteRequest.Builder.class)
 public final class ConnectedAccountsDeleteRequest {
     private final String connectedAccountId;

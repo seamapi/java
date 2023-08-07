@@ -1,6 +1,7 @@
 package com.seam.api.resources.thermostats.climatesettingschedules.requests;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
@@ -9,6 +10,7 @@ import com.seam.api.types.ThermostatsClimateSettingSchedulesCreateRequestHvacMod
 import java.util.Objects;
 import java.util.Optional;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = ThermostatsClimateSettingSchedulesCreateRequest.Builder.class)
 public final class ThermostatsClimateSettingSchedulesCreateRequest {
     private final Optional<String> scheduleType;

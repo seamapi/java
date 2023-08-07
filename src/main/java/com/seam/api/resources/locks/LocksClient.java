@@ -2,6 +2,7 @@ package com.seam.api.resources.locks;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.locks.requests.LocksGetRequest;
 import com.seam.api.resources.locks.requests.LocksListRequest;
 import com.seam.api.resources.locks.requests.LocksLockDoorRequest;
@@ -27,13 +28,21 @@ public class LocksClient {
     }
 
     public LocksGetResponse get(LocksGetRequest request) {
+        return get(request, null);
+    }
+
+    public LocksGetResponse get(LocksGetRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("locks/get")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("device_id", request.getDeviceId());
-        _requestBodyProperties.put("name", request.getName());
+        if (request.getDeviceId().isPresent()) {
+            _requestBodyProperties.put("device_id", request.getDeviceId());
+        }
+        if (request.getName().isPresent()) {
+            _requestBodyProperties.put("name", request.getName());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -45,7 +54,7 @@ public class LocksClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -60,20 +69,42 @@ public class LocksClient {
     }
 
     public LocksListResponse list(LocksListRequest request) {
+        return list(request, null);
+    }
+
+    public LocksListResponse list(LocksListRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("locks/list")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("connected_account_id", request.getConnectedAccountId());
-        _requestBodyProperties.put("connected_account_ids", request.getConnectedAccountIds());
-        _requestBodyProperties.put("connect_webview_id", request.getConnectWebviewId());
-        _requestBodyProperties.put("device_type", request.getDeviceType());
-        _requestBodyProperties.put("device_types", request.getDeviceTypes());
-        _requestBodyProperties.put("manufacturer", request.getManufacturer());
-        _requestBodyProperties.put("device_ids", request.getDeviceIds());
-        _requestBodyProperties.put("limit", request.getLimit());
-        _requestBodyProperties.put("created_before", request.getCreatedBefore());
+        if (request.getConnectedAccountId().isPresent()) {
+            _requestBodyProperties.put("connected_account_id", request.getConnectedAccountId());
+        }
+        if (request.getConnectedAccountIds().isPresent()) {
+            _requestBodyProperties.put("connected_account_ids", request.getConnectedAccountIds());
+        }
+        if (request.getConnectWebviewId().isPresent()) {
+            _requestBodyProperties.put("connect_webview_id", request.getConnectWebviewId());
+        }
+        if (request.getDeviceType().isPresent()) {
+            _requestBodyProperties.put("device_type", request.getDeviceType());
+        }
+        if (request.getDeviceTypes().isPresent()) {
+            _requestBodyProperties.put("device_types", request.getDeviceTypes());
+        }
+        if (request.getManufacturer().isPresent()) {
+            _requestBodyProperties.put("manufacturer", request.getManufacturer());
+        }
+        if (request.getDeviceIds().isPresent()) {
+            _requestBodyProperties.put("device_ids", request.getDeviceIds());
+        }
+        if (request.getLimit().isPresent()) {
+            _requestBodyProperties.put("limit", request.getLimit());
+        }
+        if (request.getCreatedBefore().isPresent()) {
+            _requestBodyProperties.put("created_before", request.getCreatedBefore());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -85,7 +116,7 @@ public class LocksClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -100,13 +131,19 @@ public class LocksClient {
     }
 
     public LocksLockDoorResponse lockDoor(LocksLockDoorRequest request) {
+        return lockDoor(request, null);
+    }
+
+    public LocksLockDoorResponse lockDoor(LocksLockDoorRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("locks/lock_door")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
         _requestBodyProperties.put("device_id", request.getDeviceId());
-        _requestBodyProperties.put("sync", request.getSync());
+        if (request.getSync().isPresent()) {
+            _requestBodyProperties.put("sync", request.getSync());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -118,7 +155,7 @@ public class LocksClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -133,13 +170,19 @@ public class LocksClient {
     }
 
     public LocksUnlockDoorResponse unlockDoor(LocksUnlockDoorRequest request) {
+        return unlockDoor(request, null);
+    }
+
+    public LocksUnlockDoorResponse unlockDoor(LocksUnlockDoorRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("locks/unlock_door")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
         _requestBodyProperties.put("device_id", request.getDeviceId());
-        _requestBodyProperties.put("sync", request.getSync());
+        if (request.getSync().isPresent()) {
+            _requestBodyProperties.put("sync", request.getSync());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -151,7 +194,7 @@ public class LocksClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {

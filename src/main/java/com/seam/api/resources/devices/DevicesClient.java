@@ -2,6 +2,7 @@ package com.seam.api.resources.devices;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.core.Suppliers;
 import com.seam.api.resources.devices.requests.DevicesDeleteRequest;
 import com.seam.api.resources.devices.requests.DevicesGetRequest;
@@ -35,6 +36,10 @@ public class DevicesClient {
     }
 
     public DevicesDeleteResponse delete(DevicesDeleteRequest request) {
+        return delete(request, null);
+    }
+
+    public DevicesDeleteResponse delete(DevicesDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/delete")
@@ -52,7 +57,7 @@ public class DevicesClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -67,13 +72,21 @@ public class DevicesClient {
     }
 
     public DevicesGetResponse get(DevicesGetRequest request) {
+        return get(request, null);
+    }
+
+    public DevicesGetResponse get(DevicesGetRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/get")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("device_id", request.getDeviceId());
-        _requestBodyProperties.put("name", request.getName());
+        if (request.getDeviceId().isPresent()) {
+            _requestBodyProperties.put("device_id", request.getDeviceId());
+        }
+        if (request.getName().isPresent()) {
+            _requestBodyProperties.put("name", request.getName());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -85,7 +98,7 @@ public class DevicesClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -100,20 +113,42 @@ public class DevicesClient {
     }
 
     public DevicesListResponse list(DevicesListRequest request) {
+        return list(request, null);
+    }
+
+    public DevicesListResponse list(DevicesListRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/list")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("connected_account_id", request.getConnectedAccountId());
-        _requestBodyProperties.put("connected_account_ids", request.getConnectedAccountIds());
-        _requestBodyProperties.put("connect_webview_id", request.getConnectWebviewId());
-        _requestBodyProperties.put("device_type", request.getDeviceType());
-        _requestBodyProperties.put("device_types", request.getDeviceTypes());
-        _requestBodyProperties.put("manufacturer", request.getManufacturer());
-        _requestBodyProperties.put("device_ids", request.getDeviceIds());
-        _requestBodyProperties.put("limit", request.getLimit());
-        _requestBodyProperties.put("created_before", request.getCreatedBefore());
+        if (request.getConnectedAccountId().isPresent()) {
+            _requestBodyProperties.put("connected_account_id", request.getConnectedAccountId());
+        }
+        if (request.getConnectedAccountIds().isPresent()) {
+            _requestBodyProperties.put("connected_account_ids", request.getConnectedAccountIds());
+        }
+        if (request.getConnectWebviewId().isPresent()) {
+            _requestBodyProperties.put("connect_webview_id", request.getConnectWebviewId());
+        }
+        if (request.getDeviceType().isPresent()) {
+            _requestBodyProperties.put("device_type", request.getDeviceType());
+        }
+        if (request.getDeviceTypes().isPresent()) {
+            _requestBodyProperties.put("device_types", request.getDeviceTypes());
+        }
+        if (request.getManufacturer().isPresent()) {
+            _requestBodyProperties.put("manufacturer", request.getManufacturer());
+        }
+        if (request.getDeviceIds().isPresent()) {
+            _requestBodyProperties.put("device_ids", request.getDeviceIds());
+        }
+        if (request.getLimit().isPresent()) {
+            _requestBodyProperties.put("limit", request.getLimit());
+        }
+        if (request.getCreatedBefore().isPresent()) {
+            _requestBodyProperties.put("created_before", request.getCreatedBefore());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -125,7 +160,7 @@ public class DevicesClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -140,12 +175,19 @@ public class DevicesClient {
     }
 
     public DevicesListDeviceProvidersResponse listDeviceProviders(DevicesListDeviceProvidersRequest request) {
+        return listDeviceProviders(request, null);
+    }
+
+    public DevicesListDeviceProvidersResponse listDeviceProviders(
+            DevicesListDeviceProvidersRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/list_device_providers")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
-        _requestBodyProperties.put("provider_category", request.getProviderCategory());
+        if (request.getProviderCategory().isPresent()) {
+            _requestBodyProperties.put("provider_category", request.getProviderCategory());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -157,7 +199,7 @@ public class DevicesClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {
@@ -173,16 +215,28 @@ public class DevicesClient {
     }
 
     public DevicesUpdateResponse update(DevicesUpdateRequest request) {
+        return update(request, null);
+    }
+
+    public DevicesUpdateResponse update(DevicesUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/update")
                 .build();
         Map<String, Object> _requestBodyProperties = new HashMap<>();
         _requestBodyProperties.put("device_id", request.getDeviceId());
-        _requestBodyProperties.put("properties", request.getProperties());
-        _requestBodyProperties.put("name", request.getName());
-        _requestBodyProperties.put("location", request.getLocation());
-        _requestBodyProperties.put("is_managed", request.getIsManaged());
+        if (request.getProperties().isPresent()) {
+            _requestBodyProperties.put("properties", request.getProperties());
+        }
+        if (request.getName().isPresent()) {
+            _requestBodyProperties.put("name", request.getName());
+        }
+        if (request.getLocation().isPresent()) {
+            _requestBodyProperties.put("location", request.getLocation());
+        }
+        if (request.getIsManaged().isPresent()) {
+            _requestBodyProperties.put("is_managed", request.getIsManaged());
+        }
         RequestBody _requestBody;
         try {
             _requestBody = RequestBody.create(
@@ -194,7 +248,7 @@ public class DevicesClient {
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", _requestBody)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json");
         Request _request = _requestBuilder.build();
         try {

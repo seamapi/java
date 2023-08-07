@@ -2,6 +2,7 @@ package com.seam.api.resources.workspaces;
 
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.core.RequestOptions;
 import com.seam.api.types.WorkspacesGetResponse;
 import com.seam.api.types.WorkspacesListResponse;
 import com.seam.api.types.WorkspacesResetSandboxResponse;
@@ -18,6 +19,10 @@ public class WorkspacesClient {
     }
 
     public WorkspacesGetResponse get() {
+        return get(null);
+    }
+
+    public WorkspacesGetResponse get(RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("workspaces/get")
@@ -25,7 +30,7 @@ public class WorkspacesClient {
         Request _request = new Request.Builder()
                 .url(_httpUrl)
                 .method("GET", null)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
         try {
@@ -40,6 +45,10 @@ public class WorkspacesClient {
     }
 
     public WorkspacesListResponse list() {
+        return list(null);
+    }
+
+    public WorkspacesListResponse list(RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("workspaces/list")
@@ -47,7 +56,7 @@ public class WorkspacesClient {
         Request _request = new Request.Builder()
                 .url(_httpUrl)
                 .method("GET", null)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
         try {
@@ -62,6 +71,10 @@ public class WorkspacesClient {
     }
 
     public WorkspacesResetSandboxResponse resetSandbox() {
+        return resetSandbox(null);
+    }
+
+    public WorkspacesResetSandboxResponse resetSandbox(RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("workspaces/reset_sandbox")
@@ -69,7 +82,7 @@ public class WorkspacesClient {
         Request _request = new Request.Builder()
                 .url(_httpUrl)
                 .method("POST", null)
-                .headers(Headers.of(clientOptions.headers()))
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
         try {
