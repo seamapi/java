@@ -3,8 +3,8 @@ package com.seam.api.resources.noisesensors.simulate;
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
-import com.seam.api.resources.noisesensors.simulate.requests.NoiseSensorsSimulateTriggerNoiseThresholdRequest;
-import com.seam.api.types.NoiseSensorsSimulateTriggerNoiseThresholdResponse;
+import com.seam.api.resources.noisesensors.simulate.requests.SimulateTriggerNoiseThresholdRequest;
+import com.seam.api.types.SimulateTriggerNoiseThresholdResponse;
 import java.util.HashMap;
 import java.util.Map;
 import okhttp3.Headers;
@@ -21,13 +21,12 @@ public class SimulateClient {
         this.clientOptions = clientOptions;
     }
 
-    public NoiseSensorsSimulateTriggerNoiseThresholdResponse triggerNoiseThreshold(
-            NoiseSensorsSimulateTriggerNoiseThresholdRequest request) {
+    public SimulateTriggerNoiseThresholdResponse triggerNoiseThreshold(SimulateTriggerNoiseThresholdRequest request) {
         return triggerNoiseThreshold(request, null);
     }
 
-    public NoiseSensorsSimulateTriggerNoiseThresholdResponse triggerNoiseThreshold(
-            NoiseSensorsSimulateTriggerNoiseThresholdRequest request, RequestOptions requestOptions) {
+    public SimulateTriggerNoiseThresholdResponse triggerNoiseThreshold(
+            SimulateTriggerNoiseThresholdRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("noise_sensors/simulate/trigger_noise_threshold")
@@ -52,7 +51,7 @@ public class SimulateClient {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), NoiseSensorsSimulateTriggerNoiseThresholdResponse.class);
+                        _response.body().string(), SimulateTriggerNoiseThresholdResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {

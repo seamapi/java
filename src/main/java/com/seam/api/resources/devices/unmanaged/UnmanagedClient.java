@@ -3,10 +3,10 @@ package com.seam.api.resources.devices.unmanaged;
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
-import com.seam.api.resources.devices.unmanaged.requests.DevicesUnmanagedListRequest;
-import com.seam.api.resources.devices.unmanaged.requests.DevicesUnmanagedUpdateRequest;
-import com.seam.api.types.DevicesUnmanagedListResponse;
-import com.seam.api.types.DevicesUnmanagedUpdateResponse;
+import com.seam.api.resources.devices.unmanaged.requests.UnmanagedListRequest;
+import com.seam.api.resources.devices.unmanaged.requests.UnmanagedUpdateRequest;
+import com.seam.api.types.UnmanagedListResponse;
+import com.seam.api.types.UnmanagedUpdateResponse;
 import java.util.HashMap;
 import java.util.Map;
 import okhttp3.Headers;
@@ -23,11 +23,11 @@ public class UnmanagedClient {
         this.clientOptions = clientOptions;
     }
 
-    public DevicesUnmanagedListResponse list(DevicesUnmanagedListRequest request) {
+    public UnmanagedListResponse list(UnmanagedListRequest request) {
         return list(request, null);
     }
 
-    public DevicesUnmanagedListResponse list(DevicesUnmanagedListRequest request, RequestOptions requestOptions) {
+    public UnmanagedListResponse list(UnmanagedListRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/unmanaged/list")
@@ -77,8 +77,7 @@ public class UnmanagedClient {
         try {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), DevicesUnmanagedListResponse.class);
+                return ObjectMappers.JSON_MAPPER.readValue(_response.body().string(), UnmanagedListResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
@@ -86,11 +85,11 @@ public class UnmanagedClient {
         }
     }
 
-    public DevicesUnmanagedUpdateResponse update(DevicesUnmanagedUpdateRequest request) {
+    public UnmanagedUpdateResponse update(UnmanagedUpdateRequest request) {
         return update(request, null);
     }
 
-    public DevicesUnmanagedUpdateResponse update(DevicesUnmanagedUpdateRequest request, RequestOptions requestOptions) {
+    public UnmanagedUpdateResponse update(UnmanagedUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/unmanaged/update")
@@ -115,8 +114,7 @@ public class UnmanagedClient {
         try {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), DevicesUnmanagedUpdateResponse.class);
+                return ObjectMappers.JSON_MAPPER.readValue(_response.body().string(), UnmanagedUpdateResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {

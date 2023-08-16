@@ -3,16 +3,16 @@ package com.seam.api.resources.thermostats.climatesettingschedules;
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
-import com.seam.api.resources.thermostats.climatesettingschedules.requests.ThermostatsClimateSettingSchedulesCreateRequest;
-import com.seam.api.resources.thermostats.climatesettingschedules.requests.ThermostatsClimateSettingSchedulesDeleteRequest;
-import com.seam.api.resources.thermostats.climatesettingschedules.requests.ThermostatsClimateSettingSchedulesGetRequest;
-import com.seam.api.resources.thermostats.climatesettingschedules.requests.ThermostatsClimateSettingSchedulesListRequest;
-import com.seam.api.resources.thermostats.climatesettingschedules.requests.ThermostatsClimateSettingSchedulesUpdateRequest;
-import com.seam.api.types.ThermostatsClimateSettingSchedulesCreateResponse;
-import com.seam.api.types.ThermostatsClimateSettingSchedulesDeleteResponse;
-import com.seam.api.types.ThermostatsClimateSettingSchedulesGetResponse;
-import com.seam.api.types.ThermostatsClimateSettingSchedulesListResponse;
-import com.seam.api.types.ThermostatsClimateSettingSchedulesUpdateResponse;
+import com.seam.api.resources.thermostats.climatesettingschedules.requests.ClimateSettingSchedulesCreateRequest;
+import com.seam.api.resources.thermostats.climatesettingschedules.requests.ClimateSettingSchedulesDeleteRequest;
+import com.seam.api.resources.thermostats.climatesettingschedules.requests.ClimateSettingSchedulesGetRequest;
+import com.seam.api.resources.thermostats.climatesettingschedules.requests.ClimateSettingSchedulesListRequest;
+import com.seam.api.resources.thermostats.climatesettingschedules.requests.ClimateSettingSchedulesUpdateRequest;
+import com.seam.api.types.ClimateSettingSchedulesCreateResponse;
+import com.seam.api.types.ClimateSettingSchedulesDeleteResponse;
+import com.seam.api.types.ClimateSettingSchedulesGetResponse;
+import com.seam.api.types.ClimateSettingSchedulesListResponse;
+import com.seam.api.types.ClimateSettingSchedulesUpdateResponse;
 import java.util.HashMap;
 import java.util.Map;
 import okhttp3.Headers;
@@ -29,13 +29,12 @@ public class ClimateSettingSchedulesClient {
         this.clientOptions = clientOptions;
     }
 
-    public ThermostatsClimateSettingSchedulesCreateResponse create(
-            ThermostatsClimateSettingSchedulesCreateRequest request) {
+    public ClimateSettingSchedulesCreateResponse create(ClimateSettingSchedulesCreateRequest request) {
         return create(request, null);
     }
 
-    public ThermostatsClimateSettingSchedulesCreateResponse create(
-            ThermostatsClimateSettingSchedulesCreateRequest request, RequestOptions requestOptions) {
+    public ClimateSettingSchedulesCreateResponse create(
+            ClimateSettingSchedulesCreateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("thermostats/climate_setting_schedules/create")
@@ -92,7 +91,7 @@ public class ClimateSettingSchedulesClient {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), ThermostatsClimateSettingSchedulesCreateResponse.class);
+                        _response.body().string(), ClimateSettingSchedulesCreateResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
@@ -100,13 +99,12 @@ public class ClimateSettingSchedulesClient {
         }
     }
 
-    public ThermostatsClimateSettingSchedulesDeleteResponse delete(
-            ThermostatsClimateSettingSchedulesDeleteRequest request) {
+    public ClimateSettingSchedulesDeleteResponse delete(ClimateSettingSchedulesDeleteRequest request) {
         return delete(request, null);
     }
 
-    public ThermostatsClimateSettingSchedulesDeleteResponse delete(
-            ThermostatsClimateSettingSchedulesDeleteRequest request, RequestOptions requestOptions) {
+    public ClimateSettingSchedulesDeleteResponse delete(
+            ClimateSettingSchedulesDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("thermostats/climate_setting_schedules/delete")
@@ -131,7 +129,7 @@ public class ClimateSettingSchedulesClient {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), ThermostatsClimateSettingSchedulesDeleteResponse.class);
+                        _response.body().string(), ClimateSettingSchedulesDeleteResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
@@ -139,12 +137,12 @@ public class ClimateSettingSchedulesClient {
         }
     }
 
-    public ThermostatsClimateSettingSchedulesGetResponse get(ThermostatsClimateSettingSchedulesGetRequest request) {
+    public ClimateSettingSchedulesGetResponse get(ClimateSettingSchedulesGetRequest request) {
         return get(request, null);
     }
 
-    public ThermostatsClimateSettingSchedulesGetResponse get(
-            ThermostatsClimateSettingSchedulesGetRequest request, RequestOptions requestOptions) {
+    public ClimateSettingSchedulesGetResponse get(
+            ClimateSettingSchedulesGetRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("thermostats/climate_setting_schedules/get")
@@ -174,7 +172,7 @@ public class ClimateSettingSchedulesClient {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), ThermostatsClimateSettingSchedulesGetResponse.class);
+                        _response.body().string(), ClimateSettingSchedulesGetResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
@@ -182,12 +180,12 @@ public class ClimateSettingSchedulesClient {
         }
     }
 
-    public ThermostatsClimateSettingSchedulesListResponse list(ThermostatsClimateSettingSchedulesListRequest request) {
+    public ClimateSettingSchedulesListResponse list(ClimateSettingSchedulesListRequest request) {
         return list(request, null);
     }
 
-    public ThermostatsClimateSettingSchedulesListResponse list(
-            ThermostatsClimateSettingSchedulesListRequest request, RequestOptions requestOptions) {
+    public ClimateSettingSchedulesListResponse list(
+            ClimateSettingSchedulesListRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("thermostats/climate_setting_schedules/list")
@@ -212,7 +210,7 @@ public class ClimateSettingSchedulesClient {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), ThermostatsClimateSettingSchedulesListResponse.class);
+                        _response.body().string(), ClimateSettingSchedulesListResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
@@ -220,13 +218,12 @@ public class ClimateSettingSchedulesClient {
         }
     }
 
-    public ThermostatsClimateSettingSchedulesUpdateResponse update(
-            ThermostatsClimateSettingSchedulesUpdateRequest request) {
+    public ClimateSettingSchedulesUpdateResponse update(ClimateSettingSchedulesUpdateRequest request) {
         return update(request, null);
     }
 
-    public ThermostatsClimateSettingSchedulesUpdateResponse update(
-            ThermostatsClimateSettingSchedulesUpdateRequest request, RequestOptions requestOptions) {
+    public ClimateSettingSchedulesUpdateResponse update(
+            ClimateSettingSchedulesUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("thermostats/climate_setting_schedules/update")
@@ -287,7 +284,7 @@ public class ClimateSettingSchedulesClient {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), ThermostatsClimateSettingSchedulesUpdateResponse.class);
+                        _response.body().string(), ClimateSettingSchedulesUpdateResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {

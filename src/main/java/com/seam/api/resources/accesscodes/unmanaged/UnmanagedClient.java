@@ -3,16 +3,16 @@ package com.seam.api.resources.accesscodes.unmanaged;
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
-import com.seam.api.resources.accesscodes.unmanaged.requests.AccessCodesUnmanagedConvertToManagedRequest;
-import com.seam.api.resources.accesscodes.unmanaged.requests.AccessCodesUnmanagedDeleteRequest;
-import com.seam.api.resources.accesscodes.unmanaged.requests.AccessCodesUnmanagedGetRequest;
-import com.seam.api.resources.accesscodes.unmanaged.requests.AccessCodesUnmanagedListRequest;
-import com.seam.api.resources.accesscodes.unmanaged.requests.AccessCodesUnmanagedUpdateRequest;
-import com.seam.api.types.AccessCodesUnmanagedConvertToManagedResponse;
-import com.seam.api.types.AccessCodesUnmanagedDeleteResponse;
-import com.seam.api.types.AccessCodesUnmanagedGetResponse;
-import com.seam.api.types.AccessCodesUnmanagedListResponse;
-import com.seam.api.types.AccessCodesUnmanagedUpdateResponse;
+import com.seam.api.resources.accesscodes.unmanaged.requests.UnmanagedConvertToManagedRequest;
+import com.seam.api.resources.accesscodes.unmanaged.requests.UnmanagedDeleteRequest;
+import com.seam.api.resources.accesscodes.unmanaged.requests.UnmanagedGetRequest;
+import com.seam.api.resources.accesscodes.unmanaged.requests.UnmanagedListRequest;
+import com.seam.api.resources.accesscodes.unmanaged.requests.UnmanagedUpdateRequest;
+import com.seam.api.types.UnmanagedConvertToManagedResponse;
+import com.seam.api.types.UnmanagedDeleteResponse;
+import com.seam.api.types.UnmanagedGetResponse;
+import com.seam.api.types.UnmanagedListResponse;
+import com.seam.api.types.UnmanagedUpdateResponse;
 import java.util.HashMap;
 import java.util.Map;
 import okhttp3.Headers;
@@ -29,13 +29,12 @@ public class UnmanagedClient {
         this.clientOptions = clientOptions;
     }
 
-    public AccessCodesUnmanagedConvertToManagedResponse convertToManaged(
-            AccessCodesUnmanagedConvertToManagedRequest request) {
+    public UnmanagedConvertToManagedResponse convertToManaged(UnmanagedConvertToManagedRequest request) {
         return convertToManaged(request, null);
     }
 
-    public AccessCodesUnmanagedConvertToManagedResponse convertToManaged(
-            AccessCodesUnmanagedConvertToManagedRequest request, RequestOptions requestOptions) {
+    public UnmanagedConvertToManagedResponse convertToManaged(
+            UnmanagedConvertToManagedRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/unmanaged/convert_to_managed")
@@ -66,7 +65,7 @@ public class UnmanagedClient {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), AccessCodesUnmanagedConvertToManagedResponse.class);
+                        _response.body().string(), UnmanagedConvertToManagedResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
@@ -74,12 +73,11 @@ public class UnmanagedClient {
         }
     }
 
-    public AccessCodesUnmanagedDeleteResponse delete(AccessCodesUnmanagedDeleteRequest request) {
+    public UnmanagedDeleteResponse delete(UnmanagedDeleteRequest request) {
         return delete(request, null);
     }
 
-    public AccessCodesUnmanagedDeleteResponse delete(
-            AccessCodesUnmanagedDeleteRequest request, RequestOptions requestOptions) {
+    public UnmanagedDeleteResponse delete(UnmanagedDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/unmanaged/delete")
@@ -106,8 +104,7 @@ public class UnmanagedClient {
         try {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), AccessCodesUnmanagedDeleteResponse.class);
+                return ObjectMappers.JSON_MAPPER.readValue(_response.body().string(), UnmanagedDeleteResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
@@ -115,11 +112,11 @@ public class UnmanagedClient {
         }
     }
 
-    public AccessCodesUnmanagedGetResponse get(AccessCodesUnmanagedGetRequest request) {
+    public UnmanagedGetResponse get(UnmanagedGetRequest request) {
         return get(request, null);
     }
 
-    public AccessCodesUnmanagedGetResponse get(AccessCodesUnmanagedGetRequest request, RequestOptions requestOptions) {
+    public UnmanagedGetResponse get(UnmanagedGetRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/unmanaged/get")
@@ -151,8 +148,7 @@ public class UnmanagedClient {
         try {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), AccessCodesUnmanagedGetResponse.class);
+                return ObjectMappers.JSON_MAPPER.readValue(_response.body().string(), UnmanagedGetResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
@@ -160,12 +156,11 @@ public class UnmanagedClient {
         }
     }
 
-    public AccessCodesUnmanagedListResponse list(AccessCodesUnmanagedListRequest request) {
+    public UnmanagedListResponse list(UnmanagedListRequest request) {
         return list(request, null);
     }
 
-    public AccessCodesUnmanagedListResponse list(
-            AccessCodesUnmanagedListRequest request, RequestOptions requestOptions) {
+    public UnmanagedListResponse list(UnmanagedListRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/unmanaged/list")
@@ -189,8 +184,7 @@ public class UnmanagedClient {
         try {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), AccessCodesUnmanagedListResponse.class);
+                return ObjectMappers.JSON_MAPPER.readValue(_response.body().string(), UnmanagedListResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
@@ -198,12 +192,11 @@ public class UnmanagedClient {
         }
     }
 
-    public AccessCodesUnmanagedUpdateResponse update(AccessCodesUnmanagedUpdateRequest request) {
+    public UnmanagedUpdateResponse update(UnmanagedUpdateRequest request) {
         return update(request, null);
     }
 
-    public AccessCodesUnmanagedUpdateResponse update(
-            AccessCodesUnmanagedUpdateRequest request, RequestOptions requestOptions) {
+    public UnmanagedUpdateResponse update(UnmanagedUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/unmanaged/update")
@@ -231,8 +224,7 @@ public class UnmanagedClient {
         try {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), AccessCodesUnmanagedUpdateResponse.class);
+                return ObjectMappers.JSON_MAPPER.readValue(_response.body().string(), UnmanagedUpdateResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {

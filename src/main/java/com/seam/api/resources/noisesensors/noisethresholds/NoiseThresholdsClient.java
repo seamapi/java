@@ -3,16 +3,16 @@ package com.seam.api.resources.noisesensors.noisethresholds;
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
-import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseSensorsNoiseThresholdsCreateRequest;
-import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseSensorsNoiseThresholdsDeleteRequest;
-import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseSensorsNoiseThresholdsGetRequest;
-import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseSensorsNoiseThresholdsListRequest;
-import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseSensorsNoiseThresholdsUpdateRequest;
-import com.seam.api.types.NoiseSensorsNoiseThresholdsCreateResponse;
-import com.seam.api.types.NoiseSensorsNoiseThresholdsDeleteResponse;
-import com.seam.api.types.NoiseSensorsNoiseThresholdsGetResponse;
-import com.seam.api.types.NoiseSensorsNoiseThresholdsListResponse;
-import com.seam.api.types.NoiseSensorsNoiseThresholdsUpdateResponse;
+import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseThresholdsCreateRequest;
+import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseThresholdsDeleteRequest;
+import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseThresholdsGetRequest;
+import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseThresholdsListRequest;
+import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseThresholdsUpdateRequest;
+import com.seam.api.types.NoiseThresholdsCreateResponse;
+import com.seam.api.types.NoiseThresholdsDeleteResponse;
+import com.seam.api.types.NoiseThresholdsGetResponse;
+import com.seam.api.types.NoiseThresholdsListResponse;
+import com.seam.api.types.NoiseThresholdsUpdateResponse;
 import java.util.HashMap;
 import java.util.Map;
 import okhttp3.Headers;
@@ -29,12 +29,11 @@ public class NoiseThresholdsClient {
         this.clientOptions = clientOptions;
     }
 
-    public NoiseSensorsNoiseThresholdsCreateResponse create(NoiseSensorsNoiseThresholdsCreateRequest request) {
+    public NoiseThresholdsCreateResponse create(NoiseThresholdsCreateRequest request) {
         return create(request, null);
     }
 
-    public NoiseSensorsNoiseThresholdsCreateResponse create(
-            NoiseSensorsNoiseThresholdsCreateRequest request, RequestOptions requestOptions) {
+    public NoiseThresholdsCreateResponse create(NoiseThresholdsCreateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("noise_sensors/noise_thresholds/create")
@@ -73,7 +72,7 @@ public class NoiseThresholdsClient {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), NoiseSensorsNoiseThresholdsCreateResponse.class);
+                        _response.body().string(), NoiseThresholdsCreateResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
@@ -81,12 +80,11 @@ public class NoiseThresholdsClient {
         }
     }
 
-    public NoiseSensorsNoiseThresholdsDeleteResponse delete(NoiseSensorsNoiseThresholdsDeleteRequest request) {
+    public NoiseThresholdsDeleteResponse delete(NoiseThresholdsDeleteRequest request) {
         return delete(request, null);
     }
 
-    public NoiseSensorsNoiseThresholdsDeleteResponse delete(
-            NoiseSensorsNoiseThresholdsDeleteRequest request, RequestOptions requestOptions) {
+    public NoiseThresholdsDeleteResponse delete(NoiseThresholdsDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("noise_sensors/noise_thresholds/delete")
@@ -115,7 +113,7 @@ public class NoiseThresholdsClient {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), NoiseSensorsNoiseThresholdsDeleteResponse.class);
+                        _response.body().string(), NoiseThresholdsDeleteResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
@@ -123,12 +121,11 @@ public class NoiseThresholdsClient {
         }
     }
 
-    public NoiseSensorsNoiseThresholdsGetResponse get(NoiseSensorsNoiseThresholdsGetRequest request) {
+    public NoiseThresholdsGetResponse get(NoiseThresholdsGetRequest request) {
         return get(request, null);
     }
 
-    public NoiseSensorsNoiseThresholdsGetResponse get(
-            NoiseSensorsNoiseThresholdsGetRequest request, RequestOptions requestOptions) {
+    public NoiseThresholdsGetResponse get(NoiseThresholdsGetRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("noise_sensors/noise_thresholds/get")
@@ -152,8 +149,7 @@ public class NoiseThresholdsClient {
         try {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), NoiseSensorsNoiseThresholdsGetResponse.class);
+                return ObjectMappers.JSON_MAPPER.readValue(_response.body().string(), NoiseThresholdsGetResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
@@ -161,12 +157,11 @@ public class NoiseThresholdsClient {
         }
     }
 
-    public NoiseSensorsNoiseThresholdsListResponse list(NoiseSensorsNoiseThresholdsListRequest request) {
+    public NoiseThresholdsListResponse list(NoiseThresholdsListRequest request) {
         return list(request, null);
     }
 
-    public NoiseSensorsNoiseThresholdsListResponse list(
-            NoiseSensorsNoiseThresholdsListRequest request, RequestOptions requestOptions) {
+    public NoiseThresholdsListResponse list(NoiseThresholdsListRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("noise_sensors/noise_thresholds/list")
@@ -191,7 +186,7 @@ public class NoiseThresholdsClient {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), NoiseSensorsNoiseThresholdsListResponse.class);
+                        _response.body().string(), NoiseThresholdsListResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
@@ -199,12 +194,11 @@ public class NoiseThresholdsClient {
         }
     }
 
-    public NoiseSensorsNoiseThresholdsUpdateResponse update(NoiseSensorsNoiseThresholdsUpdateRequest request) {
+    public NoiseThresholdsUpdateResponse update(NoiseThresholdsUpdateRequest request) {
         return update(request, null);
     }
 
-    public NoiseSensorsNoiseThresholdsUpdateResponse update(
-            NoiseSensorsNoiseThresholdsUpdateRequest request, RequestOptions requestOptions) {
+    public NoiseThresholdsUpdateResponse update(NoiseThresholdsUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("noise_sensors/noise_thresholds/update")
@@ -248,7 +242,7 @@ public class NoiseThresholdsClient {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), NoiseSensorsNoiseThresholdsUpdateResponse.class);
+                        _response.body().string(), NoiseThresholdsUpdateResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {

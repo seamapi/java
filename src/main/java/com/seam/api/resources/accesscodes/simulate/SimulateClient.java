@@ -3,8 +3,8 @@ package com.seam.api.resources.accesscodes.simulate;
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
-import com.seam.api.resources.accesscodes.simulate.requests.AccessCodesSimulateCreateUnmanagedAccessCodeRequest;
-import com.seam.api.types.AccessCodesSimulateCreateUnmanagedAccessCodeResponse;
+import com.seam.api.resources.accesscodes.simulate.requests.SimulateCreateUnmanagedAccessCodeRequest;
+import com.seam.api.types.SimulateCreateUnmanagedAccessCodeResponse;
 import java.util.HashMap;
 import java.util.Map;
 import okhttp3.Headers;
@@ -21,13 +21,13 @@ public class SimulateClient {
         this.clientOptions = clientOptions;
     }
 
-    public AccessCodesSimulateCreateUnmanagedAccessCodeResponse createUnmanagedAccessCode(
-            AccessCodesSimulateCreateUnmanagedAccessCodeRequest request) {
+    public SimulateCreateUnmanagedAccessCodeResponse createUnmanagedAccessCode(
+            SimulateCreateUnmanagedAccessCodeRequest request) {
         return createUnmanagedAccessCode(request, null);
     }
 
-    public AccessCodesSimulateCreateUnmanagedAccessCodeResponse createUnmanagedAccessCode(
-            AccessCodesSimulateCreateUnmanagedAccessCodeRequest request, RequestOptions requestOptions) {
+    public SimulateCreateUnmanagedAccessCodeResponse createUnmanagedAccessCode(
+            SimulateCreateUnmanagedAccessCodeRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/simulate/create_unmanaged_access_code")
@@ -54,7 +54,7 @@ public class SimulateClient {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), AccessCodesSimulateCreateUnmanagedAccessCodeResponse.class);
+                        _response.body().string(), SimulateCreateUnmanagedAccessCodeResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {

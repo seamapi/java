@@ -3,8 +3,8 @@ package com.seam.api.resources.health.service;
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
-import com.seam.api.resources.health.service.requests.HealthServiceByServiceNameRequest;
-import com.seam.api.types.HealthServiceByServiceNameResponse;
+import com.seam.api.resources.health.service.requests.ServiceByServiceNameRequest;
+import com.seam.api.types.ServiceByServiceNameResponse;
 import java.util.HashMap;
 import java.util.Map;
 import okhttp3.Headers;
@@ -21,12 +21,12 @@ public class ServiceClient {
         this.clientOptions = clientOptions;
     }
 
-    public HealthServiceByServiceNameResponse byServiceName(HealthServiceByServiceNameRequest request) {
+    public ServiceByServiceNameResponse byServiceName(ServiceByServiceNameRequest request) {
         return byServiceName(request, null);
     }
 
-    public HealthServiceByServiceNameResponse byServiceName(
-            HealthServiceByServiceNameRequest request, RequestOptions requestOptions) {
+    public ServiceByServiceNameResponse byServiceName(
+            ServiceByServiceNameRequest request, RequestOptions requestOptions) {
         HttpUrl _httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("health/service/[service_name]")
@@ -51,7 +51,7 @@ public class ServiceClient {
             Response _response = clientOptions.httpClient().newCall(_request).execute();
             if (_response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        _response.body().string(), HealthServiceByServiceNameResponse.class);
+                        _response.body().string(), ServiceByServiceNameResponse.class);
             }
             throw new RuntimeException();
         } catch (Exception e) {
