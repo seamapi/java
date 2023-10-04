@@ -8,11 +8,13 @@ import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.connectedaccounts.requests.ConnectedAccountsDeleteRequest;
+import com.seam.api.types.ConnectedAccount;
 import com.seam.api.types.ConnectedAccountsDeleteResponse;
 import com.seam.api.types.ConnectedAccountsGetRequest;
 import com.seam.api.types.ConnectedAccountsGetResponse;
 import com.seam.api.types.ConnectedAccountsListResponse;
 import java.io.IOException;
+import java.util.List;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -27,11 +29,11 @@ public class ConnectedAccountsClient {
         this.clientOptions = clientOptions;
     }
 
-    public ConnectedAccountsDeleteResponse delete(ConnectedAccountsDeleteRequest request) {
-        return delete(request, null);
+    public void delete(ConnectedAccountsDeleteRequest request) {
+        delete(request, null);
     }
 
-    public ConnectedAccountsDeleteResponse delete(
+    public void delete(
             ConnectedAccountsDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
@@ -54,8 +56,9 @@ public class ConnectedAccountsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
+                ObjectMappers.JSON_MAPPER.readValue(
                         response.body().string(), ConnectedAccountsDeleteResponse.class);
+                return;
             }
             throw new ApiError(
                     response.code(),
@@ -65,11 +68,11 @@ public class ConnectedAccountsClient {
         }
     }
 
-    public ConnectedAccountsGetResponse get(ConnectedAccountsGetRequest request) {
+    public ConnectedAccount get(ConnectedAccountsGetRequest request) {
         return get(request, null);
     }
 
-    public ConnectedAccountsGetResponse get(ConnectedAccountsGetRequest request, RequestOptions requestOptions) {
+    public ConnectedAccount get(ConnectedAccountsGetRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connected_accounts/get")
@@ -91,8 +94,9 @@ public class ConnectedAccountsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
+                ConnectedAccountsGetResponse parsedResponse =  ObjectMappers.JSON_MAPPER.readValue(
                         response.body().string(), ConnectedAccountsGetResponse.class);
+                return parsedResponse.getConnectedAccount();
             }
             throw new ApiError(
                     response.code(),
@@ -102,11 +106,11 @@ public class ConnectedAccountsClient {
         }
     }
 
-    public ConnectedAccountsListResponse list() {
+    public List<ConnectedAccount> list() {
         return list(null);
     }
 
-    public ConnectedAccountsListResponse list(RequestOptions requestOptions) {
+    public List<ConnectedAccount> list(RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connected_accounts/list")
@@ -121,8 +125,9 @@ public class ConnectedAccountsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
+                ConnectedAccountsListResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
                         response.body().string(), ConnectedAccountsListResponse.class);
+                return parsedResponse.getConnectedAccounts();
             }
             throw new ApiError(
                     response.code(),

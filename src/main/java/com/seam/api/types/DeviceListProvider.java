@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@JsonDeserialize(builder = DevicesListDeviceProvidersResponseDeviceProvidersItem.Builder.class)
-public final class DevicesListDeviceProvidersResponseDeviceProvidersItem {
+@JsonDeserialize(builder = DeviceListProvider.Builder.class)
+public final class DeviceListProvider {
     private final String deviceProviderName;
 
     private final String displayName;
@@ -25,7 +25,7 @@ public final class DevicesListDeviceProvidersResponseDeviceProvidersItem {
 
     private final List<DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem> providerCategories;
 
-    private DevicesListDeviceProvidersResponseDeviceProvidersItem(
+    private DeviceListProvider(
             String deviceProviderName,
             String displayName,
             String imageUrl,
@@ -59,11 +59,11 @@ public final class DevicesListDeviceProvidersResponseDeviceProvidersItem {
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof DevicesListDeviceProvidersResponseDeviceProvidersItem
-                && equalTo((DevicesListDeviceProvidersResponseDeviceProvidersItem) other);
+        return other instanceof DeviceListProvider
+                && equalTo((DeviceListProvider) other);
     }
 
-    private boolean equalTo(DevicesListDeviceProvidersResponseDeviceProvidersItem other) {
+    private boolean equalTo(DeviceListProvider other) {
         return deviceProviderName.equals(other.deviceProviderName)
                 && displayName.equals(other.displayName)
                 && imageUrl.equals(other.imageUrl)
@@ -87,7 +87,7 @@ public final class DevicesListDeviceProvidersResponseDeviceProvidersItem {
     public interface DeviceProviderNameStage {
         DisplayNameStage deviceProviderName(String deviceProviderName);
 
-        Builder from(DevicesListDeviceProvidersResponseDeviceProvidersItem other);
+        Builder from(DeviceListProvider other);
     }
 
     public interface DisplayNameStage {
@@ -99,7 +99,7 @@ public final class DevicesListDeviceProvidersResponseDeviceProvidersItem {
     }
 
     public interface _FinalStage {
-        DevicesListDeviceProvidersResponseDeviceProvidersItem build();
+        DeviceListProvider build();
 
         _FinalStage providerCategories(
                 List<DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem> providerCategories);
@@ -125,7 +125,7 @@ public final class DevicesListDeviceProvidersResponseDeviceProvidersItem {
         private Builder() {}
 
         @Override
-        public Builder from(DevicesListDeviceProvidersResponseDeviceProvidersItem other) {
+        public Builder from(DeviceListProvider other) {
             deviceProviderName(other.getDeviceProviderName());
             displayName(other.getDisplayName());
             imageUrl(other.getImageUrl());
@@ -178,8 +178,8 @@ public final class DevicesListDeviceProvidersResponseDeviceProvidersItem {
         }
 
         @Override
-        public DevicesListDeviceProvidersResponseDeviceProvidersItem build() {
-            return new DevicesListDeviceProvidersResponseDeviceProvidersItem(
+        public DeviceListProvider build() {
+            return new DeviceListProvider(
                     deviceProviderName, displayName, imageUrl, providerCategories);
         }
     }

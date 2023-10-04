@@ -17,18 +17,18 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = DevicesListDeviceProvidersResponse.Builder.class)
 public final class DevicesListDeviceProvidersResponse {
-    private final List<DevicesListDeviceProvidersResponseDeviceProvidersItem> deviceProviders;
+    private final List<DeviceListProvider> deviceProviders;
 
     private final boolean ok;
 
     private DevicesListDeviceProvidersResponse(
-            List<DevicesListDeviceProvidersResponseDeviceProvidersItem> deviceProviders, boolean ok) {
+            List<DeviceListProvider> deviceProviders, boolean ok) {
         this.deviceProviders = deviceProviders;
         this.ok = ok;
     }
 
     @JsonProperty("device_providers")
-    public List<DevicesListDeviceProvidersResponseDeviceProvidersItem> getDeviceProviders() {
+    public List<DeviceListProvider> getDeviceProviders() {
         return deviceProviders;
     }
 
@@ -71,18 +71,18 @@ public final class DevicesListDeviceProvidersResponse {
     public interface _FinalStage {
         DevicesListDeviceProvidersResponse build();
 
-        _FinalStage deviceProviders(List<DevicesListDeviceProvidersResponseDeviceProvidersItem> deviceProviders);
+        _FinalStage deviceProviders(List<DeviceListProvider> deviceProviders);
 
-        _FinalStage addDeviceProviders(DevicesListDeviceProvidersResponseDeviceProvidersItem deviceProviders);
+        _FinalStage addDeviceProviders(DeviceListProvider deviceProviders);
 
-        _FinalStage addAllDeviceProviders(List<DevicesListDeviceProvidersResponseDeviceProvidersItem> deviceProviders);
+        _FinalStage addAllDeviceProviders(List<DeviceListProvider> deviceProviders);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements OkStage, _FinalStage {
         private boolean ok;
 
-        private List<DevicesListDeviceProvidersResponseDeviceProvidersItem> deviceProviders = new ArrayList<>();
+        private List<DeviceListProvider> deviceProviders = new ArrayList<>();
 
         private Builder() {}
 
@@ -102,13 +102,13 @@ public final class DevicesListDeviceProvidersResponse {
 
         @Override
         public _FinalStage addAllDeviceProviders(
-                List<DevicesListDeviceProvidersResponseDeviceProvidersItem> deviceProviders) {
+                List<DeviceListProvider> deviceProviders) {
             this.deviceProviders.addAll(deviceProviders);
             return this;
         }
 
         @Override
-        public _FinalStage addDeviceProviders(DevicesListDeviceProvidersResponseDeviceProvidersItem deviceProviders) {
+        public _FinalStage addDeviceProviders(DeviceListProvider deviceProviders) {
             this.deviceProviders.add(deviceProviders);
             return this;
         }
@@ -116,7 +116,7 @@ public final class DevicesListDeviceProvidersResponse {
         @Override
         @JsonSetter(value = "device_providers", nulls = Nulls.SKIP)
         public _FinalStage deviceProviders(
-                List<DevicesListDeviceProvidersResponseDeviceProvidersItem> deviceProviders) {
+                List<DeviceListProvider> deviceProviders) {
             this.deviceProviders.clear();
             this.deviceProviders.addAll(deviceProviders);
             return this;

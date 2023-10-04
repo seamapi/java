@@ -9,9 +9,11 @@ import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.actionattempts.requests.ActionAttemptsGetRequest;
 import com.seam.api.resources.actionattempts.requests.ActionAttemptsListRequest;
+import com.seam.api.types.ActionAttempt;
 import com.seam.api.types.ActionAttemptsGetResponse;
 import com.seam.api.types.ActionAttemptsListResponse;
 import java.io.IOException;
+import java.util.List;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -26,11 +28,11 @@ public class ActionAttemptsClient {
         this.clientOptions = clientOptions;
     }
 
-    public ActionAttemptsGetResponse get(ActionAttemptsGetRequest request) {
+    public ActionAttempt get(ActionAttemptsGetRequest request) {
         return get(request, null);
     }
 
-    public ActionAttemptsGetResponse get(ActionAttemptsGetRequest request, RequestOptions requestOptions) {
+    public ActionAttempt get(ActionAttemptsGetRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("action_attempts/get")
@@ -52,7 +54,9 @@ public class ActionAttemptsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ActionAttemptsGetResponse.class);
+                ActionAttemptsGetResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
+                        response.body().string(), ActionAttemptsGetResponse.class);
+                return parsedResponse.getActionAttempt();
             }
             throw new ApiError(
                     response.code(),
@@ -62,11 +66,11 @@ public class ActionAttemptsClient {
         }
     }
 
-    public ActionAttemptsListResponse list(ActionAttemptsListRequest request) {
+    public List<ActionAttempt> list(ActionAttemptsListRequest request) {
         return list(request, null);
     }
 
-    public ActionAttemptsListResponse list(ActionAttemptsListRequest request, RequestOptions requestOptions) {
+    public List<ActionAttempt> list(ActionAttemptsListRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("action_attempts/list")
@@ -88,7 +92,9 @@ public class ActionAttemptsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ActionAttemptsListResponse.class);
+                ActionAttemptsListResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ActionAttemptsListResponse.class);
+                return parsedResponse.getActionAttempts();
             }
             throw new ApiError(
                     response.code(),

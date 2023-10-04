@@ -13,11 +13,13 @@ import com.seam.api.resources.thermostats.requests.ThermostatsGetRequest;
 import com.seam.api.resources.thermostats.requests.ThermostatsHeatRequest;
 import com.seam.api.resources.thermostats.requests.ThermostatsListRequest;
 import com.seam.api.resources.thermostats.requests.ThermostatsUpdateRequest;
+import com.seam.api.types.Device;
 import com.seam.api.types.ThermostatsGetResponse;
 import com.seam.api.types.ThermostatsHeatResponse;
 import com.seam.api.types.ThermostatsListResponse;
 import com.seam.api.types.ThermostatsUpdateResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.function.Supplier;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
@@ -36,11 +38,11 @@ public class ThermostatsClient {
         this.climateSettingSchedulesClient = Suppliers.memoize(() -> new ClimateSettingSchedulesClient(clientOptions));
     }
 
-    public ThermostatsGetResponse get(ThermostatsGetRequest request) {
+    public Device get(ThermostatsGetRequest request) {
         return get(request, null);
     }
 
-    public ThermostatsGetResponse get(ThermostatsGetRequest request, RequestOptions requestOptions) {
+    public Device get(ThermostatsGetRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("thermostats/get")
@@ -62,7 +64,9 @@ public class ThermostatsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ThermostatsGetResponse.class);
+                ThermostatsGetResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ThermostatsGetResponse.class);
+                return parsedResponse.getThermostat();
             }
             throw new ApiError(
                     response.code(),
@@ -72,15 +76,15 @@ public class ThermostatsClient {
         }
     }
 
-    public ThermostatsGetResponse get() {
+    public Device get() {
         return get(ThermostatsGetRequest.builder().build());
     }
 
-    public ThermostatsHeatResponse heat(ThermostatsHeatRequest request) {
-        return heat(request, null);
+    public void heat(ThermostatsHeatRequest request) {
+        heat(request, null);
     }
 
-    public ThermostatsHeatResponse heat(ThermostatsHeatRequest request, RequestOptions requestOptions) {
+    public void heat(ThermostatsHeatRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("thermostats/heat")
@@ -102,7 +106,8 @@ public class ThermostatsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ThermostatsHeatResponse.class);
+                ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ThermostatsHeatResponse.class);
+                return;
             }
             throw new ApiError(
                     response.code(),
@@ -112,11 +117,11 @@ public class ThermostatsClient {
         }
     }
 
-    public ThermostatsListResponse list(ThermostatsListRequest request) {
+    public List<Device> list(ThermostatsListRequest request) {
         return list(request, null);
     }
 
-    public ThermostatsListResponse list(ThermostatsListRequest request, RequestOptions requestOptions) {
+    public List<Device> list(ThermostatsListRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("thermostats/list")
@@ -138,7 +143,9 @@ public class ThermostatsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ThermostatsListResponse.class);
+                ThermostatsListResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ThermostatsListResponse.class);
+                return parsedResponse.getThermostats();
             }
             throw new ApiError(
                     response.code(),
@@ -148,15 +155,15 @@ public class ThermostatsClient {
         }
     }
 
-    public ThermostatsListResponse list() {
+    public List<Device> list() {
         return list(ThermostatsListRequest.builder().build());
     }
 
-    public ThermostatsUpdateResponse update(ThermostatsUpdateRequest request) {
-        return update(request, null);
+    public void update(ThermostatsUpdateRequest request) {
+        update(request, null);
     }
 
-    public ThermostatsUpdateResponse update(ThermostatsUpdateRequest request, RequestOptions requestOptions) {
+    public void update(ThermostatsUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("thermostats/update")
@@ -178,7 +185,8 @@ public class ThermostatsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ThermostatsUpdateResponse.class);
+                ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ThermostatsUpdateResponse.class);
+                return;
             }
             throw new ApiError(
                     response.code(),
