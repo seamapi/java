@@ -3,91 +3,24 @@
  */
 package com.seam.api.types;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class ServiceHealthStatus {
-    public static final ServiceHealthStatus DEGRADED = new ServiceHealthStatus(Value.DEGRADED, "degraded");
+public enum ServiceHealthStatus {
+    HEALTHY("healthy"),
 
-    public static final ServiceHealthStatus HEALTHY = new ServiceHealthStatus(Value.HEALTHY, "healthy");
+    DEGRADED("degraded"),
 
-    public static final ServiceHealthStatus DOWN = new ServiceHealthStatus(Value.DOWN, "down");
+    DOWN("down");
 
-    private final Value value;
+    private final String value;
 
-    private final String string;
-
-    ServiceHealthStatus(Value value, String string) {
+    ServiceHealthStatus(String value) {
         this.value = value;
-        this.string = string;
     }
 
-    public Value getEnumValue() {
-        return value;
-    }
-
-    @Override
     @JsonValue
+    @Override
     public String toString() {
-        return this.string;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return (this == other)
-                || (other instanceof ServiceHealthStatus && this.string.equals(((ServiceHealthStatus) other).string));
-    }
-
-    @Override
-    public int hashCode() {
-        return this.string.hashCode();
-    }
-
-    public <T> T visit(Visitor<T> visitor) {
-        switch (value) {
-            case DEGRADED:
-                return visitor.visitDegraded();
-            case HEALTHY:
-                return visitor.visitHealthy();
-            case DOWN:
-                return visitor.visitDown();
-            case UNKNOWN:
-            default:
-                return visitor.visitUnknown(string);
-        }
-    }
-
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static ServiceHealthStatus valueOf(String value) {
-        switch (value) {
-            case "degraded":
-                return DEGRADED;
-            case "healthy":
-                return HEALTHY;
-            case "down":
-                return DOWN;
-            default:
-                return new ServiceHealthStatus(Value.UNKNOWN, value);
-        }
-    }
-
-    public enum Value {
-        HEALTHY,
-
-        DEGRADED,
-
-        DOWN,
-
-        UNKNOWN
-    }
-
-    public interface Visitor<T> {
-        T visitHealthy();
-
-        T visitDegraded();
-
-        T visitDown();
-
-        T visitUnknown(String unknownType);
+        return this.value;
     }
 }

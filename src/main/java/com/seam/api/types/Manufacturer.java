@@ -3,318 +3,70 @@
  */
 package com.seam.api.types;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class Manufacturer {
-    public static final Manufacturer SEAM = new Manufacturer(Value.SEAM, "seam");
+public enum Manufacturer {
+    AKUVOX("akuvox"),
 
-    public static final Manufacturer NUKI = new Manufacturer(Value.NUKI, "nuki");
+    AUGUST("august"),
 
-    public static final Manufacturer HUBITAT = new Manufacturer(Value.HUBITAT, "hubitat");
+    BRIVO("brivo"),
 
-    public static final Manufacturer KEYWE = new Manufacturer(Value.KEYWE, "keywe");
+    BUTTERFLYMX("butterflymx"),
 
-    public static final Manufacturer PHILIA = new Manufacturer(Value.PHILIA, "philia");
+    DOORKING("doorking"),
 
-    public static final Manufacturer AUGUST = new Manufacturer(Value.AUGUST, "august");
+    GENIE("genie"),
 
-    public static final Manufacturer YALE = new Manufacturer(Value.YALE, "yale");
+    IGLOO("igloo"),
 
-    public static final Manufacturer BUTTERFLYMX = new Manufacturer(Value.BUTTERFLYMX, "butterflymx");
+    KEYWE("keywe"),
 
-    public static final Manufacturer ECOBEE = new Manufacturer(Value.ECOBEE, "ecobee");
+    KWIKSET("kwikset"),
 
-    public static final Manufacturer IGLOO = new Manufacturer(Value.IGLOO, "igloo");
+    LINEAR("linear"),
 
-    public static final Manufacturer KWIKSET = new Manufacturer(Value.KWIKSET, "kwikset");
+    LOCKLY("lockly"),
 
-    public static final Manufacturer LOCKLY = new Manufacturer(Value.LOCKLY, "lockly");
+    NUKI("nuki"),
 
-    public static final Manufacturer LINEAR = new Manufacturer(Value.LINEAR, "linear");
+    PHILIA("philia"),
 
-    public static final Manufacturer NEST = new Manufacturer(Value.NEST, "nest");
+    SALTO("salto"),
 
-    public static final Manufacturer SCHLAGE = new Manufacturer(Value.SCHLAGE, "schlage");
+    SAMSUNG("samsung"),
 
-    public static final Manufacturer AKUVOX = new Manufacturer(Value.AKUVOX, "akuvox");
+    SCHLAGE("schlage"),
 
-    public static final Manufacturer TWO_N = new Manufacturer(Value.TWO_N, "two_n");
+    SEAM("seam"),
 
-    public static final Manufacturer BRIVO = new Manufacturer(Value.BRIVO, "brivo");
+    UNKNOWN("unknown"),
 
-    public static final Manufacturer SALTO = new Manufacturer(Value.SALTO, "salto");
+    YALE("yale"),
 
-    public static final Manufacturer MINUT = new Manufacturer(Value.MINUT, "minut");
+    MINUT("minut"),
 
-    public static final Manufacturer TTLOCK = new Manufacturer(Value.TTLOCK, "ttlock");
+    TWO_N("two_n"),
 
-    public static final Manufacturer DOORKING = new Manufacturer(Value.DOORKING, "doorking");
+    TTLOCK("ttlock"),
 
-    public static final Manufacturer SAMSUNG = new Manufacturer(Value.SAMSUNG, "samsung");
+    NEST("nest"),
 
-    public static final Manufacturer UNKNOWN = new Manufacturer(Value.UNKNOWN, "unknown");
+    IGLOOHOME("igloohome"),
 
-    public static final Manufacturer IGLOOHOME = new Manufacturer(Value.IGLOOHOME, "igloohome");
+    ECOBEE("ecobee"),
 
-    public static final Manufacturer GENIE = new Manufacturer(Value.GENIE, "genie");
+    HUBITAT("hubitat");
 
-    private final Value value;
+    private final String value;
 
-    private final String string;
-
-    Manufacturer(Value value, String string) {
+    Manufacturer(String value) {
         this.value = value;
-        this.string = string;
     }
 
-    public Value getEnumValue() {
-        return value;
-    }
-
-    @Override
     @JsonValue
+    @Override
     public String toString() {
-        return this.string;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return (this == other) || (other instanceof Manufacturer && this.string.equals(((Manufacturer) other).string));
-    }
-
-    @Override
-    public int hashCode() {
-        return this.string.hashCode();
-    }
-
-    public <T> T visit(Visitor<T> visitor) {
-        switch (value) {
-            case SEAM:
-                return visitor.visitSeam();
-            case NUKI:
-                return visitor.visitNuki();
-            case HUBITAT:
-                return visitor.visitHubitat();
-            case KEYWE:
-                return visitor.visitKeywe();
-            case PHILIA:
-                return visitor.visitPhilia();
-            case AUGUST:
-                return visitor.visitAugust();
-            case YALE:
-                return visitor.visitYale();
-            case BUTTERFLYMX:
-                return visitor.visitButterflymx();
-            case ECOBEE:
-                return visitor.visitEcobee();
-            case IGLOO:
-                return visitor.visitIgloo();
-            case KWIKSET:
-                return visitor.visitKwikset();
-            case LOCKLY:
-                return visitor.visitLockly();
-            case LINEAR:
-                return visitor.visitLinear();
-            case NEST:
-                return visitor.visitNest();
-            case SCHLAGE:
-                return visitor.visitSchlage();
-            case AKUVOX:
-                return visitor.visitAkuvox();
-            case TWO_N:
-                return visitor.visitTwoN();
-            case BRIVO:
-                return visitor.visitBrivo();
-            case SALTO:
-                return visitor.visitSalto();
-            case MINUT:
-                return visitor.visitMinut();
-            case TTLOCK:
-                return visitor.visitTtlock();
-            case DOORKING:
-                return visitor.visitDoorking();
-            case SAMSUNG:
-                return visitor.visitSamsung();
-            case UNKNOWN:
-                return visitor.visitUnknown();
-            case IGLOOHOME:
-                return visitor.visitIgloohome();
-            case GENIE:
-                return visitor.visitGenie();
-            case UNKNOWN:
-            default:
-                return visitor.visitUnknown(string);
-        }
-    }
-
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static Manufacturer valueOf(String value) {
-        switch (value) {
-            case "seam":
-                return SEAM;
-            case "nuki":
-                return NUKI;
-            case "hubitat":
-                return HUBITAT;
-            case "keywe":
-                return KEYWE;
-            case "philia":
-                return PHILIA;
-            case "august":
-                return AUGUST;
-            case "yale":
-                return YALE;
-            case "butterflymx":
-                return BUTTERFLYMX;
-            case "ecobee":
-                return ECOBEE;
-            case "igloo":
-                return IGLOO;
-            case "kwikset":
-                return KWIKSET;
-            case "lockly":
-                return LOCKLY;
-            case "linear":
-                return LINEAR;
-            case "nest":
-                return NEST;
-            case "schlage":
-                return SCHLAGE;
-            case "akuvox":
-                return AKUVOX;
-            case "two_n":
-                return TWO_N;
-            case "brivo":
-                return BRIVO;
-            case "salto":
-                return SALTO;
-            case "minut":
-                return MINUT;
-            case "ttlock":
-                return TTLOCK;
-            case "doorking":
-                return DOORKING;
-            case "samsung":
-                return SAMSUNG;
-            case "unknown":
-                return UNKNOWN;
-            case "igloohome":
-                return IGLOOHOME;
-            case "genie":
-                return GENIE;
-            default:
-                return new Manufacturer(Value.UNKNOWN, value);
-        }
-    }
-
-    public enum Value {
-        AKUVOX,
-
-        AUGUST,
-
-        BRIVO,
-
-        BUTTERFLYMX,
-
-        DOORKING,
-
-        GENIE,
-
-        IGLOO,
-
-        KEYWE,
-
-        KWIKSET,
-
-        LINEAR,
-
-        LOCKLY,
-
-        NUKI,
-
-        PHILIA,
-
-        SALTO,
-
-        SAMSUNG,
-
-        SCHLAGE,
-
-        SEAM,
-
-        UNKNOWN,
-
-        YALE,
-
-        MINUT,
-
-        TWO_N,
-
-        TTLOCK,
-
-        NEST,
-
-        IGLOOHOME,
-
-        ECOBEE,
-
-        HUBITAT
-    }
-
-    public interface Visitor<T> {
-        T visitAkuvox();
-
-        T visitAugust();
-
-        T visitBrivo();
-
-        T visitButterflymx();
-
-        T visitDoorking();
-
-        T visitGenie();
-
-        T visitIgloo();
-
-        T visitKeywe();
-
-        T visitKwikset();
-
-        T visitLinear();
-
-        T visitLockly();
-
-        T visitNuki();
-
-        T visitPhilia();
-
-        T visitSalto();
-
-        T visitSamsung();
-
-        T visitSchlage();
-
-        T visitSeam();
-
-        T visitUnknown();
-
-        T visitYale();
-
-        T visitMinut();
-
-        T visitTwoN();
-
-        T visitTtlock();
-
-        T visitNest();
-
-        T visitIgloohome();
-
-        T visitEcobee();
-
-        T visitHubitat();
-
-        T visitUnknown(String unknownType);
+        return this.value;
     }
 }

@@ -3,91 +3,24 @@
  */
 package com.seam.api.types;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class ConnectWebviewStatus {
-    public static final ConnectWebviewStatus FAILED = new ConnectWebviewStatus(Value.FAILED, "failed");
+public enum ConnectWebviewStatus {
+    PENDING("pending"),
 
-    public static final ConnectWebviewStatus PENDING = new ConnectWebviewStatus(Value.PENDING, "pending");
+    FAILED("failed"),
 
-    public static final ConnectWebviewStatus AUTHORIZED = new ConnectWebviewStatus(Value.AUTHORIZED, "authorized");
+    AUTHORIZED("authorized");
 
-    private final Value value;
+    private final String value;
 
-    private final String string;
-
-    ConnectWebviewStatus(Value value, String string) {
+    ConnectWebviewStatus(String value) {
         this.value = value;
-        this.string = string;
     }
 
-    public Value getEnumValue() {
-        return value;
-    }
-
-    @Override
     @JsonValue
+    @Override
     public String toString() {
-        return this.string;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return (this == other)
-                || (other instanceof ConnectWebviewStatus && this.string.equals(((ConnectWebviewStatus) other).string));
-    }
-
-    @Override
-    public int hashCode() {
-        return this.string.hashCode();
-    }
-
-    public <T> T visit(Visitor<T> visitor) {
-        switch (value) {
-            case FAILED:
-                return visitor.visitFailed();
-            case PENDING:
-                return visitor.visitPending();
-            case AUTHORIZED:
-                return visitor.visitAuthorized();
-            case UNKNOWN:
-            default:
-                return visitor.visitUnknown(string);
-        }
-    }
-
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static ConnectWebviewStatus valueOf(String value) {
-        switch (value) {
-            case "failed":
-                return FAILED;
-            case "pending":
-                return PENDING;
-            case "authorized":
-                return AUTHORIZED;
-            default:
-                return new ConnectWebviewStatus(Value.UNKNOWN, value);
-        }
-    }
-
-    public enum Value {
-        PENDING,
-
-        FAILED,
-
-        AUTHORIZED,
-
-        UNKNOWN
-    }
-
-    public interface Visitor<T> {
-        T visitPending();
-
-        T visitFailed();
-
-        T visitAuthorized();
-
-        T visitUnknown(String unknownType);
+        return this.value;
     }
 }

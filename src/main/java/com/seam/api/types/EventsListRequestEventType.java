@@ -3,424 +3,82 @@
  */
 package com.seam.api.types;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class EventsListRequestEventType {
-    public static final EventsListRequestEventType ACCESS_CODE_UNMANAGED_FAILED_TO_CONVERT_TO_MANAGED =
-            new EventsListRequestEventType(
-                    Value.ACCESS_CODE_UNMANAGED_FAILED_TO_CONVERT_TO_MANAGED,
-                    "access_code.unmanaged.failed_to_convert_to_managed");
+public enum EventsListRequestEventType {
+    DEVICE_CONNECTED("device.connected"),
 
-    public static final EventsListRequestEventType CONNECTED_ACCOUNT_COMPLETED_FIRST_SYNC =
-            new EventsListRequestEventType(
-                    Value.CONNECTED_ACCOUNT_COMPLETED_FIRST_SYNC, "connected_account.completed_first_sync");
+    DEVICE_UNMANAGED_CONNECTED("device.unmanaged.connected"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_SET_ON_DEVICE =
-            new EventsListRequestEventType(Value.ACCESS_CODE_SET_ON_DEVICE, "access_code.set_on_device");
+    DEVICE_DISCONNECTED("device.disconnected"),
 
-    public static final EventsListRequestEventType NOISE_SENSOR_NOISE_THRESHOLD_TRIGGERED =
-            new EventsListRequestEventType(
-                    Value.NOISE_SENSOR_NOISE_THRESHOLD_TRIGGERED, "noise_sensor.noise_threshold_triggered");
+    DEVICE_UNMANAGED_DISCONNECTED("device.unmanaged.disconnected"),
 
-    public static final EventsListRequestEventType DEVICE_UNMANAGED_CONNECTED =
-            new EventsListRequestEventType(Value.DEVICE_UNMANAGED_CONNECTED, "device.unmanaged.connected");
+    DEVICE_CONVERTED_TO_UNMANAGED("device.converted_to_unmanaged"),
 
-    public static final EventsListRequestEventType CONNECTED_ACCOUNT_CONNECTED =
-            new EventsListRequestEventType(Value.CONNECTED_ACCOUNT_CONNECTED, "connected_account.connected");
+    DEVICE_UNMANAGED_CONVERTED_TO_MANAGED("device.unmanaged.converted_to_managed"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_BACKUP_ACCESS_CODE_PULLED =
-            new EventsListRequestEventType(
-                    Value.ACCESS_CODE_BACKUP_ACCESS_CODE_PULLED, "access_code.backup_access_code_pulled");
+    DEVICE_REMOVED("device.removed"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_DELETED =
-            new EventsListRequestEventType(Value.ACCESS_CODE_DELETED, "access_code.deleted");
+    DEVICE_TAMPERED("device.tampered"),
 
-    public static final EventsListRequestEventType CONNECTED_ACCOUNT_DISCONNECTED =
-            new EventsListRequestEventType(Value.CONNECTED_ACCOUNT_DISCONNECTED, "connected_account.disconnected");
+    DEVICE_LOW_BATTERY("device.low_battery"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_FAILED_TO_REMOVE_FROM_DEVICE =
-            new EventsListRequestEventType(
-                    Value.ACCESS_CODE_FAILED_TO_REMOVE_FROM_DEVICE, "access_code.failed_to_remove_from_device");
+    DEVICE_BATTERY_STATUS_CHANGED("device.battery_status_changed"),
 
-    public static final EventsListRequestEventType DEVICE_UNMANAGED_CONVERTED_TO_MANAGED =
-            new EventsListRequestEventType(
-                    Value.DEVICE_UNMANAGED_CONVERTED_TO_MANAGED, "device.unmanaged.converted_to_managed");
+    ACCESS_CODE_CREATED("access_code.created"),
 
-    public static final EventsListRequestEventType DEVICE_CONNECTED =
-            new EventsListRequestEventType(Value.DEVICE_CONNECTED, "device.connected");
+    ACCESS_CODE_CHANGED("access_code.changed"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_UNMANAGED_REMOVED =
-            new EventsListRequestEventType(Value.ACCESS_CODE_UNMANAGED_REMOVED, "access_code.unmanaged.removed");
+    ACCESS_CODE_SCHEDULED_ON_DEVICE("access_code.scheduled_on_device"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_CREATED =
-            new EventsListRequestEventType(Value.ACCESS_CODE_CREATED, "access_code.created");
+    ACCESS_CODE_SET_ON_DEVICE("access_code.set_on_device"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_CHANGED =
-            new EventsListRequestEventType(Value.ACCESS_CODE_CHANGED, "access_code.changed");
+    ACCESS_CODE_DELETED("access_code.deleted"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_FAILED_TO_SET_ON_DEVICE = new EventsListRequestEventType(
-            Value.ACCESS_CODE_FAILED_TO_SET_ON_DEVICE, "access_code.failed_to_set_on_device");
+    ACCESS_CODE_REMOVED_FROM_DEVICE("access_code.removed_from_device"),
 
-    public static final EventsListRequestEventType DEVICE_CONVERTED_TO_UNMANAGED =
-            new EventsListRequestEventType(Value.DEVICE_CONVERTED_TO_UNMANAGED, "device.converted_to_unmanaged");
+    ACCESS_CODE_FAILED_TO_SET_ON_DEVICE("access_code.failed_to_set_on_device"),
 
-    public static final EventsListRequestEventType DEVICE_BATTERY_STATUS_CHANGED =
-            new EventsListRequestEventType(Value.DEVICE_BATTERY_STATUS_CHANGED, "device.battery_status_changed");
+    ACCESS_CODE_DELAY_IN_SETTING_ON_DEVICE("access_code.delay_in_setting_on_device"),
 
-    public static final EventsListRequestEventType DEVICE_TAMPERED =
-            new EventsListRequestEventType(Value.DEVICE_TAMPERED, "device.tampered");
+    ACCESS_CODE_FAILED_TO_REMOVE_FROM_DEVICE("access_code.failed_to_remove_from_device"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_DELAY_IN_SETTING_ON_DEVICE =
-            new EventsListRequestEventType(
-                    Value.ACCESS_CODE_DELAY_IN_SETTING_ON_DEVICE, "access_code.delay_in_setting_on_device");
+    ACCESS_CODE_DELAY_IN_REMOVING_FROM_DEVICE("access_code.delay_in_removing_from_device"),
 
-    public static final EventsListRequestEventType DEVICE_DISCONNECTED =
-            new EventsListRequestEventType(Value.DEVICE_DISCONNECTED, "device.disconnected");
+    ACCESS_CODE_UNMANAGED_CONVERTED_TO_MANAGED("access_code.unmanaged.converted_to_managed"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_SCHEDULED_ON_DEVICE =
-            new EventsListRequestEventType(Value.ACCESS_CODE_SCHEDULED_ON_DEVICE, "access_code.scheduled_on_device");
+    ACCESS_CODE_UNMANAGED_FAILED_TO_CONVERT_TO_MANAGED("access_code.unmanaged.failed_to_convert_to_managed"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_UNMANAGED_CONVERTED_TO_MANAGED =
-            new EventsListRequestEventType(
-                    Value.ACCESS_CODE_UNMANAGED_CONVERTED_TO_MANAGED, "access_code.unmanaged.converted_to_managed");
+    ACCESS_CODE_UNMANAGED_CREATED("access_code.unmanaged.created"),
 
-    public static final EventsListRequestEventType LOCK_LOCKED =
-            new EventsListRequestEventType(Value.LOCK_LOCKED, "lock.locked");
+    ACCESS_CODE_UNMANAGED_REMOVED("access_code.unmanaged.removed"),
 
-    public static final EventsListRequestEventType LOCK_UNLOCKED =
-            new EventsListRequestEventType(Value.LOCK_UNLOCKED, "lock.unlocked");
+    LOCK_LOCKED("lock.locked"),
 
-    public static final EventsListRequestEventType CONNECTED_ACCOUNT_CREATED =
-            new EventsListRequestEventType(Value.CONNECTED_ACCOUNT_CREATED, "connected_account.created");
+    LOCK_UNLOCKED("lock.unlocked"),
 
-    public static final EventsListRequestEventType DEVICE_REMOVED =
-            new EventsListRequestEventType(Value.DEVICE_REMOVED, "device.removed");
+    CONNECTED_ACCOUNT_CONNECTED("connected_account.connected"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_DELAY_IN_REMOVING_FROM_DEVICE =
-            new EventsListRequestEventType(
-                    Value.ACCESS_CODE_DELAY_IN_REMOVING_FROM_DEVICE, "access_code.delay_in_removing_from_device");
+    CONNECTED_ACCOUNT_CREATED("connected_account.created"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_UNMANAGED_CREATED =
-            new EventsListRequestEventType(Value.ACCESS_CODE_UNMANAGED_CREATED, "access_code.unmanaged.created");
+    CONNECTED_ACCOUNT_DISCONNECTED("connected_account.disconnected"),
 
-    public static final EventsListRequestEventType ACCESS_CODE_REMOVED_FROM_DEVICE =
-            new EventsListRequestEventType(Value.ACCESS_CODE_REMOVED_FROM_DEVICE, "access_code.removed_from_device");
+    CONNECTED_ACCOUNT_COMPLETED_FIRST_SYNC("connected_account.completed_first_sync"),
 
-    public static final EventsListRequestEventType DEVICE_LOW_BATTERY =
-            new EventsListRequestEventType(Value.DEVICE_LOW_BATTERY, "device.low_battery");
+    NOISE_SENSOR_NOISE_THRESHOLD_TRIGGERED("noise_sensor.noise_threshold_triggered"),
 
-    public static final EventsListRequestEventType DEVICE_UNMANAGED_DISCONNECTED =
-            new EventsListRequestEventType(Value.DEVICE_UNMANAGED_DISCONNECTED, "device.unmanaged.disconnected");
+    ACCESS_CODE_BACKUP_ACCESS_CODE_PULLED("access_code.backup_access_code_pulled");
 
-    private final Value value;
+    private final String value;
 
-    private final String string;
-
-    EventsListRequestEventType(Value value, String string) {
+    EventsListRequestEventType(String value) {
         this.value = value;
-        this.string = string;
     }
 
-    public Value getEnumValue() {
-        return value;
-    }
-
-    @Override
     @JsonValue
+    @Override
     public String toString() {
-        return this.string;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return (this == other)
-                || (other instanceof EventsListRequestEventType
-                        && this.string.equals(((EventsListRequestEventType) other).string));
-    }
-
-    @Override
-    public int hashCode() {
-        return this.string.hashCode();
-    }
-
-    public <T> T visit(Visitor<T> visitor) {
-        switch (value) {
-            case ACCESS_CODE_UNMANAGED_FAILED_TO_CONVERT_TO_MANAGED:
-                return visitor.visitAccessCodeUnmanagedFailedToConvertToManaged();
-            case CONNECTED_ACCOUNT_COMPLETED_FIRST_SYNC:
-                return visitor.visitConnectedAccountCompletedFirstSync();
-            case ACCESS_CODE_SET_ON_DEVICE:
-                return visitor.visitAccessCodeSetOnDevice();
-            case NOISE_SENSOR_NOISE_THRESHOLD_TRIGGERED:
-                return visitor.visitNoiseSensorNoiseThresholdTriggered();
-            case DEVICE_UNMANAGED_CONNECTED:
-                return visitor.visitDeviceUnmanagedConnected();
-            case CONNECTED_ACCOUNT_CONNECTED:
-                return visitor.visitConnectedAccountConnected();
-            case ACCESS_CODE_BACKUP_ACCESS_CODE_PULLED:
-                return visitor.visitAccessCodeBackupAccessCodePulled();
-            case ACCESS_CODE_DELETED:
-                return visitor.visitAccessCodeDeleted();
-            case CONNECTED_ACCOUNT_DISCONNECTED:
-                return visitor.visitConnectedAccountDisconnected();
-            case ACCESS_CODE_FAILED_TO_REMOVE_FROM_DEVICE:
-                return visitor.visitAccessCodeFailedToRemoveFromDevice();
-            case DEVICE_UNMANAGED_CONVERTED_TO_MANAGED:
-                return visitor.visitDeviceUnmanagedConvertedToManaged();
-            case DEVICE_CONNECTED:
-                return visitor.visitDeviceConnected();
-            case ACCESS_CODE_UNMANAGED_REMOVED:
-                return visitor.visitAccessCodeUnmanagedRemoved();
-            case ACCESS_CODE_CREATED:
-                return visitor.visitAccessCodeCreated();
-            case ACCESS_CODE_CHANGED:
-                return visitor.visitAccessCodeChanged();
-            case ACCESS_CODE_FAILED_TO_SET_ON_DEVICE:
-                return visitor.visitAccessCodeFailedToSetOnDevice();
-            case DEVICE_CONVERTED_TO_UNMANAGED:
-                return visitor.visitDeviceConvertedToUnmanaged();
-            case DEVICE_BATTERY_STATUS_CHANGED:
-                return visitor.visitDeviceBatteryStatusChanged();
-            case DEVICE_TAMPERED:
-                return visitor.visitDeviceTampered();
-            case ACCESS_CODE_DELAY_IN_SETTING_ON_DEVICE:
-                return visitor.visitAccessCodeDelayInSettingOnDevice();
-            case DEVICE_DISCONNECTED:
-                return visitor.visitDeviceDisconnected();
-            case ACCESS_CODE_SCHEDULED_ON_DEVICE:
-                return visitor.visitAccessCodeScheduledOnDevice();
-            case ACCESS_CODE_UNMANAGED_CONVERTED_TO_MANAGED:
-                return visitor.visitAccessCodeUnmanagedConvertedToManaged();
-            case LOCK_LOCKED:
-                return visitor.visitLockLocked();
-            case LOCK_UNLOCKED:
-                return visitor.visitLockUnlocked();
-            case CONNECTED_ACCOUNT_CREATED:
-                return visitor.visitConnectedAccountCreated();
-            case DEVICE_REMOVED:
-                return visitor.visitDeviceRemoved();
-            case ACCESS_CODE_DELAY_IN_REMOVING_FROM_DEVICE:
-                return visitor.visitAccessCodeDelayInRemovingFromDevice();
-            case ACCESS_CODE_UNMANAGED_CREATED:
-                return visitor.visitAccessCodeUnmanagedCreated();
-            case ACCESS_CODE_REMOVED_FROM_DEVICE:
-                return visitor.visitAccessCodeRemovedFromDevice();
-            case DEVICE_LOW_BATTERY:
-                return visitor.visitDeviceLowBattery();
-            case DEVICE_UNMANAGED_DISCONNECTED:
-                return visitor.visitDeviceUnmanagedDisconnected();
-            case UNKNOWN:
-            default:
-                return visitor.visitUnknown(string);
-        }
-    }
-
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static EventsListRequestEventType valueOf(String value) {
-        switch (value) {
-            case "access_code.unmanaged.failed_to_convert_to_managed":
-                return ACCESS_CODE_UNMANAGED_FAILED_TO_CONVERT_TO_MANAGED;
-            case "connected_account.completed_first_sync":
-                return CONNECTED_ACCOUNT_COMPLETED_FIRST_SYNC;
-            case "access_code.set_on_device":
-                return ACCESS_CODE_SET_ON_DEVICE;
-            case "noise_sensor.noise_threshold_triggered":
-                return NOISE_SENSOR_NOISE_THRESHOLD_TRIGGERED;
-            case "device.unmanaged.connected":
-                return DEVICE_UNMANAGED_CONNECTED;
-            case "connected_account.connected":
-                return CONNECTED_ACCOUNT_CONNECTED;
-            case "access_code.backup_access_code_pulled":
-                return ACCESS_CODE_BACKUP_ACCESS_CODE_PULLED;
-            case "access_code.deleted":
-                return ACCESS_CODE_DELETED;
-            case "connected_account.disconnected":
-                return CONNECTED_ACCOUNT_DISCONNECTED;
-            case "access_code.failed_to_remove_from_device":
-                return ACCESS_CODE_FAILED_TO_REMOVE_FROM_DEVICE;
-            case "device.unmanaged.converted_to_managed":
-                return DEVICE_UNMANAGED_CONVERTED_TO_MANAGED;
-            case "device.connected":
-                return DEVICE_CONNECTED;
-            case "access_code.unmanaged.removed":
-                return ACCESS_CODE_UNMANAGED_REMOVED;
-            case "access_code.created":
-                return ACCESS_CODE_CREATED;
-            case "access_code.changed":
-                return ACCESS_CODE_CHANGED;
-            case "access_code.failed_to_set_on_device":
-                return ACCESS_CODE_FAILED_TO_SET_ON_DEVICE;
-            case "device.converted_to_unmanaged":
-                return DEVICE_CONVERTED_TO_UNMANAGED;
-            case "device.battery_status_changed":
-                return DEVICE_BATTERY_STATUS_CHANGED;
-            case "device.tampered":
-                return DEVICE_TAMPERED;
-            case "access_code.delay_in_setting_on_device":
-                return ACCESS_CODE_DELAY_IN_SETTING_ON_DEVICE;
-            case "device.disconnected":
-                return DEVICE_DISCONNECTED;
-            case "access_code.scheduled_on_device":
-                return ACCESS_CODE_SCHEDULED_ON_DEVICE;
-            case "access_code.unmanaged.converted_to_managed":
-                return ACCESS_CODE_UNMANAGED_CONVERTED_TO_MANAGED;
-            case "lock.locked":
-                return LOCK_LOCKED;
-            case "lock.unlocked":
-                return LOCK_UNLOCKED;
-            case "connected_account.created":
-                return CONNECTED_ACCOUNT_CREATED;
-            case "device.removed":
-                return DEVICE_REMOVED;
-            case "access_code.delay_in_removing_from_device":
-                return ACCESS_CODE_DELAY_IN_REMOVING_FROM_DEVICE;
-            case "access_code.unmanaged.created":
-                return ACCESS_CODE_UNMANAGED_CREATED;
-            case "access_code.removed_from_device":
-                return ACCESS_CODE_REMOVED_FROM_DEVICE;
-            case "device.low_battery":
-                return DEVICE_LOW_BATTERY;
-            case "device.unmanaged.disconnected":
-                return DEVICE_UNMANAGED_DISCONNECTED;
-            default:
-                return new EventsListRequestEventType(Value.UNKNOWN, value);
-        }
-    }
-
-    public enum Value {
-        DEVICE_CONNECTED,
-
-        DEVICE_UNMANAGED_CONNECTED,
-
-        DEVICE_DISCONNECTED,
-
-        DEVICE_UNMANAGED_DISCONNECTED,
-
-        DEVICE_CONVERTED_TO_UNMANAGED,
-
-        DEVICE_UNMANAGED_CONVERTED_TO_MANAGED,
-
-        DEVICE_REMOVED,
-
-        DEVICE_TAMPERED,
-
-        DEVICE_LOW_BATTERY,
-
-        DEVICE_BATTERY_STATUS_CHANGED,
-
-        ACCESS_CODE_CREATED,
-
-        ACCESS_CODE_CHANGED,
-
-        ACCESS_CODE_SCHEDULED_ON_DEVICE,
-
-        ACCESS_CODE_SET_ON_DEVICE,
-
-        ACCESS_CODE_DELETED,
-
-        ACCESS_CODE_REMOVED_FROM_DEVICE,
-
-        ACCESS_CODE_FAILED_TO_SET_ON_DEVICE,
-
-        ACCESS_CODE_DELAY_IN_SETTING_ON_DEVICE,
-
-        ACCESS_CODE_FAILED_TO_REMOVE_FROM_DEVICE,
-
-        ACCESS_CODE_DELAY_IN_REMOVING_FROM_DEVICE,
-
-        ACCESS_CODE_UNMANAGED_CONVERTED_TO_MANAGED,
-
-        ACCESS_CODE_UNMANAGED_FAILED_TO_CONVERT_TO_MANAGED,
-
-        ACCESS_CODE_UNMANAGED_CREATED,
-
-        ACCESS_CODE_UNMANAGED_REMOVED,
-
-        LOCK_LOCKED,
-
-        LOCK_UNLOCKED,
-
-        CONNECTED_ACCOUNT_CONNECTED,
-
-        CONNECTED_ACCOUNT_CREATED,
-
-        CONNECTED_ACCOUNT_DISCONNECTED,
-
-        CONNECTED_ACCOUNT_COMPLETED_FIRST_SYNC,
-
-        NOISE_SENSOR_NOISE_THRESHOLD_TRIGGERED,
-
-        ACCESS_CODE_BACKUP_ACCESS_CODE_PULLED,
-
-        UNKNOWN
-    }
-
-    public interface Visitor<T> {
-        T visitDeviceConnected();
-
-        T visitDeviceUnmanagedConnected();
-
-        T visitDeviceDisconnected();
-
-        T visitDeviceUnmanagedDisconnected();
-
-        T visitDeviceConvertedToUnmanaged();
-
-        T visitDeviceUnmanagedConvertedToManaged();
-
-        T visitDeviceRemoved();
-
-        T visitDeviceTampered();
-
-        T visitDeviceLowBattery();
-
-        T visitDeviceBatteryStatusChanged();
-
-        T visitAccessCodeCreated();
-
-        T visitAccessCodeChanged();
-
-        T visitAccessCodeScheduledOnDevice();
-
-        T visitAccessCodeSetOnDevice();
-
-        T visitAccessCodeDeleted();
-
-        T visitAccessCodeRemovedFromDevice();
-
-        T visitAccessCodeFailedToSetOnDevice();
-
-        T visitAccessCodeDelayInSettingOnDevice();
-
-        T visitAccessCodeFailedToRemoveFromDevice();
-
-        T visitAccessCodeDelayInRemovingFromDevice();
-
-        T visitAccessCodeUnmanagedConvertedToManaged();
-
-        T visitAccessCodeUnmanagedFailedToConvertToManaged();
-
-        T visitAccessCodeUnmanagedCreated();
-
-        T visitAccessCodeUnmanagedRemoved();
-
-        T visitLockLocked();
-
-        T visitLockUnlocked();
-
-        T visitConnectedAccountConnected();
-
-        T visitConnectedAccountCreated();
-
-        T visitConnectedAccountDisconnected();
-
-        T visitConnectedAccountCompletedFirstSync();
-
-        T visitNoiseSensorNoiseThresholdTriggered();
-
-        T visitAccessCodeBackupAccessCodePulled();
-
-        T visitUnknown(String unknownType);
+        return this.value;
     }
 }

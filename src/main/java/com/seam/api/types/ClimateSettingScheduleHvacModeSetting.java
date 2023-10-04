@@ -3,106 +3,26 @@
  */
 package com.seam.api.types;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class ClimateSettingScheduleHvacModeSetting {
-    public static final ClimateSettingScheduleHvacModeSetting HEATCOOL =
-            new ClimateSettingScheduleHvacModeSetting(Value.HEATCOOL, "heatcool");
+public enum ClimateSettingScheduleHvacModeSetting {
+    OFF("off"),
 
-    public static final ClimateSettingScheduleHvacModeSetting OFF =
-            new ClimateSettingScheduleHvacModeSetting(Value.OFF, "off");
+    HEAT("heat"),
 
-    public static final ClimateSettingScheduleHvacModeSetting HEAT =
-            new ClimateSettingScheduleHvacModeSetting(Value.HEAT, "heat");
+    COOL("cool"),
 
-    public static final ClimateSettingScheduleHvacModeSetting COOL =
-            new ClimateSettingScheduleHvacModeSetting(Value.COOL, "cool");
+    HEATCOOL("heatcool");
 
-    private final Value value;
+    private final String value;
 
-    private final String string;
-
-    ClimateSettingScheduleHvacModeSetting(Value value, String string) {
+    ClimateSettingScheduleHvacModeSetting(String value) {
         this.value = value;
-        this.string = string;
     }
 
-    public Value getEnumValue() {
-        return value;
-    }
-
-    @Override
     @JsonValue
+    @Override
     public String toString() {
-        return this.string;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return (this == other)
-                || (other instanceof ClimateSettingScheduleHvacModeSetting
-                        && this.string.equals(((ClimateSettingScheduleHvacModeSetting) other).string));
-    }
-
-    @Override
-    public int hashCode() {
-        return this.string.hashCode();
-    }
-
-    public <T> T visit(Visitor<T> visitor) {
-        switch (value) {
-            case HEATCOOL:
-                return visitor.visitHeatcool();
-            case OFF:
-                return visitor.visitOff();
-            case HEAT:
-                return visitor.visitHeat();
-            case COOL:
-                return visitor.visitCool();
-            case UNKNOWN:
-            default:
-                return visitor.visitUnknown(string);
-        }
-    }
-
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static ClimateSettingScheduleHvacModeSetting valueOf(String value) {
-        switch (value) {
-            case "heatcool":
-                return HEATCOOL;
-            case "off":
-                return OFF;
-            case "heat":
-                return HEAT;
-            case "cool":
-                return COOL;
-            default:
-                return new ClimateSettingScheduleHvacModeSetting(Value.UNKNOWN, value);
-        }
-    }
-
-    public enum Value {
-        OFF,
-
-        HEAT,
-
-        COOL,
-
-        HEATCOOL,
-
-        UNKNOWN
-    }
-
-    public interface Visitor<T> {
-        T visitOff();
-
-        T visitHeat();
-
-        T visitCool();
-
-        T visitHeatcool();
-
-        T visitUnknown(String unknownType);
+        return this.value;
     }
 }

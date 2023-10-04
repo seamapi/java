@@ -3,106 +3,26 @@
  */
 package com.seam.api.types;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class ClimateSettingSchedulesCreateRequestHvacModeSetting {
-    public static final ClimateSettingSchedulesCreateRequestHvacModeSetting HEATCOOL =
-            new ClimateSettingSchedulesCreateRequestHvacModeSetting(Value.HEATCOOL, "heatcool");
+public enum ClimateSettingSchedulesCreateRequestHvacModeSetting {
+    OFF("off"),
 
-    public static final ClimateSettingSchedulesCreateRequestHvacModeSetting OFF =
-            new ClimateSettingSchedulesCreateRequestHvacModeSetting(Value.OFF, "off");
+    HEAT("heat"),
 
-    public static final ClimateSettingSchedulesCreateRequestHvacModeSetting HEAT =
-            new ClimateSettingSchedulesCreateRequestHvacModeSetting(Value.HEAT, "heat");
+    COOL("cool"),
 
-    public static final ClimateSettingSchedulesCreateRequestHvacModeSetting COOL =
-            new ClimateSettingSchedulesCreateRequestHvacModeSetting(Value.COOL, "cool");
+    HEATCOOL("heatcool");
 
-    private final Value value;
+    private final String value;
 
-    private final String string;
-
-    ClimateSettingSchedulesCreateRequestHvacModeSetting(Value value, String string) {
+    ClimateSettingSchedulesCreateRequestHvacModeSetting(String value) {
         this.value = value;
-        this.string = string;
     }
 
-    public Value getEnumValue() {
-        return value;
-    }
-
-    @Override
     @JsonValue
+    @Override
     public String toString() {
-        return this.string;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return (this == other)
-                || (other instanceof ClimateSettingSchedulesCreateRequestHvacModeSetting
-                        && this.string.equals(((ClimateSettingSchedulesCreateRequestHvacModeSetting) other).string));
-    }
-
-    @Override
-    public int hashCode() {
-        return this.string.hashCode();
-    }
-
-    public <T> T visit(Visitor<T> visitor) {
-        switch (value) {
-            case HEATCOOL:
-                return visitor.visitHeatcool();
-            case OFF:
-                return visitor.visitOff();
-            case HEAT:
-                return visitor.visitHeat();
-            case COOL:
-                return visitor.visitCool();
-            case UNKNOWN:
-            default:
-                return visitor.visitUnknown(string);
-        }
-    }
-
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static ClimateSettingSchedulesCreateRequestHvacModeSetting valueOf(String value) {
-        switch (value) {
-            case "heatcool":
-                return HEATCOOL;
-            case "off":
-                return OFF;
-            case "heat":
-                return HEAT;
-            case "cool":
-                return COOL;
-            default:
-                return new ClimateSettingSchedulesCreateRequestHvacModeSetting(Value.UNKNOWN, value);
-        }
-    }
-
-    public enum Value {
-        OFF,
-
-        HEAT,
-
-        COOL,
-
-        HEATCOOL,
-
-        UNKNOWN
-    }
-
-    public interface Visitor<T> {
-        T visitOff();
-
-        T visitHeat();
-
-        T visitCool();
-
-        T visitHeatcool();
-
-        T visitUnknown(String unknownType);
+        return this.value;
     }
 }

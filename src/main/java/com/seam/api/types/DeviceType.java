@@ -3,312 +3,68 @@
  */
 package com.seam.api.types;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class DeviceType {
-    public static final DeviceType LOCKLY_LOCK = new DeviceType(Value.LOCKLY_LOCK, "lockly_lock");
+public enum DeviceType {
+    AKUVOX_LOCK("akuvox_lock"),
 
-    public static final DeviceType LINEAR_LOCK = new DeviceType(Value.LINEAR_LOCK, "linear_lock");
+    AUGUST_LOCK("august_lock"),
 
-    public static final DeviceType AKUVOX_LOCK = new DeviceType(Value.AKUVOX_LOCK, "akuvox_lock");
+    BRIVO_ACCESS_POINT("brivo_access_point"),
 
-    public static final DeviceType HUBITAT_LOCK = new DeviceType(Value.HUBITAT_LOCK, "hubitat_lock");
+    BUTTERFLYMX_PANEL("butterflymx_panel"),
 
-    public static final DeviceType BUTTERFLYMX_PANEL = new DeviceType(Value.BUTTERFLYMX_PANEL, "butterflymx_panel");
+    DOORKING_LOCK("doorking_lock"),
 
-    public static final DeviceType TWO_N_INTERCOM = new DeviceType(Value.TWO_N_INTERCOM, "two_n_intercom");
+    GENIE_DOOR("genie_door"),
 
-    public static final DeviceType SCHLAGE_LOCK = new DeviceType(Value.SCHLAGE_LOCK, "schlage_lock");
+    IGLOO_LOCK("igloo_lock"),
 
-    public static final DeviceType MINUT_SENSOR = new DeviceType(Value.MINUT_SENSOR, "minut_sensor");
+    LINEAR_LOCK("linear_lock"),
 
-    public static final DeviceType AUGUST_LOCK = new DeviceType(Value.AUGUST_LOCK, "august_lock");
+    LOCKLY_LOCK("lockly_lock"),
 
-    public static final DeviceType KWIKSET_LOCK = new DeviceType(Value.KWIKSET_LOCK, "kwikset_lock");
+    KWIKSET_LOCK("kwikset_lock"),
 
-    public static final DeviceType SALTO_LOCK = new DeviceType(Value.SALTO_LOCK, "salto_lock");
+    NUKI_LOCK("nuki_lock"),
 
-    public static final DeviceType IGLOO_LOCK = new DeviceType(Value.IGLOO_LOCK, "igloo_lock");
+    SALTO_LOCK("salto_lock"),
 
-    public static final DeviceType NEST_THERMOSTAT = new DeviceType(Value.NEST_THERMOSTAT, "nest_thermostat");
+    SCHLAGE_LOCK("schlage_lock"),
 
-    public static final DeviceType SEAM_RELAY = new DeviceType(Value.SEAM_RELAY, "seam_relay");
+    SEAM_RELAY("seam_relay"),
 
-    public static final DeviceType IGLOOHOME_LOCK = new DeviceType(Value.IGLOOHOME_LOCK, "igloohome_lock");
+    SMARTTHINGS_LOCK("smartthings_lock"),
 
-    public static final DeviceType BRIVO_ACCESS_POINT = new DeviceType(Value.BRIVO_ACCESS_POINT, "brivo_access_point");
+    YALE_LOCK("yale_lock"),
 
-    public static final DeviceType SMARTTHINGS_LOCK = new DeviceType(Value.SMARTTHINGS_LOCK, "smartthings_lock");
+    TWO_N_INTERCOM("two_n_intercom"),
 
-    public static final DeviceType GENIE_DOOR = new DeviceType(Value.GENIE_DOOR, "genie_door");
+    CONTROLBYWEB_DEVICE("controlbyweb_device"),
 
-    public static final DeviceType NOISEAWARE_ACTIVITY_ZONE =
-            new DeviceType(Value.NOISEAWARE_ACTIVITY_ZONE, "noiseaware_activity_zone");
+    TTLOCK_LOCK("ttlock_lock"),
 
-    public static final DeviceType YALE_LOCK = new DeviceType(Value.YALE_LOCK, "yale_lock");
+    IGLOOHOME_LOCK("igloohome_lock"),
 
-    public static final DeviceType CONTROLBYWEB_DEVICE =
-            new DeviceType(Value.CONTROLBYWEB_DEVICE, "controlbyweb_device");
+    HUBITAT_LOCK("hubitat_lock"),
 
-    public static final DeviceType ECOBEE_THERMOSTAT = new DeviceType(Value.ECOBEE_THERMOSTAT, "ecobee_thermostat");
+    NOISEAWARE_ACTIVITY_ZONE("noiseaware_activity_zone"),
 
-    public static final DeviceType DOORKING_LOCK = new DeviceType(Value.DOORKING_LOCK, "doorking_lock");
+    MINUT_SENSOR("minut_sensor"),
 
-    public static final DeviceType NUKI_LOCK = new DeviceType(Value.NUKI_LOCK, "nuki_lock");
+    ECOBEE_THERMOSTAT("ecobee_thermostat"),
 
-    public static final DeviceType TTLOCK_LOCK = new DeviceType(Value.TTLOCK_LOCK, "ttlock_lock");
+    NEST_THERMOSTAT("nest_thermostat");
 
-    private final Value value;
+    private final String value;
 
-    private final String string;
-
-    DeviceType(Value value, String string) {
+    DeviceType(String value) {
         this.value = value;
-        this.string = string;
     }
 
-    public Value getEnumValue() {
-        return value;
-    }
-
-    @Override
     @JsonValue
+    @Override
     public String toString() {
-        return this.string;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return (this == other) || (other instanceof DeviceType && this.string.equals(((DeviceType) other).string));
-    }
-
-    @Override
-    public int hashCode() {
-        return this.string.hashCode();
-    }
-
-    public <T> T visit(Visitor<T> visitor) {
-        switch (value) {
-            case LOCKLY_LOCK:
-                return visitor.visitLocklyLock();
-            case LINEAR_LOCK:
-                return visitor.visitLinearLock();
-            case AKUVOX_LOCK:
-                return visitor.visitAkuvoxLock();
-            case HUBITAT_LOCK:
-                return visitor.visitHubitatLock();
-            case BUTTERFLYMX_PANEL:
-                return visitor.visitButterflymxPanel();
-            case TWO_N_INTERCOM:
-                return visitor.visitTwoNIntercom();
-            case SCHLAGE_LOCK:
-                return visitor.visitSchlageLock();
-            case MINUT_SENSOR:
-                return visitor.visitMinutSensor();
-            case AUGUST_LOCK:
-                return visitor.visitAugustLock();
-            case KWIKSET_LOCK:
-                return visitor.visitKwiksetLock();
-            case SALTO_LOCK:
-                return visitor.visitSaltoLock();
-            case IGLOO_LOCK:
-                return visitor.visitIglooLock();
-            case NEST_THERMOSTAT:
-                return visitor.visitNestThermostat();
-            case SEAM_RELAY:
-                return visitor.visitSeamRelay();
-            case IGLOOHOME_LOCK:
-                return visitor.visitIgloohomeLock();
-            case BRIVO_ACCESS_POINT:
-                return visitor.visitBrivoAccessPoint();
-            case SMARTTHINGS_LOCK:
-                return visitor.visitSmartthingsLock();
-            case GENIE_DOOR:
-                return visitor.visitGenieDoor();
-            case NOISEAWARE_ACTIVITY_ZONE:
-                return visitor.visitNoiseawareActivityZone();
-            case YALE_LOCK:
-                return visitor.visitYaleLock();
-            case CONTROLBYWEB_DEVICE:
-                return visitor.visitControlbywebDevice();
-            case ECOBEE_THERMOSTAT:
-                return visitor.visitEcobeeThermostat();
-            case DOORKING_LOCK:
-                return visitor.visitDoorkingLock();
-            case NUKI_LOCK:
-                return visitor.visitNukiLock();
-            case TTLOCK_LOCK:
-                return visitor.visitTtlockLock();
-            case UNKNOWN:
-            default:
-                return visitor.visitUnknown(string);
-        }
-    }
-
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static DeviceType valueOf(String value) {
-        switch (value) {
-            case "lockly_lock":
-                return LOCKLY_LOCK;
-            case "linear_lock":
-                return LINEAR_LOCK;
-            case "akuvox_lock":
-                return AKUVOX_LOCK;
-            case "hubitat_lock":
-                return HUBITAT_LOCK;
-            case "butterflymx_panel":
-                return BUTTERFLYMX_PANEL;
-            case "two_n_intercom":
-                return TWO_N_INTERCOM;
-            case "schlage_lock":
-                return SCHLAGE_LOCK;
-            case "minut_sensor":
-                return MINUT_SENSOR;
-            case "august_lock":
-                return AUGUST_LOCK;
-            case "kwikset_lock":
-                return KWIKSET_LOCK;
-            case "salto_lock":
-                return SALTO_LOCK;
-            case "igloo_lock":
-                return IGLOO_LOCK;
-            case "nest_thermostat":
-                return NEST_THERMOSTAT;
-            case "seam_relay":
-                return SEAM_RELAY;
-            case "igloohome_lock":
-                return IGLOOHOME_LOCK;
-            case "brivo_access_point":
-                return BRIVO_ACCESS_POINT;
-            case "smartthings_lock":
-                return SMARTTHINGS_LOCK;
-            case "genie_door":
-                return GENIE_DOOR;
-            case "noiseaware_activity_zone":
-                return NOISEAWARE_ACTIVITY_ZONE;
-            case "yale_lock":
-                return YALE_LOCK;
-            case "controlbyweb_device":
-                return CONTROLBYWEB_DEVICE;
-            case "ecobee_thermostat":
-                return ECOBEE_THERMOSTAT;
-            case "doorking_lock":
-                return DOORKING_LOCK;
-            case "nuki_lock":
-                return NUKI_LOCK;
-            case "ttlock_lock":
-                return TTLOCK_LOCK;
-            default:
-                return new DeviceType(Value.UNKNOWN, value);
-        }
-    }
-
-    public enum Value {
-        AKUVOX_LOCK,
-
-        AUGUST_LOCK,
-
-        BRIVO_ACCESS_POINT,
-
-        BUTTERFLYMX_PANEL,
-
-        DOORKING_LOCK,
-
-        GENIE_DOOR,
-
-        IGLOO_LOCK,
-
-        LINEAR_LOCK,
-
-        LOCKLY_LOCK,
-
-        KWIKSET_LOCK,
-
-        NUKI_LOCK,
-
-        SALTO_LOCK,
-
-        SCHLAGE_LOCK,
-
-        SEAM_RELAY,
-
-        SMARTTHINGS_LOCK,
-
-        YALE_LOCK,
-
-        TWO_N_INTERCOM,
-
-        CONTROLBYWEB_DEVICE,
-
-        TTLOCK_LOCK,
-
-        IGLOOHOME_LOCK,
-
-        HUBITAT_LOCK,
-
-        NOISEAWARE_ACTIVITY_ZONE,
-
-        MINUT_SENSOR,
-
-        ECOBEE_THERMOSTAT,
-
-        NEST_THERMOSTAT,
-
-        UNKNOWN
-    }
-
-    public interface Visitor<T> {
-        T visitAkuvoxLock();
-
-        T visitAugustLock();
-
-        T visitBrivoAccessPoint();
-
-        T visitButterflymxPanel();
-
-        T visitDoorkingLock();
-
-        T visitGenieDoor();
-
-        T visitIglooLock();
-
-        T visitLinearLock();
-
-        T visitLocklyLock();
-
-        T visitKwiksetLock();
-
-        T visitNukiLock();
-
-        T visitSaltoLock();
-
-        T visitSchlageLock();
-
-        T visitSeamRelay();
-
-        T visitSmartthingsLock();
-
-        T visitYaleLock();
-
-        T visitTwoNIntercom();
-
-        T visitControlbywebDevice();
-
-        T visitTtlockLock();
-
-        T visitIgloohomeLock();
-
-        T visitHubitatLock();
-
-        T visitNoiseawareActivityZone();
-
-        T visitMinutSensor();
-
-        T visitEcobeeThermostat();
-
-        T visitNestThermostat();
-
-        T visitUnknown(String unknownType);
+        return this.value;
     }
 }

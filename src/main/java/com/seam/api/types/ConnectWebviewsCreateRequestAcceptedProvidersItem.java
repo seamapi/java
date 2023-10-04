@@ -3,359 +3,72 @@
  */
 package com.seam.api.types;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class ConnectWebviewsCreateRequestAcceptedProvidersItem {
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem NUKI =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.NUKI, "nuki");
+public enum ConnectWebviewsCreateRequestAcceptedProvidersItem {
+    AKUVOX("akuvox"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem CONTROLBYWEB =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.CONTROLBYWEB, "controlbyweb");
+    AUGUST("august"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem NOISEAWARE =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.NOISEAWARE, "noiseaware");
+    AVIGILON_ALTA("avigilon_alta"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem MY_2_N =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.MY_2_N, "my_2n");
+    BRIVO("brivo"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem HUBITAT =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.HUBITAT, "hubitat");
+    BUTTERFLYMX("butterflymx"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem AUGUST =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.AUGUST, "august");
+    SCHLAGE("schlage"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem AVIGILON_ALTA =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.AVIGILON_ALTA, "avigilon_alta");
+    SMARTTHINGS("smartthings"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem YALE =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.YALE, "yale");
+    YALE("yale"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem BUTTERFLYMX =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.BUTTERFLYMX, "butterflymx");
+    GENIE("genie"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem SEAM_RELAY_ADMIN =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.SEAM_RELAY_ADMIN, "seam_relay_admin");
+    DOORKING("doorking"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem ECOBEE =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.ECOBEE, "ecobee");
+    SALTO("salto"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem SMARTTHINGS =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.SMARTTHINGS, "smartthings");
+    LOCKLY("lockly"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem LOCKLY =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.LOCKLY, "lockly");
+    TTLOCK("ttlock"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem IGLOO =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.IGLOO, "igloo");
+    LINEAR("linear"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem KWIKSET =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.KWIKSET, "kwikset");
+    NOISEAWARE("noiseaware"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem LINEAR =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.LINEAR, "linear");
+    NUKI("nuki"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem NEST =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.NEST, "nest");
+    SEAM_RELAY_ADMIN("seam_relay_admin"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem SCHLAGE =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.SCHLAGE, "schlage");
+    IGLOO("igloo"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem AKUVOX =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.AKUVOX, "akuvox");
+    KWIKSET("kwikset"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem BRIVO =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.BRIVO, "brivo");
+    MINUT("minut"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem SALTO =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.SALTO, "salto");
+    MY_2_N("my_2n"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem TTLOCK =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.TTLOCK, "ttlock");
+    CONTROLBYWEB("controlbyweb"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem MINUT =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.MINUT, "minut");
+    NEST("nest"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem DOORKING =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.DOORKING, "doorking");
+    IGLOOHOME("igloohome"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem YALE_ACCESS =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.YALE_ACCESS, "yale_access");
+    ECOBEE("ecobee"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem IGLOOHOME =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.IGLOOHOME, "igloohome");
+    HUBITAT("hubitat"),
 
-    public static final ConnectWebviewsCreateRequestAcceptedProvidersItem GENIE =
-            new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.GENIE, "genie");
+    YALE_ACCESS("yale_access");
 
-    private final Value value;
+    private final String value;
 
-    private final String string;
-
-    ConnectWebviewsCreateRequestAcceptedProvidersItem(Value value, String string) {
+    ConnectWebviewsCreateRequestAcceptedProvidersItem(String value) {
         this.value = value;
-        this.string = string;
     }
 
-    public Value getEnumValue() {
-        return value;
-    }
-
-    @Override
     @JsonValue
+    @Override
     public String toString() {
-        return this.string;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return (this == other)
-                || (other instanceof ConnectWebviewsCreateRequestAcceptedProvidersItem
-                        && this.string.equals(((ConnectWebviewsCreateRequestAcceptedProvidersItem) other).string));
-    }
-
-    @Override
-    public int hashCode() {
-        return this.string.hashCode();
-    }
-
-    public <T> T visit(Visitor<T> visitor) {
-        switch (value) {
-            case NUKI:
-                return visitor.visitNuki();
-            case CONTROLBYWEB:
-                return visitor.visitControlbyweb();
-            case NOISEAWARE:
-                return visitor.visitNoiseaware();
-            case MY_2_N:
-                return visitor.visitMy2N();
-            case HUBITAT:
-                return visitor.visitHubitat();
-            case AUGUST:
-                return visitor.visitAugust();
-            case AVIGILON_ALTA:
-                return visitor.visitAvigilonAlta();
-            case YALE:
-                return visitor.visitYale();
-            case BUTTERFLYMX:
-                return visitor.visitButterflymx();
-            case SEAM_RELAY_ADMIN:
-                return visitor.visitSeamRelayAdmin();
-            case ECOBEE:
-                return visitor.visitEcobee();
-            case SMARTTHINGS:
-                return visitor.visitSmartthings();
-            case LOCKLY:
-                return visitor.visitLockly();
-            case IGLOO:
-                return visitor.visitIgloo();
-            case KWIKSET:
-                return visitor.visitKwikset();
-            case LINEAR:
-                return visitor.visitLinear();
-            case NEST:
-                return visitor.visitNest();
-            case SCHLAGE:
-                return visitor.visitSchlage();
-            case AKUVOX:
-                return visitor.visitAkuvox();
-            case BRIVO:
-                return visitor.visitBrivo();
-            case SALTO:
-                return visitor.visitSalto();
-            case TTLOCK:
-                return visitor.visitTtlock();
-            case MINUT:
-                return visitor.visitMinut();
-            case DOORKING:
-                return visitor.visitDoorking();
-            case YALE_ACCESS:
-                return visitor.visitYaleAccess();
-            case IGLOOHOME:
-                return visitor.visitIgloohome();
-            case GENIE:
-                return visitor.visitGenie();
-            case UNKNOWN:
-            default:
-                return visitor.visitUnknown(string);
-        }
-    }
-
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static ConnectWebviewsCreateRequestAcceptedProvidersItem valueOf(String value) {
-        switch (value) {
-            case "nuki":
-                return NUKI;
-            case "controlbyweb":
-                return CONTROLBYWEB;
-            case "noiseaware":
-                return NOISEAWARE;
-            case "my_2n":
-                return MY_2_N;
-            case "hubitat":
-                return HUBITAT;
-            case "august":
-                return AUGUST;
-            case "avigilon_alta":
-                return AVIGILON_ALTA;
-            case "yale":
-                return YALE;
-            case "butterflymx":
-                return BUTTERFLYMX;
-            case "seam_relay_admin":
-                return SEAM_RELAY_ADMIN;
-            case "ecobee":
-                return ECOBEE;
-            case "smartthings":
-                return SMARTTHINGS;
-            case "lockly":
-                return LOCKLY;
-            case "igloo":
-                return IGLOO;
-            case "kwikset":
-                return KWIKSET;
-            case "linear":
-                return LINEAR;
-            case "nest":
-                return NEST;
-            case "schlage":
-                return SCHLAGE;
-            case "akuvox":
-                return AKUVOX;
-            case "brivo":
-                return BRIVO;
-            case "salto":
-                return SALTO;
-            case "ttlock":
-                return TTLOCK;
-            case "minut":
-                return MINUT;
-            case "doorking":
-                return DOORKING;
-            case "yale_access":
-                return YALE_ACCESS;
-            case "igloohome":
-                return IGLOOHOME;
-            case "genie":
-                return GENIE;
-            default:
-                return new ConnectWebviewsCreateRequestAcceptedProvidersItem(Value.UNKNOWN, value);
-        }
-    }
-
-    public enum Value {
-        AKUVOX,
-
-        AUGUST,
-
-        AVIGILON_ALTA,
-
-        BRIVO,
-
-        BUTTERFLYMX,
-
-        SCHLAGE,
-
-        SMARTTHINGS,
-
-        YALE,
-
-        GENIE,
-
-        DOORKING,
-
-        SALTO,
-
-        LOCKLY,
-
-        TTLOCK,
-
-        LINEAR,
-
-        NOISEAWARE,
-
-        NUKI,
-
-        SEAM_RELAY_ADMIN,
-
-        IGLOO,
-
-        KWIKSET,
-
-        MINUT,
-
-        MY_2_N,
-
-        CONTROLBYWEB,
-
-        NEST,
-
-        IGLOOHOME,
-
-        ECOBEE,
-
-        HUBITAT,
-
-        YALE_ACCESS,
-
-        UNKNOWN
-    }
-
-    public interface Visitor<T> {
-        T visitAkuvox();
-
-        T visitAugust();
-
-        T visitAvigilonAlta();
-
-        T visitBrivo();
-
-        T visitButterflymx();
-
-        T visitSchlage();
-
-        T visitSmartthings();
-
-        T visitYale();
-
-        T visitGenie();
-
-        T visitDoorking();
-
-        T visitSalto();
-
-        T visitLockly();
-
-        T visitTtlock();
-
-        T visitLinear();
-
-        T visitNoiseaware();
-
-        T visitNuki();
-
-        T visitSeamRelayAdmin();
-
-        T visitIgloo();
-
-        T visitKwikset();
-
-        T visitMinut();
-
-        T visitMy2N();
-
-        T visitControlbyweb();
-
-        T visitNest();
-
-        T visitIgloohome();
-
-        T visitEcobee();
-
-        T visitHubitat();
-
-        T visitYaleAccess();
-
-        T visitUnknown(String unknownType);
+        return this.value;
     }
 }

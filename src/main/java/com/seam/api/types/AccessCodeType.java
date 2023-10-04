@@ -3,81 +3,22 @@
  */
 package com.seam.api.types;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class AccessCodeType {
-    public static final AccessCodeType TIME_BOUND = new AccessCodeType(Value.TIME_BOUND, "time_bound");
+public enum AccessCodeType {
+    TIME_BOUND("time_bound"),
 
-    public static final AccessCodeType ONGOING = new AccessCodeType(Value.ONGOING, "ongoing");
+    ONGOING("ongoing");
 
-    private final Value value;
+    private final String value;
 
-    private final String string;
-
-    AccessCodeType(Value value, String string) {
+    AccessCodeType(String value) {
         this.value = value;
-        this.string = string;
     }
 
-    public Value getEnumValue() {
-        return value;
-    }
-
-    @Override
     @JsonValue
+    @Override
     public String toString() {
-        return this.string;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return (this == other)
-                || (other instanceof AccessCodeType && this.string.equals(((AccessCodeType) other).string));
-    }
-
-    @Override
-    public int hashCode() {
-        return this.string.hashCode();
-    }
-
-    public <T> T visit(Visitor<T> visitor) {
-        switch (value) {
-            case TIME_BOUND:
-                return visitor.visitTimeBound();
-            case ONGOING:
-                return visitor.visitOngoing();
-            case UNKNOWN:
-            default:
-                return visitor.visitUnknown(string);
-        }
-    }
-
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static AccessCodeType valueOf(String value) {
-        switch (value) {
-            case "time_bound":
-                return TIME_BOUND;
-            case "ongoing":
-                return ONGOING;
-            default:
-                return new AccessCodeType(Value.UNKNOWN, value);
-        }
-    }
-
-    public enum Value {
-        TIME_BOUND,
-
-        ONGOING,
-
-        UNKNOWN
-    }
-
-    public interface Visitor<T> {
-        T visitTimeBound();
-
-        T visitOngoing();
-
-        T visitUnknown(String unknownType);
+        return this.value;
     }
 }
