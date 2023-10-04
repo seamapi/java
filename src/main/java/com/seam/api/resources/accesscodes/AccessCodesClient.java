@@ -234,7 +234,7 @@ public class AccessCodesClient {
             if (response.isSuccessful()) {
                 AccessCodesListResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
                         response.body().string(), AccessCodesListResponse.class);
-                parsedResponse.getAccessCodes();
+                return parsedResponse.getAccessCodes();
             }
             throw new ApiError(
                     response.code(),
