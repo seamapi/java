@@ -12,11 +12,13 @@ import com.seam.api.resources.locks.requests.LocksListRequest;
 import com.seam.api.resources.locks.requests.LocksLockDoorRequest;
 import com.seam.api.resources.locks.requests.LocksUnlockDoorRequest;
 import com.seam.api.types.ActionAttempt;
+import com.seam.api.types.Device;
 import com.seam.api.types.LocksGetResponse;
 import com.seam.api.types.LocksListResponse;
 import com.seam.api.types.LocksLockDoorResponse;
 import com.seam.api.types.LocksUnlockDoorResponse;
 import java.io.IOException;
+import java.util.List;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -31,11 +33,11 @@ public class LocksClient {
         this.clientOptions = clientOptions;
     }
 
-    public LocksGetResponse get(LocksGetRequest request) {
+    public Device get(LocksGetRequest request) {
         return get(request, null);
     }
 
-    public LocksGetResponse get(LocksGetRequest request, RequestOptions requestOptions) {
+    public Device get(LocksGetRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("locks/get")
@@ -57,7 +59,9 @@ public class LocksClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), LocksGetResponse.class);
+                LocksGetResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), LocksGetResponse.class);
+                return parsedResponse.getDevice();
             }
             throw new ApiError(
                     response.code(),
@@ -67,15 +71,15 @@ public class LocksClient {
         }
     }
 
-    public LocksGetResponse get() {
+    public Device get() {
         return get(LocksGetRequest.builder().build());
     }
 
-    public LocksListResponse list(LocksListRequest request) {
+    public List<Device> list(LocksListRequest request) {
         return list(request, null);
     }
 
-    public LocksListResponse list(LocksListRequest request, RequestOptions requestOptions) {
+    public List<Device> list(LocksListRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("locks/list")
@@ -97,7 +101,9 @@ public class LocksClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), LocksListResponse.class);
+                LocksListResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), LocksListResponse.class);
+                return parsedResponse.getDevices();
             }
             throw new ApiError(
                     response.code(),
@@ -107,7 +113,7 @@ public class LocksClient {
         }
     }
 
-    public LocksListResponse list() {
+    public List<Device> list() {
         return list(LocksListRequest.builder().build());
     }
 

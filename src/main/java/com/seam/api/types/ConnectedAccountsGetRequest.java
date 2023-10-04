@@ -58,12 +58,20 @@ public final class ConnectedAccountsGetRequest {
         return this.value.toString();
     }
 
-    public static ConnectedAccountsGetRequest of(ConnectedAccountsGetRequestConnectedAccountId value) {
-        return new ConnectedAccountsGetRequest(value, 0);
+    public static ConnectedAccountsGetRequest id(String id) {
+        return new ConnectedAccountsGetRequest(
+                ConnectedAccountsGetRequestConnectedAccountId.builder()
+                        .connectedAccountId(id)
+                        .build(),
+                0);
     }
 
-    public static ConnectedAccountsGetRequest of(ConnectedAccountsGetRequestEmail value) {
-        return new ConnectedAccountsGetRequest(value, 1);
+    public static ConnectedAccountsGetRequest email(String email) {
+        return new ConnectedAccountsGetRequest(
+                ConnectedAccountsGetRequestEmail.builder()
+                        .email(email)
+                        .build(),
+                1);
     }
 
     public interface Visitor<T> {
@@ -81,12 +89,17 @@ public final class ConnectedAccountsGetRequest {
         public ConnectedAccountsGetRequest deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
             Object value = p.readValueAs(Object.class);
             try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(
-                        value, ConnectedAccountsGetRequestConnectedAccountId.class));
+                return new ConnectedAccountsGetRequest(
+                        ObjectMappers.JSON_MAPPER.convertValue(value,
+                                ConnectedAccountsGetRequestConnectedAccountId.class),
+                        0);
             } catch (IllegalArgumentException e) {
             }
             try {
-                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ConnectedAccountsGetRequestEmail.class));
+                return new ConnectedAccountsGetRequest(
+                        ObjectMappers.JSON_MAPPER.convertValue(value,
+                                ConnectedAccountsGetRequestEmail.class),
+                        1);
             } catch (IllegalArgumentException e) {
             }
             throw new JsonParseException(p, "Failed to deserialize");
