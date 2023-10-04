@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -18,11 +20,11 @@ import java.util.Optional;
 public final class LocksListResponse {
     private final Optional<Object> locks;
 
-    private final Optional<Object> devices;
+    private final List<Device> devices;
 
     private final boolean ok;
 
-    private LocksListResponse(Optional<Object> locks, Optional<Object> devices, boolean ok) {
+    private LocksListResponse(Optional<Object> locks, List<Device> devices, boolean ok) {
         this.locks = locks;
         this.devices = devices;
         this.ok = ok;
@@ -34,7 +36,7 @@ public final class LocksListResponse {
     }
 
     @JsonProperty("devices")
-    public Optional<Object> getDevices() {
+    public List<Device> getDevices() {
         return devices;
     }
 
@@ -80,16 +82,18 @@ public final class LocksListResponse {
 
         _FinalStage locks(Object locks);
 
-        _FinalStage devices(Optional<Object> devices);
+        _FinalStage devices(List<Device> devices);
 
-        _FinalStage devices(Object devices);
+        _FinalStage addDevices(Device devices);
+
+        _FinalStage addAllDevices(List<Device> devices);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements OkStage, _FinalStage {
         private boolean ok;
 
-        private Optional<Object> devices = Optional.empty();
+        private List<Device> devices = new ArrayList<>();
 
         private Optional<Object> locks = Optional.empty();
 
@@ -111,15 +115,22 @@ public final class LocksListResponse {
         }
 
         @Override
-        public _FinalStage devices(Object devices) {
-            this.devices = Optional.of(devices);
+        public _FinalStage addAllDevices(List<Device> devices) {
+            this.devices.addAll(devices);
+            return this;
+        }
+
+        @Override
+        public _FinalStage addDevices(Device devices) {
+            this.devices.add(devices);
             return this;
         }
 
         @Override
         @JsonSetter(value = "devices", nulls = Nulls.SKIP)
-        public _FinalStage devices(Optional<Object> devices) {
-            this.devices = devices;
+        public _FinalStage devices(List<Device> devices) {
+            this.devices.clear();
+            this.devices.addAll(devices);
             return this;
         }
 

@@ -18,11 +18,11 @@ import java.util.Optional;
 public final class LocksGetResponse {
     private final Optional<Object> lock;
 
-    private final Optional<Object> device;
+    private final Device device;
 
     private final boolean ok;
 
-    private LocksGetResponse(Optional<Object> lock, Optional<Object> device, boolean ok) {
+    private LocksGetResponse(Optional<Object> lock, Device device, boolean ok) {
         this.lock = lock;
         this.device = device;
         this.ok = ok;
@@ -34,7 +34,7 @@ public final class LocksGetResponse {
     }
 
     @JsonProperty("device")
-    public Optional<Object> getDevice() {
+    public Device getDevice() {
         return device;
     }
 
@@ -63,14 +63,18 @@ public final class LocksGetResponse {
         return ObjectMappers.stringify(this);
     }
 
-    public static OkStage builder() {
+    public static DeviceStage builder() {
         return new Builder();
+    }
+
+    public interface DeviceStage {
+        OkStage device(Device device);
+
+        Builder from(LocksGetResponse other);
     }
 
     public interface OkStage {
         _FinalStage ok(boolean ok);
-
-        Builder from(LocksGetResponse other);
     }
 
     public interface _FinalStage {
@@ -79,17 +83,13 @@ public final class LocksGetResponse {
         _FinalStage lock(Optional<Object> lock);
 
         _FinalStage lock(Object lock);
-
-        _FinalStage device(Optional<Object> device);
-
-        _FinalStage device(Object device);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static final class Builder implements OkStage, _FinalStage {
-        private boolean ok;
+    public static final class Builder implements DeviceStage, OkStage, _FinalStage {
+        private Device device;
 
-        private Optional<Object> device = Optional.empty();
+        private boolean ok;
 
         private Optional<Object> lock = Optional.empty();
 
@@ -104,22 +104,16 @@ public final class LocksGetResponse {
         }
 
         @Override
+        @JsonSetter("device")
+        public OkStage device(Device device) {
+            this.device = device;
+            return this;
+        }
+
+        @Override
         @JsonSetter("ok")
         public _FinalStage ok(boolean ok) {
             this.ok = ok;
-            return this;
-        }
-
-        @Override
-        public _FinalStage device(Object device) {
-            this.device = Optional.of(device);
-            return this;
-        }
-
-        @Override
-        @JsonSetter(value = "device", nulls = Nulls.SKIP)
-        public _FinalStage device(Optional<Object> device) {
-            this.device = device;
             return this;
         }
 
