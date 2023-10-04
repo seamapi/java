@@ -14,12 +14,15 @@ import com.seam.api.resources.devices.requests.DevicesListDeviceProvidersRequest
 import com.seam.api.resources.devices.requests.DevicesListRequest;
 import com.seam.api.resources.devices.requests.DevicesUpdateRequest;
 import com.seam.api.resources.devices.unmanaged.UnmanagedClient;
+import com.seam.api.types.Device;
+import com.seam.api.types.DeviceListProvider;
 import com.seam.api.types.DevicesDeleteResponse;
 import com.seam.api.types.DevicesGetResponse;
 import com.seam.api.types.DevicesListDeviceProvidersResponse;
 import com.seam.api.types.DevicesListResponse;
 import com.seam.api.types.DevicesUpdateResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.function.Supplier;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
@@ -38,11 +41,11 @@ public class DevicesClient {
         this.unmanagedClient = Suppliers.memoize(() -> new UnmanagedClient(clientOptions));
     }
 
-    public DevicesDeleteResponse delete(DevicesDeleteRequest request) {
-        return delete(request, null);
+    public void delete(DevicesDeleteRequest request) {
+        delete(request, null);
     }
 
-    public DevicesDeleteResponse delete(DevicesDeleteRequest request, RequestOptions requestOptions) {
+    public void delete(DevicesDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/delete")
@@ -64,7 +67,8 @@ public class DevicesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), DevicesDeleteResponse.class);
+                ObjectMappers.JSON_MAPPER.readValue(response.body().string(), DevicesDeleteResponse.class);
+                return;
             }
             throw new ApiError(
                     response.code(),
@@ -74,11 +78,11 @@ public class DevicesClient {
         }
     }
 
-    public DevicesGetResponse get(DevicesGetRequest request) {
+    public Device get(DevicesGetRequest request) {
         return get(request, null);
     }
 
-    public DevicesGetResponse get(DevicesGetRequest request, RequestOptions requestOptions) {
+    public Device get(DevicesGetRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/get")
@@ -100,7 +104,9 @@ public class DevicesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), DevicesGetResponse.class);
+                DevicesGetResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), DevicesGetResponse.class);
+                return parsedResponse.getDevice();
             }
             throw new ApiError(
                     response.code(),
@@ -110,15 +116,15 @@ public class DevicesClient {
         }
     }
 
-    public DevicesGetResponse get() {
+    public Device get() {
         return get(DevicesGetRequest.builder().build());
     }
 
-    public DevicesListResponse list(DevicesListRequest request) {
+    public List<Device> list(DevicesListRequest request) {
         return list(request, null);
     }
 
-    public DevicesListResponse list(DevicesListRequest request, RequestOptions requestOptions) {
+    public List<Device> list(DevicesListRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/list")
@@ -140,7 +146,9 @@ public class DevicesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), DevicesListResponse.class);
+                DevicesListResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), DevicesListResponse.class);
+                return parsedResponse.getDevices();
             }
             throw new ApiError(
                     response.code(),
@@ -150,15 +158,15 @@ public class DevicesClient {
         }
     }
 
-    public DevicesListResponse list() {
+    public List<Device> list() {
         return list(DevicesListRequest.builder().build());
     }
 
-    public DevicesListDeviceProvidersResponse listDeviceProviders(DevicesListDeviceProvidersRequest request) {
+    public List<DeviceListProvider> listDeviceProviders(DevicesListDeviceProvidersRequest request) {
         return listDeviceProviders(request, null);
     }
 
-    public DevicesListDeviceProvidersResponse listDeviceProviders(
+    public List<DeviceListProvider> listDeviceProviders(
             DevicesListDeviceProvidersRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
@@ -181,8 +189,9 @@ public class DevicesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
+                DevicesListDeviceProvidersResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
                         response.body().string(), DevicesListDeviceProvidersResponse.class);
+                return parsedResponse.getDeviceProviders();
             }
             throw new ApiError(
                     response.code(),
@@ -192,15 +201,15 @@ public class DevicesClient {
         }
     }
 
-    public DevicesListDeviceProvidersResponse listDeviceProviders() {
+    public List<DeviceListProvider> listDeviceProviders() {
         return listDeviceProviders(DevicesListDeviceProvidersRequest.builder().build());
     }
 
-    public DevicesUpdateResponse update(DevicesUpdateRequest request) {
-        return update(request, null);
+    public void update(DevicesUpdateRequest request) {
+        update(request, null);
     }
 
-    public DevicesUpdateResponse update(DevicesUpdateRequest request, RequestOptions requestOptions) {
+    public void update(DevicesUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/update")
@@ -222,7 +231,8 @@ public class DevicesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), DevicesUpdateResponse.class);
+                ObjectMappers.JSON_MAPPER.readValue(response.body().string(), DevicesUpdateResponse.class);
+                return;
             }
             throw new ApiError(
                     response.code(),

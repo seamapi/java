@@ -11,6 +11,7 @@ import com.seam.api.resources.locks.requests.LocksGetRequest;
 import com.seam.api.resources.locks.requests.LocksListRequest;
 import com.seam.api.resources.locks.requests.LocksLockDoorRequest;
 import com.seam.api.resources.locks.requests.LocksUnlockDoorRequest;
+import com.seam.api.types.ActionAttempt;
 import com.seam.api.types.LocksGetResponse;
 import com.seam.api.types.LocksListResponse;
 import com.seam.api.types.LocksLockDoorResponse;
@@ -110,11 +111,11 @@ public class LocksClient {
         return list(LocksListRequest.builder().build());
     }
 
-    public LocksLockDoorResponse lockDoor(LocksLockDoorRequest request) {
+    public ActionAttempt lockDoor(LocksLockDoorRequest request) {
         return lockDoor(request, null);
     }
 
-    public LocksLockDoorResponse lockDoor(LocksLockDoorRequest request, RequestOptions requestOptions) {
+    public ActionAttempt lockDoor(LocksLockDoorRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("locks/lock_door")
@@ -136,7 +137,9 @@ public class LocksClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), LocksLockDoorResponse.class);
+                LocksLockDoorResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), LocksLockDoorResponse.class);
+                return parsedResponse.getActionAttempt();
             }
             throw new ApiError(
                     response.code(),
@@ -146,11 +149,11 @@ public class LocksClient {
         }
     }
 
-    public LocksUnlockDoorResponse unlockDoor(LocksUnlockDoorRequest request) {
+    public ActionAttempt unlockDoor(LocksUnlockDoorRequest request) {
         return unlockDoor(request, null);
     }
 
-    public LocksUnlockDoorResponse unlockDoor(LocksUnlockDoorRequest request, RequestOptions requestOptions) {
+    public ActionAttempt unlockDoor(LocksUnlockDoorRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("locks/unlock_door")
@@ -172,7 +175,9 @@ public class LocksClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), LocksUnlockDoorResponse.class);
+                LocksUnlockDoorResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
+                        response.body().string(), LocksUnlockDoorResponse.class);
+                return parsedResponse.getActionAttempt();
             }
             throw new ApiError(
                     response.code(),

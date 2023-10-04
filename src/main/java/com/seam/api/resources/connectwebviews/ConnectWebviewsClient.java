@@ -11,11 +11,13 @@ import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsCreateRequ
 import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsDeleteRequest;
 import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsGetRequest;
 import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsViewRequest;
+import com.seam.api.types.ConnectWebview;
 import com.seam.api.types.ConnectWebviewsCreateResponse;
 import com.seam.api.types.ConnectWebviewsDeleteResponse;
 import com.seam.api.types.ConnectWebviewsGetResponse;
 import com.seam.api.types.ConnectWebviewsListResponse;
 import java.io.IOException;
+import java.util.List;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -30,11 +32,11 @@ public class ConnectWebviewsClient {
         this.clientOptions = clientOptions;
     }
 
-    public ConnectWebviewsCreateResponse create(ConnectWebviewsCreateRequest request) {
+    public ConnectWebview create(ConnectWebviewsCreateRequest request) {
         return create(request, null);
     }
 
-    public ConnectWebviewsCreateResponse create(ConnectWebviewsCreateRequest request, RequestOptions requestOptions) {
+    public ConnectWebview create(ConnectWebviewsCreateRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connect_webviews/create")
@@ -56,8 +58,9 @@ public class ConnectWebviewsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
+                ConnectWebviewsCreateResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
                         response.body().string(), ConnectWebviewsCreateResponse.class);
+                return parsedResponse.getConnectWebview();
             }
             throw new ApiError(
                     response.code(),
@@ -67,15 +70,15 @@ public class ConnectWebviewsClient {
         }
     }
 
-    public ConnectWebviewsCreateResponse create() {
+    public ConnectWebview create() {
         return create(ConnectWebviewsCreateRequest.builder().build());
     }
 
-    public ConnectWebviewsDeleteResponse delete(ConnectWebviewsDeleteRequest request) {
-        return delete(request, null);
+    public void delete(ConnectWebviewsDeleteRequest request) {
+        delete(request, null);
     }
 
-    public ConnectWebviewsDeleteResponse delete(ConnectWebviewsDeleteRequest request, RequestOptions requestOptions) {
+    public void delete(ConnectWebviewsDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connect_webviews/delete")
@@ -97,8 +100,9 @@ public class ConnectWebviewsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
+                ObjectMappers.JSON_MAPPER.readValue(
                         response.body().string(), ConnectWebviewsDeleteResponse.class);
+                return;
             }
             throw new ApiError(
                     response.code(),
@@ -108,11 +112,11 @@ public class ConnectWebviewsClient {
         }
     }
 
-    public ConnectWebviewsGetResponse get(ConnectWebviewsGetRequest request) {
+    public ConnectWebview get(ConnectWebviewsGetRequest request) {
         return get(request, null);
     }
 
-    public ConnectWebviewsGetResponse get(ConnectWebviewsGetRequest request, RequestOptions requestOptions) {
+    public ConnectWebview get(ConnectWebviewsGetRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connect_webviews/get")
@@ -134,7 +138,9 @@ public class ConnectWebviewsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ConnectWebviewsGetResponse.class);
+                ConnectWebviewsGetResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ConnectWebviewsGetResponse.class);
+                return parsedResponse.getConnectWebview();
             }
             throw new ApiError(
                     response.code(),
@@ -144,11 +150,11 @@ public class ConnectWebviewsClient {
         }
     }
 
-    public ConnectWebviewsListResponse list() {
+    public List<ConnectWebview> list() {
         return list(null);
     }
 
-    public ConnectWebviewsListResponse list(RequestOptions requestOptions) {
+    public List<ConnectWebview> list(RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connect_webviews/list")
@@ -163,7 +169,9 @@ public class ConnectWebviewsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ConnectWebviewsListResponse.class);
+                ConnectWebviewsListResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ConnectWebviewsListResponse.class);
+                return parsedResponse.getConnectWebviews();
             }
             throw new ApiError(
                     response.code(),

@@ -17,6 +17,7 @@ import com.seam.api.resources.accesscodes.requests.AccessCodesPullBackupAccessCo
 import com.seam.api.resources.accesscodes.requests.AccessCodesUpdateRequest;
 import com.seam.api.resources.accesscodes.simulate.SimulateClient;
 import com.seam.api.resources.accesscodes.unmanaged.UnmanagedClient;
+import com.seam.api.types.AccessCode;
 import com.seam.api.types.AccessCodesCreateMultipleResponse;
 import com.seam.api.types.AccessCodesCreateResponse;
 import com.seam.api.types.AccessCodesDeleteResponse;
@@ -24,7 +25,9 @@ import com.seam.api.types.AccessCodesGetResponse;
 import com.seam.api.types.AccessCodesListResponse;
 import com.seam.api.types.AccessCodesPullBackupAccessCodeResponse;
 import com.seam.api.types.AccessCodesUpdateResponse;
+import com.seam.api.types.ActionAttempt;
 import java.io.IOException;
+import java.util.List;
 import java.util.function.Supplier;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
@@ -46,11 +49,11 @@ public class AccessCodesClient {
         this.unmanagedClient = Suppliers.memoize(() -> new UnmanagedClient(clientOptions));
     }
 
-    public AccessCodesCreateResponse create(AccessCodesCreateRequest request) {
+    public AccessCode create(AccessCodesCreateRequest request) {
         return create(request, null);
     }
 
-    public AccessCodesCreateResponse create(AccessCodesCreateRequest request, RequestOptions requestOptions) {
+    public AccessCode create(AccessCodesCreateRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/create")
@@ -72,7 +75,9 @@ public class AccessCodesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesCreateResponse.class);
+                AccessCodesCreateResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesCreateResponse.class);
+                return parsedResponse.getAccessCode();
             }
             throw new ApiError(
                     response.code(),
@@ -82,11 +87,11 @@ public class AccessCodesClient {
         }
     }
 
-    public AccessCodesCreateMultipleResponse createMultiple(AccessCodesCreateMultipleRequest request) {
+    public List<AccessCode> createMultiple(AccessCodesCreateMultipleRequest request) {
         return createMultiple(request, null);
     }
 
-    public AccessCodesCreateMultipleResponse createMultiple(
+    public List<AccessCode> createMultiple(
             AccessCodesCreateMultipleRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
@@ -109,8 +114,9 @@ public class AccessCodesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
+                AccessCodesCreateMultipleResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
                         response.body().string(), AccessCodesCreateMultipleResponse.class);
+                return parsedResponse.getAccessCodes();
             }
             throw new ApiError(
                     response.code(),
@@ -120,11 +126,11 @@ public class AccessCodesClient {
         }
     }
 
-    public AccessCodesDeleteResponse delete(AccessCodesDeleteRequest request) {
+    public ActionAttempt delete(AccessCodesDeleteRequest request) {
         return delete(request, null);
     }
 
-    public AccessCodesDeleteResponse delete(AccessCodesDeleteRequest request, RequestOptions requestOptions) {
+    public ActionAttempt delete(AccessCodesDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/delete")
@@ -146,7 +152,9 @@ public class AccessCodesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesDeleteResponse.class);
+                AccessCodesDeleteResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesDeleteResponse.class);
+                return parsedResponse.getActionAttempt();
             }
             throw new ApiError(
                     response.code(),
@@ -156,11 +164,11 @@ public class AccessCodesClient {
         }
     }
 
-    public AccessCodesGetResponse get(AccessCodesGetRequest request) {
+    public AccessCode get(AccessCodesGetRequest request) {
         return get(request, null);
     }
 
-    public AccessCodesGetResponse get(AccessCodesGetRequest request, RequestOptions requestOptions) {
+    public AccessCode get(AccessCodesGetRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/get")
@@ -182,7 +190,9 @@ public class AccessCodesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesGetResponse.class);
+                AccessCodesGetResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
+                        response.body().string(), AccessCodesGetResponse.class);
+                return parsedResponse.getAccessCode();
             }
             throw new ApiError(
                     response.code(),
@@ -192,15 +202,15 @@ public class AccessCodesClient {
         }
     }
 
-    public AccessCodesGetResponse get() {
+    public AccessCode get() {
         return get(AccessCodesGetRequest.builder().build());
     }
 
-    public AccessCodesListResponse list(AccessCodesListRequest request) {
+    public List<AccessCode> list(AccessCodesListRequest request) {
         return list(request, null);
     }
 
-    public AccessCodesListResponse list(AccessCodesListRequest request, RequestOptions requestOptions) {
+    public List<AccessCode> list(AccessCodesListRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/list")
@@ -222,7 +232,9 @@ public class AccessCodesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesListResponse.class);
+                AccessCodesListResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
+                        response.body().string(), AccessCodesListResponse.class);
+                parsedResponse.getAccessCodes();
             }
             throw new ApiError(
                     response.code(),
@@ -232,12 +244,12 @@ public class AccessCodesClient {
         }
     }
 
-    public AccessCodesPullBackupAccessCodeResponse pullBackupAccessCode(
+    public AccessCode pullBackupAccessCode(
             AccessCodesPullBackupAccessCodeRequest request) {
         return pullBackupAccessCode(request, null);
     }
 
-    public AccessCodesPullBackupAccessCodeResponse pullBackupAccessCode(
+    public AccessCode pullBackupAccessCode(
             AccessCodesPullBackupAccessCodeRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
@@ -260,8 +272,9 @@ public class AccessCodesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
+                AccessCodesPullBackupAccessCodeResponse parsedResposne = ObjectMappers.JSON_MAPPER.readValue(
                         response.body().string(), AccessCodesPullBackupAccessCodeResponse.class);
+                return parsedResposne.getBackupAccessCode();
             }
             throw new ApiError(
                     response.code(),
@@ -271,11 +284,11 @@ public class AccessCodesClient {
         }
     }
 
-    public AccessCodesUpdateResponse update(AccessCodesUpdateRequest request) {
+    public ActionAttempt update(AccessCodesUpdateRequest request) {
         return update(request, null);
     }
 
-    public AccessCodesUpdateResponse update(AccessCodesUpdateRequest request, RequestOptions requestOptions) {
+    public ActionAttempt update(AccessCodesUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/update")
@@ -297,7 +310,9 @@ public class AccessCodesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesUpdateResponse.class);
+                AccessCodesUpdateResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
+                        response.body().string(), AccessCodesUpdateResponse.class);
+                return parsedResponse.getActionAttempt();
             }
             throw new ApiError(
                     response.code(),

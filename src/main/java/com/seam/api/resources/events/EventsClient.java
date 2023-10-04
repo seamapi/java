@@ -9,9 +9,13 @@ import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.events.requests.EventsGetRequest;
 import com.seam.api.resources.events.requests.EventsListRequest;
+import com.seam.api.types.Event;
 import com.seam.api.types.EventsGetResponse;
 import com.seam.api.types.EventsListResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -26,11 +30,11 @@ public class EventsClient {
         this.clientOptions = clientOptions;
     }
 
-    public EventsGetResponse get(EventsGetRequest request) {
+    public Optional<Event> get(EventsGetRequest request) {
         return get(request, null);
     }
 
-    public EventsGetResponse get(EventsGetRequest request, RequestOptions requestOptions) {
+    public Optional<Event> get(EventsGetRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("events/get")
@@ -52,7 +56,9 @@ public class EventsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), EventsGetResponse.class);
+                EventsGetResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), EventsGetResponse.class);
+                return parsedResponse.getEvent();
             }
             throw new ApiError(
                     response.code(),
@@ -62,15 +68,15 @@ public class EventsClient {
         }
     }
 
-    public EventsGetResponse get() {
+    public Optional<Event> get() {
         return get(EventsGetRequest.builder().build());
     }
 
-    public EventsListResponse list(EventsListRequest request) {
+    public List<Event> list(EventsListRequest request) {
         return list(request, null);
     }
 
-    public EventsListResponse list(EventsListRequest request, RequestOptions requestOptions) {
+    public List<Event> list(EventsListRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("events/list")
@@ -92,7 +98,9 @@ public class EventsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), EventsListResponse.class);
+                EventsListResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), EventsListResponse.class);
+                return parsedResponse.getEvents().orElse(Collections.emptyList());
             }
             throw new ApiError(
                     response.code(),
@@ -102,7 +110,7 @@ public class EventsClient {
         }
     }
 
-    public EventsListResponse list() {
+    public List<Event> list() {
         return list(EventsListRequest.builder().build());
     }
 }

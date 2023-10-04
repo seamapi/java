@@ -7,10 +7,13 @@ import com.seam.api.core.ApiError;
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
+import com.seam.api.types.Workspace;
 import com.seam.api.types.WorkspacesGetResponse;
 import com.seam.api.types.WorkspacesListResponse;
 import com.seam.api.types.WorkspacesResetSandboxResponse;
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
@@ -24,11 +27,11 @@ public class WorkspacesClient {
         this.clientOptions = clientOptions;
     }
 
-    public WorkspacesGetResponse get() {
+    public Optional<Workspace> get() {
         return get(null);
     }
 
-    public WorkspacesGetResponse get(RequestOptions requestOptions) {
+    public Optional<Workspace> get(RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("workspaces/get")
@@ -43,7 +46,9 @@ public class WorkspacesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), WorkspacesGetResponse.class);
+                WorkspacesGetResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), WorkspacesGetResponse.class);
+                return parsedResponse.getWorkspace();
             }
             throw new ApiError(
                     response.code(),
@@ -53,11 +58,11 @@ public class WorkspacesClient {
         }
     }
 
-    public WorkspacesListResponse list() {
+    public List<Workspace> list() {
         return list(null);
     }
 
-    public WorkspacesListResponse list(RequestOptions requestOptions) {
+    public List<Workspace> list(RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("workspaces/list")
@@ -72,7 +77,9 @@ public class WorkspacesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), WorkspacesListResponse.class);
+                WorkspacesListResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), WorkspacesListResponse.class);
+                return parsedResponse.getWorkspaces();
             }
             throw new ApiError(
                     response.code(),

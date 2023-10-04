@@ -11,11 +11,13 @@ import com.seam.api.resources.clientsessions.requests.ClientSessionsCreateReques
 import com.seam.api.resources.clientsessions.requests.ClientSessionsDeleteRequest;
 import com.seam.api.resources.clientsessions.requests.ClientSessionsGetRequest;
 import com.seam.api.resources.clientsessions.requests.ClientSessionsListRequest;
+import com.seam.api.types.ClientSession;
 import com.seam.api.types.ClientSessionsCreateResponse;
 import com.seam.api.types.ClientSessionsDeleteResponse;
 import com.seam.api.types.ClientSessionsGetResponse;
 import com.seam.api.types.ClientSessionsListResponse;
 import java.io.IOException;
+import java.util.List;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -30,11 +32,11 @@ public class ClientSessionsClient {
         this.clientOptions = clientOptions;
     }
 
-    public ClientSessionsCreateResponse create(ClientSessionsCreateRequest request) {
+    public ClientSession create(ClientSessionsCreateRequest request) {
         return create(request, null);
     }
 
-    public ClientSessionsCreateResponse create(ClientSessionsCreateRequest request, RequestOptions requestOptions) {
+    public ClientSession create(ClientSessionsCreateRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("client_sessions/create")
@@ -56,8 +58,9 @@ public class ClientSessionsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
+                ClientSessionsCreateResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
                         response.body().string(), ClientSessionsCreateResponse.class);
+                return parsedResponse.getClientSession();
             }
             throw new ApiError(
                     response.code(),
@@ -67,15 +70,15 @@ public class ClientSessionsClient {
         }
     }
 
-    public ClientSessionsCreateResponse create() {
+    public ClientSession create() {
         return create(ClientSessionsCreateRequest.builder().build());
     }
 
-    public ClientSessionsDeleteResponse delete(ClientSessionsDeleteRequest request) {
-        return delete(request, null);
+    public void delete(ClientSessionsDeleteRequest request) {
+        delete(request, null);
     }
 
-    public ClientSessionsDeleteResponse delete(ClientSessionsDeleteRequest request, RequestOptions requestOptions) {
+    public void delete(ClientSessionsDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("client_sessions/delete")
@@ -97,8 +100,9 @@ public class ClientSessionsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
+                ObjectMappers.JSON_MAPPER.readValue(
                         response.body().string(), ClientSessionsDeleteResponse.class);
+                return;
             }
             throw new ApiError(
                     response.code(),
@@ -108,11 +112,11 @@ public class ClientSessionsClient {
         }
     }
 
-    public ClientSessionsGetResponse get(ClientSessionsGetRequest request) {
+    public ClientSession get(ClientSessionsGetRequest request) {
         return get(request, null);
     }
 
-    public ClientSessionsGetResponse get(ClientSessionsGetRequest request, RequestOptions requestOptions) {
+    public ClientSession get(ClientSessionsGetRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("client_sessions/get")
@@ -134,7 +138,9 @@ public class ClientSessionsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ClientSessionsGetResponse.class);
+                ClientSessionsGetResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ClientSessionsGetResponse.class);
+                return parsedResponse.getClientSession();
             }
             throw new ApiError(
                     response.code(),
@@ -144,15 +150,15 @@ public class ClientSessionsClient {
         }
     }
 
-    public ClientSessionsGetResponse get() {
+    public ClientSession get() {
         return get(ClientSessionsGetRequest.builder().build());
     }
 
-    public ClientSessionsListResponse list(ClientSessionsListRequest request) {
+    public List<ClientSession> list(ClientSessionsListRequest request) {
         return list(request, null);
     }
 
-    public ClientSessionsListResponse list(ClientSessionsListRequest request, RequestOptions requestOptions) {
+    public List<ClientSession> list(ClientSessionsListRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("client_sessions/list")
@@ -174,7 +180,9 @@ public class ClientSessionsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ClientSessionsListResponse.class);
+                ClientSessionsListResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ClientSessionsListResponse.class);
+                return parsedResponse.getClientSessions();
             }
             throw new ApiError(
                     response.code(),
@@ -184,7 +192,7 @@ public class ClientSessionsClient {
         }
     }
 
-    public ClientSessionsListResponse list() {
+    public List<ClientSession> list() {
         return list(ClientSessionsListRequest.builder().build());
     }
 }
