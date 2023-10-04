@@ -25,10 +25,11 @@ public final class ConnectedAccountsTest {
         List<ConnectedAccount> connectedAccounts = seam.connectedAccounts().list();
         Assertions.assertThat(connectedAccounts).hasSizeGreaterThan(0);
 
-        String connectedAccountId = connectedAccounts.get(0).getConnectedAccountId().get();
+        String connectedAccountId =
+                connectedAccounts.get(0).getConnectedAccountId().get();
 
-        ConnectedAccount connectedAccount = seam.connectedAccounts().get(
-                ConnectedAccountsGetRequest.id(connectedAccountId));
+        ConnectedAccount connectedAccount =
+                seam.connectedAccounts().get(ConnectedAccountsGetRequest.id(connectedAccountId));
         Assertions.assertThat(connectedAccount.getConnectedAccountId()).hasValue(connectedAccountId);
 
         // Fake Seam does not like email creation

@@ -6,16 +6,11 @@ public final class TestUtils {
 
     public static final String SEAM_TEST_API_KEY = "seam_apikey1_token";
 
-    private TestUtils() {
-    }
+    private TestUtils() {}
 
     public static Seam startFakeSeam(int port) {
         try {
-            ProcessBuilder process = new ProcessBuilder(
-                    "npx",
-                    "@seamapi/fake-seam-connect",
-                    "--seed"
-            );
+            ProcessBuilder process = new ProcessBuilder("npx", "@seamapi/fake-seam-connect", "--seed");
             process.environment().put("PORT", "8080");
             process.start();
             Thread.sleep(5000);

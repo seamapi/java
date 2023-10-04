@@ -22,16 +22,19 @@ public final class ActionAttemptsTest {
 
     @Test
     public void test_access_attempts() {
-        Device someDevice = seam.devices().list().get(0);;
-        AccessCode createdAccessCode = seam.accessCodes().create(AccessCodesCreateRequest.builder()
-                .deviceId(someDevice.getDeviceId())
-                .name("Test code")
-                .code("4444")
-                .build());
+        Device someDevice = seam.devices().list().get(0);
+        ;
+        AccessCode createdAccessCode = seam.accessCodes()
+                .create(AccessCodesCreateRequest.builder()
+                        .deviceId(someDevice.getDeviceId())
+                        .name("Test code")
+                        .code("4444")
+                        .build());
 
-        ActionAttempt deleteActionAttempt = seam.accessCodes().delete(AccessCodesDeleteRequest.builder()
-                .accessCodeId(createdAccessCode.getAccessCodeId())
-                .build());
+        ActionAttempt deleteActionAttempt = seam.accessCodes()
+                .delete(AccessCodesDeleteRequest.builder()
+                        .accessCodeId(createdAccessCode.getAccessCodeId())
+                        .build());
         Assertions.assertThat(deleteActionAttempt).isNotNull();
     }
 }

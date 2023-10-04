@@ -28,41 +28,48 @@ public class DevicesTest {
         Assertions.assertThat(devices).hasSizeGreaterThan(0);
 
         ConnectedAccount connectedAccount = seam.connectedAccounts().list().get(0);
-        devices = seam.devices().list(DevicesListRequest.builder()
-                .connectedAccountId(connectedAccount.getConnectedAccountId())
-                .build());
+        devices = seam.devices()
+                .list(DevicesListRequest.builder()
+                        .connectedAccountId(connectedAccount.getConnectedAccountId())
+                        .build());
         Assertions.assertThat(devices).hasSizeGreaterThan(0);
-        devices = seam.devices().list(DevicesListRequest.builder()
-                .connectedAccountIds(List.of(connectedAccount.getConnectedAccountId().get()))
-                .build());
-        Assertions.assertThat(devices).hasSizeGreaterThan(0);
-
-        devices = seam.devices().list(DevicesListRequest.builder()
-                .deviceType(DeviceType.AUGUST_LOCK)
-                .build());
-        Assertions.assertThat(devices).hasSizeGreaterThan(0);
-        devices = seam.devices().list(DevicesListRequest.builder()
-                .deviceTypes(List.of(DeviceType.AUGUST_LOCK))
-                .build());
+        devices = seam.devices()
+                .list(DevicesListRequest.builder()
+                        .connectedAccountIds(
+                                List.of(connectedAccount.getConnectedAccountId().get()))
+                        .build());
         Assertions.assertThat(devices).hasSizeGreaterThan(0);
 
-        devices = seam.devices().list(DevicesListRequest.builder()
-                .manufacturer(Manufacturer.AUGUST)
-                .build());
+        devices = seam.devices()
+                .list(DevicesListRequest.builder()
+                        .deviceType(DeviceType.AUGUST_LOCK)
+                        .build());
+        Assertions.assertThat(devices).hasSizeGreaterThan(0);
+        devices = seam.devices()
+                .list(DevicesListRequest.builder()
+                        .deviceTypes(List.of(DeviceType.AUGUST_LOCK))
+                        .build());
+        Assertions.assertThat(devices).hasSizeGreaterThan(0);
+
+        devices = seam.devices()
+                .list(DevicesListRequest.builder()
+                        .manufacturer(Manufacturer.AUGUST)
+                        .build());
         Assertions.assertThat(devices).hasSizeGreaterThan(0);
 
         List<String> deviceIds = List.of(devices.get(0).getDeviceId());
-        devices = seam.devices().list(DevicesListRequest.builder()
-                .deviceIds(deviceIds)
-                .build());
+        devices = seam.devices()
+                .list(DevicesListRequest.builder().deviceIds(deviceIds).build());
         Assertions.assertThat(devices).hasSizeGreaterThan(0);
 
         Device someDevice = seam.devices().list().get(0);
-        Device deviceWithName = seam.devices().get(DevicesGetRequest.builder()
-                .name(someDevice.getProperties().getName())
-                .deviceId(someDevice.getDeviceId())
-                .build());
-        Assertions.assertThat(deviceWithName.getProperties().getName()).isEqualTo(someDevice.getProperties().getName());
+        Device deviceWithName = seam.devices()
+                .get(DevicesGetRequest.builder()
+                        .name(someDevice.getProperties().getName())
+                        .deviceId(someDevice.getDeviceId())
+                        .build());
+        Assertions.assertThat(deviceWithName.getProperties().getName())
+                .isEqualTo(someDevice.getProperties().getName());
 
         // Fake Seam doesn't support locks
         // List<Device> locks = seam.locks().list();

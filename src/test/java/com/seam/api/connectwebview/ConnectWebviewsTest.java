@@ -23,14 +23,16 @@ public final class ConnectWebviewsTest {
 
     @Test
     public void test_connect_webviews() throws InterruptedException {
-        ConnectWebview createdWebView = seam.connectWebviews().create(ConnectWebviewsCreateRequest.builder()
-                .acceptedProviders(List.of(ConnectWebviewsCreateRequestAcceptedProvidersItem.SCHLAGE))
-                .build());
+        ConnectWebview createdWebView = seam.connectWebviews()
+                .create(ConnectWebviewsCreateRequest.builder()
+                        .acceptedProviders(List.of(ConnectWebviewsCreateRequestAcceptedProvidersItem.SCHLAGE))
+                        .build());
         Assertions.assertThat(createdWebView.getConnectWebviewId()).isNotNull();
 
-        ConnectWebview webview = seam.connectWebviews().get(ConnectWebviewsGetRequest.builder()
-                .connectWebviewId(createdWebView.getConnectWebviewId())
-                .build());
+        ConnectWebview webview = seam.connectWebviews()
+                .get(ConnectWebviewsGetRequest.builder()
+                        .connectWebviewId(createdWebView.getConnectWebviewId())
+                        .build());
         Assertions.assertThat(webview.getConnectWebviewId()).isEqualTo(createdWebView.getConnectWebviewId());
 
         // Fake Seam does not serve list webviews
@@ -38,14 +40,16 @@ public final class ConnectWebviewsTest {
         // Assertions.assertThat(webviews).hasSizeGreaterThan(0);
 
         // Test with provider category
-        ConnectWebview newWebview = seam.connectWebviews().create(ConnectWebviewsCreateRequest.builder()
-                .providerCategory(ConnectWebviewsCreateRequestProviderCategory.STABLE)
-                .build());
+        ConnectWebview newWebview = seam.connectWebviews()
+                .create(ConnectWebviewsCreateRequest.builder()
+                        .providerCategory(ConnectWebviewsCreateRequestProviderCategory.STABLE)
+                        .build());
         Assertions.assertThat(newWebview.getConnectWebviewId()).isNotNull();
 
-        webview = seam.connectWebviews().get(ConnectWebviewsGetRequest.builder()
-                .connectWebviewId(newWebview.getConnectWebviewId())
-                .build());
+        webview = seam.connectWebviews()
+                .get(ConnectWebviewsGetRequest.builder()
+                        .connectWebviewId(newWebview.getConnectWebviewId())
+                        .build());
         Assertions.assertThat(webview.getAcceptedProviders()).hasSizeGreaterThan(0);
     }
 }
