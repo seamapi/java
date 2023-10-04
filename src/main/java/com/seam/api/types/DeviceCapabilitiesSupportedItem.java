@@ -3,28 +3,116 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum DeviceCapabilitiesSupportedItem {
-    ACCESS_CODE("access_code"),
+public final class DeviceCapabilitiesSupportedItem {
+    public static final DeviceCapabilitiesSupportedItem LOCK = new DeviceCapabilitiesSupportedItem(Value.LOCK, "lock");
 
-    LOCK("lock"),
+    public static final DeviceCapabilitiesSupportedItem THERMOSTAT =
+            new DeviceCapabilitiesSupportedItem(Value.THERMOSTAT, "thermostat");
 
-    NOISE_DETECTION("noise_detection"),
+    public static final DeviceCapabilitiesSupportedItem ACCESS_CODE =
+            new DeviceCapabilitiesSupportedItem(Value.ACCESS_CODE, "access_code");
 
-    THERMOSTAT("thermostat"),
+    public static final DeviceCapabilitiesSupportedItem BATTERY =
+            new DeviceCapabilitiesSupportedItem(Value.BATTERY, "battery");
 
-    BATTERY("battery");
+    public static final DeviceCapabilitiesSupportedItem NOISE_DETECTION =
+            new DeviceCapabilitiesSupportedItem(Value.NOISE_DETECTION, "noise_detection");
 
-    private final String value;
+    private final Value value;
 
-    DeviceCapabilitiesSupportedItem(String value) {
+    private final String string;
+
+    DeviceCapabilitiesSupportedItem(Value value, String string) {
         this.value = value;
+        this.string = string;
     }
 
-    @JsonValue
+    public Value getEnumValue() {
+        return value;
+    }
+
     @Override
+    @JsonValue
     public String toString() {
-        return this.value;
+        return this.string;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return (this == other)
+                || (other instanceof DeviceCapabilitiesSupportedItem
+                        && this.string.equals(((DeviceCapabilitiesSupportedItem) other).string));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.string.hashCode();
+    }
+
+    public <T> T visit(Visitor<T> visitor) {
+        switch (value) {
+            case LOCK:
+                return visitor.visitLock();
+            case THERMOSTAT:
+                return visitor.visitThermostat();
+            case ACCESS_CODE:
+                return visitor.visitAccessCode();
+            case BATTERY:
+                return visitor.visitBattery();
+            case NOISE_DETECTION:
+                return visitor.visitNoiseDetection();
+            case UNKNOWN:
+            default:
+                return visitor.visitUnknown(string);
+        }
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static DeviceCapabilitiesSupportedItem valueOf(String value) {
+        switch (value) {
+            case "lock":
+                return LOCK;
+            case "thermostat":
+                return THERMOSTAT;
+            case "access_code":
+                return ACCESS_CODE;
+            case "battery":
+                return BATTERY;
+            case "noise_detection":
+                return NOISE_DETECTION;
+            default:
+                return new DeviceCapabilitiesSupportedItem(Value.UNKNOWN, value);
+        }
+    }
+
+    public enum Value {
+        ACCESS_CODE,
+
+        LOCK,
+
+        NOISE_DETECTION,
+
+        THERMOSTAT,
+
+        BATTERY,
+
+        UNKNOWN
+    }
+
+    public interface Visitor<T> {
+        T visitAccessCode();
+
+        T visitLock();
+
+        T visitNoiseDetection();
+
+        T visitThermostat();
+
+        T visitBattery();
+
+        T visitUnknown(String unknownType);
     }
 }

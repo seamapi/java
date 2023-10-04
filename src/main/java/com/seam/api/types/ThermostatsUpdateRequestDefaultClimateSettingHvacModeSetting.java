@@ -3,26 +3,107 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting {
-    OFF("off"),
+public final class ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting {
+    public static final ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting HEATCOOL =
+            new ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting(Value.HEATCOOL, "heatcool");
 
-    HEAT("heat"),
+    public static final ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting OFF =
+            new ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting(Value.OFF, "off");
 
-    COOL("cool"),
+    public static final ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting HEAT =
+            new ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting(Value.HEAT, "heat");
 
-    HEATCOOL("heatcool");
+    public static final ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting COOL =
+            new ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting(Value.COOL, "cool");
 
-    private final String value;
+    private final Value value;
 
-    ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting(String value) {
+    private final String string;
+
+    ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting(Value value, String string) {
         this.value = value;
+        this.string = string;
     }
 
-    @JsonValue
+    public Value getEnumValue() {
+        return value;
+    }
+
     @Override
+    @JsonValue
     public String toString() {
-        return this.value;
+        return this.string;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return (this == other)
+                || (other instanceof ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting
+                        && this.string.equals(
+                                ((ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting) other).string));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.string.hashCode();
+    }
+
+    public <T> T visit(Visitor<T> visitor) {
+        switch (value) {
+            case HEATCOOL:
+                return visitor.visitHeatcool();
+            case OFF:
+                return visitor.visitOff();
+            case HEAT:
+                return visitor.visitHeat();
+            case COOL:
+                return visitor.visitCool();
+            case UNKNOWN:
+            default:
+                return visitor.visitUnknown(string);
+        }
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting valueOf(String value) {
+        switch (value) {
+            case "heatcool":
+                return HEATCOOL;
+            case "off":
+                return OFF;
+            case "heat":
+                return HEAT;
+            case "cool":
+                return COOL;
+            default:
+                return new ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting(Value.UNKNOWN, value);
+        }
+    }
+
+    public enum Value {
+        OFF,
+
+        HEAT,
+
+        COOL,
+
+        HEATCOOL,
+
+        UNKNOWN
+    }
+
+    public interface Visitor<T> {
+        T visitOff();
+
+        T visitHeat();
+
+        T visitCool();
+
+        T visitHeatcool();
+
+        T visitUnknown(String unknownType);
     }
 }

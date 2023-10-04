@@ -6,28 +6,28 @@ package com.seam.api;
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.Environment;
 
-public final class SeamApiClientBuilder {
+public final class SeamBuilder {
     private ClientOptions.Builder clientOptionsBuilder = ClientOptions.builder();
 
     private Environment environment = Environment.DEFAULT;
 
-    public SeamApiClientBuilder apiKey(String apiKey) {
+    public SeamBuilder apiKey(String apiKey) {
         this.clientOptionsBuilder.addHeader("Authorization", "Bearer " + apiKey);
         return this;
     }
 
-    public SeamApiClientBuilder environment(Environment environment) {
+    public SeamBuilder environment(Environment environment) {
         this.environment = environment;
         return this;
     }
 
-    public SeamApiClientBuilder url(String url) {
+    public SeamBuilder url(String url) {
         this.environment = Environment.custom(url);
         return this;
     }
 
-    public SeamApiClient build() {
+    public Seam build() {
         clientOptionsBuilder.environment(this.environment);
-        return new SeamApiClient(clientOptionsBuilder.build());
+        return new Seam(clientOptionsBuilder.build());
     }
 }

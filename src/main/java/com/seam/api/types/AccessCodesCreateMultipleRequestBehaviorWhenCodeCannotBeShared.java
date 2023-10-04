@@ -3,22 +3,86 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared {
-    THROW("throw"),
+public final class AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared {
+    public static final AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared CREATE_RANDOM_CODE =
+            new AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared(
+                    Value.CREATE_RANDOM_CODE, "create_random_code");
 
-    CREATE_RANDOM_CODE("create_random_code");
+    public static final AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared THROW =
+            new AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared(Value.THROW, "throw");
 
-    private final String value;
+    private final Value value;
 
-    AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared(String value) {
+    private final String string;
+
+    AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared(Value value, String string) {
         this.value = value;
+        this.string = string;
     }
 
-    @JsonValue
+    public Value getEnumValue() {
+        return value;
+    }
+
     @Override
+    @JsonValue
     public String toString() {
-        return this.value;
+        return this.string;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return (this == other)
+                || (other instanceof AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared
+                        && this.string.equals(
+                                ((AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared) other).string));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.string.hashCode();
+    }
+
+    public <T> T visit(Visitor<T> visitor) {
+        switch (value) {
+            case CREATE_RANDOM_CODE:
+                return visitor.visitCreateRandomCode();
+            case THROW:
+                return visitor.visitThrow();
+            case UNKNOWN:
+            default:
+                return visitor.visitUnknown(string);
+        }
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared valueOf(String value) {
+        switch (value) {
+            case "create_random_code":
+                return CREATE_RANDOM_CODE;
+            case "throw":
+                return THROW;
+            default:
+                return new AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared(Value.UNKNOWN, value);
+        }
+    }
+
+    public enum Value {
+        THROW,
+
+        CREATE_RANDOM_CODE,
+
+        UNKNOWN
+    }
+
+    public interface Visitor<T> {
+        T visitThrow();
+
+        T visitCreateRandomCode();
+
+        T visitUnknown(String unknownType);
     }
 }

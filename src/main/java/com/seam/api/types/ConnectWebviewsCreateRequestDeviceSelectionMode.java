@@ -3,24 +3,95 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum ConnectWebviewsCreateRequestDeviceSelectionMode {
-    NONE("none"),
+public final class ConnectWebviewsCreateRequestDeviceSelectionMode {
+    public static final ConnectWebviewsCreateRequestDeviceSelectionMode MULTIPLE =
+            new ConnectWebviewsCreateRequestDeviceSelectionMode(Value.MULTIPLE, "multiple");
 
-    SINGLE("single"),
+    public static final ConnectWebviewsCreateRequestDeviceSelectionMode NONE =
+            new ConnectWebviewsCreateRequestDeviceSelectionMode(Value.NONE, "none");
 
-    MULTIPLE("multiple");
+    public static final ConnectWebviewsCreateRequestDeviceSelectionMode SINGLE =
+            new ConnectWebviewsCreateRequestDeviceSelectionMode(Value.SINGLE, "single");
 
-    private final String value;
+    private final Value value;
 
-    ConnectWebviewsCreateRequestDeviceSelectionMode(String value) {
+    private final String string;
+
+    ConnectWebviewsCreateRequestDeviceSelectionMode(Value value, String string) {
         this.value = value;
+        this.string = string;
     }
 
-    @JsonValue
+    public Value getEnumValue() {
+        return value;
+    }
+
     @Override
+    @JsonValue
     public String toString() {
-        return this.value;
+        return this.string;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return (this == other)
+                || (other instanceof ConnectWebviewsCreateRequestDeviceSelectionMode
+                        && this.string.equals(((ConnectWebviewsCreateRequestDeviceSelectionMode) other).string));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.string.hashCode();
+    }
+
+    public <T> T visit(Visitor<T> visitor) {
+        switch (value) {
+            case MULTIPLE:
+                return visitor.visitMultiple();
+            case NONE:
+                return visitor.visitNone();
+            case SINGLE:
+                return visitor.visitSingle();
+            case UNKNOWN:
+            default:
+                return visitor.visitUnknown(string);
+        }
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static ConnectWebviewsCreateRequestDeviceSelectionMode valueOf(String value) {
+        switch (value) {
+            case "multiple":
+                return MULTIPLE;
+            case "none":
+                return NONE;
+            case "single":
+                return SINGLE;
+            default:
+                return new ConnectWebviewsCreateRequestDeviceSelectionMode(Value.UNKNOWN, value);
+        }
+    }
+
+    public enum Value {
+        NONE,
+
+        SINGLE,
+
+        MULTIPLE,
+
+        UNKNOWN
+    }
+
+    public interface Visitor<T> {
+        T visitNone();
+
+        T visitSingle();
+
+        T visitMultiple();
+
+        T visitUnknown(String unknownType);
     }
 }

@@ -3,24 +3,95 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum ConnectWebviewsCreateRequestProviderCategory {
-    STABLE("stable"),
+public final class ConnectWebviewsCreateRequestProviderCategory {
+    public static final ConnectWebviewsCreateRequestProviderCategory STABLE =
+            new ConnectWebviewsCreateRequestProviderCategory(Value.STABLE, "stable");
 
-    CONSUMER_SMARTLOCKS("consumer_smartlocks"),
+    public static final ConnectWebviewsCreateRequestProviderCategory CONSUMER_SMARTLOCKS =
+            new ConnectWebviewsCreateRequestProviderCategory(Value.CONSUMER_SMARTLOCKS, "consumer_smartlocks");
 
-    INTERNAL_BETA("internal_beta");
+    public static final ConnectWebviewsCreateRequestProviderCategory INTERNAL_BETA =
+            new ConnectWebviewsCreateRequestProviderCategory(Value.INTERNAL_BETA, "internal_beta");
 
-    private final String value;
+    private final Value value;
 
-    ConnectWebviewsCreateRequestProviderCategory(String value) {
+    private final String string;
+
+    ConnectWebviewsCreateRequestProviderCategory(Value value, String string) {
         this.value = value;
+        this.string = string;
     }
 
-    @JsonValue
+    public Value getEnumValue() {
+        return value;
+    }
+
     @Override
+    @JsonValue
     public String toString() {
-        return this.value;
+        return this.string;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return (this == other)
+                || (other instanceof ConnectWebviewsCreateRequestProviderCategory
+                        && this.string.equals(((ConnectWebviewsCreateRequestProviderCategory) other).string));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.string.hashCode();
+    }
+
+    public <T> T visit(Visitor<T> visitor) {
+        switch (value) {
+            case STABLE:
+                return visitor.visitStable();
+            case CONSUMER_SMARTLOCKS:
+                return visitor.visitConsumerSmartlocks();
+            case INTERNAL_BETA:
+                return visitor.visitInternalBeta();
+            case UNKNOWN:
+            default:
+                return visitor.visitUnknown(string);
+        }
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static ConnectWebviewsCreateRequestProviderCategory valueOf(String value) {
+        switch (value) {
+            case "stable":
+                return STABLE;
+            case "consumer_smartlocks":
+                return CONSUMER_SMARTLOCKS;
+            case "internal_beta":
+                return INTERNAL_BETA;
+            default:
+                return new ConnectWebviewsCreateRequestProviderCategory(Value.UNKNOWN, value);
+        }
+    }
+
+    public enum Value {
+        STABLE,
+
+        CONSUMER_SMARTLOCKS,
+
+        INTERNAL_BETA,
+
+        UNKNOWN
+    }
+
+    public interface Visitor<T> {
+        T visitStable();
+
+        T visitConsumerSmartlocks();
+
+        T visitInternalBeta();
+
+        T visitUnknown(String unknownType);
     }
 }

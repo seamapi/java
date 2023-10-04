@@ -3,28 +3,109 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum AccessCodeStatus {
-    SETTING("setting"),
+public final class AccessCodeStatus {
+    public static final AccessCodeStatus SET = new AccessCodeStatus(Value.SET, "set");
 
-    SET("set"),
+    public static final AccessCodeStatus UNSET = new AccessCodeStatus(Value.UNSET, "unset");
 
-    UNSET("unset"),
+    public static final AccessCodeStatus UNKNOWN = new AccessCodeStatus(Value.UNKNOWN, "unknown");
 
-    REMOVING("removing"),
+    public static final AccessCodeStatus REMOVING = new AccessCodeStatus(Value.REMOVING, "removing");
 
-    UNKNOWN("unknown");
+    public static final AccessCodeStatus SETTING = new AccessCodeStatus(Value.SETTING, "setting");
 
-    private final String value;
+    private final Value value;
 
-    AccessCodeStatus(String value) {
+    private final String string;
+
+    AccessCodeStatus(Value value, String string) {
         this.value = value;
+        this.string = string;
     }
 
-    @JsonValue
+    public Value getEnumValue() {
+        return value;
+    }
+
     @Override
+    @JsonValue
     public String toString() {
-        return this.value;
+        return this.string;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return (this == other)
+                || (other instanceof AccessCodeStatus && this.string.equals(((AccessCodeStatus) other).string));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.string.hashCode();
+    }
+
+    public <T> T visit(Visitor<T> visitor) {
+        switch (value) {
+            case SET:
+                return visitor.visitSet();
+            case UNSET:
+                return visitor.visitUnset();
+            case UNKNOWN:
+                return visitor.visitUnknown();
+            case REMOVING:
+                return visitor.visitRemoving();
+            case SETTING:
+                return visitor.visitSetting();
+            case UNKNOWN:
+            default:
+                return visitor.visitUnknown(string);
+        }
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static AccessCodeStatus valueOf(String value) {
+        switch (value) {
+            case "set":
+                return SET;
+            case "unset":
+                return UNSET;
+            case "unknown":
+                return UNKNOWN;
+            case "removing":
+                return REMOVING;
+            case "setting":
+                return SETTING;
+            default:
+                return new AccessCodeStatus(Value.UNKNOWN, value);
+        }
+    }
+
+    public enum Value {
+        SETTING,
+
+        SET,
+
+        UNSET,
+
+        REMOVING,
+
+        UNKNOWN
+    }
+
+    public interface Visitor<T> {
+        T visitSetting();
+
+        T visitSet();
+
+        T visitUnset();
+
+        T visitRemoving();
+
+        T visitUnknown();
+
+        T visitUnknown(String unknownType);
     }
 }

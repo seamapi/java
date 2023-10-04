@@ -3,22 +3,88 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem {
-    STABLE("stable"),
+public final class DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem {
+    public static final DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem STABLE =
+            new DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem(Value.STABLE, "stable");
 
-    CONSUMER_SMARTLOCKS("consumer_smartlocks");
+    public static final DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem
+            CONSUMER_SMARTLOCKS = new DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem(
+                    Value.CONSUMER_SMARTLOCKS, "consumer_smartlocks");
 
-    private final String value;
+    private final Value value;
 
-    DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem(String value) {
+    private final String string;
+
+    DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem(Value value, String string) {
         this.value = value;
+        this.string = string;
     }
 
-    @JsonValue
+    public Value getEnumValue() {
+        return value;
+    }
+
     @Override
+    @JsonValue
     public String toString() {
-        return this.value;
+        return this.string;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return (this == other)
+                || (other instanceof DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem
+                        && this.string.equals(
+                                ((DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem) other)
+                                        .string));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.string.hashCode();
+    }
+
+    public <T> T visit(Visitor<T> visitor) {
+        switch (value) {
+            case STABLE:
+                return visitor.visitStable();
+            case CONSUMER_SMARTLOCKS:
+                return visitor.visitConsumerSmartlocks();
+            case UNKNOWN:
+            default:
+                return visitor.visitUnknown(string);
+        }
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem valueOf(String value) {
+        switch (value) {
+            case "stable":
+                return STABLE;
+            case "consumer_smartlocks":
+                return CONSUMER_SMARTLOCKS;
+            default:
+                return new DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem(
+                        Value.UNKNOWN, value);
+        }
+    }
+
+    public enum Value {
+        STABLE,
+
+        CONSUMER_SMARTLOCKS,
+
+        UNKNOWN
+    }
+
+    public interface Visitor<T> {
+        T visitStable();
+
+        T visitConsumerSmartlocks();
+
+        T visitUnknown(String unknownType);
     }
 }

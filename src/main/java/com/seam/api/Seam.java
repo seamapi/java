@@ -20,7 +20,7 @@ import com.seam.api.resources.webhooks.WebhooksClient;
 import com.seam.api.resources.workspaces.WorkspacesClient;
 import java.util.function.Supplier;
 
-public class SeamApiClient {
+public class Seam {
     protected final ClientOptions clientOptions;
 
     protected final Supplier<AccessCodesClient> accessCodesClient;
@@ -49,7 +49,7 @@ public class SeamApiClient {
 
     protected final Supplier<WorkspacesClient> workspacesClient;
 
-    public SeamApiClient(ClientOptions clientOptions) {
+    public Seam(ClientOptions clientOptions) {
         this.clientOptions = clientOptions;
         this.accessCodesClient = Suppliers.memoize(() -> new AccessCodesClient(clientOptions));
         this.actionAttemptsClient = Suppliers.memoize(() -> new ActionAttemptsClient(clientOptions));
@@ -118,7 +118,7 @@ public class SeamApiClient {
         return this.workspacesClient.get();
     }
 
-    public static SeamApiClientBuilder builder() {
-        return new SeamApiClientBuilder();
+    public static SeamBuilder builder() {
+        return new SeamBuilder();
     }
 }
