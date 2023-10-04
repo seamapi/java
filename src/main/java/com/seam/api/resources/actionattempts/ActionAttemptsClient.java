@@ -54,8 +54,8 @@ public class ActionAttemptsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                ActionAttemptsGetResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), ActionAttemptsGetResponse.class);
+                ActionAttemptsGetResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ActionAttemptsGetResponse.class);
                 return parsedResponse.getActionAttempt();
             }
             throw new ApiError(

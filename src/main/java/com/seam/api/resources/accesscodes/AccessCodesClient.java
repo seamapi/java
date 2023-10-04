@@ -91,8 +91,7 @@ public class AccessCodesClient {
         return createMultiple(request, null);
     }
 
-    public List<AccessCode> createMultiple(
-            AccessCodesCreateMultipleRequest request, RequestOptions requestOptions) {
+    public List<AccessCode> createMultiple(AccessCodesCreateMultipleRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/create_multiple")
@@ -190,8 +189,8 @@ public class AccessCodesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                AccessCodesGetResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), AccessCodesGetResponse.class);
+                AccessCodesGetResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesGetResponse.class);
                 return parsedResponse.getAccessCode();
             }
             throw new ApiError(
@@ -232,8 +231,8 @@ public class AccessCodesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                AccessCodesListResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), AccessCodesListResponse.class);
+                AccessCodesListResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesListResponse.class);
                 return parsedResponse.getAccessCodes();
             }
             throw new ApiError(
@@ -244,8 +243,7 @@ public class AccessCodesClient {
         }
     }
 
-    public AccessCode pullBackupAccessCode(
-            AccessCodesPullBackupAccessCodeRequest request) {
+    public AccessCode pullBackupAccessCode(AccessCodesPullBackupAccessCodeRequest request) {
         return pullBackupAccessCode(request, null);
     }
 
@@ -310,8 +308,8 @@ public class AccessCodesClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                AccessCodesUpdateResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), AccessCodesUpdateResponse.class);
+                AccessCodesUpdateResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesUpdateResponse.class);
                 return parsedResponse.getActionAttempt();
             }
             throw new ApiError(

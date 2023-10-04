@@ -100,8 +100,7 @@ public class ClientSessionsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), ClientSessionsDeleteResponse.class);
+                ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ClientSessionsDeleteResponse.class);
                 return;
             }
             throw new ApiError(

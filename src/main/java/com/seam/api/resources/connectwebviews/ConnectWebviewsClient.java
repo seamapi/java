@@ -100,8 +100,7 @@ public class ConnectWebviewsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), ConnectWebviewsDeleteResponse.class);
+                ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ConnectWebviewsDeleteResponse.class);
                 return;
             }
             throw new ApiError(
@@ -169,8 +168,8 @@ public class ConnectWebviewsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                ConnectWebviewsListResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ConnectWebviewsListResponse.class);
+                ConnectWebviewsListResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
+                        response.body().string(), ConnectWebviewsListResponse.class);
                 return parsedResponse.getConnectWebviews();
             }
             throw new ApiError(
