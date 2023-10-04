@@ -5,7 +5,7 @@ package com.seam.api.types;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum UnmanagedDeviceCapabilitiesSupportedItem {
+public enum SupportedCapabililty {
     ACCESS_CODE("access_code"),
 
     LOCK("lock"),
@@ -18,7 +18,7 @@ public enum UnmanagedDeviceCapabilitiesSupportedItem {
 
     private final String value;
 
-    UnmanagedDeviceCapabilitiesSupportedItem(String value) {
+    SupportedCapabililty(String value) {
         this.value = value;
     }
 

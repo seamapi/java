@@ -20,11 +20,11 @@ import java.util.Objects;
 public final class UnmanagedDevice {
     private final String deviceId;
 
-    private final UnmanagedDeviceDeviceType deviceType;
+    private final DeviceType deviceType;
 
     private final String connectedAccountId;
 
-    private final List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported;
+    private final List<SupportedCapabililty> capabilitiesSupported;
 
     private final String workspaceId;
 
@@ -40,9 +40,9 @@ public final class UnmanagedDevice {
 
     private UnmanagedDevice(
             String deviceId,
-            UnmanagedDeviceDeviceType deviceType,
+            DeviceType deviceType,
             String connectedAccountId,
-            List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported,
+            List<SupportedCapabililty> capabilitiesSupported,
             String workspaceId,
             List<UnmanagedDeviceErrorsItem> errors,
             List<UnmanagedDeviceWarningsItem> warnings,
@@ -67,7 +67,7 @@ public final class UnmanagedDevice {
     }
 
     @JsonProperty("device_type")
-    public UnmanagedDeviceDeviceType getDeviceType() {
+    public DeviceType getDeviceType() {
         return deviceType;
     }
 
@@ -77,7 +77,7 @@ public final class UnmanagedDevice {
     }
 
     @JsonProperty("capabilities_supported")
-    public List<UnmanagedDeviceCapabilitiesSupportedItem> getCapabilitiesSupported() {
+    public List<SupportedCapabililty> getCapabilitiesSupported() {
         return capabilitiesSupported;
     }
 
@@ -161,7 +161,7 @@ public final class UnmanagedDevice {
     }
 
     public interface DeviceTypeStage {
-        ConnectedAccountIdStage deviceType(UnmanagedDeviceDeviceType deviceType);
+        ConnectedAccountIdStage deviceType(DeviceType deviceType);
     }
 
     public interface ConnectedAccountIdStage {
@@ -187,11 +187,11 @@ public final class UnmanagedDevice {
     public interface _FinalStage {
         UnmanagedDevice build();
 
-        _FinalStage capabilitiesSupported(List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported);
+        _FinalStage capabilitiesSupported(List<SupportedCapabililty> capabilitiesSupported);
 
-        _FinalStage addCapabilitiesSupported(UnmanagedDeviceCapabilitiesSupportedItem capabilitiesSupported);
+        _FinalStage addCapabilitiesSupported(SupportedCapabililty capabilitiesSupported);
 
-        _FinalStage addAllCapabilitiesSupported(List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported);
+        _FinalStage addAllCapabilitiesSupported(List<SupportedCapabililty> capabilitiesSupported);
 
         _FinalStage errors(List<UnmanagedDeviceErrorsItem> errors);
 
@@ -218,7 +218,7 @@ public final class UnmanagedDevice {
                     _FinalStage {
         private String deviceId;
 
-        private UnmanagedDeviceDeviceType deviceType;
+        private DeviceType deviceType;
 
         private String connectedAccountId;
 
@@ -234,7 +234,7 @@ public final class UnmanagedDevice {
 
         private List<UnmanagedDeviceErrorsItem> errors = new ArrayList<>();
 
-        private List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported = new ArrayList<>();
+        private List<SupportedCapabililty> capabilitiesSupported = new ArrayList<>();
 
         private Builder() {}
 
@@ -262,7 +262,7 @@ public final class UnmanagedDevice {
 
         @Override
         @JsonSetter("device_type")
-        public ConnectedAccountIdStage deviceType(UnmanagedDeviceDeviceType deviceType) {
+        public ConnectedAccountIdStage deviceType(DeviceType deviceType) {
             this.deviceType = deviceType;
             return this;
         }
@@ -343,21 +343,20 @@ public final class UnmanagedDevice {
         }
 
         @Override
-        public _FinalStage addAllCapabilitiesSupported(
-                List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported) {
+        public _FinalStage addAllCapabilitiesSupported(List<SupportedCapabililty> capabilitiesSupported) {
             this.capabilitiesSupported.addAll(capabilitiesSupported);
             return this;
         }
 
         @Override
-        public _FinalStage addCapabilitiesSupported(UnmanagedDeviceCapabilitiesSupportedItem capabilitiesSupported) {
+        public _FinalStage addCapabilitiesSupported(SupportedCapabililty capabilitiesSupported) {
             this.capabilitiesSupported.add(capabilitiesSupported);
             return this;
         }
 
         @Override
         @JsonSetter(value = "capabilities_supported", nulls = Nulls.SKIP)
-        public _FinalStage capabilitiesSupported(List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported) {
+        public _FinalStage capabilitiesSupported(List<SupportedCapabililty> capabilitiesSupported) {
             this.capabilitiesSupported.clear();
             this.capabilitiesSupported.addAll(capabilitiesSupported);
             return this;

@@ -5,7 +5,7 @@ package com.seam.api.types;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum DevicesListRequestManufacturer {
+public enum Manufacturer {
     AKUVOX("akuvox"),
 
     AUGUST("august"),
@@ -60,7 +60,7 @@ public enum DevicesListRequestManufacturer {
 
     private final String value;
 
-    DevicesListRequestManufacturer(String value) {
+    Manufacturer(String value) {
         this.value = value;
     }
 

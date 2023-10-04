@@ -21,7 +21,7 @@ import java.util.Optional;
 public final class Device {
     private final String deviceId;
 
-    private final DeviceDeviceType deviceType;
+    private final DeviceType deviceType;
 
     private final List<DeviceCapabilitiesSupportedItem> capabilitiesSupported;
 
@@ -43,7 +43,7 @@ public final class Device {
 
     private Device(
             String deviceId,
-            DeviceDeviceType deviceType,
+            DeviceType deviceType,
             List<DeviceCapabilitiesSupportedItem> capabilitiesSupported,
             DeviceProperties properties,
             Optional<Object> location,
@@ -72,7 +72,7 @@ public final class Device {
     }
 
     @JsonProperty("device_type")
-    public DeviceDeviceType getDeviceType() {
+    public DeviceType getDeviceType() {
         return deviceType;
     }
 
@@ -173,7 +173,7 @@ public final class Device {
     }
 
     public interface DeviceTypeStage {
-        PropertiesStage deviceType(DeviceDeviceType deviceType);
+        PropertiesStage deviceType(DeviceType deviceType);
     }
 
     public interface PropertiesStage {
@@ -234,7 +234,7 @@ public final class Device {
                     _FinalStage {
         private String deviceId;
 
-        private DeviceDeviceType deviceType;
+        private DeviceType deviceType;
 
         private DeviceProperties properties;
 
@@ -281,7 +281,7 @@ public final class Device {
 
         @Override
         @JsonSetter("device_type")
-        public PropertiesStage deviceType(DeviceDeviceType deviceType) {
+        public PropertiesStage deviceType(DeviceType deviceType) {
             this.deviceType = deviceType;
             return this;
         }

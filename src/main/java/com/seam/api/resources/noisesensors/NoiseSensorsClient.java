@@ -12,21 +12,21 @@ import java.util.function.Supplier;
 public class NoiseSensorsClient {
     protected final ClientOptions clientOptions;
 
-    protected final Supplier<SimulateClient> simulateClient;
-
     protected final Supplier<NoiseThresholdsClient> noiseThresholdsClient;
+
+    protected final Supplier<SimulateClient> simulateClient;
 
     public NoiseSensorsClient(ClientOptions clientOptions) {
         this.clientOptions = clientOptions;
-        this.simulateClient = Suppliers.memoize(() -> new SimulateClient(clientOptions));
         this.noiseThresholdsClient = Suppliers.memoize(() -> new NoiseThresholdsClient(clientOptions));
-    }
-
-    public SimulateClient simulate() {
-        return this.simulateClient.get();
+        this.simulateClient = Suppliers.memoize(() -> new SimulateClient(clientOptions));
     }
 
     public NoiseThresholdsClient noiseThresholds() {
         return this.noiseThresholdsClient.get();
+    }
+
+    public SimulateClient simulate() {
+        return this.simulateClient.get();
     }
 }

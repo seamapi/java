@@ -10,9 +10,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
-import com.seam.api.types.UnmanagedListRequestDeviceType;
-import com.seam.api.types.UnmanagedListRequestDeviceTypesItem;
-import com.seam.api.types.UnmanagedListRequestManufacturer;
+import com.seam.api.types.DeviceType;
+import com.seam.api.types.Manufacturer;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -27,11 +26,11 @@ public final class UnmanagedListRequest {
 
     private final Optional<String> connectWebviewId;
 
-    private final Optional<UnmanagedListRequestDeviceType> deviceType;
+    private final Optional<DeviceType> deviceType;
 
-    private final Optional<List<UnmanagedListRequestDeviceTypesItem>> deviceTypes;
+    private final Optional<List<DeviceType>> deviceTypes;
 
-    private final Optional<UnmanagedListRequestManufacturer> manufacturer;
+    private final Optional<Manufacturer> manufacturer;
 
     private final Optional<List<String>> deviceIds;
 
@@ -43,9 +42,9 @@ public final class UnmanagedListRequest {
             Optional<String> connectedAccountId,
             Optional<List<String>> connectedAccountIds,
             Optional<String> connectWebviewId,
-            Optional<UnmanagedListRequestDeviceType> deviceType,
-            Optional<List<UnmanagedListRequestDeviceTypesItem>> deviceTypes,
-            Optional<UnmanagedListRequestManufacturer> manufacturer,
+            Optional<DeviceType> deviceType,
+            Optional<List<DeviceType>> deviceTypes,
+            Optional<Manufacturer> manufacturer,
             Optional<List<String>> deviceIds,
             Optional<Double> limit,
             Optional<OffsetDateTime> createdBefore) {
@@ -76,17 +75,17 @@ public final class UnmanagedListRequest {
     }
 
     @JsonProperty("device_type")
-    public Optional<UnmanagedListRequestDeviceType> getDeviceType() {
+    public Optional<DeviceType> getDeviceType() {
         return deviceType;
     }
 
     @JsonProperty("device_types")
-    public Optional<List<UnmanagedListRequestDeviceTypesItem>> getDeviceTypes() {
+    public Optional<List<DeviceType>> getDeviceTypes() {
         return deviceTypes;
     }
 
     @JsonProperty("manufacturer")
-    public Optional<UnmanagedListRequestManufacturer> getManufacturer() {
+    public Optional<Manufacturer> getManufacturer() {
         return manufacturer;
     }
 
@@ -154,11 +153,11 @@ public final class UnmanagedListRequest {
 
         private Optional<String> connectWebviewId = Optional.empty();
 
-        private Optional<UnmanagedListRequestDeviceType> deviceType = Optional.empty();
+        private Optional<DeviceType> deviceType = Optional.empty();
 
-        private Optional<List<UnmanagedListRequestDeviceTypesItem>> deviceTypes = Optional.empty();
+        private Optional<List<DeviceType>> deviceTypes = Optional.empty();
 
-        private Optional<UnmanagedListRequestManufacturer> manufacturer = Optional.empty();
+        private Optional<Manufacturer> manufacturer = Optional.empty();
 
         private Optional<List<String>> deviceIds = Optional.empty();
 
@@ -215,34 +214,34 @@ public final class UnmanagedListRequest {
         }
 
         @JsonSetter(value = "device_type", nulls = Nulls.SKIP)
-        public Builder deviceType(Optional<UnmanagedListRequestDeviceType> deviceType) {
+        public Builder deviceType(Optional<DeviceType> deviceType) {
             this.deviceType = deviceType;
             return this;
         }
 
-        public Builder deviceType(UnmanagedListRequestDeviceType deviceType) {
+        public Builder deviceType(DeviceType deviceType) {
             this.deviceType = Optional.of(deviceType);
             return this;
         }
 
         @JsonSetter(value = "device_types", nulls = Nulls.SKIP)
-        public Builder deviceTypes(Optional<List<UnmanagedListRequestDeviceTypesItem>> deviceTypes) {
+        public Builder deviceTypes(Optional<List<DeviceType>> deviceTypes) {
             this.deviceTypes = deviceTypes;
             return this;
         }
 
-        public Builder deviceTypes(List<UnmanagedListRequestDeviceTypesItem> deviceTypes) {
+        public Builder deviceTypes(List<DeviceType> deviceTypes) {
             this.deviceTypes = Optional.of(deviceTypes);
             return this;
         }
 
         @JsonSetter(value = "manufacturer", nulls = Nulls.SKIP)
-        public Builder manufacturer(Optional<UnmanagedListRequestManufacturer> manufacturer) {
+        public Builder manufacturer(Optional<Manufacturer> manufacturer) {
             this.manufacturer = manufacturer;
             return this;
         }
 
-        public Builder manufacturer(UnmanagedListRequestManufacturer manufacturer) {
+        public Builder manufacturer(Manufacturer manufacturer) {
             this.manufacturer = Optional.of(manufacturer);
             return this;
         }

@@ -5,7 +5,7 @@ package com.seam.api.types;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum ThermostatsListRequestDeviceTypesItem {
+public enum DeviceType {
     AKUVOX_LOCK("akuvox_lock"),
 
     AUGUST_LOCK("august_lock"),
@@ -58,7 +58,7 @@ public enum ThermostatsListRequestDeviceTypesItem {
 
     private final String value;
 
-    ThermostatsListRequestDeviceTypesItem(String value) {
+    DeviceType(String value) {
         this.value = value;
     }
 
