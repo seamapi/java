@@ -89,7 +89,7 @@ public class ClimateSettingSchedulesClient {
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
-                .method("POST", body)
+                .method("DELETE", body)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
