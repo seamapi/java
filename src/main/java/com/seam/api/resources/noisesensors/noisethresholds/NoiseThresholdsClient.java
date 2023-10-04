@@ -98,8 +98,8 @@ public class NoiseThresholdsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                NoiseThresholdsDeleteResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), NoiseThresholdsDeleteResponse.class);
+                NoiseThresholdsDeleteResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
+                        response.body().string(), NoiseThresholdsDeleteResponse.class);
                 return parsedResponse.getActionAttempt();
             }
             throw new ApiError(
@@ -174,8 +174,8 @@ public class NoiseThresholdsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                NoiseThresholdsListResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), NoiseThresholdsListResponse.class);
+                NoiseThresholdsListResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
+                        response.body().string(), NoiseThresholdsListResponse.class);
                 return parsedResponse.getNoiseThresholds();
             }
             throw new ApiError(
@@ -212,8 +212,8 @@ public class NoiseThresholdsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                NoiseThresholdsUpdateResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), NoiseThresholdsUpdateResponse.class);
+                NoiseThresholdsUpdateResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
+                        response.body().string(), NoiseThresholdsUpdateResponse.class);
                 return parsedResponse.getActionAttempt();
             }
             throw new ApiError(

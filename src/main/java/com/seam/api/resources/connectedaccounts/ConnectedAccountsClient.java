@@ -33,8 +33,7 @@ public class ConnectedAccountsClient {
         delete(request, null);
     }
 
-    public void delete(
-            ConnectedAccountsDeleteRequest request, RequestOptions requestOptions) {
+    public void delete(ConnectedAccountsDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("connected_accounts/delete")
@@ -56,8 +55,7 @@ public class ConnectedAccountsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), ConnectedAccountsDeleteResponse.class);
+                ObjectMappers.JSON_MAPPER.readValue(response.body().string(), ConnectedAccountsDeleteResponse.class);
                 return;
             }
             throw new ApiError(
@@ -94,7 +92,7 @@ public class ConnectedAccountsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                ConnectedAccountsGetResponse parsedResponse =  ObjectMappers.JSON_MAPPER.readValue(
+                ConnectedAccountsGetResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
                         response.body().string(), ConnectedAccountsGetResponse.class);
                 return parsedResponse.getConnectedAccount();
             }

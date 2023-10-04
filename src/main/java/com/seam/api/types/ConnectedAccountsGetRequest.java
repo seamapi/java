@@ -68,10 +68,7 @@ public final class ConnectedAccountsGetRequest {
 
     public static ConnectedAccountsGetRequest email(String email) {
         return new ConnectedAccountsGetRequest(
-                ConnectedAccountsGetRequestEmail.builder()
-                        .email(email)
-                        .build(),
-                1);
+                ConnectedAccountsGetRequestEmail.builder().email(email).build(), 1);
     }
 
     public interface Visitor<T> {
@@ -90,16 +87,14 @@ public final class ConnectedAccountsGetRequest {
             Object value = p.readValueAs(Object.class);
             try {
                 return new ConnectedAccountsGetRequest(
-                        ObjectMappers.JSON_MAPPER.convertValue(value,
-                                ConnectedAccountsGetRequestConnectedAccountId.class),
+                        ObjectMappers.JSON_MAPPER.convertValue(
+                                value, ConnectedAccountsGetRequestConnectedAccountId.class),
                         0);
             } catch (IllegalArgumentException e) {
             }
             try {
                 return new ConnectedAccountsGetRequest(
-                        ObjectMappers.JSON_MAPPER.convertValue(value,
-                                ConnectedAccountsGetRequestEmail.class),
-                        1);
+                        ObjectMappers.JSON_MAPPER.convertValue(value, ConnectedAccountsGetRequestEmail.class), 1);
             } catch (IllegalArgumentException e) {
             }
             throw new JsonParseException(p, "Failed to deserialize");

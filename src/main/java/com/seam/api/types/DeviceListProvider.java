@@ -59,8 +59,7 @@ public final class DeviceListProvider {
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof DeviceListProvider
-                && equalTo((DeviceListProvider) other);
+        return other instanceof DeviceListProvider && equalTo((DeviceListProvider) other);
     }
 
     private boolean equalTo(DeviceListProvider other) {
@@ -179,8 +178,7 @@ public final class DeviceListProvider {
 
         @Override
         public DeviceListProvider build() {
-            return new DeviceListProvider(
-                    deviceProviderName, displayName, imageUrl, providerCategories);
+            return new DeviceListProvider(deviceProviderName, displayName, imageUrl, providerCategories);
         }
     }
 }

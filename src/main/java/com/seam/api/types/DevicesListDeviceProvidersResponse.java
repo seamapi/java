@@ -21,8 +21,7 @@ public final class DevicesListDeviceProvidersResponse {
 
     private final boolean ok;
 
-    private DevicesListDeviceProvidersResponse(
-            List<DeviceListProvider> deviceProviders, boolean ok) {
+    private DevicesListDeviceProvidersResponse(List<DeviceListProvider> deviceProviders, boolean ok) {
         this.deviceProviders = deviceProviders;
         this.ok = ok;
     }
@@ -101,8 +100,7 @@ public final class DevicesListDeviceProvidersResponse {
         }
 
         @Override
-        public _FinalStage addAllDeviceProviders(
-                List<DeviceListProvider> deviceProviders) {
+        public _FinalStage addAllDeviceProviders(List<DeviceListProvider> deviceProviders) {
             this.deviceProviders.addAll(deviceProviders);
             return this;
         }
@@ -115,8 +113,7 @@ public final class DevicesListDeviceProvidersResponse {
 
         @Override
         @JsonSetter(value = "device_providers", nulls = Nulls.SKIP)
-        public _FinalStage deviceProviders(
-                List<DeviceListProvider> deviceProviders) {
+        public _FinalStage deviceProviders(List<DeviceListProvider> deviceProviders) {
             this.deviceProviders.clear();
             this.deviceProviders.addAll(deviceProviders);
             return this;

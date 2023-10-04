@@ -181,8 +181,8 @@ public class LocksClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                LocksUnlockDoorResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), LocksUnlockDoorResponse.class);
+                LocksUnlockDoorResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), LocksUnlockDoorResponse.class);
                 return parsedResponse.getActionAttempt();
             }
             throw new ApiError(
