@@ -164,6 +164,12 @@ public class AccessCodesClient {
         }
     }
 
+    public AccessCode getById(String accessCodeId) {
+        return get(AccessCodesGetRequest.builder()
+                .accessCodeId(accessCodeId)
+                .build());
+    }
+
     public AccessCode get(AccessCodesGetRequest request) {
         return get(request, null);
     }

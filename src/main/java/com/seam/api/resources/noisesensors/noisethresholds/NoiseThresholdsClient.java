@@ -35,11 +35,11 @@ public class NoiseThresholdsClient {
         this.clientOptions = clientOptions;
     }
 
-    public NoiseThresholdsCreateResponse create(NoiseThresholdsCreateRequest request) {
+    public ActionAttempt create(NoiseThresholdsCreateRequest request) {
         return create(request, null);
     }
 
-    public NoiseThresholdsCreateResponse create(NoiseThresholdsCreateRequest request, RequestOptions requestOptions) {
+    public ActionAttempt create(NoiseThresholdsCreateRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("noise_sensors/noise_thresholds/create")
@@ -61,8 +61,9 @@ public class NoiseThresholdsClient {
             Response response =
                     clientOptions.httpClient().newCall(okhttpRequest).execute();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
+                NoiseThresholdsCreateResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
                         response.body().string(), NoiseThresholdsCreateResponse.class);
+                return parsedResponse.getActionAttempt();
             }
             throw new ApiError(
                     response.code(),
