@@ -63,6 +63,7 @@ public class DevicesTest {
         Assertions.assertThat(devices).hasSizeGreaterThan(0);
 
         Device someDevice = seam.devices().list().get(0);
+        Assertions.assertThat(someDevice.getProperties().getAugustMetadata()).isEmpty();
         Device deviceWithName = seam.devices()
                 .get(DevicesGetRequest.builder()
                         .name(someDevice.getProperties().getName())

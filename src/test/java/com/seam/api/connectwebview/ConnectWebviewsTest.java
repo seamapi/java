@@ -29,10 +29,7 @@ public final class ConnectWebviewsTest {
                         .build());
         Assertions.assertThat(createdWebView.getConnectWebviewId()).isNotNull();
 
-        ConnectWebview webview = seam.connectWebviews()
-                .get(ConnectWebviewsGetRequest.builder()
-                        .connectWebviewId(createdWebView.getConnectWebviewId())
-                        .build());
+        ConnectWebview webview = seam.connectWebviews().getById(createdWebView.getConnectWebviewId());
         Assertions.assertThat(webview.getConnectWebviewId()).isEqualTo(createdWebView.getConnectWebviewId());
 
         // Fake Seam does not serve list webviews
