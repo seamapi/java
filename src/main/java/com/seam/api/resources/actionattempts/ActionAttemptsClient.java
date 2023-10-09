@@ -28,6 +28,12 @@ public class ActionAttemptsClient {
         this.clientOptions = clientOptions;
     }
 
+    public ActionAttempt getById(String actionAttemptId) {
+        return get(ActionAttemptsGetRequest.builder()
+                .actionAttemptId(actionAttemptId)
+                .build());
+    }
+
     public ActionAttempt get(ActionAttemptsGetRequest request) {
         return get(request, null);
     }

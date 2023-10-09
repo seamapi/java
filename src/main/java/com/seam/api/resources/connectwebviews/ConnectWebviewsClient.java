@@ -111,6 +111,12 @@ public class ConnectWebviewsClient {
         }
     }
 
+    public ConnectWebview getById(String connectWebviewId) {
+        return get(ConnectWebviewsGetRequest.builder()
+                .connectWebviewId(connectWebviewId)
+                .build());
+    }
+
     public ConnectWebview get(ConnectWebviewsGetRequest request) {
         return get(request, null);
     }

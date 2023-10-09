@@ -111,6 +111,12 @@ public class ClientSessionsClient {
         }
     }
 
+    public ClientSession getById(String clientSessionId) {
+        return get(ClientSessionsGetRequest.builder()
+                .clientSessionId(clientSessionId)
+                .build());
+    }
+
     public ClientSession get(ClientSessionsGetRequest request) {
         return get(request, null);
     }
