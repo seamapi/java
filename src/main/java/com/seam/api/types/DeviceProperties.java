@@ -7,9 +7,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.Objects;
+import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = DeviceProperties.Builder.class)
@@ -20,10 +22,25 @@ public final class DeviceProperties {
 
     private final DevicePropertiesModel model;
 
-    private DeviceProperties(boolean online, String name, DevicePropertiesModel model) {
+    private final Optional<AugustDeviceMetadata> augustMetadata;
+
+    private final Optional<SchlageDeviceMetadata> schlageMetadata;
+
+    private final Object smartthingsMetadata;
+
+    private DeviceProperties(
+            boolean online,
+            String name,
+            DevicePropertiesModel model,
+            Optional<AugustDeviceMetadata> augustMetadata,
+            Optional<SchlageDeviceMetadata> schlageMetadata,
+            Object smartthingsMetadata) {
         this.online = online;
         this.name = name;
         this.model = model;
+        this.augustMetadata = augustMetadata;
+        this.schlageMetadata = schlageMetadata;
+        this.smartthingsMetadata = smartthingsMetadata;
     }
 
     @JsonProperty("online")
@@ -41,6 +58,21 @@ public final class DeviceProperties {
         return model;
     }
 
+    @JsonProperty("august_metadata")
+    public Optional<AugustDeviceMetadata> getAugustMetadata() {
+        return augustMetadata;
+    }
+
+    @JsonProperty("schlage_metadata")
+    public Optional<SchlageDeviceMetadata> getSchlageMetadata() {
+        return schlageMetadata;
+    }
+
+    @JsonProperty("smartthings_metadata")
+    public Object getSmartthingsMetadata() {
+        return smartthingsMetadata;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -48,12 +80,23 @@ public final class DeviceProperties {
     }
 
     private boolean equalTo(DeviceProperties other) {
-        return online == other.online && name.equals(other.name) && model.equals(other.model);
+        return online == other.online
+                && name.equals(other.name)
+                && model.equals(other.model)
+                && augustMetadata.equals(other.augustMetadata)
+                && schlageMetadata.equals(other.schlageMetadata)
+                && smartthingsMetadata.equals(other.smartthingsMetadata);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.online, this.name, this.model);
+        return Objects.hash(
+                this.online,
+                this.name,
+                this.model,
+                this.augustMetadata,
+                this.schlageMetadata,
+                this.smartthingsMetadata);
     }
 
     @Override
@@ -76,20 +119,39 @@ public final class DeviceProperties {
     }
 
     public interface ModelStage {
-        _FinalStage model(DevicePropertiesModel model);
+        SmartthingsMetadataStage model(DevicePropertiesModel model);
+    }
+
+    public interface SmartthingsMetadataStage {
+        _FinalStage smartthingsMetadata(Object smartthingsMetadata);
     }
 
     public interface _FinalStage {
         DeviceProperties build();
+
+        _FinalStage augustMetadata(Optional<AugustDeviceMetadata> augustMetadata);
+
+        _FinalStage augustMetadata(AugustDeviceMetadata augustMetadata);
+
+        _FinalStage schlageMetadata(Optional<SchlageDeviceMetadata> schlageMetadata);
+
+        _FinalStage schlageMetadata(SchlageDeviceMetadata schlageMetadata);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static final class Builder implements OnlineStage, NameStage, ModelStage, _FinalStage {
+    public static final class Builder
+            implements OnlineStage, NameStage, ModelStage, SmartthingsMetadataStage, _FinalStage {
         private boolean online;
 
         private String name;
 
         private DevicePropertiesModel model;
+
+        private Object smartthingsMetadata;
+
+        private Optional<SchlageDeviceMetadata> schlageMetadata = Optional.empty();
+
+        private Optional<AugustDeviceMetadata> augustMetadata = Optional.empty();
 
         private Builder() {}
 
@@ -98,6 +160,9 @@ public final class DeviceProperties {
             online(other.getOnline());
             name(other.getName());
             model(other.getModel());
+            augustMetadata(other.getAugustMetadata());
+            schlageMetadata(other.getSchlageMetadata());
+            smartthingsMetadata(other.getSmartthingsMetadata());
             return this;
         }
 
@@ -117,14 +182,47 @@ public final class DeviceProperties {
 
         @Override
         @JsonSetter("model")
-        public _FinalStage model(DevicePropertiesModel model) {
+        public SmartthingsMetadataStage model(DevicePropertiesModel model) {
             this.model = model;
             return this;
         }
 
         @Override
+        @JsonSetter("smartthings_metadata")
+        public _FinalStage smartthingsMetadata(Object smartthingsMetadata) {
+            this.smartthingsMetadata = smartthingsMetadata;
+            return this;
+        }
+
+        @Override
+        public _FinalStage schlageMetadata(SchlageDeviceMetadata schlageMetadata) {
+            this.schlageMetadata = Optional.of(schlageMetadata);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "schlage_metadata", nulls = Nulls.SKIP)
+        public _FinalStage schlageMetadata(Optional<SchlageDeviceMetadata> schlageMetadata) {
+            this.schlageMetadata = schlageMetadata;
+            return this;
+        }
+
+        @Override
+        public _FinalStage augustMetadata(AugustDeviceMetadata augustMetadata) {
+            this.augustMetadata = Optional.of(augustMetadata);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "august_metadata", nulls = Nulls.SKIP)
+        public _FinalStage augustMetadata(Optional<AugustDeviceMetadata> augustMetadata) {
+            this.augustMetadata = augustMetadata;
+            return this;
+        }
+
+        @Override
         public DeviceProperties build() {
-            return new DeviceProperties(online, name, model);
+            return new DeviceProperties(online, name, model, augustMetadata, schlageMetadata, smartthingsMetadata);
         }
     }
 }
