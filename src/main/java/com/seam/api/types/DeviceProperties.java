@@ -28,19 +28,23 @@ public final class DeviceProperties {
 
     private final Object smartthingsMetadata;
 
+    private final Optional<CurrentClimateSetting> currentClimateSetting;
+
     private DeviceProperties(
             boolean online,
             String name,
             DevicePropertiesModel model,
             Optional<AugustDeviceMetadata> augustMetadata,
             Optional<SchlageDeviceMetadata> schlageMetadata,
-            Object smartthingsMetadata) {
+            Object smartthingsMetadata,
+            Optional<CurrentClimateSetting> currentClimateSetting) {
         this.online = online;
         this.name = name;
         this.model = model;
         this.augustMetadata = augustMetadata;
         this.schlageMetadata = schlageMetadata;
         this.smartthingsMetadata = smartthingsMetadata;
+        this.currentClimateSetting = currentClimateSetting;
     }
 
     @JsonProperty("online")
@@ -73,6 +77,11 @@ public final class DeviceProperties {
         return smartthingsMetadata;
     }
 
+    @JsonProperty("current_climate_setting")
+    public Optional<CurrentClimateSetting> getCurrentClimateSetting() {
+        return currentClimateSetting;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -85,7 +94,8 @@ public final class DeviceProperties {
                 && model.equals(other.model)
                 && augustMetadata.equals(other.augustMetadata)
                 && schlageMetadata.equals(other.schlageMetadata)
-                && smartthingsMetadata.equals(other.smartthingsMetadata);
+                && smartthingsMetadata.equals(other.smartthingsMetadata)
+                && currentClimateSetting.equals(other.currentClimateSetting);
     }
 
     @Override
@@ -96,7 +106,8 @@ public final class DeviceProperties {
                 this.model,
                 this.augustMetadata,
                 this.schlageMetadata,
-                this.smartthingsMetadata);
+                this.smartthingsMetadata,
+                this.currentClimateSetting);
     }
 
     @Override
@@ -136,6 +147,10 @@ public final class DeviceProperties {
         _FinalStage schlageMetadata(Optional<SchlageDeviceMetadata> schlageMetadata);
 
         _FinalStage schlageMetadata(SchlageDeviceMetadata schlageMetadata);
+
+        _FinalStage currentClimateSetting(Optional<CurrentClimateSetting> currentClimateSetting);
+
+        _FinalStage currentClimateSetting(CurrentClimateSetting currentClimateSetting);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -148,6 +163,8 @@ public final class DeviceProperties {
         private DevicePropertiesModel model;
 
         private Object smartthingsMetadata;
+
+        private Optional<CurrentClimateSetting> currentClimateSetting = Optional.empty();
 
         private Optional<SchlageDeviceMetadata> schlageMetadata = Optional.empty();
 
@@ -163,6 +180,7 @@ public final class DeviceProperties {
             augustMetadata(other.getAugustMetadata());
             schlageMetadata(other.getSchlageMetadata());
             smartthingsMetadata(other.getSmartthingsMetadata());
+            currentClimateSetting(other.getCurrentClimateSetting());
             return this;
         }
 
@@ -195,6 +213,19 @@ public final class DeviceProperties {
         }
 
         @Override
+        public _FinalStage currentClimateSetting(CurrentClimateSetting currentClimateSetting) {
+            this.currentClimateSetting = Optional.of(currentClimateSetting);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "current_climate_setting", nulls = Nulls.SKIP)
+        public _FinalStage currentClimateSetting(Optional<CurrentClimateSetting> currentClimateSetting) {
+            this.currentClimateSetting = currentClimateSetting;
+            return this;
+        }
+
+        @Override
         public _FinalStage schlageMetadata(SchlageDeviceMetadata schlageMetadata) {
             this.schlageMetadata = Optional.of(schlageMetadata);
             return this;
@@ -222,7 +253,8 @@ public final class DeviceProperties {
 
         @Override
         public DeviceProperties build() {
-            return new DeviceProperties(online, name, model, augustMetadata, schlageMetadata, smartthingsMetadata);
+            return new DeviceProperties(
+                    online, name, model, augustMetadata, schlageMetadata, smartthingsMetadata, currentClimateSetting);
         }
     }
 }
