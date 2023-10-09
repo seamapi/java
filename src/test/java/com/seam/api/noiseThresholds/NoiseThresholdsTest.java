@@ -20,7 +20,7 @@ public final class NoiseThresholdsTest {
         seam = TestUtils.startFakeSeam(8080);
     }
 
-    // Fake Seam does not serve events endpoints
+    // Fake Seam does not serve noise threshold endpoints
     // @Test
     public void test_noiseThresholds() {
         Device device = seam.devices().list().get(0);
