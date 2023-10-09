@@ -19,7 +19,7 @@ public final class EventsTest {
 
     @BeforeAll
     public static void beforeAll() {
-        seam = TestUtils.startFakeSeam(8080);
+        seam = TestUtils.startFakeSeam();
     }
 
     // Fake Seam does not serve events endpoints

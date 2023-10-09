@@ -15,7 +15,7 @@ public final class ConnectedAccountsTest {
 
     @BeforeAll
     public static void beforeAll() {
-        seam = TestUtils.startFakeSeam(8080);
+        seam = TestUtils.startFakeSeam();
     }
 
     private static final String EMAIL = "user-4@example.com";

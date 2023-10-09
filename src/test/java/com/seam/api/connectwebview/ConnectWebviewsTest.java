@@ -18,7 +18,7 @@ public final class ConnectWebviewsTest {
 
     @BeforeAll
     public static void beforeAll() {
-        seam = TestUtils.startFakeSeam(8080);
+        seam = TestUtils.startFakeSeam();
     }
 
     @Test
