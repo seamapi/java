@@ -17,3 +17,6 @@ src/main/java/com/seam/api/resources/clientsessions/ClientSessionsClient.java
 src/main/java/com/seam/api/resources/actionattempts/ActionAttemptsClient.java
 src/main/java/com/seam/api/resources/accesscodes/AccessCodesClient.java
 src/main/java/com/seam/api/types/ConnectedAccountsGetRequest.java
+
+# Integration Tests
+src/test/java
