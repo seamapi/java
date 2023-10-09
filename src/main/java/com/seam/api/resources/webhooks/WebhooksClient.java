@@ -7,9 +7,11 @@ import com.seam.api.core.ApiError;
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
+import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsGetRequest;
 import com.seam.api.resources.webhooks.requests.WebhooksCreateRequest;
 import com.seam.api.resources.webhooks.requests.WebhooksDeleteRequest;
 import com.seam.api.resources.webhooks.requests.WebhooksGetRequest;
+import com.seam.api.types.ConnectWebview;
 import com.seam.api.types.WebhooksCreateResponse;
 import com.seam.api.types.WebhooksDeleteResponse;
 import com.seam.api.types.WebhooksGetResponse;
@@ -99,6 +101,12 @@ public class WebhooksClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public WebhooksGetResponse getById(String webhookId) {
+        return get(WebhooksGetRequest.builder()
+                .webhookId(webhookId)
+                .build());
     }
 
     public WebhooksGetResponse get(WebhooksGetRequest request) {
