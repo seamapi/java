@@ -20,7 +20,7 @@ public final class ThermostatsUpdateRequestDefaultClimateSetting {
 
     private final Optional<Boolean> automaticCoolingEnabled;
 
-    private final Optional<ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting> hvacModeSetting;
+    private final Optional<HvacModeSetting> hvacModeSetting;
 
     private final Optional<Double> coolingSetPointCelsius;
 
@@ -35,7 +35,7 @@ public final class ThermostatsUpdateRequestDefaultClimateSetting {
     private ThermostatsUpdateRequestDefaultClimateSetting(
             Optional<Boolean> automaticHeatingEnabled,
             Optional<Boolean> automaticCoolingEnabled,
-            Optional<ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting> hvacModeSetting,
+            Optional<HvacModeSetting> hvacModeSetting,
             Optional<Double> coolingSetPointCelsius,
             Optional<Double> heatingSetPointCelsius,
             Optional<Double> coolingSetPointFahrenheit,
@@ -62,7 +62,7 @@ public final class ThermostatsUpdateRequestDefaultClimateSetting {
     }
 
     @JsonProperty("hvac_mode_setting")
-    public Optional<ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting> getHvacModeSetting() {
+    public Optional<HvacModeSetting> getHvacModeSetting() {
         return hvacModeSetting;
     }
 
@@ -137,8 +137,7 @@ public final class ThermostatsUpdateRequestDefaultClimateSetting {
 
         private Optional<Boolean> automaticCoolingEnabled = Optional.empty();
 
-        private Optional<ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting> hvacModeSetting =
-                Optional.empty();
+        private Optional<HvacModeSetting> hvacModeSetting = Optional.empty();
 
         private Optional<Double> coolingSetPointCelsius = Optional.empty();
 
@@ -187,13 +186,12 @@ public final class ThermostatsUpdateRequestDefaultClimateSetting {
         }
 
         @JsonSetter(value = "hvac_mode_setting", nulls = Nulls.SKIP)
-        public Builder hvacModeSetting(
-                Optional<ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting> hvacModeSetting) {
+        public Builder hvacModeSetting(Optional<HvacModeSetting> hvacModeSetting) {
             this.hvacModeSetting = hvacModeSetting;
             return this;
         }
 
-        public Builder hvacModeSetting(ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting hvacModeSetting) {
+        public Builder hvacModeSetting(HvacModeSetting hvacModeSetting) {
             this.hvacModeSetting = Optional.of(hvacModeSetting);
             return this;
         }

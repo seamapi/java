@@ -5,7 +5,7 @@ package com.seam.api.types;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting {
+public enum HvacModeSetting {
     OFF("off"),
 
     HEAT("heat"),
@@ -16,7 +16,7 @@ public enum ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting {
 
     private final String value;
 
-    ThermostatsUpdateRequestDefaultClimateSettingHvacModeSetting(String value) {
+    HvacModeSetting(String value) {
         this.value = value;
     }
 
