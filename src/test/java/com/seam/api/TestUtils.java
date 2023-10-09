@@ -11,7 +11,7 @@ public final class TestUtils {
     public static Seam startFakeSeam(int port) {
         try {
             ProcessBuilder process = new ProcessBuilder("npx", "@seamapi/fake-seam-connect", "--seed");
-            process.environment().put("PORT", "8080");
+            process.environment().put("PORT", Integer.toString(port));
             process.start();
             Thread.sleep(5000);
             return Seam.builder()
