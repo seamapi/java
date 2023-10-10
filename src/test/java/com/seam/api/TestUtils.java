@@ -1,16 +1,24 @@
 package com.seam.api;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public final class TestUtils {
 
     public static final String SEAM_TEST_API_KEY = "seam_apikey1_token";
 
     public static final Queue<Integer> PORTS = new ArrayBlockingQueue<>(100);
+
+    private static final ExecutorService STDOUT_EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
 
     static {
         PORTS.add(8080);
@@ -32,14 +40,28 @@ public final class TestUtils {
             int port = PORTS.poll();
             ProcessBuilder process = new ProcessBuilder("npx", "@seamapi/fake-seam-connect", "--seed");
             process.environment().put("PORT", Integer.toString(port));
-            process.start();
+            Process p = process.start();
+            STDOUT_EXECUTOR_SERVICE.submit(() -> print(p));
             Thread.sleep(5000);
             return Seam.builder()
-                    .url("http://localhost:" + Integer.toString(port))
+                    .url("http://localhost:" + port )
                     .apiKey(TestUtils.SEAM_TEST_API_KEY)
                     .build();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Failed to start fake seam", e);
+        }
+    }
+
+    private static void print(Process p) {
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8));
+        String line = "";
+        try {
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
