@@ -21,16 +21,16 @@ public final class TestUtils {
     private static final ExecutorService STDOUT_EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
 
     static {
-        PORTS.add(8080);
-        PORTS.add(8081);
-        PORTS.add(8082);
-        PORTS.add(8083);
-        PORTS.add(8084);
-        PORTS.add(8085);
-        PORTS.add(8086);
-        PORTS.add(8087);
-        PORTS.add(8088);
-        PORTS.add(8089);
+        PORTS.add(9090);
+        PORTS.add(9091);
+        PORTS.add(9092);
+        PORTS.add(9093);
+        PORTS.add(9094);
+        PORTS.add(9095);
+        PORTS.add(9096);
+        PORTS.add(9097);
+        PORTS.add(9098);
+        PORTS.add(9099);
     }
 
     private TestUtils() {}
