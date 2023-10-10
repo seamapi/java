@@ -20,3 +20,6 @@ src/main/java/com/seam/api/types/ConnectedAccountsGetRequest.java
 
 # Integration Tests
 src/test/java
+
+## ci.yml installs Fake Seam
+.github/workflows/ci.yml
