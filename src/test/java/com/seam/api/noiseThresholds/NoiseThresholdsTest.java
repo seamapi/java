@@ -9,15 +9,25 @@ import com.seam.api.types.Device;
 import com.seam.api.types.NoiseThreshold;
 import java.util.List;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
 public final class NoiseThresholdsTest {
 
+
     private static Seam seam;
+    private static Process p;
 
     @BeforeAll
     public static void beforeAll() {
-        seam = TestUtils.startFakeSeam(8080);
+        var response = TestUtils.startFakeSeam();
+        seam = response.seam;
+        p = response.process;
+    }
+
+    @AfterAll
+    public static void afterAll() throws InterruptedException {
+        p.destroyForcibly().waitFor();
     }
 
     // Fake Seam does not serve noise threshold endpoints

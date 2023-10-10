@@ -6,16 +6,25 @@ import com.seam.api.types.ConnectedAccount;
 import com.seam.api.types.ConnectedAccountsGetRequest;
 import java.util.List;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public final class ConnectedAccountsTest {
 
     private static Seam seam;
+    private static Process p;
 
     @BeforeAll
     public static void beforeAll() {
-        seam = TestUtils.startFakeSeam(8080);
+        var response = TestUtils.startFakeSeam();
+        seam = response.seam;
+        p = response.process;
+    }
+
+    @AfterAll
+    public static void afterAll() throws InterruptedException {
+        p.destroyForcibly().waitFor();
     }
 
     private static final String EMAIL = "user-4@example.com";
