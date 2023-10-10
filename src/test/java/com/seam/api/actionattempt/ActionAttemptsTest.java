@@ -8,16 +8,25 @@ import com.seam.api.types.AccessCode;
 import com.seam.api.types.ActionAttempt;
 import com.seam.api.types.Device;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public final class ActionAttemptsTest {
 
     private static Seam seam;
+    private static Process p;
 
     @BeforeAll
     public static void beforeAll() {
-        seam = TestUtils.startFakeSeam();
+        var response = TestUtils.startFakeSeam();
+        seam = response.seam;
+        p = response.process;
+    }
+
+    @AfterAll
+    public static void afterAll() throws InterruptedException {
+        p.destroyForcibly().waitFor();
     }
 
     @Test

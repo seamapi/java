@@ -35,20 +35,31 @@ public final class TestUtils {
 
     private TestUtils() {}
 
-    public static Seam startFakeSeam() {
+    public static FakeSeamStartedResponse startFakeSeam() {
         try {
             int port = PORTS.poll();
-            ProcessBuilder process = new ProcessBuilder("npx", "@seamapi/fake-seam-connect", "--seed");
+            ProcessBuilder process = new ProcessBuilder("fake-seam-connect", "--seed");
             process.environment().put("PORT", Integer.toString(port));
             Process p = process.start();
             STDOUT_EXECUTOR_SERVICE.submit(() -> print(p));
             Thread.sleep(5000);
-            return Seam.builder()
+            Seam seam = Seam.builder()
                     .url("http://localhost:" + port )
                     .apiKey(TestUtils.SEAM_TEST_API_KEY)
                     .build();
+            return new FakeSeamStartedResponse(seam, p);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Failed to start fake seam", e);
+        }
+    }
+
+    public static class FakeSeamStartedResponse {
+        public final Seam seam;
+        public final Process process;
+
+        public FakeSeamStartedResponse(Seam seam, Process process) {
+            this.seam = seam;
+            this.process = process;
         }
     }
 

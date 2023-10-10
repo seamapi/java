@@ -8,6 +8,7 @@ import com.seam.api.types.Event;
 import java.util.List;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
 public final class EventsTest {
@@ -15,11 +16,20 @@ public final class EventsTest {
     private static final String SINCE = "2021-01-01T00:00:00.000Z";
     private static final String FAKE_UUID = "00000000-0000-0000-0000-000000000000";
 
+
     private static Seam seam;
+    private static Process p;
 
     @BeforeAll
     public static void beforeAll() {
-        seam = TestUtils.startFakeSeam();
+        var response = TestUtils.startFakeSeam();
+        seam = response.seam;
+        p = response.process;
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        p.destroyForcibly();
     }
 
     // Fake Seam does not serve events endpoints
