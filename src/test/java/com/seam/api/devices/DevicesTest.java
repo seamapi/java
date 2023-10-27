@@ -4,7 +4,7 @@ import com.seam.api.Seam;
 import com.seam.api.TestUtils;
 import com.seam.api.resources.devices.requests.DevicesGetRequest;
 import com.seam.api.resources.devices.requests.DevicesListRequest;
-import com.seam.api.types.ConnectedAccount;
+import com.seam.api.resources.locks.requests.LocksGetRequest;
 import com.seam.api.types.Device;
 import com.seam.api.types.DeviceType;
 import com.seam.api.types.Manufacturer;
@@ -36,16 +36,15 @@ public class DevicesTest {
         List<Device> devices = seam.devices().list();
         Assertions.assertThat(devices).hasSizeGreaterThan(0);
 
-        ConnectedAccount connectedAccount = seam.connectedAccounts().list().get(0);
         devices = seam.devices()
                 .list(DevicesListRequest.builder()
-                        .connectedAccountId(connectedAccount.getConnectedAccountId())
+                        .connectedAccountId(devices.get(0).getConnectedAccountId())
                         .build());
         Assertions.assertThat(devices).hasSizeGreaterThan(0);
+
         devices = seam.devices()
                 .list(DevicesListRequest.builder()
-                        .connectedAccountIds(
-                                List.of(connectedAccount.getConnectedAccountId().get()))
+                        .connectedAccountIds(List.of(devices.get(0).getConnectedAccountId()))
                         .build());
         Assertions.assertThat(devices).hasSizeGreaterThan(0);
 
@@ -81,13 +80,13 @@ public class DevicesTest {
         Assertions.assertThat(deviceWithName.getProperties().getName())
                 .isEqualTo(someDevice.getProperties().getName());
 
-        // Fake Seam doesn't support locks
-        // List<Device> locks = seam.locks().list();
-        // Assertions.assertThat(locks).hasSizeGreaterThan(0);
-        //
-        // Device someLock = seam.locks().get(LocksGetRequest.builder()
-        //         .deviceId(someDevice.getDeviceId())
-        //         .build());
-        // Assertions.assertThat(someLock.getDeviceId()).isEqualTo(someDevice.getDeviceId());
+        List<Device> locks = seam.locks().list();
+        Assertions.assertThat(locks).hasSizeGreaterThan(0);
+
+        Device someLock = seam.locks()
+                .get(LocksGetRequest.builder()
+                        .deviceId(someDevice.getDeviceId())
+                        .build());
+        Assertions.assertThat(someLock.getDeviceId()).isEqualTo(someDevice.getDeviceId());
     }
 }

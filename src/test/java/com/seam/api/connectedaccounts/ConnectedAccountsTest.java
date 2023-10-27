@@ -32,7 +32,7 @@ public final class ConnectedAccountsTest {
     @Test
     public void test_connected_accounts() {
         List<ConnectedAccount> connectedAccounts = seam.connectedAccounts().list();
-        Assertions.assertThat(connectedAccounts).hasSizeGreaterThan(0);
+        Assertions.assertThat(connectedAccounts).hasSize(2);
 
         String connectedAccountId =
                 connectedAccounts.get(0).getConnectedAccountId().get();
@@ -46,7 +46,7 @@ public final class ConnectedAccountsTest {
         //         ConnectedAccountsGetRequest.email(EMAIL));
         // Assertions.assertThat(emailAccount.getConnectedAccountId()).hasValue(connectedAccountId);
 
-        // Fake Seam does serve account deletion
+        // Fake Seam does not serve account deletion
         // seam.connectedAccounts().delete(ConnectedAccountsDeleteRequest.builder()
         //         .connectedAccountId(connectedAccountId)
         //         .build());
