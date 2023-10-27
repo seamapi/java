@@ -17,7 +17,6 @@ import com.seam.api.resources.accesscodes.requests.AccessCodesPullBackupAccessCo
 import com.seam.api.resources.accesscodes.requests.AccessCodesUpdateRequest;
 import com.seam.api.resources.accesscodes.simulate.SimulateClient;
 import com.seam.api.resources.accesscodes.unmanaged.UnmanagedClient;
-import com.seam.api.resources.actionattempts.requests.ActionAttemptsGetRequest;
 import com.seam.api.types.AccessCode;
 import com.seam.api.types.AccessCodesCreateMultipleResponse;
 import com.seam.api.types.AccessCodesCreateResponse;
@@ -165,9 +164,7 @@ public class AccessCodesClient {
     }
 
     public AccessCode getById(String accessCodeId) {
-        return get(AccessCodesGetRequest.builder()
-                .accessCodeId(accessCodeId)
-                .build());
+        return get(AccessCodesGetRequest.builder().accessCodeId(accessCodeId).build());
     }
 
     public AccessCode get(AccessCodesGetRequest request) {

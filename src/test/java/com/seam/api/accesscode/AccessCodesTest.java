@@ -10,8 +10,6 @@ import com.seam.api.resources.accesscodes.requests.AccessCodesListRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesUpdateRequest;
 import com.seam.api.types.AccessCode;
 import com.seam.api.types.AccessCodeStatus;
-import com.seam.api.types.AccessCodeType;
-import com.seam.api.types.AccessCodesUpdateRequestType;
 import com.seam.api.types.ActionAttempt;
 import com.seam.api.types.Device;
 import java.util.List;
@@ -123,17 +121,15 @@ public final class AccessCodesTest {
                         .build());
         Assertions.assertThat(deleteActionAttempt.getSuccess()).isNotEmpty();
 
-        // fake seam does not serve create multiple
-        // accessCodes = seam.accessCodes()
-        //         .createMultiple(AccessCodesCreateMultipleRequest.builder()
-        //                 .addAllDeviceIds(accessCodes.stream()
-        //                         .map(AccessCode::getAccessCodeId)
-        //                         .collect(Collectors.toList()))
-        //                 .build());
-        // Assertions.assertThat(accessCodes).hasSize(allDevices.size());
-        // Assertions.assertThat(allDevices).hasSizeGreaterThan(1);
-        // Assertions.assertThat(
-        //                 accessCodes.stream().map(AccessCode::getCommonCodeKey).collect(Collectors.toSet()))
-        //         .hasSize(1);
+        accessCodes = seam.accessCodes()
+                .createMultiple(AccessCodesCreateMultipleRequest.builder()
+                        .addAllDeviceIds(accessCodes.stream()
+                                .map(AccessCode::getDeviceId)
+                                .collect(Collectors.toList()))
+                        .build());
+        Assertions.assertThat(accessCodes).hasSizeGreaterThan(0);
+        Assertions.assertThat(
+                        accessCodes.stream().map(AccessCode::getCommonCodeKey).collect(Collectors.toSet()))
+                .hasSize(1);
     }
 }

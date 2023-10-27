@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeAll;
 
 public final class NoiseThresholdsTest {
 
-
     private static Seam seam;
     private static Process p;
 
@@ -43,26 +42,30 @@ public final class NoiseThresholdsTest {
                 .findFirst()
                 .get();
 
-        seam.noiseSensors().noiseThresholds().delete(NoiseThresholdsDeleteRequest.builder()
-                .noiseThresholdId(quietHoursThreshold.getNoiseThresholdId())
-                .deviceId(device.getDeviceId())
-                .build());
+        seam.noiseSensors()
+                .noiseThresholds()
+                .delete(NoiseThresholdsDeleteRequest.builder()
+                        .noiseThresholdId(quietHoursThreshold.getNoiseThresholdId())
+                        .deviceId(device.getDeviceId())
+                        .build());
         noiseThresholds = getMinutDeviceNoiseThresholds(device.getDeviceId());
         Assertions.assertThat(noiseThresholds).hasSize(1);
 
-        seam.noiseSensors().noiseThresholds().create(NoiseThresholdsCreateRequest.builder()
-                .deviceId(device.getDeviceId())
-                .startsDailyAt("20:00:00[America/Los_Angeles]")
-                .endsDailyAt("08:00:00[America/Los_Angeles]")
-                .noiseThresholdDecibels(75.0)
-                .build());
+        seam.noiseSensors()
+                .noiseThresholds()
+                .create(NoiseThresholdsCreateRequest.builder()
+                        .deviceId(device.getDeviceId())
+                        .startsDailyAt("20:00:00[America/Los_Angeles]")
+                        .endsDailyAt("08:00:00[America/Los_Angeles]")
+                        .noiseThresholdDecibels(75.0)
+                        .build());
         noiseThresholds = getMinutDeviceNoiseThresholds(device.getDeviceId());
         Assertions.assertThat(noiseThresholds).hasSize(2);
     }
 
     public List<NoiseThreshold> getMinutDeviceNoiseThresholds(String deviceId) {
-        return seam.noiseSensors().noiseThresholds().list(NoiseThresholdsListRequest.builder()
-                .deviceId(deviceId)
-                .build());
+        return seam.noiseSensors()
+                .noiseThresholds()
+                .list(NoiseThresholdsListRequest.builder().deviceId(deviceId).build());
     }
 }

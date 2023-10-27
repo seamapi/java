@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Queue;
-import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -44,7 +41,7 @@ public final class TestUtils {
             STDOUT_EXECUTOR_SERVICE.submit(() -> print(p));
             Thread.sleep(5000);
             Seam seam = Seam.builder()
-                    .url("http://localhost:" + port )
+                    .url("http://localhost:" + port)
                     .apiKey(TestUtils.SEAM_TEST_API_KEY)
                     .build();
             return new FakeSeamStartedResponse(seam, p);
@@ -64,8 +61,7 @@ public final class TestUtils {
     }
 
     private static void print(Process p) {
-        BufferedReader reader =
-                new BufferedReader(new InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8));
         String line = "";
         try {
             while ((line = reader.readLine()) != null) {
