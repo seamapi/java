@@ -39,7 +39,7 @@ public final class AccessCode {
 
     private final Optional<Object> warnings;
 
-    private final String isManaged;
+    private final boolean isManaged;
 
     private final Optional<OffsetDateTime> startsAt;
 
@@ -65,7 +65,7 @@ public final class AccessCode {
             OffsetDateTime createdAt,
             Optional<Object> errors,
             Optional<Object> warnings,
-            String isManaged,
+            boolean isManaged,
             Optional<OffsetDateTime> startsAt,
             Optional<OffsetDateTime> endsAt,
             AccessCodeStatus status,
@@ -148,7 +148,7 @@ public final class AccessCode {
     }
 
     @JsonProperty("is_managed")
-    public String getIsManaged() {
+    public boolean getIsManaged() {
         return isManaged;
     }
 
@@ -200,7 +200,7 @@ public final class AccessCode {
                 && createdAt.equals(other.createdAt)
                 && errors.equals(other.errors)
                 && warnings.equals(other.warnings)
-                && isManaged.equals(other.isManaged)
+                && isManaged == other.isManaged
                 && startsAt.equals(other.startsAt)
                 && endsAt.equals(other.endsAt)
                 && status.equals(other.status)
@@ -260,7 +260,7 @@ public final class AccessCode {
     }
 
     public interface IsManagedStage {
-        StatusStage isManaged(String isManaged);
+        StatusStage isManaged(boolean isManaged);
     }
 
     public interface StatusStage {
@@ -337,7 +337,7 @@ public final class AccessCode {
 
         private OffsetDateTime createdAt;
 
-        private String isManaged;
+        private boolean isManaged;
 
         private AccessCodeStatus status;
 
@@ -420,7 +420,7 @@ public final class AccessCode {
 
         @Override
         @JsonSetter("is_managed")
-        public StatusStage isManaged(String isManaged) {
+        public StatusStage isManaged(boolean isManaged) {
             this.isManaged = isManaged;
             return this;
         }

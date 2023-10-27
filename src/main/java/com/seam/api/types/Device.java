@@ -39,7 +39,7 @@ public final class Device {
 
     private final OffsetDateTime createdAt;
 
-    private final String isManaged;
+    private final boolean isManaged;
 
     private Device(
             String deviceId,
@@ -52,7 +52,7 @@ public final class Device {
             List<DeviceErrorsItem> errors,
             List<DeviceWarningsItem> warnings,
             OffsetDateTime createdAt,
-            String isManaged) {
+            boolean isManaged) {
         this.deviceId = deviceId;
         this.deviceType = deviceType;
         this.capabilitiesSupported = capabilitiesSupported;
@@ -117,7 +117,7 @@ public final class Device {
     }
 
     @JsonProperty("is_managed")
-    public String getIsManaged() {
+    public boolean getIsManaged() {
         return isManaged;
     }
 
@@ -138,7 +138,7 @@ public final class Device {
                 && errors.equals(other.errors)
                 && warnings.equals(other.warnings)
                 && createdAt.equals(other.createdAt)
-                && isManaged.equals(other.isManaged);
+                && isManaged == other.isManaged;
     }
 
     @Override
@@ -193,7 +193,7 @@ public final class Device {
     }
 
     public interface IsManagedStage {
-        _FinalStage isManaged(String isManaged);
+        _FinalStage isManaged(boolean isManaged);
     }
 
     public interface _FinalStage {
@@ -244,7 +244,7 @@ public final class Device {
 
         private OffsetDateTime createdAt;
 
-        private String isManaged;
+        private boolean isManaged;
 
         private List<DeviceWarningsItem> warnings = new ArrayList<>();
 
@@ -316,7 +316,7 @@ public final class Device {
 
         @Override
         @JsonSetter("is_managed")
-        public _FinalStage isManaged(String isManaged) {
+        public _FinalStage isManaged(boolean isManaged) {
             this.isManaged = isManaged;
             return this;
         }

@@ -33,7 +33,7 @@ public final class UnmanagedListResponseAccessCodesItem {
 
     private final Optional<Object> warnings;
 
-    private final String isManaged;
+    private final boolean isManaged;
 
     private final Optional<OffsetDateTime> startsAt;
 
@@ -48,7 +48,7 @@ public final class UnmanagedListResponseAccessCodesItem {
             OffsetDateTime createdAt,
             Optional<Object> errors,
             Optional<Object> warnings,
-            String isManaged,
+            boolean isManaged,
             Optional<OffsetDateTime> startsAt,
             Optional<OffsetDateTime> endsAt) {
         this.type = type;
@@ -105,7 +105,7 @@ public final class UnmanagedListResponseAccessCodesItem {
     }
 
     @JsonProperty("is_managed")
-    public String getIsManaged() {
+    public boolean getIsManaged() {
         return isManaged;
     }
 
@@ -140,7 +140,7 @@ public final class UnmanagedListResponseAccessCodesItem {
                 && createdAt.equals(other.createdAt)
                 && errors.equals(other.errors)
                 && warnings.equals(other.warnings)
-                && isManaged.equals(other.isManaged)
+                && isManaged == other.isManaged
                 && startsAt.equals(other.startsAt)
                 && endsAt.equals(other.endsAt);
     }
@@ -189,7 +189,7 @@ public final class UnmanagedListResponseAccessCodesItem {
     }
 
     public interface IsManagedStage {
-        _FinalStage isManaged(String isManaged);
+        _FinalStage isManaged(boolean isManaged);
     }
 
     public interface _FinalStage {
@@ -231,7 +231,7 @@ public final class UnmanagedListResponseAccessCodesItem {
 
         private OffsetDateTime createdAt;
 
-        private String isManaged;
+        private boolean isManaged;
 
         private Optional<OffsetDateTime> endsAt = Optional.empty();
 
@@ -293,7 +293,7 @@ public final class UnmanagedListResponseAccessCodesItem {
 
         @Override
         @JsonSetter("is_managed")
-        public _FinalStage isManaged(String isManaged) {
+        public _FinalStage isManaged(boolean isManaged) {
             this.isManaged = isManaged;
             return this;
         }

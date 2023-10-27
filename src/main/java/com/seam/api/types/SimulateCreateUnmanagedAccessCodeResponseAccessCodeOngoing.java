@@ -22,7 +22,7 @@ public final class SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing {
 
     private final SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoingCreatedAt createdAt;
 
-    private final String isManaged;
+    private final boolean isManaged;
 
     private final Optional<String> startsAt;
 
@@ -32,7 +32,7 @@ public final class SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing {
             String accessCodeId,
             Optional<String> code,
             SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoingCreatedAt createdAt,
-            String isManaged,
+            boolean isManaged,
             Optional<String> startsAt,
             Optional<String> endsAt) {
         this.accessCodeId = accessCodeId;
@@ -64,7 +64,7 @@ public final class SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing {
     }
 
     @JsonProperty("is_managed")
-    public String getIsManaged() {
+    public boolean getIsManaged() {
         return isManaged;
     }
 
@@ -89,7 +89,7 @@ public final class SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing {
         return accessCodeId.equals(other.accessCodeId)
                 && code.equals(other.code)
                 && createdAt.equals(other.createdAt)
-                && isManaged.equals(other.isManaged)
+                && isManaged == other.isManaged
                 && startsAt.equals(other.startsAt)
                 && endsAt.equals(other.endsAt);
     }
@@ -119,7 +119,7 @@ public final class SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing {
     }
 
     public interface IsManagedStage {
-        _FinalStage isManaged(String isManaged);
+        _FinalStage isManaged(boolean isManaged);
     }
 
     public interface _FinalStage {
@@ -144,7 +144,7 @@ public final class SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing {
 
         private SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoingCreatedAt createdAt;
 
-        private String isManaged;
+        private boolean isManaged;
 
         private Optional<String> endsAt = Optional.empty();
 
@@ -181,7 +181,7 @@ public final class SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing {
 
         @Override
         @JsonSetter("is_managed")
-        public _FinalStage isManaged(String isManaged) {
+        public _FinalStage isManaged(boolean isManaged) {
             this.isManaged = isManaged;
             return this;
         }

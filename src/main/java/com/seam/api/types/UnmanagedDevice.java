@@ -34,7 +34,7 @@ public final class UnmanagedDevice {
 
     private final OffsetDateTime createdAt;
 
-    private final String isManaged;
+    private final boolean isManaged;
 
     private final UnmanagedDeviceProperties properties;
 
@@ -47,7 +47,7 @@ public final class UnmanagedDevice {
             List<UnmanagedDeviceErrorsItem> errors,
             List<UnmanagedDeviceWarningsItem> warnings,
             OffsetDateTime createdAt,
-            String isManaged,
+            boolean isManaged,
             UnmanagedDeviceProperties properties) {
         this.deviceId = deviceId;
         this.deviceType = deviceType;
@@ -102,7 +102,7 @@ public final class UnmanagedDevice {
     }
 
     @JsonProperty("is_managed")
-    public String getIsManaged() {
+    public boolean getIsManaged() {
         return isManaged;
     }
 
@@ -126,7 +126,7 @@ public final class UnmanagedDevice {
                 && errors.equals(other.errors)
                 && warnings.equals(other.warnings)
                 && createdAt.equals(other.createdAt)
-                && isManaged.equals(other.isManaged)
+                && isManaged == other.isManaged
                 && properties.equals(other.properties);
     }
 
@@ -177,7 +177,7 @@ public final class UnmanagedDevice {
     }
 
     public interface IsManagedStage {
-        PropertiesStage isManaged(String isManaged);
+        PropertiesStage isManaged(boolean isManaged);
     }
 
     public interface PropertiesStage {
@@ -226,7 +226,7 @@ public final class UnmanagedDevice {
 
         private OffsetDateTime createdAt;
 
-        private String isManaged;
+        private boolean isManaged;
 
         private UnmanagedDeviceProperties properties;
 
@@ -290,7 +290,7 @@ public final class UnmanagedDevice {
 
         @Override
         @JsonSetter("is_managed")
-        public PropertiesStage isManaged(String isManaged) {
+        public PropertiesStage isManaged(boolean isManaged) {
             this.isManaged = isManaged;
             return this;
         }

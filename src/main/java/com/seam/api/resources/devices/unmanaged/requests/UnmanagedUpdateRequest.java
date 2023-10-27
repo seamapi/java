@@ -16,9 +16,9 @@ import java.util.Objects;
 public final class UnmanagedUpdateRequest {
     private final String deviceId;
 
-    private final String isManaged;
+    private final boolean isManaged;
 
-    private UnmanagedUpdateRequest(String deviceId, String isManaged) {
+    private UnmanagedUpdateRequest(String deviceId, boolean isManaged) {
         this.deviceId = deviceId;
         this.isManaged = isManaged;
     }
@@ -29,7 +29,7 @@ public final class UnmanagedUpdateRequest {
     }
 
     @JsonProperty("is_managed")
-    public String getIsManaged() {
+    public boolean getIsManaged() {
         return isManaged;
     }
 
@@ -40,7 +40,7 @@ public final class UnmanagedUpdateRequest {
     }
 
     private boolean equalTo(UnmanagedUpdateRequest other) {
-        return deviceId.equals(other.deviceId) && isManaged.equals(other.isManaged);
+        return deviceId.equals(other.deviceId) && isManaged == other.isManaged;
     }
 
     @Override
@@ -64,7 +64,7 @@ public final class UnmanagedUpdateRequest {
     }
 
     public interface IsManagedStage {
-        _FinalStage isManaged(String isManaged);
+        _FinalStage isManaged(boolean isManaged);
     }
 
     public interface _FinalStage {
@@ -75,7 +75,7 @@ public final class UnmanagedUpdateRequest {
     public static final class Builder implements DeviceIdStage, IsManagedStage, _FinalStage {
         private String deviceId;
 
-        private String isManaged;
+        private boolean isManaged;
 
         private Builder() {}
 
@@ -95,7 +95,7 @@ public final class UnmanagedUpdateRequest {
 
         @Override
         @JsonSetter("is_managed")
-        public _FinalStage isManaged(String isManaged) {
+        public _FinalStage isManaged(boolean isManaged) {
             this.isManaged = isManaged;
             return this;
         }
