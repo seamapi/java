@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,7 +12,9 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -25,11 +29,17 @@ public final class Webhook {
 
     private final Optional<String> secret;
 
-    private Webhook(String webhookId, String url, Optional<List<String>> eventTypes, Optional<String> secret) {
+    private Webhook(
+            String webhookId,
+            String url,
+            Optional<List<String>> eventTypes,
+            Optional<String> secret,
+            Map<String, Object> additionalProperties) {
         this.webhookId = webhookId;
         this.url = url;
         this.eventTypes = eventTypes;
         this.secret = secret;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("webhook_id")
@@ -56,6 +66,11 @@ public final class Webhook {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof Webhook && equalTo((Webhook) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(Webhook other) {
@@ -111,6 +126,9 @@ public final class Webhook {
 
         private Optional<List<String>> eventTypes = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -164,7 +182,7 @@ public final class Webhook {
 
         @Override
         public Webhook build() {
-            return new Webhook(webhookId, url, eventTypes, secret);
+            return new Webhook(webhookId, url, eventTypes, secret, additionalProperties);
         }
     }
 }

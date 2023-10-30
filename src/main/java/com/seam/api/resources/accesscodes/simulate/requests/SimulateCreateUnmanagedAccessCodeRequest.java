@@ -3,12 +3,16 @@
  */
 package com.seam.api.resources.accesscodes.simulate.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -20,10 +24,12 @@ public final class SimulateCreateUnmanagedAccessCodeRequest {
 
     private final String code;
 
-    private SimulateCreateUnmanagedAccessCodeRequest(String deviceId, String name, String code) {
+    private SimulateCreateUnmanagedAccessCodeRequest(
+            String deviceId, String name, String code, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.name = name;
         this.code = code;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_id")
@@ -46,6 +52,11 @@ public final class SimulateCreateUnmanagedAccessCodeRequest {
         if (this == other) return true;
         return other instanceof SimulateCreateUnmanagedAccessCodeRequest
                 && equalTo((SimulateCreateUnmanagedAccessCodeRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(SimulateCreateUnmanagedAccessCodeRequest other) {
@@ -92,6 +103,9 @@ public final class SimulateCreateUnmanagedAccessCodeRequest {
 
         private String code;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -125,7 +139,7 @@ public final class SimulateCreateUnmanagedAccessCodeRequest {
 
         @Override
         public SimulateCreateUnmanagedAccessCodeRequest build() {
-            return new SimulateCreateUnmanagedAccessCodeRequest(deviceId, name, code);
+            return new SimulateCreateUnmanagedAccessCodeRequest(deviceId, name, code, additionalProperties);
         }
     }
 }

@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -22,10 +26,12 @@ public final class EventsGetResponse {
 
     private final boolean ok;
 
-    private EventsGetResponse(Optional<Event> event, Optional<String> message, boolean ok) {
+    private EventsGetResponse(
+            Optional<Event> event, Optional<String> message, boolean ok, Map<String, Object> additionalProperties) {
         this.event = event;
         this.message = message;
         this.ok = ok;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("event")
@@ -47,6 +53,11 @@ public final class EventsGetResponse {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof EventsGetResponse && equalTo((EventsGetResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(EventsGetResponse other) {
@@ -93,6 +104,9 @@ public final class EventsGetResponse {
 
         private Optional<Event> event = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -138,7 +152,7 @@ public final class EventsGetResponse {
 
         @Override
         public EventsGetResponse build() {
-            return new EventsGetResponse(event, message, ok);
+            return new EventsGetResponse(event, message, ok, additionalProperties);
         }
     }
 }

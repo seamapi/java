@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -37,7 +41,8 @@ public final class NoiseThreshold {
             Optional<Double> noiseThresholdNrs,
             String startsDailyAt,
             String endsDailyAt,
-            double noiseThresholdDecibels) {
+            double noiseThresholdDecibels,
+            Map<String, Object> additionalProperties) {
         this.noiseThresholdId = noiseThresholdId;
         this.deviceId = deviceId;
         this.name = name;
@@ -45,6 +50,7 @@ public final class NoiseThreshold {
         this.startsDailyAt = startsDailyAt;
         this.endsDailyAt = endsDailyAt;
         this.noiseThresholdDecibels = noiseThresholdDecibels;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("noise_threshold_id")
@@ -86,6 +92,11 @@ public final class NoiseThreshold {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof NoiseThreshold && equalTo((NoiseThreshold) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(NoiseThreshold other) {
@@ -176,6 +187,9 @@ public final class NoiseThreshold {
 
         private Optional<Double> noiseThresholdNrs = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -254,7 +268,8 @@ public final class NoiseThreshold {
                     noiseThresholdNrs,
                     startsDailyAt,
                     endsDailyAt,
-                    noiseThresholdDecibels);
+                    noiseThresholdDecibels,
+                    additionalProperties);
         }
     }
 }

@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,7 +14,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -52,7 +56,8 @@ public final class Device {
             List<DeviceErrorsItem> errors,
             List<DeviceWarningsItem> warnings,
             OffsetDateTime createdAt,
-            boolean isManaged) {
+            boolean isManaged,
+            Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.deviceType = deviceType;
         this.capabilitiesSupported = capabilitiesSupported;
@@ -64,6 +69,7 @@ public final class Device {
         this.warnings = warnings;
         this.createdAt = createdAt;
         this.isManaged = isManaged;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_id")
@@ -125,6 +131,11 @@ public final class Device {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof Device && equalTo((Device) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(Device other) {
@@ -253,6 +264,9 @@ public final class Device {
         private Optional<Object> location = Optional.empty();
 
         private List<DeviceCapabilitiesSupportedItem> capabilitiesSupported = new ArrayList<>();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -407,7 +421,8 @@ public final class Device {
                     errors,
                     warnings,
                     createdAt,
-                    isManaged);
+                    isManaged,
+                    additionalProperties);
         }
     }
 }

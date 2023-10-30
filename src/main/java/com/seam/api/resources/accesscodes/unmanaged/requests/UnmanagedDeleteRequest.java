@@ -3,6 +3,8 @@
  */
 package com.seam.api.resources.accesscodes.unmanaged.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,9 +24,11 @@ public final class UnmanagedDeleteRequest {
 
     private final Optional<Boolean> sync;
 
-    private UnmanagedDeleteRequest(String accessCodeId, Optional<Boolean> sync) {
+    private UnmanagedDeleteRequest(
+            String accessCodeId, Optional<Boolean> sync, Map<String, Object> additionalProperties) {
         this.accessCodeId = accessCodeId;
         this.sync = sync;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("access_code_id")
@@ -39,6 +45,11 @@ public final class UnmanagedDeleteRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof UnmanagedDeleteRequest && equalTo((UnmanagedDeleteRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(UnmanagedDeleteRequest other) {
@@ -79,6 +90,9 @@ public final class UnmanagedDeleteRequest {
 
         private Optional<Boolean> sync = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -110,7 +124,7 @@ public final class UnmanagedDeleteRequest {
 
         @Override
         public UnmanagedDeleteRequest build() {
-            return new UnmanagedDeleteRequest(accessCodeId, sync);
+            return new UnmanagedDeleteRequest(accessCodeId, sync, additionalProperties);
         }
     }
 }

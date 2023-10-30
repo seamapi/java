@@ -3,6 +3,7 @@
  */
 package com.seam.api.resources.devices.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.types.DevicesListDeviceProvidersRequestProviderCategory;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,8 +22,10 @@ public final class DevicesListDeviceProvidersRequest {
     private final Optional<DevicesListDeviceProvidersRequestProviderCategory> providerCategory;
 
     private DevicesListDeviceProvidersRequest(
-            Optional<DevicesListDeviceProvidersRequestProviderCategory> providerCategory) {
+            Optional<DevicesListDeviceProvidersRequestProviderCategory> providerCategory,
+            Map<String, Object> additionalProperties) {
         this.providerCategory = providerCategory;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("provider_category")
@@ -33,6 +37,11 @@ public final class DevicesListDeviceProvidersRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof DevicesListDeviceProvidersRequest && equalTo((DevicesListDeviceProvidersRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(DevicesListDeviceProvidersRequest other) {
@@ -76,7 +85,7 @@ public final class DevicesListDeviceProvidersRequest {
         }
 
         public DevicesListDeviceProvidersRequest build() {
-            return new DevicesListDeviceProvidersRequest(providerCategory);
+            return new DevicesListDeviceProvidersRequest(providerCategory, additionalProperties);
         }
     }
 }

@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -34,13 +38,15 @@ public final class UnmanagedDeviceProperties {
             Optional<String> manufacturer,
             Optional<String> imageUrl,
             Optional<String> imageAltText,
-            UnmanagedDevicePropertiesModel model) {
+            UnmanagedDevicePropertiesModel model,
+            Map<String, Object> additionalProperties) {
         this.name = name;
         this.online = online;
         this.manufacturer = manufacturer;
         this.imageUrl = imageUrl;
         this.imageAltText = imageAltText;
         this.model = model;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("name")
@@ -77,6 +83,11 @@ public final class UnmanagedDeviceProperties {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof UnmanagedDeviceProperties && equalTo((UnmanagedDeviceProperties) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(UnmanagedDeviceProperties other) {
@@ -145,6 +156,9 @@ public final class UnmanagedDeviceProperties {
         private Optional<String> imageUrl = Optional.empty();
 
         private Optional<String> manufacturer = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -221,7 +235,8 @@ public final class UnmanagedDeviceProperties {
 
         @Override
         public UnmanagedDeviceProperties build() {
-            return new UnmanagedDeviceProperties(name, online, manufacturer, imageUrl, imageAltText, model);
+            return new UnmanagedDeviceProperties(
+                    name, online, manufacturer, imageUrl, imageAltText, model, additionalProperties);
         }
     }
 }

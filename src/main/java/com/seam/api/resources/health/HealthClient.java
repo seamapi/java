@@ -31,10 +31,6 @@ public class HealthClient {
         this.serviceClient = Suppliers.memoize(() -> new ServiceClient(clientOptions));
     }
 
-    public HealthGetHealthResponse getHealth() {
-        return getHealth(null);
-    }
-
     public HealthGetHealthResponse getHealth(RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
@@ -60,8 +56,8 @@ public class HealthClient {
         }
     }
 
-    public HealthGetServiceHealthResponse getServiceHealth(HealthGetServiceHealthRequest request) {
-        return getServiceHealth(request, null);
+    public HealthGetHealthResponse getHealth() {
+        return getHealth(null);
     }
 
     public HealthGetServiceHealthResponse getServiceHealth(
@@ -96,6 +92,10 @@ public class HealthClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public HealthGetServiceHealthResponse getServiceHealth(HealthGetServiceHealthRequest request) {
+        return getServiceHealth(request, null);
     }
 
     public ServiceClient service() {

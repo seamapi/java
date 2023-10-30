@@ -3,12 +3,16 @@
  */
 package com.seam.api.resources.noisesensors.noisethresholds.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -16,8 +20,9 @@ import java.util.Objects;
 public final class NoiseThresholdsGetRequest {
     private final String noiseThresholdId;
 
-    private NoiseThresholdsGetRequest(String noiseThresholdId) {
+    private NoiseThresholdsGetRequest(String noiseThresholdId, Map<String, Object> additionalProperties) {
         this.noiseThresholdId = noiseThresholdId;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("noise_threshold_id")
@@ -29,6 +34,11 @@ public final class NoiseThresholdsGetRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof NoiseThresholdsGetRequest && equalTo((NoiseThresholdsGetRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(NoiseThresholdsGetRequest other) {
@@ -63,6 +73,9 @@ public final class NoiseThresholdsGetRequest {
     public static final class Builder implements NoiseThresholdIdStage, _FinalStage {
         private String noiseThresholdId;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -80,7 +93,7 @@ public final class NoiseThresholdsGetRequest {
 
         @Override
         public NoiseThresholdsGetRequest build() {
-            return new NoiseThresholdsGetRequest(noiseThresholdId);
+            return new NoiseThresholdsGetRequest(noiseThresholdId, additionalProperties);
         }
     }
 }

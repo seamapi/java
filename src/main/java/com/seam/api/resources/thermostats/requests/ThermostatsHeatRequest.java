@@ -3,6 +3,8 @@
  */
 package com.seam.api.resources.thermostats.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -28,11 +32,13 @@ public final class ThermostatsHeatRequest {
             String deviceId,
             Optional<Double> heatingSetPointCelsius,
             Optional<Double> heatingSetPointFahrenheit,
-            Optional<Boolean> sync) {
+            Optional<Boolean> sync,
+            Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.heatingSetPointCelsius = heatingSetPointCelsius;
         this.heatingSetPointFahrenheit = heatingSetPointFahrenheit;
         this.sync = sync;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_id")
@@ -59,6 +65,11 @@ public final class ThermostatsHeatRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ThermostatsHeatRequest && equalTo((ThermostatsHeatRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ThermostatsHeatRequest other) {
@@ -113,6 +124,9 @@ public final class ThermostatsHeatRequest {
         private Optional<Double> heatingSetPointFahrenheit = Optional.empty();
 
         private Optional<Double> heatingSetPointCelsius = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -173,7 +187,8 @@ public final class ThermostatsHeatRequest {
 
         @Override
         public ThermostatsHeatRequest build() {
-            return new ThermostatsHeatRequest(deviceId, heatingSetPointCelsius, heatingSetPointFahrenheit, sync);
+            return new ThermostatsHeatRequest(
+                    deviceId, heatingSetPointCelsius, heatingSetPointFahrenheit, sync, additionalProperties);
         }
     }
 }

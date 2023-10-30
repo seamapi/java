@@ -3,6 +3,8 @@
  */
 package com.seam.api.resources.accesscodes.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +13,8 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.types.AccessCodesUpdateRequestType;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -50,7 +54,8 @@ public final class AccessCodesUpdateRequest {
             Optional<Boolean> useBackupAccessCodePool,
             String accessCodeId,
             Optional<String> deviceId,
-            Optional<AccessCodesUpdateRequestType> type) {
+            Optional<AccessCodesUpdateRequestType> type,
+            Map<String, Object> additionalProperties) {
         this.name = name;
         this.startsAt = startsAt;
         this.endsAt = endsAt;
@@ -62,6 +67,7 @@ public final class AccessCodesUpdateRequest {
         this.accessCodeId = accessCodeId;
         this.deviceId = deviceId;
         this.type = type;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("name")
@@ -123,6 +129,11 @@ public final class AccessCodesUpdateRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof AccessCodesUpdateRequest && equalTo((AccessCodesUpdateRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(AccessCodesUpdateRequest other) {
@@ -237,6 +248,9 @@ public final class AccessCodesUpdateRequest {
         private Optional<String> startsAt = Optional.empty();
 
         private Optional<String> name = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -406,7 +420,8 @@ public final class AccessCodesUpdateRequest {
                     useBackupAccessCodePool,
                     accessCodeId,
                     deviceId,
-                    type);
+                    type,
+                    additionalProperties);
         }
     }
 }

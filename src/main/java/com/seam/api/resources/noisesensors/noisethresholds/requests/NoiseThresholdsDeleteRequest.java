@@ -3,6 +3,8 @@
  */
 package com.seam.api.resources.noisesensors.noisethresholds.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -22,10 +26,15 @@ public final class NoiseThresholdsDeleteRequest {
 
     private final Optional<Boolean> sync;
 
-    private NoiseThresholdsDeleteRequest(String noiseThresholdId, String deviceId, Optional<Boolean> sync) {
+    private NoiseThresholdsDeleteRequest(
+            String noiseThresholdId,
+            String deviceId,
+            Optional<Boolean> sync,
+            Map<String, Object> additionalProperties) {
         this.noiseThresholdId = noiseThresholdId;
         this.deviceId = deviceId;
         this.sync = sync;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("noise_threshold_id")
@@ -47,6 +56,11 @@ public final class NoiseThresholdsDeleteRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof NoiseThresholdsDeleteRequest && equalTo((NoiseThresholdsDeleteRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(NoiseThresholdsDeleteRequest other) {
@@ -95,6 +109,9 @@ public final class NoiseThresholdsDeleteRequest {
 
         private Optional<Boolean> sync = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -134,7 +151,7 @@ public final class NoiseThresholdsDeleteRequest {
 
         @Override
         public NoiseThresholdsDeleteRequest build() {
-            return new NoiseThresholdsDeleteRequest(noiseThresholdId, deviceId, sync);
+            return new NoiseThresholdsDeleteRequest(noiseThresholdId, deviceId, sync, additionalProperties);
         }
     }
 }

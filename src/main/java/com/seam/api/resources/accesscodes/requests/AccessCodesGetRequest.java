@@ -3,6 +3,7 @@
  */
 package com.seam.api.resources.accesscodes.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -22,10 +24,15 @@ public final class AccessCodesGetRequest {
 
     private final Optional<String> code;
 
-    private AccessCodesGetRequest(Optional<String> deviceId, Optional<String> accessCodeId, Optional<String> code) {
+    private AccessCodesGetRequest(
+            Optional<String> deviceId,
+            Optional<String> accessCodeId,
+            Optional<String> code,
+            Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.accessCodeId = accessCodeId;
         this.code = code;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_id")
@@ -47,6 +54,11 @@ public final class AccessCodesGetRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof AccessCodesGetRequest && equalTo((AccessCodesGetRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(AccessCodesGetRequest other) {
@@ -118,7 +130,7 @@ public final class AccessCodesGetRequest {
         }
 
         public AccessCodesGetRequest build() {
-            return new AccessCodesGetRequest(deviceId, accessCodeId, code);
+            return new AccessCodesGetRequest(deviceId, accessCodeId, code, additionalProperties);
         }
     }
 }

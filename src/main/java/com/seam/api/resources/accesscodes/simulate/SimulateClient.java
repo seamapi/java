@@ -25,11 +25,6 @@ public class SimulateClient {
     }
 
     public SimulateCreateUnmanagedAccessCodeResponse createUnmanagedAccessCode(
-            SimulateCreateUnmanagedAccessCodeRequest request) {
-        return createUnmanagedAccessCode(request, null);
-    }
-
-    public SimulateCreateUnmanagedAccessCodeResponse createUnmanagedAccessCode(
             SimulateCreateUnmanagedAccessCodeRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
@@ -61,5 +56,10 @@ public class SimulateClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public SimulateCreateUnmanagedAccessCodeResponse createUnmanagedAccessCode(
+            SimulateCreateUnmanagedAccessCodeRequest request) {
+        return createUnmanagedAccessCode(request, null);
     }
 }

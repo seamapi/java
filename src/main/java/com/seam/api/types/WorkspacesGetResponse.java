@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,9 +24,10 @@ public final class WorkspacesGetResponse {
 
     private final boolean ok;
 
-    private WorkspacesGetResponse(Optional<Workspace> workspace, boolean ok) {
+    private WorkspacesGetResponse(Optional<Workspace> workspace, boolean ok, Map<String, Object> additionalProperties) {
         this.workspace = workspace;
         this.ok = ok;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("workspace")
@@ -39,6 +44,11 @@ public final class WorkspacesGetResponse {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof WorkspacesGetResponse && equalTo((WorkspacesGetResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(WorkspacesGetResponse other) {
@@ -79,6 +89,9 @@ public final class WorkspacesGetResponse {
 
         private Optional<Workspace> workspace = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -110,7 +123,7 @@ public final class WorkspacesGetResponse {
 
         @Override
         public WorkspacesGetResponse build() {
-            return new WorkspacesGetResponse(workspace, ok);
+            return new WorkspacesGetResponse(workspace, ok, additionalProperties);
         }
     }
 }

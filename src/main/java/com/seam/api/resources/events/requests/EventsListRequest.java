@@ -3,6 +3,7 @@
  */
 package com.seam.api.resources.events.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,6 +15,7 @@ import com.seam.api.types.EventsListRequestBetweenItem;
 import com.seam.api.types.EventsListRequestEventType;
 import com.seam.api.types.EventsListRequestEventTypesItem;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -47,7 +49,8 @@ public final class EventsListRequest {
             Optional<List<String>> accessCodeIds,
             Optional<EventsListRequestEventType> eventType,
             Optional<List<EventsListRequestEventTypesItem>> eventTypes,
-            Optional<String> connectedAccountId) {
+            Optional<String> connectedAccountId,
+            Map<String, Object> additionalProperties) {
         this.since = since;
         this.between = between;
         this.deviceId = deviceId;
@@ -57,6 +60,7 @@ public final class EventsListRequest {
         this.eventType = eventType;
         this.eventTypes = eventTypes;
         this.connectedAccountId = connectedAccountId;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("since")
@@ -108,6 +112,11 @@ public final class EventsListRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof EventsListRequest && equalTo((EventsListRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(EventsListRequest other) {
@@ -289,7 +298,8 @@ public final class EventsListRequest {
                     accessCodeIds,
                     eventType,
                     eventTypes,
-                    connectedAccountId);
+                    connectedAccountId,
+                    additionalProperties);
         }
     }
 }

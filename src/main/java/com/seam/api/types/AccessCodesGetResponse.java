@@ -3,12 +3,16 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -18,9 +22,10 @@ public final class AccessCodesGetResponse {
 
     private final boolean ok;
 
-    private AccessCodesGetResponse(AccessCode accessCode, boolean ok) {
+    private AccessCodesGetResponse(AccessCode accessCode, boolean ok, Map<String, Object> additionalProperties) {
         this.accessCode = accessCode;
         this.ok = ok;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("access_code")
@@ -37,6 +42,11 @@ public final class AccessCodesGetResponse {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof AccessCodesGetResponse && equalTo((AccessCodesGetResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(AccessCodesGetResponse other) {
@@ -77,6 +87,9 @@ public final class AccessCodesGetResponse {
 
         private boolean ok;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -102,7 +115,7 @@ public final class AccessCodesGetResponse {
 
         @Override
         public AccessCodesGetResponse build() {
-            return new AccessCodesGetResponse(accessCode, ok);
+            return new AccessCodesGetResponse(accessCode, ok, additionalProperties);
         }
     }
 }

@@ -3,12 +3,16 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -20,10 +24,12 @@ public final class AccessCodesCreateResponse {
 
     private final boolean ok;
 
-    private AccessCodesCreateResponse(ActionAttempt actionAttempt, AccessCode accessCode, boolean ok) {
+    private AccessCodesCreateResponse(
+            ActionAttempt actionAttempt, AccessCode accessCode, boolean ok, Map<String, Object> additionalProperties) {
         this.actionAttempt = actionAttempt;
         this.accessCode = accessCode;
         this.ok = ok;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("action_attempt")
@@ -45,6 +51,11 @@ public final class AccessCodesCreateResponse {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof AccessCodesCreateResponse && equalTo((AccessCodesCreateResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(AccessCodesCreateResponse other) {
@@ -91,6 +102,9 @@ public final class AccessCodesCreateResponse {
 
         private boolean ok;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -124,7 +138,7 @@ public final class AccessCodesCreateResponse {
 
         @Override
         public AccessCodesCreateResponse build() {
-            return new AccessCodesCreateResponse(actionAttempt, accessCode, ok);
+            return new AccessCodesCreateResponse(actionAttempt, accessCode, ok, additionalProperties);
         }
     }
 }

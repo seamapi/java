@@ -29,10 +29,6 @@ public class WebhooksClient {
         this.clientOptions = clientOptions;
     }
 
-    public WebhooksCreateResponse create(WebhooksCreateRequest request) {
-        return create(request, null);
-    }
-
     public WebhooksCreateResponse create(WebhooksCreateRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
@@ -65,8 +61,8 @@ public class WebhooksClient {
         }
     }
 
-    public WebhooksDeleteResponse delete(WebhooksDeleteRequest request) {
-        return delete(request, null);
+    public WebhooksCreateResponse create(WebhooksCreateRequest request) {
+        return create(request, null);
     }
 
     public WebhooksDeleteResponse delete(WebhooksDeleteRequest request, RequestOptions requestOptions) {
@@ -101,8 +97,8 @@ public class WebhooksClient {
         }
     }
 
-    public WebhooksGetResponse get(WebhooksGetRequest request) {
-        return get(request, null);
+    public WebhooksDeleteResponse delete(WebhooksDeleteRequest request) {
+        return delete(request, null);
     }
 
     public WebhooksGetResponse get(WebhooksGetRequest request, RequestOptions requestOptions) {
@@ -137,8 +133,8 @@ public class WebhooksClient {
         }
     }
 
-    public WebhooksListResponse list() {
-        return list(null);
+    public WebhooksGetResponse get(WebhooksGetRequest request) {
+        return get(request, null);
     }
 
     public WebhooksListResponse list(RequestOptions requestOptions) {
@@ -164,5 +160,9 @@ public class WebhooksClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public WebhooksListResponse list() {
+        return list(null);
     }
 }

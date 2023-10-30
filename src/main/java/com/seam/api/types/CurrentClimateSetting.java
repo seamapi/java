@@ -3,6 +3,7 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -40,7 +42,8 @@ public final class CurrentClimateSetting {
             Optional<Double> heatingSetPointCelsius,
             Optional<Double> coolingSetPointFahrenheit,
             Optional<Double> heatingSetPointFahrenheit,
-            Optional<Boolean> manualOverrideAllowed) {
+            Optional<Boolean> manualOverrideAllowed,
+            Map<String, Object> additionalProperties) {
         this.automaticHeatingEnabled = automaticHeatingEnabled;
         this.automaticCoolingEnabled = automaticCoolingEnabled;
         this.hvacModeSetting = hvacModeSetting;
@@ -49,6 +52,7 @@ public final class CurrentClimateSetting {
         this.coolingSetPointFahrenheit = coolingSetPointFahrenheit;
         this.heatingSetPointFahrenheit = heatingSetPointFahrenheit;
         this.manualOverrideAllowed = manualOverrideAllowed;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("automatic_heating_enabled")
@@ -95,6 +99,11 @@ public final class CurrentClimateSetting {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof CurrentClimateSetting && equalTo((CurrentClimateSetting) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(CurrentClimateSetting other) {
@@ -259,7 +268,8 @@ public final class CurrentClimateSetting {
                     heatingSetPointCelsius,
                     coolingSetPointFahrenheit,
                     heatingSetPointFahrenheit,
-                    manualOverrideAllowed);
+                    manualOverrideAllowed,
+                    additionalProperties);
         }
     }
 }

@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -37,7 +41,8 @@ public final class AugustDeviceMetadata {
             Optional<String> houseId,
             boolean hasKeypad,
             Optional<String> model,
-            Optional<String> keypadBatteryLevel) {
+            Optional<String> keypadBatteryLevel,
+            Map<String, Object> additionalProperties) {
         this.lockId = lockId;
         this.lockName = lockName;
         this.houseName = houseName;
@@ -45,6 +50,7 @@ public final class AugustDeviceMetadata {
         this.hasKeypad = hasKeypad;
         this.model = model;
         this.keypadBatteryLevel = keypadBatteryLevel;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("lock_id")
@@ -86,6 +92,11 @@ public final class AugustDeviceMetadata {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof AugustDeviceMetadata && equalTo((AugustDeviceMetadata) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(AugustDeviceMetadata other) {
@@ -170,6 +181,9 @@ public final class AugustDeviceMetadata {
 
         private Optional<String> houseId = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -253,7 +267,8 @@ public final class AugustDeviceMetadata {
 
         @Override
         public AugustDeviceMetadata build() {
-            return new AugustDeviceMetadata(lockId, lockName, houseName, houseId, hasKeypad, model, keypadBatteryLevel);
+            return new AugustDeviceMetadata(
+                    lockId, lockName, houseName, houseId, hasKeypad, model, keypadBatteryLevel, additionalProperties);
         }
     }
 }

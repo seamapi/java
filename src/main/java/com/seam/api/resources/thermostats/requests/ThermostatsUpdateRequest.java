@@ -3,6 +3,8 @@
  */
 package com.seam.api.resources.thermostats.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.types.ThermostatsUpdateRequestDefaultClimateSetting;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -20,9 +24,12 @@ public final class ThermostatsUpdateRequest {
     private final ThermostatsUpdateRequestDefaultClimateSetting defaultClimateSetting;
 
     private ThermostatsUpdateRequest(
-            String deviceId, ThermostatsUpdateRequestDefaultClimateSetting defaultClimateSetting) {
+            String deviceId,
+            ThermostatsUpdateRequestDefaultClimateSetting defaultClimateSetting,
+            Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.defaultClimateSetting = defaultClimateSetting;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_id")
@@ -39,6 +46,11 @@ public final class ThermostatsUpdateRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ThermostatsUpdateRequest && equalTo((ThermostatsUpdateRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ThermostatsUpdateRequest other) {
@@ -79,6 +91,9 @@ public final class ThermostatsUpdateRequest {
 
         private ThermostatsUpdateRequestDefaultClimateSetting defaultClimateSetting;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -104,7 +119,7 @@ public final class ThermostatsUpdateRequest {
 
         @Override
         public ThermostatsUpdateRequest build() {
-            return new ThermostatsUpdateRequest(deviceId, defaultClimateSetting);
+            return new ThermostatsUpdateRequest(deviceId, defaultClimateSetting, additionalProperties);
         }
     }
 }

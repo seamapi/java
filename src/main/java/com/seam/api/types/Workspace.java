@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,11 +28,17 @@ public final class Workspace {
 
     private final Optional<String> connectPartnerName;
 
-    private Workspace(String workspaceId, String name, boolean isSandbox, Optional<String> connectPartnerName) {
+    private Workspace(
+            String workspaceId,
+            String name,
+            boolean isSandbox,
+            Optional<String> connectPartnerName,
+            Map<String, Object> additionalProperties) {
         this.workspaceId = workspaceId;
         this.name = name;
         this.isSandbox = isSandbox;
         this.connectPartnerName = connectPartnerName;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("workspace_id")
@@ -55,6 +65,11 @@ public final class Workspace {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof Workspace && equalTo((Workspace) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(Workspace other) {
@@ -110,6 +125,9 @@ public final class Workspace {
 
         private Optional<String> connectPartnerName = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -157,7 +175,7 @@ public final class Workspace {
 
         @Override
         public Workspace build() {
-            return new Workspace(workspaceId, name, isSandbox, connectPartnerName);
+            return new Workspace(workspaceId, name, isSandbox, connectPartnerName, additionalProperties);
         }
     }
 }

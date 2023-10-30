@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -34,13 +38,15 @@ public final class SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing {
             SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoingCreatedAt createdAt,
             boolean isManaged,
             Optional<String> startsAt,
-            Optional<String> endsAt) {
+            Optional<String> endsAt,
+            Map<String, Object> additionalProperties) {
         this.accessCodeId = accessCodeId;
         this.code = code;
         this.createdAt = createdAt;
         this.isManaged = isManaged;
         this.startsAt = startsAt;
         this.endsAt = endsAt;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("access_code_id")
@@ -83,6 +89,11 @@ public final class SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing {
         if (this == other) return true;
         return other instanceof SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing
                 && equalTo((SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing other) {
@@ -151,6 +162,9 @@ public final class SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing {
         private Optional<String> startsAt = Optional.empty();
 
         private Optional<String> code = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -228,7 +242,7 @@ public final class SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing {
         @Override
         public SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing build() {
             return new SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing(
-                    accessCodeId, code, createdAt, isManaged, startsAt, endsAt);
+                    accessCodeId, code, createdAt, isManaged, startsAt, endsAt, additionalProperties);
         }
     }
 }

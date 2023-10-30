@@ -24,10 +24,6 @@ public class ServiceClient {
         this.clientOptions = clientOptions;
     }
 
-    public ServiceByServiceNameResponse byServiceName(ServiceByServiceNameRequest request) {
-        return byServiceName(request, null);
-    }
-
     public ServiceByServiceNameResponse byServiceName(
             ServiceByServiceNameRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
@@ -60,5 +56,9 @@ public class ServiceClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public ServiceByServiceNameResponse byServiceName(ServiceByServiceNameRequest request) {
+        return byServiceName(request, null);
     }
 }

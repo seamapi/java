@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +13,9 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -29,11 +33,13 @@ public final class DevicesListDeviceProvidersResponseDeviceProvidersItem {
             String deviceProviderName,
             String displayName,
             String imageUrl,
-            List<DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem> providerCategories) {
+            List<DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem> providerCategories,
+            Map<String, Object> additionalProperties) {
         this.deviceProviderName = deviceProviderName;
         this.displayName = displayName;
         this.imageUrl = imageUrl;
         this.providerCategories = providerCategories;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_provider_name")
@@ -61,6 +67,11 @@ public final class DevicesListDeviceProvidersResponseDeviceProvidersItem {
         if (this == other) return true;
         return other instanceof DevicesListDeviceProvidersResponseDeviceProvidersItem
                 && equalTo((DevicesListDeviceProvidersResponseDeviceProvidersItem) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(DevicesListDeviceProvidersResponseDeviceProvidersItem other) {
@@ -122,6 +133,9 @@ public final class DevicesListDeviceProvidersResponseDeviceProvidersItem {
         private List<DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem> providerCategories =
                 new ArrayList<>();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -180,7 +194,7 @@ public final class DevicesListDeviceProvidersResponseDeviceProvidersItem {
         @Override
         public DevicesListDeviceProvidersResponseDeviceProvidersItem build() {
             return new DevicesListDeviceProvidersResponseDeviceProvidersItem(
-                    deviceProviderName, displayName, imageUrl, providerCategories);
+                    deviceProviderName, displayName, imageUrl, providerCategories, additionalProperties);
         }
     }
 }

@@ -26,8 +26,8 @@ public class UnmanagedClient {
         this.clientOptions = clientOptions;
     }
 
-    public UnmanagedListResponse list(UnmanagedListRequest request) {
-        return list(request, null);
+    public UnmanagedListResponse list() {
+        return list(UnmanagedListRequest.builder().build());
     }
 
     public UnmanagedListResponse list(UnmanagedListRequest request, RequestOptions requestOptions) {
@@ -62,12 +62,8 @@ public class UnmanagedClient {
         }
     }
 
-    public UnmanagedListResponse list() {
-        return list(UnmanagedListRequest.builder().build());
-    }
-
-    public UnmanagedUpdateResponse update(UnmanagedUpdateRequest request) {
-        return update(request, null);
+    public UnmanagedListResponse list(UnmanagedListRequest request) {
+        return list(request, null);
     }
 
     public UnmanagedUpdateResponse update(UnmanagedUpdateRequest request, RequestOptions requestOptions) {
@@ -100,5 +96,9 @@ public class UnmanagedClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public UnmanagedUpdateResponse update(UnmanagedUpdateRequest request) {
+        return update(request, null);
     }
 }

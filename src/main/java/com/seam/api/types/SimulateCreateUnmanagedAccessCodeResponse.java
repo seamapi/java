@@ -3,12 +3,16 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -19,9 +23,12 @@ public final class SimulateCreateUnmanagedAccessCodeResponse {
     private final boolean ok;
 
     private SimulateCreateUnmanagedAccessCodeResponse(
-            SimulateCreateUnmanagedAccessCodeResponseAccessCode accessCode, boolean ok) {
+            SimulateCreateUnmanagedAccessCodeResponseAccessCode accessCode,
+            boolean ok,
+            Map<String, Object> additionalProperties) {
         this.accessCode = accessCode;
         this.ok = ok;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("access_code")
@@ -39,6 +46,11 @@ public final class SimulateCreateUnmanagedAccessCodeResponse {
         if (this == other) return true;
         return other instanceof SimulateCreateUnmanagedAccessCodeResponse
                 && equalTo((SimulateCreateUnmanagedAccessCodeResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(SimulateCreateUnmanagedAccessCodeResponse other) {
@@ -79,6 +91,9 @@ public final class SimulateCreateUnmanagedAccessCodeResponse {
 
         private boolean ok;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -104,7 +119,7 @@ public final class SimulateCreateUnmanagedAccessCodeResponse {
 
         @Override
         public SimulateCreateUnmanagedAccessCodeResponse build() {
-            return new SimulateCreateUnmanagedAccessCodeResponse(accessCode, ok);
+            return new SimulateCreateUnmanagedAccessCodeResponse(accessCode, ok, additionalProperties);
         }
     }
 }

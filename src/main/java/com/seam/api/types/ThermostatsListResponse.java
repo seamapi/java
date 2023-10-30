@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +13,9 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -21,9 +25,10 @@ public final class ThermostatsListResponse {
 
     private final boolean ok;
 
-    private ThermostatsListResponse(List<Device> thermostats, boolean ok) {
+    private ThermostatsListResponse(List<Device> thermostats, boolean ok, Map<String, Object> additionalProperties) {
         this.thermostats = thermostats;
         this.ok = ok;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("thermostats")
@@ -40,6 +45,11 @@ public final class ThermostatsListResponse {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ThermostatsListResponse && equalTo((ThermostatsListResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ThermostatsListResponse other) {
@@ -82,6 +92,9 @@ public final class ThermostatsListResponse {
 
         private List<Device> thermostats = new ArrayList<>();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -120,7 +133,7 @@ public final class ThermostatsListResponse {
 
         @Override
         public ThermostatsListResponse build() {
-            return new ThermostatsListResponse(thermostats, ok);
+            return new ThermostatsListResponse(thermostats, ok, additionalProperties);
         }
     }
 }

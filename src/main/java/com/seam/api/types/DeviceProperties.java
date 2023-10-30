@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -37,7 +41,8 @@ public final class DeviceProperties {
             Optional<AugustDeviceMetadata> augustMetadata,
             Optional<SchlageDeviceMetadata> schlageMetadata,
             Object smartthingsMetadata,
-            Optional<CurrentClimateSetting> currentClimateSetting) {
+            Optional<CurrentClimateSetting> currentClimateSetting,
+            Map<String, Object> additionalProperties) {
         this.online = online;
         this.name = name;
         this.model = model;
@@ -45,6 +50,7 @@ public final class DeviceProperties {
         this.schlageMetadata = schlageMetadata;
         this.smartthingsMetadata = smartthingsMetadata;
         this.currentClimateSetting = currentClimateSetting;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("online")
@@ -86,6 +92,11 @@ public final class DeviceProperties {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof DeviceProperties && equalTo((DeviceProperties) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(DeviceProperties other) {
@@ -169,6 +180,9 @@ public final class DeviceProperties {
         private Optional<SchlageDeviceMetadata> schlageMetadata = Optional.empty();
 
         private Optional<AugustDeviceMetadata> augustMetadata = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -254,7 +268,14 @@ public final class DeviceProperties {
         @Override
         public DeviceProperties build() {
             return new DeviceProperties(
-                    online, name, model, augustMetadata, schlageMetadata, smartthingsMetadata, currentClimateSetting);
+                    online,
+                    name,
+                    model,
+                    augustMetadata,
+                    schlageMetadata,
+                    smartthingsMetadata,
+                    currentClimateSetting,
+                    additionalProperties);
         }
     }
 }

@@ -3,6 +3,7 @@
  */
 package com.seam.api.resources.clientsessions.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -26,10 +28,12 @@ public final class ClientSessionsCreateRequest {
     private ClientSessionsCreateRequest(
             Optional<String> userIdentifierKey,
             Optional<List<String>> connectWebviewIds,
-            Optional<List<String>> connectedAccountIds) {
+            Optional<List<String>> connectedAccountIds,
+            Map<String, Object> additionalProperties) {
         this.userIdentifierKey = userIdentifierKey;
         this.connectWebviewIds = connectWebviewIds;
         this.connectedAccountIds = connectedAccountIds;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("user_identifier_key")
@@ -51,6 +55,11 @@ public final class ClientSessionsCreateRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ClientSessionsCreateRequest && equalTo((ClientSessionsCreateRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ClientSessionsCreateRequest other) {
@@ -124,7 +133,8 @@ public final class ClientSessionsCreateRequest {
         }
 
         public ClientSessionsCreateRequest build() {
-            return new ClientSessionsCreateRequest(userIdentifierKey, connectWebviewIds, connectedAccountIds);
+            return new ClientSessionsCreateRequest(
+                    userIdentifierKey, connectWebviewIds, connectedAccountIds, additionalProperties);
         }
     }
 }

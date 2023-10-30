@@ -3,6 +3,8 @@
  */
 package com.seam.api.resources.noisesensors.noisethresholds.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -40,7 +44,8 @@ public final class NoiseThresholdsUpdateRequest {
             Optional<String> startsDailyAt,
             Optional<String> endsDailyAt,
             Optional<Double> noiseThresholdDecibels,
-            Optional<Double> noiseThresholdNrs) {
+            Optional<Double> noiseThresholdNrs,
+            Map<String, Object> additionalProperties) {
         this.noiseThresholdId = noiseThresholdId;
         this.deviceId = deviceId;
         this.sync = sync;
@@ -49,6 +54,7 @@ public final class NoiseThresholdsUpdateRequest {
         this.endsDailyAt = endsDailyAt;
         this.noiseThresholdDecibels = noiseThresholdDecibels;
         this.noiseThresholdNrs = noiseThresholdNrs;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("noise_threshold_id")
@@ -95,6 +101,11 @@ public final class NoiseThresholdsUpdateRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof NoiseThresholdsUpdateRequest && equalTo((NoiseThresholdsUpdateRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(NoiseThresholdsUpdateRequest other) {
@@ -185,6 +196,9 @@ public final class NoiseThresholdsUpdateRequest {
         private Optional<String> name = Optional.empty();
 
         private Optional<Boolean> sync = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -303,7 +317,8 @@ public final class NoiseThresholdsUpdateRequest {
                     startsDailyAt,
                     endsDailyAt,
                     noiseThresholdDecibels,
-                    noiseThresholdNrs);
+                    noiseThresholdNrs,
+                    additionalProperties);
         }
     }
 }

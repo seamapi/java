@@ -3,6 +3,8 @@
  */
 package com.seam.api.resources.accesscodes.unmanaged.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -22,10 +26,15 @@ public final class UnmanagedConvertToManagedRequest {
 
     private final Optional<Boolean> sync;
 
-    private UnmanagedConvertToManagedRequest(String accessCodeId, Optional<Boolean> force, Optional<Boolean> sync) {
+    private UnmanagedConvertToManagedRequest(
+            String accessCodeId,
+            Optional<Boolean> force,
+            Optional<Boolean> sync,
+            Map<String, Object> additionalProperties) {
         this.accessCodeId = accessCodeId;
         this.force = force;
         this.sync = sync;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("access_code_id")
@@ -47,6 +56,11 @@ public final class UnmanagedConvertToManagedRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof UnmanagedConvertToManagedRequest && equalTo((UnmanagedConvertToManagedRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(UnmanagedConvertToManagedRequest other) {
@@ -93,6 +107,9 @@ public final class UnmanagedConvertToManagedRequest {
 
         private Optional<Boolean> force = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -138,7 +155,7 @@ public final class UnmanagedConvertToManagedRequest {
 
         @Override
         public UnmanagedConvertToManagedRequest build() {
-            return new UnmanagedConvertToManagedRequest(accessCodeId, force, sync);
+            return new UnmanagedConvertToManagedRequest(accessCodeId, force, sync, additionalProperties);
         }
     }
 }

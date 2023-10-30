@@ -3,6 +3,7 @@
  */
 package com.seam.api.resources.clientsessions.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,9 +22,13 @@ public final class ClientSessionsGetRequest {
 
     private final Optional<String> userIdentifierKey;
 
-    private ClientSessionsGetRequest(Optional<String> clientSessionId, Optional<String> userIdentifierKey) {
+    private ClientSessionsGetRequest(
+            Optional<String> clientSessionId,
+            Optional<String> userIdentifierKey,
+            Map<String, Object> additionalProperties) {
         this.clientSessionId = clientSessionId;
         this.userIdentifierKey = userIdentifierKey;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("client_session_id")
@@ -39,6 +45,11 @@ public final class ClientSessionsGetRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ClientSessionsGetRequest && equalTo((ClientSessionsGetRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ClientSessionsGetRequest other) {
@@ -96,7 +107,7 @@ public final class ClientSessionsGetRequest {
         }
 
         public ClientSessionsGetRequest build() {
-            return new ClientSessionsGetRequest(clientSessionId, userIdentifierKey);
+            return new ClientSessionsGetRequest(clientSessionId, userIdentifierKey, additionalProperties);
         }
     }
 }

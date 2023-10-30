@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,7 +14,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -43,7 +47,8 @@ public final class ClientSession {
             double deviceCount,
             List<String> connectedAccountIds,
             List<String> connectWebviewIds,
-            String workspaceId) {
+            String workspaceId,
+            Map<String, Object> additionalProperties) {
         this.clientSessionId = clientSessionId;
         this.userIdentifierKey = userIdentifierKey;
         this.createdAt = createdAt;
@@ -52,6 +57,7 @@ public final class ClientSession {
         this.connectedAccountIds = connectedAccountIds;
         this.connectWebviewIds = connectWebviewIds;
         this.workspaceId = workspaceId;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("client_session_id")
@@ -98,6 +104,11 @@ public final class ClientSession {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ClientSession && equalTo((ClientSession) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ClientSession other) {
@@ -198,6 +209,9 @@ public final class ClientSession {
         private List<String> connectedAccountIds = new ArrayList<>();
 
         private Optional<String> userIdentifierKey = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -312,7 +326,8 @@ public final class ClientSession {
                     deviceCount,
                     connectedAccountIds,
                     connectWebviewIds,
-                    workspaceId);
+                    workspaceId,
+                    additionalProperties);
         }
     }
 }

@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +13,9 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -25,10 +29,14 @@ public final class HealthGetHealthResponse {
     private final List<ServiceHealth> serviceHealthStatuses;
 
     private HealthGetHealthResponse(
-            boolean ok, Optional<String> lastServiceEvaluationAt, List<ServiceHealth> serviceHealthStatuses) {
+            boolean ok,
+            Optional<String> lastServiceEvaluationAt,
+            List<ServiceHealth> serviceHealthStatuses,
+            Map<String, Object> additionalProperties) {
         this.ok = ok;
         this.lastServiceEvaluationAt = lastServiceEvaluationAt;
         this.serviceHealthStatuses = serviceHealthStatuses;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("ok")
@@ -55,6 +63,11 @@ public final class HealthGetHealthResponse {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof HealthGetHealthResponse && equalTo((HealthGetHealthResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(HealthGetHealthResponse other) {
@@ -104,6 +117,9 @@ public final class HealthGetHealthResponse {
         private List<ServiceHealth> serviceHealthStatuses = new ArrayList<>();
 
         private Optional<String> lastServiceEvaluationAt = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -157,7 +173,8 @@ public final class HealthGetHealthResponse {
 
         @Override
         public HealthGetHealthResponse build() {
-            return new HealthGetHealthResponse(ok, lastServiceEvaluationAt, serviceHealthStatuses);
+            return new HealthGetHealthResponse(
+                    ok, lastServiceEvaluationAt, serviceHealthStatuses, additionalProperties);
         }
     }
 }

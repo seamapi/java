@@ -3,6 +3,8 @@
  */
 package com.seam.api.resources.webhooks.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,7 +12,9 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -21,9 +25,11 @@ public final class WebhooksCreateRequest {
 
     private final Optional<List<String>> eventTypes;
 
-    private WebhooksCreateRequest(String url, Optional<List<String>> eventTypes) {
+    private WebhooksCreateRequest(
+            String url, Optional<List<String>> eventTypes, Map<String, Object> additionalProperties) {
         this.url = url;
         this.eventTypes = eventTypes;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("url")
@@ -40,6 +46,11 @@ public final class WebhooksCreateRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof WebhooksCreateRequest && equalTo((WebhooksCreateRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(WebhooksCreateRequest other) {
@@ -80,6 +91,9 @@ public final class WebhooksCreateRequest {
 
         private Optional<List<String>> eventTypes = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -111,7 +125,7 @@ public final class WebhooksCreateRequest {
 
         @Override
         public WebhooksCreateRequest build() {
-            return new WebhooksCreateRequest(url, eventTypes);
+            return new WebhooksCreateRequest(url, eventTypes, additionalProperties);
         }
     }
 }

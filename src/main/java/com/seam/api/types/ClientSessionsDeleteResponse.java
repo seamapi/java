@@ -3,12 +3,16 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -16,8 +20,9 @@ import java.util.Objects;
 public final class ClientSessionsDeleteResponse {
     private final boolean ok;
 
-    private ClientSessionsDeleteResponse(boolean ok) {
+    private ClientSessionsDeleteResponse(boolean ok, Map<String, Object> additionalProperties) {
         this.ok = ok;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("ok")
@@ -29,6 +34,11 @@ public final class ClientSessionsDeleteResponse {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ClientSessionsDeleteResponse && equalTo((ClientSessionsDeleteResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ClientSessionsDeleteResponse other) {
@@ -63,6 +73,9 @@ public final class ClientSessionsDeleteResponse {
     public static final class Builder implements OkStage, _FinalStage {
         private boolean ok;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -80,7 +93,7 @@ public final class ClientSessionsDeleteResponse {
 
         @Override
         public ClientSessionsDeleteResponse build() {
-            return new ClientSessionsDeleteResponse(ok);
+            return new ClientSessionsDeleteResponse(ok, additionalProperties);
         }
     }
 }

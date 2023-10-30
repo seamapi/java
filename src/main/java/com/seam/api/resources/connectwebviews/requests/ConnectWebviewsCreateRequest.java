@@ -3,6 +3,7 @@
  */
 package com.seam.api.resources.connectwebviews.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -40,13 +41,15 @@ public final class ConnectWebviewsCreateRequest {
             Optional<String> customRedirectFailureUrl,
             Optional<List<ConnectWebviewsCreateRequestAcceptedProvidersItem>> acceptedProviders,
             Optional<ConnectWebviewsCreateRequestProviderCategory> providerCategory,
-            Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> customMetadata) {
+            Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> customMetadata,
+            Map<String, Object> additionalProperties) {
         this.deviceSelectionMode = deviceSelectionMode;
         this.customRedirectUrl = customRedirectUrl;
         this.customRedirectFailureUrl = customRedirectFailureUrl;
         this.acceptedProviders = acceptedProviders;
         this.providerCategory = providerCategory;
         this.customMetadata = customMetadata;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_selection_mode")
@@ -83,6 +86,11 @@ public final class ConnectWebviewsCreateRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ConnectWebviewsCreateRequest && equalTo((ConnectWebviewsCreateRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ConnectWebviewsCreateRequest other) {
@@ -218,7 +226,8 @@ public final class ConnectWebviewsCreateRequest {
                     customRedirectFailureUrl,
                     acceptedProviders,
                     providerCategory,
-                    customMetadata);
+                    customMetadata,
+                    additionalProperties);
         }
     }
 }

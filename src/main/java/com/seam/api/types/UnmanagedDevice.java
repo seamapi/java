@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,7 +14,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -48,7 +52,8 @@ public final class UnmanagedDevice {
             List<UnmanagedDeviceWarningsItem> warnings,
             OffsetDateTime createdAt,
             boolean isManaged,
-            UnmanagedDeviceProperties properties) {
+            UnmanagedDeviceProperties properties,
+            Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.deviceType = deviceType;
         this.connectedAccountId = connectedAccountId;
@@ -59,6 +64,7 @@ public final class UnmanagedDevice {
         this.createdAt = createdAt;
         this.isManaged = isManaged;
         this.properties = properties;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_id")
@@ -115,6 +121,11 @@ public final class UnmanagedDevice {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof UnmanagedDevice && equalTo((UnmanagedDevice) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(UnmanagedDevice other) {
@@ -235,6 +246,9 @@ public final class UnmanagedDevice {
         private List<UnmanagedDeviceErrorsItem> errors = new ArrayList<>();
 
         private List<SupportedCapabililty> capabilitiesSupported = new ArrayList<>();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -374,7 +388,8 @@ public final class UnmanagedDevice {
                     warnings,
                     createdAt,
                     isManaged,
-                    properties);
+                    properties,
+                    additionalProperties);
         }
     }
 }

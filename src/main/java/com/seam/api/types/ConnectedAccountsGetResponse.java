@@ -3,12 +3,16 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -18,9 +22,11 @@ public final class ConnectedAccountsGetResponse {
 
     private final boolean ok;
 
-    private ConnectedAccountsGetResponse(ConnectedAccount connectedAccount, boolean ok) {
+    private ConnectedAccountsGetResponse(
+            ConnectedAccount connectedAccount, boolean ok, Map<String, Object> additionalProperties) {
         this.connectedAccount = connectedAccount;
         this.ok = ok;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("connected_account")
@@ -37,6 +43,11 @@ public final class ConnectedAccountsGetResponse {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ConnectedAccountsGetResponse && equalTo((ConnectedAccountsGetResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ConnectedAccountsGetResponse other) {
@@ -77,6 +88,9 @@ public final class ConnectedAccountsGetResponse {
 
         private boolean ok;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -102,7 +116,7 @@ public final class ConnectedAccountsGetResponse {
 
         @Override
         public ConnectedAccountsGetResponse build() {
-            return new ConnectedAccountsGetResponse(connectedAccount, ok);
+            return new ConnectedAccountsGetResponse(connectedAccount, ok, additionalProperties);
         }
     }
 }

@@ -3,12 +3,16 @@
  */
 package com.seam.api.resources.connectwebviews.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -16,8 +20,9 @@ import java.util.Objects;
 public final class ConnectWebviewsDeleteRequest {
     private final String connectWebviewId;
 
-    private ConnectWebviewsDeleteRequest(String connectWebviewId) {
+    private ConnectWebviewsDeleteRequest(String connectWebviewId, Map<String, Object> additionalProperties) {
         this.connectWebviewId = connectWebviewId;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("connect_webview_id")
@@ -29,6 +34,11 @@ public final class ConnectWebviewsDeleteRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ConnectWebviewsDeleteRequest && equalTo((ConnectWebviewsDeleteRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ConnectWebviewsDeleteRequest other) {
@@ -63,6 +73,9 @@ public final class ConnectWebviewsDeleteRequest {
     public static final class Builder implements ConnectWebviewIdStage, _FinalStage {
         private String connectWebviewId;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -80,7 +93,7 @@ public final class ConnectWebviewsDeleteRequest {
 
         @Override
         public ConnectWebviewsDeleteRequest build() {
-            return new ConnectWebviewsDeleteRequest(connectWebviewId);
+            return new ConnectWebviewsDeleteRequest(connectWebviewId, additionalProperties);
         }
     }
 }

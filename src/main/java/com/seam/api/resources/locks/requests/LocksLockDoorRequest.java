@@ -3,6 +3,8 @@
  */
 package com.seam.api.resources.locks.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,9 +24,10 @@ public final class LocksLockDoorRequest {
 
     private final Optional<Boolean> sync;
 
-    private LocksLockDoorRequest(String deviceId, Optional<Boolean> sync) {
+    private LocksLockDoorRequest(String deviceId, Optional<Boolean> sync, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.sync = sync;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_id")
@@ -39,6 +44,11 @@ public final class LocksLockDoorRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof LocksLockDoorRequest && equalTo((LocksLockDoorRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(LocksLockDoorRequest other) {
@@ -79,6 +89,9 @@ public final class LocksLockDoorRequest {
 
         private Optional<Boolean> sync = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -110,7 +123,7 @@ public final class LocksLockDoorRequest {
 
         @Override
         public LocksLockDoorRequest build() {
-            return new LocksLockDoorRequest(deviceId, sync);
+            return new LocksLockDoorRequest(deviceId, sync, additionalProperties);
         }
     }
 }

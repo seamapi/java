@@ -3,6 +3,7 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -31,12 +33,14 @@ public final class ConnectedAccountUserIdentifier {
             Optional<String> apiUrl,
             Optional<String> email,
             Optional<String> phone,
-            Optional<Boolean> exclusive) {
+            Optional<Boolean> exclusive,
+            Map<String, Object> additionalProperties) {
         this.username = username;
         this.apiUrl = apiUrl;
         this.email = email;
         this.phone = phone;
         this.exclusive = exclusive;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("username")
@@ -68,6 +72,11 @@ public final class ConnectedAccountUserIdentifier {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ConnectedAccountUserIdentifier && equalTo((ConnectedAccountUserIdentifier) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ConnectedAccountUserIdentifier other) {
@@ -171,7 +180,7 @@ public final class ConnectedAccountUserIdentifier {
         }
 
         public ConnectedAccountUserIdentifier build() {
-            return new ConnectedAccountUserIdentifier(username, apiUrl, email, phone, exclusive);
+            return new ConnectedAccountUserIdentifier(username, apiUrl, email, phone, exclusive, additionalProperties);
         }
     }
 }

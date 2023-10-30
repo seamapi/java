@@ -3,6 +3,7 @@
  */
 package com.seam.api.resources.devices.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,6 +15,7 @@ import com.seam.api.types.DeviceType;
 import com.seam.api.types.Manufacturer;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -47,7 +49,8 @@ public final class DevicesListRequest {
             Optional<Manufacturer> manufacturer,
             Optional<List<String>> deviceIds,
             Optional<Double> limit,
-            Optional<OffsetDateTime> createdBefore) {
+            Optional<OffsetDateTime> createdBefore,
+            Map<String, Object> additionalProperties) {
         this.connectedAccountId = connectedAccountId;
         this.connectedAccountIds = connectedAccountIds;
         this.connectWebviewId = connectWebviewId;
@@ -57,6 +60,7 @@ public final class DevicesListRequest {
         this.deviceIds = deviceIds;
         this.limit = limit;
         this.createdBefore = createdBefore;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("connected_account_id")
@@ -108,6 +112,11 @@ public final class DevicesListRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof DevicesListRequest && equalTo((DevicesListRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(DevicesListRequest other) {
@@ -289,7 +298,8 @@ public final class DevicesListRequest {
                     manufacturer,
                     deviceIds,
                     limit,
-                    createdBefore);
+                    createdBefore,
+                    additionalProperties);
         }
     }
 }

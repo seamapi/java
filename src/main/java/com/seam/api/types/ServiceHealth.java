@@ -3,12 +3,16 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -20,10 +24,12 @@ public final class ServiceHealth {
 
     private final String description;
 
-    private ServiceHealth(String service, ServiceHealthStatus status, String description) {
+    private ServiceHealth(
+            String service, ServiceHealthStatus status, String description, Map<String, Object> additionalProperties) {
         this.service = service;
         this.status = status;
         this.description = description;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("service")
@@ -45,6 +51,11 @@ public final class ServiceHealth {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ServiceHealth && equalTo((ServiceHealth) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ServiceHealth other) {
@@ -91,6 +102,9 @@ public final class ServiceHealth {
 
         private String description;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -124,7 +138,7 @@ public final class ServiceHealth {
 
         @Override
         public ServiceHealth build() {
-            return new ServiceHealth(service, status, description);
+            return new ServiceHealth(service, status, description, additionalProperties);
         }
     }
 }

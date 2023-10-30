@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +13,8 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.time.OffsetDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -59,7 +63,8 @@ public final class ClimateSettingSchedule {
             Optional<Double> heatingSetPointCelsius,
             Optional<Double> coolingSetPointFahrenheit,
             Optional<Double> heatingSetPointFahrenheit,
-            Optional<Boolean> manualOverrideAllowed) {
+            Optional<Boolean> manualOverrideAllowed,
+            Map<String, Object> additionalProperties) {
         this.climateSettingScheduleId = climateSettingScheduleId;
         this.deviceId = deviceId;
         this.name = name;
@@ -74,6 +79,7 @@ public final class ClimateSettingSchedule {
         this.coolingSetPointFahrenheit = coolingSetPointFahrenheit;
         this.heatingSetPointFahrenheit = heatingSetPointFahrenheit;
         this.manualOverrideAllowed = manualOverrideAllowed;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("climate_setting_schedule_id")
@@ -155,6 +161,11 @@ public final class ClimateSettingSchedule {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ClimateSettingSchedule && equalTo((ClimateSettingSchedule) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ClimateSettingSchedule other) {
@@ -299,6 +310,9 @@ public final class ClimateSettingSchedule {
         private Optional<Boolean> automaticHeatingEnabled = Optional.empty();
 
         private Optional<String> name = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -489,7 +503,8 @@ public final class ClimateSettingSchedule {
                     heatingSetPointCelsius,
                     coolingSetPointFahrenheit,
                     heatingSetPointFahrenheit,
-                    manualOverrideAllowed);
+                    manualOverrideAllowed,
+                    additionalProperties);
         }
     }
 }

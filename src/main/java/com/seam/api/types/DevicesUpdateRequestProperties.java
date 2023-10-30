@@ -3,6 +3,7 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -18,8 +20,9 @@ import java.util.Optional;
 public final class DevicesUpdateRequestProperties {
     private final Optional<String> name;
 
-    private DevicesUpdateRequestProperties(Optional<String> name) {
+    private DevicesUpdateRequestProperties(Optional<String> name, Map<String, Object> additionalProperties) {
         this.name = name;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("name")
@@ -31,6 +34,11 @@ public final class DevicesUpdateRequestProperties {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof DevicesUpdateRequestProperties && equalTo((DevicesUpdateRequestProperties) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(DevicesUpdateRequestProperties other) {
@@ -74,7 +82,7 @@ public final class DevicesUpdateRequestProperties {
         }
 
         public DevicesUpdateRequestProperties build() {
-            return new DevicesUpdateRequestProperties(name);
+            return new DevicesUpdateRequestProperties(name, additionalProperties);
         }
     }
 }

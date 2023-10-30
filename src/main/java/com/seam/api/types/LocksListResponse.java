@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +13,9 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,10 +28,12 @@ public final class LocksListResponse {
 
     private final boolean ok;
 
-    private LocksListResponse(Optional<Object> locks, List<Device> devices, boolean ok) {
+    private LocksListResponse(
+            Optional<Object> locks, List<Device> devices, boolean ok, Map<String, Object> additionalProperties) {
         this.locks = locks;
         this.devices = devices;
         this.ok = ok;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("locks")
@@ -49,6 +55,11 @@ public final class LocksListResponse {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof LocksListResponse && equalTo((LocksListResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(LocksListResponse other) {
@@ -96,6 +107,9 @@ public final class LocksListResponse {
         private List<Device> devices = new ArrayList<>();
 
         private Optional<Object> locks = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -149,7 +163,7 @@ public final class LocksListResponse {
 
         @Override
         public LocksListResponse build() {
-            return new LocksListResponse(locks, devices, ok);
+            return new LocksListResponse(locks, devices, ok, additionalProperties);
         }
     }
 }

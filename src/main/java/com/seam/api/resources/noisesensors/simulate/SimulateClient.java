@@ -24,10 +24,6 @@ public class SimulateClient {
         this.clientOptions = clientOptions;
     }
 
-    public SimulateTriggerNoiseThresholdResponse triggerNoiseThreshold(SimulateTriggerNoiseThresholdRequest request) {
-        return triggerNoiseThreshold(request, null);
-    }
-
     public SimulateTriggerNoiseThresholdResponse triggerNoiseThreshold(
             SimulateTriggerNoiseThresholdRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
@@ -60,5 +56,9 @@ public class SimulateClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public SimulateTriggerNoiseThresholdResponse triggerNoiseThreshold(SimulateTriggerNoiseThresholdRequest request) {
+        return triggerNoiseThreshold(request, null);
     }
 }

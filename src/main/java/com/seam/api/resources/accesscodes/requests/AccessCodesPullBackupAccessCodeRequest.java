@@ -3,12 +3,16 @@
  */
 package com.seam.api.resources.accesscodes.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -16,8 +20,9 @@ import java.util.Objects;
 public final class AccessCodesPullBackupAccessCodeRequest {
     private final String accessCodeId;
 
-    private AccessCodesPullBackupAccessCodeRequest(String accessCodeId) {
+    private AccessCodesPullBackupAccessCodeRequest(String accessCodeId, Map<String, Object> additionalProperties) {
         this.accessCodeId = accessCodeId;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("access_code_id")
@@ -30,6 +35,11 @@ public final class AccessCodesPullBackupAccessCodeRequest {
         if (this == other) return true;
         return other instanceof AccessCodesPullBackupAccessCodeRequest
                 && equalTo((AccessCodesPullBackupAccessCodeRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(AccessCodesPullBackupAccessCodeRequest other) {
@@ -64,6 +74,9 @@ public final class AccessCodesPullBackupAccessCodeRequest {
     public static final class Builder implements AccessCodeIdStage, _FinalStage {
         private String accessCodeId;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -81,7 +94,7 @@ public final class AccessCodesPullBackupAccessCodeRequest {
 
         @Override
         public AccessCodesPullBackupAccessCodeRequest build() {
-            return new AccessCodesPullBackupAccessCodeRequest(accessCodeId);
+            return new AccessCodesPullBackupAccessCodeRequest(accessCodeId, additionalProperties);
         }
     }
 }

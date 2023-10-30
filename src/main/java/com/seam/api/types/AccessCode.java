@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +13,8 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.time.OffsetDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -71,7 +75,8 @@ public final class AccessCode {
             AccessCodeStatus status,
             boolean isBackupAccessCodeAvailable,
             Optional<Boolean> isBackup,
-            Optional<String> pulledBackupAccessCodeId) {
+            Optional<String> pulledBackupAccessCodeId,
+            Map<String, Object> additionalProperties) {
         this.commonCodeKey = commonCodeKey;
         this.isScheduledOnDevice = isScheduledOnDevice;
         this.type = type;
@@ -90,6 +95,7 @@ public final class AccessCode {
         this.isBackupAccessCodeAvailable = isBackupAccessCodeAvailable;
         this.isBackup = isBackup;
         this.pulledBackupAccessCodeId = pulledBackupAccessCodeId;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("common_code_key")
@@ -186,6 +192,11 @@ public final class AccessCode {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof AccessCode && equalTo((AccessCode) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(AccessCode other) {
@@ -364,6 +375,9 @@ public final class AccessCode {
         private Optional<Boolean> isScheduledOnDevice = Optional.empty();
 
         private Optional<String> commonCodeKey = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -602,7 +616,8 @@ public final class AccessCode {
                     status,
                     isBackupAccessCodeAvailable,
                     isBackup,
-                    pulledBackupAccessCodeId);
+                    pulledBackupAccessCodeId,
+                    additionalProperties);
         }
     }
 }

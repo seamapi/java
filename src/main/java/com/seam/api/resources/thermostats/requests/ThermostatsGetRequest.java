@@ -3,6 +3,7 @@
  */
 package com.seam.api.resources.thermostats.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,9 +22,11 @@ public final class ThermostatsGetRequest {
 
     private final Optional<String> name;
 
-    private ThermostatsGetRequest(Optional<String> deviceId, Optional<String> name) {
+    private ThermostatsGetRequest(
+            Optional<String> deviceId, Optional<String> name, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.name = name;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_id")
@@ -39,6 +43,11 @@ public final class ThermostatsGetRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ThermostatsGetRequest && equalTo((ThermostatsGetRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ThermostatsGetRequest other) {
@@ -96,7 +105,7 @@ public final class ThermostatsGetRequest {
         }
 
         public ThermostatsGetRequest build() {
-            return new ThermostatsGetRequest(deviceId, name);
+            return new ThermostatsGetRequest(deviceId, name, additionalProperties);
         }
     }
 }

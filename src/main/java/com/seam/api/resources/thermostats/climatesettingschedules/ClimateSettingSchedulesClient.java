@@ -32,10 +32,6 @@ public class ClimateSettingSchedulesClient {
         this.clientOptions = clientOptions;
     }
 
-    public ClimateSettingSchedulesCreateResponse create(ClimateSettingSchedulesCreateRequest request) {
-        return create(request, null);
-    }
-
     public ClimateSettingSchedulesCreateResponse create(
             ClimateSettingSchedulesCreateRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
@@ -70,8 +66,8 @@ public class ClimateSettingSchedulesClient {
         }
     }
 
-    public ClimateSettingSchedulesDeleteResponse delete(ClimateSettingSchedulesDeleteRequest request) {
-        return delete(request, null);
+    public ClimateSettingSchedulesCreateResponse create(ClimateSettingSchedulesCreateRequest request) {
+        return create(request, null);
     }
 
     public ClimateSettingSchedulesDeleteResponse delete(
@@ -108,8 +104,12 @@ public class ClimateSettingSchedulesClient {
         }
     }
 
-    public ClimateSettingSchedulesGetResponse get(ClimateSettingSchedulesGetRequest request) {
-        return get(request, null);
+    public ClimateSettingSchedulesDeleteResponse delete(ClimateSettingSchedulesDeleteRequest request) {
+        return delete(request, null);
+    }
+
+    public ClimateSettingSchedulesGetResponse get() {
+        return get(ClimateSettingSchedulesGetRequest.builder().build());
     }
 
     public ClimateSettingSchedulesGetResponse get(
@@ -146,12 +146,8 @@ public class ClimateSettingSchedulesClient {
         }
     }
 
-    public ClimateSettingSchedulesGetResponse get() {
-        return get(ClimateSettingSchedulesGetRequest.builder().build());
-    }
-
-    public ClimateSettingSchedulesListResponse list(ClimateSettingSchedulesListRequest request) {
-        return list(request, null);
+    public ClimateSettingSchedulesGetResponse get(ClimateSettingSchedulesGetRequest request) {
+        return get(request, null);
     }
 
     public ClimateSettingSchedulesListResponse list(
@@ -188,8 +184,8 @@ public class ClimateSettingSchedulesClient {
         }
     }
 
-    public ClimateSettingSchedulesUpdateResponse update(ClimateSettingSchedulesUpdateRequest request) {
-        return update(request, null);
+    public ClimateSettingSchedulesListResponse list(ClimateSettingSchedulesListRequest request) {
+        return list(request, null);
     }
 
     public ClimateSettingSchedulesUpdateResponse update(
@@ -224,5 +220,9 @@ public class ClimateSettingSchedulesClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public ClimateSettingSchedulesUpdateResponse update(ClimateSettingSchedulesUpdateRequest request) {
+        return update(request, null);
     }
 }

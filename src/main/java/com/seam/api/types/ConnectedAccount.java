@@ -3,6 +3,7 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -39,7 +40,8 @@ public final class ConnectedAccount {
             Optional<String> accountType,
             Optional<Object> errors,
             Optional<Object> warnings,
-            Optional<Map<String, Optional<ConnectedAccountCustomMetadataValue>>> customMetadata) {
+            Optional<Map<String, Optional<ConnectedAccountCustomMetadataValue>>> customMetadata,
+            Map<String, Object> additionalProperties) {
         this.connectedAccountId = connectedAccountId;
         this.createdAt = createdAt;
         this.userIdentifier = userIdentifier;
@@ -47,6 +49,7 @@ public final class ConnectedAccount {
         this.errors = errors;
         this.warnings = warnings;
         this.customMetadata = customMetadata;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("connected_account_id")
@@ -88,6 +91,11 @@ public final class ConnectedAccount {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ConnectedAccount && equalTo((ConnectedAccount) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ConnectedAccount other) {
@@ -230,7 +238,14 @@ public final class ConnectedAccount {
 
         public ConnectedAccount build() {
             return new ConnectedAccount(
-                    connectedAccountId, createdAt, userIdentifier, accountType, errors, warnings, customMetadata);
+                    connectedAccountId,
+                    createdAt,
+                    userIdentifier,
+                    accountType,
+                    errors,
+                    warnings,
+                    customMetadata,
+                    additionalProperties);
         }
     }
 }

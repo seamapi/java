@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -31,12 +35,14 @@ public final class SchlageDeviceMetadata {
             String deviceName,
             int accessCodeLength,
             Optional<String> model,
-            Optional<String> locationId) {
+            Optional<String> locationId,
+            Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.accessCodeLength = accessCodeLength;
         this.model = model;
         this.locationId = locationId;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_id")
@@ -68,6 +74,11 @@ public final class SchlageDeviceMetadata {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof SchlageDeviceMetadata && equalTo((SchlageDeviceMetadata) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(SchlageDeviceMetadata other) {
@@ -130,6 +141,9 @@ public final class SchlageDeviceMetadata {
 
         private Optional<String> model = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -191,7 +205,8 @@ public final class SchlageDeviceMetadata {
 
         @Override
         public SchlageDeviceMetadata build() {
-            return new SchlageDeviceMetadata(deviceId, deviceName, accessCodeLength, model, locationId);
+            return new SchlageDeviceMetadata(
+                    deviceId, deviceName, accessCodeLength, model, locationId, additionalProperties);
         }
     }
 }

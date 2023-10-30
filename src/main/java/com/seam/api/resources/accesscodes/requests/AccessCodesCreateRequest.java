@@ -3,6 +3,8 @@
  */
 package com.seam.api.resources.accesscodes.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -46,7 +50,8 @@ public final class AccessCodesCreateRequest {
             Optional<Boolean> attemptForOfflineDevice,
             Optional<String> commonCodeKey,
             Optional<Boolean> preferNativeScheduling,
-            Optional<Boolean> useBackupAccessCodePool) {
+            Optional<Boolean> useBackupAccessCodePool,
+            Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.name = name;
         this.startsAt = startsAt;
@@ -57,6 +62,7 @@ public final class AccessCodesCreateRequest {
         this.commonCodeKey = commonCodeKey;
         this.preferNativeScheduling = preferNativeScheduling;
         this.useBackupAccessCodePool = useBackupAccessCodePool;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_id")
@@ -113,6 +119,11 @@ public final class AccessCodesCreateRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof AccessCodesCreateRequest && equalTo((AccessCodesCreateRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(AccessCodesCreateRequest other) {
@@ -219,6 +230,9 @@ public final class AccessCodesCreateRequest {
         private Optional<String> startsAt = Optional.empty();
 
         private Optional<String> name = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -373,7 +387,8 @@ public final class AccessCodesCreateRequest {
                     attemptForOfflineDevice,
                     commonCodeKey,
                     preferNativeScheduling,
-                    useBackupAccessCodePool);
+                    useBackupAccessCodePool,
+                    additionalProperties);
         }
     }
 }

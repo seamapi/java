@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,7 +14,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -55,7 +59,8 @@ public final class ConnectWebview {
             boolean anyDeviceAllowed,
             OffsetDateTime createdAt,
             boolean loginSuccessful,
-            ConnectWebviewStatus status) {
+            ConnectWebviewStatus status,
+            Map<String, Object> additionalProperties) {
         this.connectWebviewId = connectWebviewId;
         this.connectedAccountId = connectedAccountId;
         this.url = url;
@@ -68,6 +73,7 @@ public final class ConnectWebview {
         this.createdAt = createdAt;
         this.loginSuccessful = loginSuccessful;
         this.status = status;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("connect_webview_id")
@@ -134,6 +140,11 @@ public final class ConnectWebview {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ConnectWebview && equalTo((ConnectWebview) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ConnectWebview other) {
@@ -270,6 +281,9 @@ public final class ConnectWebview {
         private List<String> acceptedProviders = new ArrayList<>();
 
         private Optional<String> connectedAccountId = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -420,7 +434,8 @@ public final class ConnectWebview {
                     anyDeviceAllowed,
                     createdAt,
                     loginSuccessful,
-                    status);
+                    status,
+                    additionalProperties);
         }
     }
 }

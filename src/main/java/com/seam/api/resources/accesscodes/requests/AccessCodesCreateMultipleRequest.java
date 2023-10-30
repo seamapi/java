@@ -3,6 +3,7 @@
  */
 package com.seam.api.resources.accesscodes.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,6 +14,7 @@ import com.seam.api.core.ObjectMappers;
 import com.seam.api.types.AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -47,7 +49,8 @@ public final class AccessCodesCreateMultipleRequest {
             Optional<String> code,
             Optional<Boolean> attemptForOfflineDevice,
             Optional<Boolean> preferNativeScheduling,
-            Optional<Boolean> useBackupAccessCodePool) {
+            Optional<Boolean> useBackupAccessCodePool,
+            Map<String, Object> additionalProperties) {
         this.deviceIds = deviceIds;
         this.behaviorWhenCodeCannotBeShared = behaviorWhenCodeCannotBeShared;
         this.name = name;
@@ -57,6 +60,7 @@ public final class AccessCodesCreateMultipleRequest {
         this.attemptForOfflineDevice = attemptForOfflineDevice;
         this.preferNativeScheduling = preferNativeScheduling;
         this.useBackupAccessCodePool = useBackupAccessCodePool;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_ids")
@@ -109,6 +113,11 @@ public final class AccessCodesCreateMultipleRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof AccessCodesCreateMultipleRequest && equalTo((AccessCodesCreateMultipleRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(AccessCodesCreateMultipleRequest other) {
@@ -300,7 +309,8 @@ public final class AccessCodesCreateMultipleRequest {
                     code,
                     attemptForOfflineDevice,
                     preferNativeScheduling,
-                    useBackupAccessCodePool);
+                    useBackupAccessCodePool,
+                    additionalProperties);
         }
     }
 }

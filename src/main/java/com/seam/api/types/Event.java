@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +13,8 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.time.OffsetDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -35,13 +39,15 @@ public final class Event {
             String eventType,
             String workspaceId,
             OffsetDateTime createdAt,
-            OffsetDateTime occurredAt) {
+            OffsetDateTime occurredAt,
+            Map<String, Object> additionalProperties) {
         this.eventId = eventId;
         this.deviceId = deviceId;
         this.eventType = eventType;
         this.workspaceId = workspaceId;
         this.createdAt = createdAt;
         this.occurredAt = occurredAt;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("event_id")
@@ -78,6 +84,11 @@ public final class Event {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof Event && equalTo((Event) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(Event other) {
@@ -149,6 +160,9 @@ public final class Event {
 
         private Optional<String> deviceId = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -212,7 +226,7 @@ public final class Event {
 
         @Override
         public Event build() {
-            return new Event(eventId, deviceId, eventType, workspaceId, createdAt, occurredAt);
+            return new Event(eventId, deviceId, eventType, workspaceId, createdAt, occurredAt, additionalProperties);
         }
     }
 }

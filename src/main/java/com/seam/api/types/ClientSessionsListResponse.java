@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +13,9 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -21,9 +25,11 @@ public final class ClientSessionsListResponse {
 
     private final boolean ok;
 
-    private ClientSessionsListResponse(List<ClientSession> clientSessions, boolean ok) {
+    private ClientSessionsListResponse(
+            List<ClientSession> clientSessions, boolean ok, Map<String, Object> additionalProperties) {
         this.clientSessions = clientSessions;
         this.ok = ok;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("client_sessions")
@@ -40,6 +46,11 @@ public final class ClientSessionsListResponse {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ClientSessionsListResponse && equalTo((ClientSessionsListResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ClientSessionsListResponse other) {
@@ -82,6 +93,9 @@ public final class ClientSessionsListResponse {
 
         private List<ClientSession> clientSessions = new ArrayList<>();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -120,7 +134,7 @@ public final class ClientSessionsListResponse {
 
         @Override
         public ClientSessionsListResponse build() {
-            return new ClientSessionsListResponse(clientSessions, ok);
+            return new ClientSessionsListResponse(clientSessions, ok, additionalProperties);
         }
     }
 }

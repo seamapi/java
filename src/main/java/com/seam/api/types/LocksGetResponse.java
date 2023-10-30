@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -22,10 +26,12 @@ public final class LocksGetResponse {
 
     private final boolean ok;
 
-    private LocksGetResponse(Optional<Object> lock, Device device, boolean ok) {
+    private LocksGetResponse(
+            Optional<Object> lock, Device device, boolean ok, Map<String, Object> additionalProperties) {
         this.lock = lock;
         this.device = device;
         this.ok = ok;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("lock")
@@ -47,6 +53,11 @@ public final class LocksGetResponse {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof LocksGetResponse && equalTo((LocksGetResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(LocksGetResponse other) {
@@ -93,6 +104,9 @@ public final class LocksGetResponse {
 
         private Optional<Object> lock = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -132,7 +146,7 @@ public final class LocksGetResponse {
 
         @Override
         public LocksGetResponse build() {
-            return new LocksGetResponse(lock, device, ok);
+            return new LocksGetResponse(lock, device, ok, additionalProperties);
         }
     }
 }

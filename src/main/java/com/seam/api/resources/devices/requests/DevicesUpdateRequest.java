@@ -3,6 +3,8 @@
  */
 package com.seam.api.resources.devices.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,6 +14,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.types.DevicesUpdateRequestLocation;
 import com.seam.api.types.DevicesUpdateRequestProperties;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -33,12 +37,14 @@ public final class DevicesUpdateRequest {
             Optional<DevicesUpdateRequestProperties> properties,
             Optional<String> name,
             Optional<DevicesUpdateRequestLocation> location,
-            Optional<Boolean> isManaged) {
+            Optional<Boolean> isManaged,
+            Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.properties = properties;
         this.name = name;
         this.location = location;
         this.isManaged = isManaged;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_id")
@@ -70,6 +76,11 @@ public final class DevicesUpdateRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof DevicesUpdateRequest && equalTo((DevicesUpdateRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(DevicesUpdateRequest other) {
@@ -131,6 +142,9 @@ public final class DevicesUpdateRequest {
         private Optional<String> name = Optional.empty();
 
         private Optional<DevicesUpdateRequestProperties> properties = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -205,7 +219,7 @@ public final class DevicesUpdateRequest {
 
         @Override
         public DevicesUpdateRequest build() {
-            return new DevicesUpdateRequest(deviceId, properties, name, location, isManaged);
+            return new DevicesUpdateRequest(deviceId, properties, name, location, isManaged, additionalProperties);
         }
     }
 }

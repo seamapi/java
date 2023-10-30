@@ -3,12 +3,16 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -16,8 +20,9 @@ import java.util.Objects;
 public final class ConnectedAccountsGetRequestEmail {
     private final String email;
 
-    private ConnectedAccountsGetRequestEmail(String email) {
+    private ConnectedAccountsGetRequestEmail(String email, Map<String, Object> additionalProperties) {
         this.email = email;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("email")
@@ -29,6 +34,11 @@ public final class ConnectedAccountsGetRequestEmail {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ConnectedAccountsGetRequestEmail && equalTo((ConnectedAccountsGetRequestEmail) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ConnectedAccountsGetRequestEmail other) {
@@ -63,6 +73,9 @@ public final class ConnectedAccountsGetRequestEmail {
     public static final class Builder implements EmailStage, _FinalStage {
         private String email;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -80,7 +93,7 @@ public final class ConnectedAccountsGetRequestEmail {
 
         @Override
         public ConnectedAccountsGetRequestEmail build() {
-            return new ConnectedAccountsGetRequestEmail(email);
+            return new ConnectedAccountsGetRequestEmail(email, additionalProperties);
         }
     }
 }

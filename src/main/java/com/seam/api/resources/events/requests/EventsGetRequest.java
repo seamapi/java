@@ -3,6 +3,7 @@
  */
 package com.seam.api.resources.events.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -22,10 +24,15 @@ public final class EventsGetRequest {
 
     private final Optional<String> deviceId;
 
-    private EventsGetRequest(Optional<String> eventId, Optional<String> eventType, Optional<String> deviceId) {
+    private EventsGetRequest(
+            Optional<String> eventId,
+            Optional<String> eventType,
+            Optional<String> deviceId,
+            Map<String, Object> additionalProperties) {
         this.eventId = eventId;
         this.eventType = eventType;
         this.deviceId = deviceId;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("event_id")
@@ -47,6 +54,11 @@ public final class EventsGetRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof EventsGetRequest && equalTo((EventsGetRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(EventsGetRequest other) {
@@ -118,7 +130,7 @@ public final class EventsGetRequest {
         }
 
         public EventsGetRequest build() {
-            return new EventsGetRequest(eventId, eventType, deviceId);
+            return new EventsGetRequest(eventId, eventType, deviceId, additionalProperties);
         }
     }
 }

@@ -3,6 +3,8 @@
  */
 package com.seam.api.resources.thermostats.climatesettingschedules.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +13,8 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.types.ClimateSettingSchedulesCreateRequestHvacModeSetting;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -56,7 +60,8 @@ public final class ClimateSettingSchedulesCreateRequest {
             Optional<Double> heatingSetPointCelsius,
             Optional<Double> coolingSetPointFahrenheit,
             Optional<Double> heatingSetPointFahrenheit,
-            Optional<Boolean> manualOverrideAllowed) {
+            Optional<Boolean> manualOverrideAllowed,
+            Map<String, Object> additionalProperties) {
         this.scheduleType = scheduleType;
         this.deviceId = deviceId;
         this.name = name;
@@ -70,6 +75,7 @@ public final class ClimateSettingSchedulesCreateRequest {
         this.coolingSetPointFahrenheit = coolingSetPointFahrenheit;
         this.heatingSetPointFahrenheit = heatingSetPointFahrenheit;
         this.manualOverrideAllowed = manualOverrideAllowed;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("schedule_type")
@@ -142,6 +148,11 @@ public final class ClimateSettingSchedulesCreateRequest {
         if (this == other) return true;
         return other instanceof ClimateSettingSchedulesCreateRequest
                 && equalTo((ClimateSettingSchedulesCreateRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ClimateSettingSchedulesCreateRequest other) {
@@ -273,6 +284,9 @@ public final class ClimateSettingSchedulesCreateRequest {
         private Optional<String> name = Optional.empty();
 
         private Optional<String> scheduleType = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -461,7 +475,8 @@ public final class ClimateSettingSchedulesCreateRequest {
                     heatingSetPointCelsius,
                     coolingSetPointFahrenheit,
                     heatingSetPointFahrenheit,
-                    manualOverrideAllowed);
+                    manualOverrideAllowed,
+                    additionalProperties);
         }
     }
 }

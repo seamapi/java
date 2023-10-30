@@ -3,6 +3,7 @@
  */
 package com.seam.api.resources.actionattempts.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -19,8 +21,9 @@ import java.util.Objects;
 public final class ActionAttemptsListRequest {
     private final List<String> actionAttemptIds;
 
-    private ActionAttemptsListRequest(List<String> actionAttemptIds) {
+    private ActionAttemptsListRequest(List<String> actionAttemptIds, Map<String, Object> additionalProperties) {
         this.actionAttemptIds = actionAttemptIds;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("action_attempt_ids")
@@ -32,6 +35,11 @@ public final class ActionAttemptsListRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ActionAttemptsListRequest && equalTo((ActionAttemptsListRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ActionAttemptsListRequest other) {
@@ -81,7 +89,7 @@ public final class ActionAttemptsListRequest {
         }
 
         public ActionAttemptsListRequest build() {
-            return new ActionAttemptsListRequest(actionAttemptIds);
+            return new ActionAttemptsListRequest(actionAttemptIds, additionalProperties);
         }
     }
 }

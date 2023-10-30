@@ -3,6 +3,8 @@
  */
 package com.seam.api.resources.accesscodes.unmanaged.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -22,10 +26,12 @@ public final class UnmanagedUpdateRequest {
 
     private final Optional<Boolean> force;
 
-    private UnmanagedUpdateRequest(String accessCodeId, boolean isManaged, Optional<Boolean> force) {
+    private UnmanagedUpdateRequest(
+            String accessCodeId, boolean isManaged, Optional<Boolean> force, Map<String, Object> additionalProperties) {
         this.accessCodeId = accessCodeId;
         this.isManaged = isManaged;
         this.force = force;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("access_code_id")
@@ -47,6 +53,11 @@ public final class UnmanagedUpdateRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof UnmanagedUpdateRequest && equalTo((UnmanagedUpdateRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(UnmanagedUpdateRequest other) {
@@ -93,6 +104,9 @@ public final class UnmanagedUpdateRequest {
 
         private Optional<Boolean> force = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -132,7 +146,7 @@ public final class UnmanagedUpdateRequest {
 
         @Override
         public UnmanagedUpdateRequest build() {
-            return new UnmanagedUpdateRequest(accessCodeId, isManaged, force);
+            return new UnmanagedUpdateRequest(accessCodeId, isManaged, force, additionalProperties);
         }
     }
 }

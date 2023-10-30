@@ -32,10 +32,6 @@ public class UnmanagedClient {
         this.clientOptions = clientOptions;
     }
 
-    public UnmanagedConvertToManagedResponse convertToManaged(UnmanagedConvertToManagedRequest request) {
-        return convertToManaged(request, null);
-    }
-
     public UnmanagedConvertToManagedResponse convertToManaged(
             UnmanagedConvertToManagedRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
@@ -70,8 +66,8 @@ public class UnmanagedClient {
         }
     }
 
-    public UnmanagedDeleteResponse delete(UnmanagedDeleteRequest request) {
-        return delete(request, null);
+    public UnmanagedConvertToManagedResponse convertToManaged(UnmanagedConvertToManagedRequest request) {
+        return convertToManaged(request, null);
     }
 
     public UnmanagedDeleteResponse delete(UnmanagedDeleteRequest request, RequestOptions requestOptions) {
@@ -106,8 +102,12 @@ public class UnmanagedClient {
         }
     }
 
-    public UnmanagedGetResponse get(UnmanagedGetRequest request) {
-        return get(request, null);
+    public UnmanagedDeleteResponse delete(UnmanagedDeleteRequest request) {
+        return delete(request, null);
+    }
+
+    public UnmanagedGetResponse get() {
+        return get(UnmanagedGetRequest.builder().build());
     }
 
     public UnmanagedGetResponse get(UnmanagedGetRequest request, RequestOptions requestOptions) {
@@ -142,12 +142,8 @@ public class UnmanagedClient {
         }
     }
 
-    public UnmanagedGetResponse get() {
-        return get(UnmanagedGetRequest.builder().build());
-    }
-
-    public UnmanagedListResponse list(UnmanagedListRequest request) {
-        return list(request, null);
+    public UnmanagedGetResponse get(UnmanagedGetRequest request) {
+        return get(request, null);
     }
 
     public UnmanagedListResponse list(UnmanagedListRequest request, RequestOptions requestOptions) {
@@ -182,8 +178,8 @@ public class UnmanagedClient {
         }
     }
 
-    public UnmanagedUpdateResponse update(UnmanagedUpdateRequest request) {
-        return update(request, null);
+    public UnmanagedListResponse list(UnmanagedListRequest request) {
+        return list(request, null);
     }
 
     public UnmanagedUpdateResponse update(UnmanagedUpdateRequest request, RequestOptions requestOptions) {
@@ -216,5 +212,9 @@ public class UnmanagedClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public UnmanagedUpdateResponse update(UnmanagedUpdateRequest request) {
+        return update(request, null);
     }
 }

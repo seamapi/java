@@ -3,12 +3,16 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -18,9 +22,11 @@ public final class AccessCodesPullBackupAccessCodeResponse {
 
     private final boolean ok;
 
-    private AccessCodesPullBackupAccessCodeResponse(AccessCode backupAccessCode, boolean ok) {
+    private AccessCodesPullBackupAccessCodeResponse(
+            AccessCode backupAccessCode, boolean ok, Map<String, Object> additionalProperties) {
         this.backupAccessCode = backupAccessCode;
         this.ok = ok;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("backup_access_code")
@@ -38,6 +44,11 @@ public final class AccessCodesPullBackupAccessCodeResponse {
         if (this == other) return true;
         return other instanceof AccessCodesPullBackupAccessCodeResponse
                 && equalTo((AccessCodesPullBackupAccessCodeResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(AccessCodesPullBackupAccessCodeResponse other) {
@@ -78,6 +89,9 @@ public final class AccessCodesPullBackupAccessCodeResponse {
 
         private boolean ok;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -103,7 +117,7 @@ public final class AccessCodesPullBackupAccessCodeResponse {
 
         @Override
         public AccessCodesPullBackupAccessCodeResponse build() {
-            return new AccessCodesPullBackupAccessCodeResponse(backupAccessCode, ok);
+            return new AccessCodesPullBackupAccessCodeResponse(backupAccessCode, ok, additionalProperties);
         }
     }
 }

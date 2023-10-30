@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +13,8 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.time.OffsetDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -50,7 +54,8 @@ public final class UnmanagedListResponseAccessCodesItem {
             Optional<Object> warnings,
             boolean isManaged,
             Optional<OffsetDateTime> startsAt,
-            Optional<OffsetDateTime> endsAt) {
+            Optional<OffsetDateTime> endsAt,
+            Map<String, Object> additionalProperties) {
         this.type = type;
         this.accessCodeId = accessCodeId;
         this.deviceId = deviceId;
@@ -62,6 +67,7 @@ public final class UnmanagedListResponseAccessCodesItem {
         this.isManaged = isManaged;
         this.startsAt = startsAt;
         this.endsAt = endsAt;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("type")
@@ -129,6 +135,11 @@ public final class UnmanagedListResponseAccessCodesItem {
         if (this == other) return true;
         return other instanceof UnmanagedListResponseAccessCodesItem
                 && equalTo((UnmanagedListResponseAccessCodesItem) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(UnmanagedListResponseAccessCodesItem other) {
@@ -244,6 +255,9 @@ public final class UnmanagedListResponseAccessCodesItem {
         private Optional<String> code = Optional.empty();
 
         private Optional<String> name = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
@@ -379,7 +393,18 @@ public final class UnmanagedListResponseAccessCodesItem {
         @Override
         public UnmanagedListResponseAccessCodesItem build() {
             return new UnmanagedListResponseAccessCodesItem(
-                    type, accessCodeId, deviceId, name, code, createdAt, errors, warnings, isManaged, startsAt, endsAt);
+                    type,
+                    accessCodeId,
+                    deviceId,
+                    name,
+                    code,
+                    createdAt,
+                    errors,
+                    warnings,
+                    isManaged,
+                    startsAt,
+                    endsAt,
+                    additionalProperties);
         }
     }
 }

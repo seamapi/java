@@ -3,12 +3,16 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -18,9 +22,10 @@ public final class UnmanagedDeviceErrorsItem {
 
     private final String message;
 
-    private UnmanagedDeviceErrorsItem(String errorCode, String message) {
+    private UnmanagedDeviceErrorsItem(String errorCode, String message, Map<String, Object> additionalProperties) {
         this.errorCode = errorCode;
         this.message = message;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("error_code")
@@ -37,6 +42,11 @@ public final class UnmanagedDeviceErrorsItem {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof UnmanagedDeviceErrorsItem && equalTo((UnmanagedDeviceErrorsItem) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(UnmanagedDeviceErrorsItem other) {
@@ -77,6 +87,9 @@ public final class UnmanagedDeviceErrorsItem {
 
         private String message;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -102,7 +115,7 @@ public final class UnmanagedDeviceErrorsItem {
 
         @Override
         public UnmanagedDeviceErrorsItem build() {
-            return new UnmanagedDeviceErrorsItem(errorCode, message);
+            return new UnmanagedDeviceErrorsItem(errorCode, message, additionalProperties);
         }
     }
 }

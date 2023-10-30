@@ -3,12 +3,16 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -16,8 +20,10 @@ import java.util.Objects;
 public final class ConnectedAccountsGetRequestConnectedAccountId {
     private final String connectedAccountId;
 
-    private ConnectedAccountsGetRequestConnectedAccountId(String connectedAccountId) {
+    private ConnectedAccountsGetRequestConnectedAccountId(
+            String connectedAccountId, Map<String, Object> additionalProperties) {
         this.connectedAccountId = connectedAccountId;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("connected_account_id")
@@ -30,6 +36,11 @@ public final class ConnectedAccountsGetRequestConnectedAccountId {
         if (this == other) return true;
         return other instanceof ConnectedAccountsGetRequestConnectedAccountId
                 && equalTo((ConnectedAccountsGetRequestConnectedAccountId) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ConnectedAccountsGetRequestConnectedAccountId other) {
@@ -64,6 +75,9 @@ public final class ConnectedAccountsGetRequestConnectedAccountId {
     public static final class Builder implements ConnectedAccountIdStage, _FinalStage {
         private String connectedAccountId;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -81,7 +95,7 @@ public final class ConnectedAccountsGetRequestConnectedAccountId {
 
         @Override
         public ConnectedAccountsGetRequestConnectedAccountId build() {
-            return new ConnectedAccountsGetRequestConnectedAccountId(connectedAccountId);
+            return new ConnectedAccountsGetRequestConnectedAccountId(connectedAccountId, additionalProperties);
         }
     }
 }

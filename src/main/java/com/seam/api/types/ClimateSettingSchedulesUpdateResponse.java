@@ -3,12 +3,16 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -18,9 +22,11 @@ public final class ClimateSettingSchedulesUpdateResponse {
 
     private final boolean ok;
 
-    private ClimateSettingSchedulesUpdateResponse(ClimateSettingSchedule climateSettingSchedule, boolean ok) {
+    private ClimateSettingSchedulesUpdateResponse(
+            ClimateSettingSchedule climateSettingSchedule, boolean ok, Map<String, Object> additionalProperties) {
         this.climateSettingSchedule = climateSettingSchedule;
         this.ok = ok;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("climate_setting_schedule")
@@ -38,6 +44,11 @@ public final class ClimateSettingSchedulesUpdateResponse {
         if (this == other) return true;
         return other instanceof ClimateSettingSchedulesUpdateResponse
                 && equalTo((ClimateSettingSchedulesUpdateResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ClimateSettingSchedulesUpdateResponse other) {
@@ -78,6 +89,9 @@ public final class ClimateSettingSchedulesUpdateResponse {
 
         private boolean ok;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -103,7 +117,7 @@ public final class ClimateSettingSchedulesUpdateResponse {
 
         @Override
         public ClimateSettingSchedulesUpdateResponse build() {
-            return new ClimateSettingSchedulesUpdateResponse(climateSettingSchedule, ok);
+            return new ClimateSettingSchedulesUpdateResponse(climateSettingSchedule, ok, additionalProperties);
         }
     }
 }

@@ -3,6 +3,8 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -25,11 +29,16 @@ public final class ActionAttemptError {
     private final ActionAttemptErrorError error;
 
     private ActionAttemptError(
-            String actionType, String actionAttemptId, Optional<String> result, ActionAttemptErrorError error) {
+            String actionType,
+            String actionAttemptId,
+            Optional<String> result,
+            ActionAttemptErrorError error,
+            Map<String, Object> additionalProperties) {
         this.actionType = actionType;
         this.actionAttemptId = actionAttemptId;
         this.result = result;
         this.error = error;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("action_type")
@@ -56,6 +65,11 @@ public final class ActionAttemptError {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ActionAttemptError && equalTo((ActionAttemptError) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ActionAttemptError other) {
@@ -111,6 +125,9 @@ public final class ActionAttemptError {
 
         private Optional<String> result = Optional.empty();
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -158,7 +175,7 @@ public final class ActionAttemptError {
 
         @Override
         public ActionAttemptError build() {
-            return new ActionAttemptError(actionType, actionAttemptId, result, error);
+            return new ActionAttemptError(actionType, actionAttemptId, result, error, additionalProperties);
         }
     }
 }

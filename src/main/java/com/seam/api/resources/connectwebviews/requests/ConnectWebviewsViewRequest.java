@@ -3,12 +3,16 @@
  */
 package com.seam.api.resources.connectwebviews.requests;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -18,9 +22,11 @@ public final class ConnectWebviewsViewRequest {
 
     private final String authToken;
 
-    private ConnectWebviewsViewRequest(String connectWebviewId, String authToken) {
+    private ConnectWebviewsViewRequest(
+            String connectWebviewId, String authToken, Map<String, Object> additionalProperties) {
         this.connectWebviewId = connectWebviewId;
         this.authToken = authToken;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("connect_webview_id")
@@ -37,6 +43,11 @@ public final class ConnectWebviewsViewRequest {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ConnectWebviewsViewRequest && equalTo((ConnectWebviewsViewRequest) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(ConnectWebviewsViewRequest other) {
@@ -77,6 +88,9 @@ public final class ConnectWebviewsViewRequest {
 
         private String authToken;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -102,7 +116,7 @@ public final class ConnectWebviewsViewRequest {
 
         @Override
         public ConnectWebviewsViewRequest build() {
-            return new ConnectWebviewsViewRequest(connectWebviewId, authToken);
+            return new ConnectWebviewsViewRequest(connectWebviewId, authToken, additionalProperties);
         }
     }
 }

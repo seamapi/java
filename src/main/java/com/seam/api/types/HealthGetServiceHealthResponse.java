@@ -3,12 +3,16 @@
  */
 package com.seam.api.types;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -20,10 +24,15 @@ public final class HealthGetServiceHealthResponse {
 
     private final ServiceHealth serviceHealth;
 
-    private HealthGetServiceHealthResponse(boolean ok, String lastServiceEvaluationAt, ServiceHealth serviceHealth) {
+    private HealthGetServiceHealthResponse(
+            boolean ok,
+            String lastServiceEvaluationAt,
+            ServiceHealth serviceHealth,
+            Map<String, Object> additionalProperties) {
         this.ok = ok;
         this.lastServiceEvaluationAt = lastServiceEvaluationAt;
         this.serviceHealth = serviceHealth;
+        this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("ok")
@@ -45,6 +54,11 @@ public final class HealthGetServiceHealthResponse {
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof HealthGetServiceHealthResponse && equalTo((HealthGetServiceHealthResponse) other);
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
     private boolean equalTo(HealthGetServiceHealthResponse other) {
@@ -94,6 +108,9 @@ public final class HealthGetServiceHealthResponse {
 
         private ServiceHealth serviceHealth;
 
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
+
         private Builder() {}
 
         @Override
@@ -127,7 +144,7 @@ public final class HealthGetServiceHealthResponse {
 
         @Override
         public HealthGetServiceHealthResponse build() {
-            return new HealthGetServiceHealthResponse(ok, lastServiceEvaluationAt, serviceHealth);
+            return new HealthGetServiceHealthResponse(ok, lastServiceEvaluationAt, serviceHealth, additionalProperties);
         }
     }
 }
