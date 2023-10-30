@@ -15,7 +15,7 @@ Add the dependency in your `build.gradle`:
 
 ```groovy
 dependencies {
-    implementation 'io.github.fern-api:seam:0.x.x'
+    implementation 'io.github.seamapi:java:0.x.x'
 }
 ```
 
@@ -25,8 +25,8 @@ Add the dependency in your `pom.xml`:
 
 ```xml
 <dependency>
-    <groupId>io.github.fern-api</groupId>
-    <artifactId>seam</artifactId>
+    <groupId>io.github.seamapi</groupId>
+    <artifactId>java</artifactId>
     <version>0.x.x</version>
 </dependency>
 ```
