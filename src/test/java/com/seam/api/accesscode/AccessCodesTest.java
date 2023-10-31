@@ -2,6 +2,7 @@ package com.seam.api.accesscode;
 
 import com.seam.api.Seam;
 import com.seam.api.TestUtils;
+import com.seam.api.TestUtils.FakeSeamStartedResponse;
 import com.seam.api.resources.accesscodes.requests.AccessCodesCreateMultipleRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesCreateRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesDeleteRequest;
@@ -26,7 +27,7 @@ public final class AccessCodesTest {
 
     @BeforeAll
     public static void beforeAll() {
-        var response = TestUtils.startFakeSeam();
+        FakeSeamStartedResponse response = TestUtils.startFakeSeam();
         seam = response.seam;
         p = response.process;
     }

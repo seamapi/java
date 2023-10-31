@@ -2,6 +2,7 @@ package com.seam.api.noiseThresholds;
 
 import com.seam.api.Seam;
 import com.seam.api.TestUtils;
+import com.seam.api.TestUtils.FakeSeamStartedResponse;
 import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseThresholdsCreateRequest;
 import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseThresholdsDeleteRequest;
 import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseThresholdsListRequest;
@@ -19,7 +20,7 @@ public final class NoiseThresholdsTest {
 
     @BeforeAll
     public static void beforeAll() {
-        var response = TestUtils.startFakeSeam();
+        FakeSeamStartedResponse response = TestUtils.startFakeSeam();
         seam = response.seam;
         p = response.process;
     }

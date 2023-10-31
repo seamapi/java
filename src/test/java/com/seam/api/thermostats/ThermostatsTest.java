@@ -2,6 +2,7 @@ package com.seam.api.thermostats;
 
 import com.seam.api.Seam;
 import com.seam.api.TestUtils;
+import com.seam.api.TestUtils.FakeSeamStartedResponse;
 import com.seam.api.resources.thermostats.requests.ThermostatsGetRequest;
 import com.seam.api.types.Device;
 import com.seam.api.types.DeviceType;
@@ -18,7 +19,7 @@ public class ThermostatsTest {
 
     @BeforeAll
     public static void beforeAll() {
-        var response = TestUtils.startFakeSeam();
+        FakeSeamStartedResponse response = TestUtils.startFakeSeam();
         seam = response.seam;
         p = response.process;
     }
