@@ -4,6 +4,7 @@
 package com.seam.api.resources.accesscodes.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.types.AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -177,6 +179,9 @@ public final class AccessCodesCreateMultipleRequest {
         private Optional<Boolean> preferNativeScheduling = Optional.empty();
 
         private Optional<Boolean> useBackupAccessCodePool = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 

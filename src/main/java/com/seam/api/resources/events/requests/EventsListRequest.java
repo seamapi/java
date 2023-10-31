@@ -4,6 +4,7 @@
 package com.seam.api.resources.events.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,6 +15,7 @@ import com.seam.api.core.ObjectMappers;
 import com.seam.api.types.EventsListRequestBetweenItem;
 import com.seam.api.types.EventsListRequestEventType;
 import com.seam.api.types.EventsListRequestEventTypesItem;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -175,6 +177,9 @@ public final class EventsListRequest {
         private Optional<List<EventsListRequestEventTypesItem>> eventTypes = Optional.empty();
 
         private Optional<String> connectedAccountId = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 

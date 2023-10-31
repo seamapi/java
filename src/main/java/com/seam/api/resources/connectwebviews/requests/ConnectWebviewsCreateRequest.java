@@ -4,6 +4,7 @@
 package com.seam.api.resources.connectwebviews.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,6 +16,7 @@ import com.seam.api.types.ConnectWebviewsCreateRequestAcceptedProvidersItem;
 import com.seam.api.types.ConnectWebviewsCreateRequestCustomMetadataValue;
 import com.seam.api.types.ConnectWebviewsCreateRequestDeviceSelectionMode;
 import com.seam.api.types.ConnectWebviewsCreateRequestProviderCategory;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -138,6 +140,9 @@ public final class ConnectWebviewsCreateRequest {
 
         private Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> customMetadata =
                 Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 

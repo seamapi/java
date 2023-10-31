@@ -4,6 +4,7 @@
 package com.seam.api.resources.thermostats.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,6 +15,7 @@ import com.seam.api.core.ObjectMappers;
 import com.seam.api.types.DeviceType;
 import com.seam.api.types.Manufacturer;
 import java.time.OffsetDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -175,6 +177,9 @@ public final class ThermostatsListRequest {
         private Optional<Double> limit = Optional.empty();
 
         private Optional<OffsetDateTime> createdBefore = Optional.empty();
+
+        @JsonAnySetter
+        private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
