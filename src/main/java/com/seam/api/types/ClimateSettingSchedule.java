@@ -37,7 +37,7 @@ public final class ClimateSettingSchedule {
 
     private final Optional<Boolean> automaticCoolingEnabled;
 
-    private final Optional<ClimateSettingScheduleHvacModeSetting> hvacModeSetting;
+    private final Optional<HvacModeSetting> hvacModeSetting;
 
     private final Optional<Double> coolingSetPointCelsius;
 
@@ -60,7 +60,7 @@ public final class ClimateSettingSchedule {
             OffsetDateTime createdAt,
             Optional<Boolean> automaticHeatingEnabled,
             Optional<Boolean> automaticCoolingEnabled,
-            Optional<ClimateSettingScheduleHvacModeSetting> hvacModeSetting,
+            Optional<HvacModeSetting> hvacModeSetting,
             Optional<Double> coolingSetPointCelsius,
             Optional<Double> heatingSetPointCelsius,
             Optional<Double> coolingSetPointFahrenheit,
@@ -130,7 +130,7 @@ public final class ClimateSettingSchedule {
     }
 
     @JsonProperty("hvac_mode_setting")
-    public Optional<ClimateSettingScheduleHvacModeSetting> getHvacModeSetting() {
+    public Optional<HvacModeSetting> getHvacModeSetting() {
         return hvacModeSetting;
     }
 
@@ -252,9 +252,9 @@ public final class ClimateSettingSchedule {
 
         _FinalStage automaticCoolingEnabled(Boolean automaticCoolingEnabled);
 
-        _FinalStage hvacModeSetting(Optional<ClimateSettingScheduleHvacModeSetting> hvacModeSetting);
+        _FinalStage hvacModeSetting(Optional<HvacModeSetting> hvacModeSetting);
 
-        _FinalStage hvacModeSetting(ClimateSettingScheduleHvacModeSetting hvacModeSetting);
+        _FinalStage hvacModeSetting(HvacModeSetting hvacModeSetting);
 
         _FinalStage coolingSetPointCelsius(Optional<Double> coolingSetPointCelsius);
 
@@ -305,7 +305,7 @@ public final class ClimateSettingSchedule {
 
         private Optional<Double> coolingSetPointCelsius = Optional.empty();
 
-        private Optional<ClimateSettingScheduleHvacModeSetting> hvacModeSetting = Optional.empty();
+        private Optional<HvacModeSetting> hvacModeSetting = Optional.empty();
 
         private Optional<Boolean> automaticCoolingEnabled = Optional.empty();
 
@@ -438,14 +438,14 @@ public final class ClimateSettingSchedule {
         }
 
         @Override
-        public _FinalStage hvacModeSetting(ClimateSettingScheduleHvacModeSetting hvacModeSetting) {
+        public _FinalStage hvacModeSetting(HvacModeSetting hvacModeSetting) {
             this.hvacModeSetting = Optional.of(hvacModeSetting);
             return this;
         }
 
         @Override
         @JsonSetter(value = "hvac_mode_setting", nulls = Nulls.SKIP)
-        public _FinalStage hvacModeSetting(Optional<ClimateSettingScheduleHvacModeSetting> hvacModeSetting) {
+        public _FinalStage hvacModeSetting(Optional<HvacModeSetting> hvacModeSetting) {
             this.hvacModeSetting = hvacModeSetting;
             return this;
         }

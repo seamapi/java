@@ -12,7 +12,7 @@ public enum HvacModeSetting {
 
     COOL("cool"),
 
-    HEATCOOL("heatcool");
+    HEAT_COOL("heat_cool");
 
     private final String value;
 
