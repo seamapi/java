@@ -22,6 +22,8 @@ public final class DeviceErrorsItem {
 
     private final String message;
 
+    private final Map<String, Object> additionalProperties;
+
     private DeviceErrorsItem(String errorCode, String message, Map<String, Object> additionalProperties) {
         this.errorCode = errorCode;
         this.message = message;

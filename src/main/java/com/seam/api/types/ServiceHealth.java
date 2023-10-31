@@ -24,6 +24,8 @@ public final class ServiceHealth {
 
     private final String description;
 
+    private final Map<String, Object> additionalProperties;
+
     private ServiceHealth(
             String service, ServiceHealthStatus status, String description, Map<String, Object> additionalProperties) {
         this.service = service;

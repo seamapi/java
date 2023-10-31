@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class ActionAttemptsGetRequest {
     private final String actionAttemptId;
 
+    private final Map<String, Object> additionalProperties;
+
     private ActionAttemptsGetRequest(String actionAttemptId, Map<String, Object> additionalProperties) {
         this.actionAttemptId = actionAttemptId;
         this.additionalProperties = additionalProperties;

@@ -22,6 +22,8 @@ public final class ClientSessionsGetRequest {
 
     private final Optional<String> userIdentifierKey;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClientSessionsGetRequest(
             Optional<String> clientSessionId,
             Optional<String> userIdentifierKey,

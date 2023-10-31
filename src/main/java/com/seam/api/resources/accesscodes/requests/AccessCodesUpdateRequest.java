@@ -43,6 +43,8 @@ public final class AccessCodesUpdateRequest {
 
     private final Optional<AccessCodesUpdateRequestType> type;
 
+    private final Map<String, Object> additionalProperties;
+
     private AccessCodesUpdateRequest(
             Optional<String> name,
             Optional<String> startsAt,

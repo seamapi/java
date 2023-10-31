@@ -22,6 +22,8 @@ public final class UnmanagedDeleteResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedDeleteResponse(ActionAttempt actionAttempt, boolean ok, Map<String, Object> additionalProperties) {
         this.actionAttempt = actionAttempt;
         this.ok = ok;

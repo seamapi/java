@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class ConnectWebviewsDeleteRequest {
     private final String connectWebviewId;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectWebviewsDeleteRequest(String connectWebviewId, Map<String, Object> additionalProperties) {
         this.connectWebviewId = connectWebviewId;
         this.additionalProperties = additionalProperties;

@@ -34,6 +34,8 @@ public final class CurrentClimateSetting {
 
     private final Optional<Boolean> manualOverrideAllowed;
 
+    private final Map<String, Object> additionalProperties;
+
     private CurrentClimateSetting(
             Optional<Boolean> automaticHeatingEnabled,
             Optional<Boolean> automaticCoolingEnabled,

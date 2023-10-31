@@ -23,6 +23,8 @@ public final class ThermostatsUpdateRequest {
 
     private final ThermostatsUpdateRequestDefaultClimateSetting defaultClimateSetting;
 
+    private final Map<String, Object> additionalProperties;
+
     private ThermostatsUpdateRequest(
             String deviceId,
             ThermostatsUpdateRequestDefaultClimateSetting defaultClimateSetting,

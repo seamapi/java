@@ -21,6 +21,8 @@ import java.util.Objects;
 public final class ActionAttemptsListRequest {
     private final List<String> actionAttemptIds;
 
+    private final Map<String, Object> additionalProperties;
+
     private ActionAttemptsListRequest(List<String> actionAttemptIds, Map<String, Object> additionalProperties) {
         this.actionAttemptIds = actionAttemptIds;
         this.additionalProperties = additionalProperties;

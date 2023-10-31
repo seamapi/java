@@ -26,6 +26,8 @@ public final class NoiseThresholdsDeleteRequest {
 
     private final Optional<Boolean> sync;
 
+    private final Map<String, Object> additionalProperties;
+
     private NoiseThresholdsDeleteRequest(
             String noiseThresholdId,
             String deviceId,

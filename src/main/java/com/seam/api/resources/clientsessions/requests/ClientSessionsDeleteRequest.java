@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class ClientSessionsDeleteRequest {
     private final String clientSessionId;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClientSessionsDeleteRequest(String clientSessionId, Map<String, Object> additionalProperties) {
         this.clientSessionId = clientSessionId;
         this.additionalProperties = additionalProperties;

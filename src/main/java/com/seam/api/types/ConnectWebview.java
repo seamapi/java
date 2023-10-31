@@ -47,6 +47,8 @@ public final class ConnectWebview {
 
     private final ConnectWebviewStatus status;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectWebview(
             String connectWebviewId,
             Optional<String> connectedAccountId,

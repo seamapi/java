@@ -57,6 +57,8 @@ public final class AccessCode {
 
     private final Optional<String> pulledBackupAccessCodeId;
 
+    private final Map<String, Object> additionalProperties;
+
     private AccessCode(
             Optional<String> commonCodeKey,
             Optional<Boolean> isScheduledOnDevice,

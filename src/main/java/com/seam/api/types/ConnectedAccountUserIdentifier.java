@@ -28,6 +28,8 @@ public final class ConnectedAccountUserIdentifier {
 
     private final Optional<Boolean> exclusive;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectedAccountUserIdentifier(
             Optional<String> username,
             Optional<String> apiUrl,

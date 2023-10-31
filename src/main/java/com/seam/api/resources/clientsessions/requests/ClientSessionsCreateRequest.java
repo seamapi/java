@@ -25,6 +25,8 @@ public final class ClientSessionsCreateRequest {
 
     private final Optional<List<String>> connectedAccountIds;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClientSessionsCreateRequest(
             Optional<String> userIdentifierKey,
             Optional<List<String>> connectWebviewIds,

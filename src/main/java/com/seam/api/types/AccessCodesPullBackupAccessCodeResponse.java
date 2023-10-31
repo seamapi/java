@@ -22,6 +22,8 @@ public final class AccessCodesPullBackupAccessCodeResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private AccessCodesPullBackupAccessCodeResponse(
             AccessCode backupAccessCode, boolean ok, Map<String, Object> additionalProperties) {
         this.backupAccessCode = backupAccessCode;

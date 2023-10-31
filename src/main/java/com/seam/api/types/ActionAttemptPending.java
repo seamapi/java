@@ -28,6 +28,8 @@ public final class ActionAttemptPending {
 
     private final Optional<String> error;
 
+    private final Map<String, Object> additionalProperties;
+
     private ActionAttemptPending(
             String actionType,
             String actionAttemptId,

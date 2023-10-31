@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class WebhooksDeleteRequest {
     private final String webhookId;
 
+    private final Map<String, Object> additionalProperties;
+
     private WebhooksDeleteRequest(String webhookId, Map<String, Object> additionalProperties) {
         this.webhookId = webhookId;
         this.additionalProperties = additionalProperties;

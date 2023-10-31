@@ -22,6 +22,8 @@ public final class UnmanagedDeviceErrorsItem {
 
     private final String message;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedDeviceErrorsItem(String errorCode, String message, Map<String, Object> additionalProperties) {
         this.errorCode = errorCode;
         this.message = message;

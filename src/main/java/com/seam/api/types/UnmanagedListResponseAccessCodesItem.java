@@ -43,6 +43,8 @@ public final class UnmanagedListResponseAccessCodesItem {
 
     private final Optional<OffsetDateTime> endsAt;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedListResponseAccessCodesItem(
             UnmanagedListResponseAccessCodesItemType type,
             String accessCodeId,

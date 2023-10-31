@@ -22,6 +22,8 @@ public final class DeviceWarningsItem {
 
     private final String message;
 
+    private final Map<String, Object> additionalProperties;
+
     private DeviceWarningsItem(String warningCode, String message, Map<String, Object> additionalProperties) {
         this.warningCode = warningCode;
         this.message = message;

@@ -36,6 +36,8 @@ public final class NoiseThresholdsUpdateRequest {
 
     private final Optional<Double> noiseThresholdNrs;
 
+    private final Map<String, Object> additionalProperties;
+
     private NoiseThresholdsUpdateRequest(
             String noiseThresholdId,
             String deviceId,

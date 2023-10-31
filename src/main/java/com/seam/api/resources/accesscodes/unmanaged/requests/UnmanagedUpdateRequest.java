@@ -26,6 +26,8 @@ public final class UnmanagedUpdateRequest {
 
     private final Optional<Boolean> force;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedUpdateRequest(
             String accessCodeId, boolean isManaged, Optional<Boolean> force, Map<String, Object> additionalProperties) {
         this.accessCodeId = accessCodeId;

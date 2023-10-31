@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class DevicePropertiesModel {
     private final String displayName;
 
+    private final Map<String, Object> additionalProperties;
+
     private DevicePropertiesModel(String displayName, Map<String, Object> additionalProperties) {
         this.displayName = displayName;
         this.additionalProperties = additionalProperties;

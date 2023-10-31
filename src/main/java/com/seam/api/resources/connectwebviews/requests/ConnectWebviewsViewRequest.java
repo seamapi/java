@@ -22,6 +22,8 @@ public final class ConnectWebviewsViewRequest {
 
     private final String authToken;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectWebviewsViewRequest(
             String connectWebviewId, String authToken, Map<String, Object> additionalProperties) {
         this.connectWebviewId = connectWebviewId;

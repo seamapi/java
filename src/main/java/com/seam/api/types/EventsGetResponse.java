@@ -26,6 +26,8 @@ public final class EventsGetResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private EventsGetResponse(
             Optional<Event> event, Optional<String> message, boolean ok, Map<String, Object> additionalProperties) {
         this.event = event;

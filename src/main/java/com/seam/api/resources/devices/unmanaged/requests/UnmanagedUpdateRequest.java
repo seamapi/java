@@ -22,6 +22,8 @@ public final class UnmanagedUpdateRequest {
 
     private final boolean isManaged;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedUpdateRequest(String deviceId, boolean isManaged, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.isManaged = isManaged;

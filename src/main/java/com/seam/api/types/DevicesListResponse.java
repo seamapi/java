@@ -25,6 +25,8 @@ public final class DevicesListResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private DevicesListResponse(List<Device> devices, boolean ok, Map<String, Object> additionalProperties) {
         this.devices = devices;
         this.ok = ok;

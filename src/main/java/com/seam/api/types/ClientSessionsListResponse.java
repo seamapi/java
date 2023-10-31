@@ -25,6 +25,8 @@ public final class ClientSessionsListResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClientSessionsListResponse(
             List<ClientSession> clientSessions, boolean ok, Map<String, Object> additionalProperties) {
         this.clientSessions = clientSessions;

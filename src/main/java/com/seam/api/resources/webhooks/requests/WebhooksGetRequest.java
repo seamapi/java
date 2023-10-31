@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class WebhooksGetRequest {
     private final String webhookId;
 
+    private final Map<String, Object> additionalProperties;
+
     private WebhooksGetRequest(String webhookId, Map<String, Object> additionalProperties) {
         this.webhookId = webhookId;
         this.additionalProperties = additionalProperties;

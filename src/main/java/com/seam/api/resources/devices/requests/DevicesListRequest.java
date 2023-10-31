@@ -40,6 +40,8 @@ public final class DevicesListRequest {
 
     private final Optional<OffsetDateTime> createdBefore;
 
+    private final Map<String, Object> additionalProperties;
+
     private DevicesListRequest(
             Optional<String> connectedAccountId,
             Optional<List<String>> connectedAccountIds,

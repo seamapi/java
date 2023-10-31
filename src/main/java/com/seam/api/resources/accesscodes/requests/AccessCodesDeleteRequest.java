@@ -26,6 +26,8 @@ public final class AccessCodesDeleteRequest {
 
     private final Optional<Boolean> sync;
 
+    private final Map<String, Object> additionalProperties;
+
     private AccessCodesDeleteRequest(
             Optional<String> deviceId,
             String accessCodeId,

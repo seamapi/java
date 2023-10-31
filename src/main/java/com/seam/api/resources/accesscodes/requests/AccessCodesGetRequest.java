@@ -24,6 +24,8 @@ public final class AccessCodesGetRequest {
 
     private final Optional<String> code;
 
+    private final Map<String, Object> additionalProperties;
+
     private AccessCodesGetRequest(
             Optional<String> deviceId,
             Optional<String> accessCodeId,

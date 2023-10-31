@@ -40,6 +40,8 @@ public final class EventsListRequest {
 
     private final Optional<String> connectedAccountId;
 
+    private final Map<String, Object> additionalProperties;
+
     private EventsListRequest(
             Optional<String> since,
             Optional<List<EventsListRequestBetweenItem>> between,

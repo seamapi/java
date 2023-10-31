@@ -25,6 +25,8 @@ public final class ConnectWebviewsListResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectWebviewsListResponse(
             List<ConnectWebview> connectWebviews, boolean ok, Map<String, Object> additionalProperties) {
         this.connectWebviews = connectWebviews;

@@ -28,6 +28,8 @@ public final class ActionAttemptError {
 
     private final ActionAttemptErrorError error;
 
+    private final Map<String, Object> additionalProperties;
+
     private ActionAttemptError(
             String actionType,
             String actionAttemptId,

@@ -25,6 +25,8 @@ public final class NoiseThresholdsListResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private NoiseThresholdsListResponse(
             List<NoiseThreshold> noiseThresholds, boolean ok, Map<String, Object> additionalProperties) {
         this.noiseThresholds = noiseThresholds;

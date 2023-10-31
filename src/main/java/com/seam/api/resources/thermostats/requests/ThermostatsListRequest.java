@@ -40,6 +40,8 @@ public final class ThermostatsListRequest {
 
     private final Optional<OffsetDateTime> createdBefore;
 
+    private final Map<String, Object> additionalProperties;
+
     private ThermostatsListRequest(
             Optional<String> connectedAccountId,
             Optional<List<String>> connectedAccountIds,

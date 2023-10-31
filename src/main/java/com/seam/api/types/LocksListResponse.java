@@ -28,6 +28,8 @@ public final class LocksListResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private LocksListResponse(
             Optional<Object> locks, List<Device> devices, boolean ok, Map<String, Object> additionalProperties) {
         this.locks = locks;

@@ -20,6 +20,8 @@ import java.util.Optional;
 public final class DevicesUpdateRequestProperties {
     private final Optional<String> name;
 
+    private final Map<String, Object> additionalProperties;
+
     private DevicesUpdateRequestProperties(Optional<String> name, Map<String, Object> additionalProperties) {
         this.name = name;
         this.additionalProperties = additionalProperties;

@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class ConnectedAccountsDeleteRequest {
     private final String connectedAccountId;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectedAccountsDeleteRequest(String connectedAccountId, Map<String, Object> additionalProperties) {
         this.connectedAccountId = connectedAccountId;
         this.additionalProperties = additionalProperties;

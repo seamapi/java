@@ -22,6 +22,8 @@ public final class LocksGetRequest {
 
     private final Optional<String> name;
 
+    private final Map<String, Object> additionalProperties;
+
     private LocksGetRequest(
             Optional<String> deviceId, Optional<String> name, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;

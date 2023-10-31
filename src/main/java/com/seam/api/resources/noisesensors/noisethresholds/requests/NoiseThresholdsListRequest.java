@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class NoiseThresholdsListRequest {
     private final String deviceId;
 
+    private final Map<String, Object> additionalProperties;
+
     private NoiseThresholdsListRequest(String deviceId, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.additionalProperties = additionalProperties;

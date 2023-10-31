@@ -30,6 +30,8 @@ public final class SchlageDeviceMetadata {
 
     private final Optional<String> locationId;
 
+    private final Map<String, Object> additionalProperties;
+
     private SchlageDeviceMetadata(
             String deviceId,
             String deviceName,

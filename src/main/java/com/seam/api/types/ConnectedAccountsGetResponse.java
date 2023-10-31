@@ -22,6 +22,8 @@ public final class ConnectedAccountsGetResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectedAccountsGetResponse(
             ConnectedAccount connectedAccount, boolean ok, Map<String, Object> additionalProperties) {
         this.connectedAccount = connectedAccount;

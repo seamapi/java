@@ -22,6 +22,8 @@ public final class DevicesGetRequest {
 
     private final Optional<String> name;
 
+    private final Map<String, Object> additionalProperties;
+
     private DevicesGetRequest(
             Optional<String> deviceId, Optional<String> name, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;

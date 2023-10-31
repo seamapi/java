@@ -22,6 +22,8 @@ public final class SimulateCreateUnmanagedAccessCodeResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private SimulateCreateUnmanagedAccessCodeResponse(
             SimulateCreateUnmanagedAccessCodeResponseAccessCode accessCode,
             boolean ok,

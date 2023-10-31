@@ -40,6 +40,8 @@ public final class AccessCodesCreateMultipleRequest {
 
     private final Optional<Boolean> useBackupAccessCodePool;
 
+    private final Map<String, Object> additionalProperties;
+
     private AccessCodesCreateMultipleRequest(
             List<String> deviceIds,
             Optional<AccessCodesCreateMultipleRequestBehaviorWhenCodeCannotBeShared> behaviorWhenCodeCannotBeShared,

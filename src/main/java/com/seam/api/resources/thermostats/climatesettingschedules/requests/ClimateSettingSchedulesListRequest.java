@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class ClimateSettingSchedulesListRequest {
     private final String deviceId;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClimateSettingSchedulesListRequest(String deviceId, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.additionalProperties = additionalProperties;

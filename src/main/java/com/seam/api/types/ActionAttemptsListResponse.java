@@ -25,6 +25,8 @@ public final class ActionAttemptsListResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private ActionAttemptsListResponse(
             List<ActionAttempt> actionAttempts, boolean ok, Map<String, Object> additionalProperties) {
         this.actionAttempts = actionAttempts;

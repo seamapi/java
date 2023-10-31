@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class ConnectedAccountsGetRequestConnectedAccountId {
     private final String connectedAccountId;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectedAccountsGetRequestConnectedAccountId(
             String connectedAccountId, Map<String, Object> additionalProperties) {
         this.connectedAccountId = connectedAccountId;

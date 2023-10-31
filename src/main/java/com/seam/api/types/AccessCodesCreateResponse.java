@@ -24,6 +24,8 @@ public final class AccessCodesCreateResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private AccessCodesCreateResponse(
             ActionAttempt actionAttempt, AccessCode accessCode, boolean ok, Map<String, Object> additionalProperties) {
         this.actionAttempt = actionAttempt;

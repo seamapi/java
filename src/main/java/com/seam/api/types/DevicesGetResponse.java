@@ -22,6 +22,8 @@ public final class DevicesGetResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private DevicesGetResponse(Device device, boolean ok, Map<String, Object> additionalProperties) {
         this.device = device;
         this.ok = ok;

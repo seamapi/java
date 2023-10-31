@@ -32,6 +32,8 @@ public final class UnmanagedDeviceProperties {
 
     private final UnmanagedDevicePropertiesModel model;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedDeviceProperties(
             String name,
             boolean online,

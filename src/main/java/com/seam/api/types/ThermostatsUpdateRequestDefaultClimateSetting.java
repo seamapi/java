@@ -34,6 +34,8 @@ public final class ThermostatsUpdateRequestDefaultClimateSetting {
 
     private final Optional<Boolean> manualOverrideAllowed;
 
+    private final Map<String, Object> additionalProperties;
+
     private ThermostatsUpdateRequestDefaultClimateSetting(
             Optional<Boolean> automaticHeatingEnabled,
             Optional<Boolean> automaticCoolingEnabled,

@@ -40,6 +40,8 @@ public final class LocksListRequest {
 
     private final Optional<OffsetDateTime> createdBefore;
 
+    private final Map<String, Object> additionalProperties;
+
     private LocksListRequest(
             Optional<String> connectedAccountId,
             Optional<List<String>> connectedAccountIds,

@@ -22,6 +22,8 @@ public final class LocksLockDoorResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private LocksLockDoorResponse(ActionAttempt actionAttempt, boolean ok, Map<String, Object> additionalProperties) {
         this.actionAttempt = actionAttempt;
         this.ok = ok;

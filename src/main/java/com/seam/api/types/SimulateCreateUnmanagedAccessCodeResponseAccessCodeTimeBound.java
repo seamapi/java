@@ -32,6 +32,8 @@ public final class SimulateCreateUnmanagedAccessCodeResponseAccessCodeTimeBound 
 
     private final Optional<String> endsAt;
 
+    private final Map<String, Object> additionalProperties;
+
     private SimulateCreateUnmanagedAccessCodeResponseAccessCodeTimeBound(
             String accessCodeId,
             Optional<String> code,

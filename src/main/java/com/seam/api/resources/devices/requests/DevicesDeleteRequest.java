@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class DevicesDeleteRequest {
     private final String deviceId;
 
+    private final Map<String, Object> additionalProperties;
+
     private DevicesDeleteRequest(String deviceId, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.additionalProperties = additionalProperties;

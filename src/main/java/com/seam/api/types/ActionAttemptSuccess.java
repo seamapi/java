@@ -28,6 +28,8 @@ public final class ActionAttemptSuccess {
 
     private final Optional<String> error;
 
+    private final Map<String, Object> additionalProperties;
+
     private ActionAttemptSuccess(
             String actionType,
             String actionAttemptId,

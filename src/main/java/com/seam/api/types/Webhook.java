@@ -29,6 +29,8 @@ public final class Webhook {
 
     private final Optional<String> secret;
 
+    private final Map<String, Object> additionalProperties;
+
     private Webhook(
             String webhookId,
             String url,

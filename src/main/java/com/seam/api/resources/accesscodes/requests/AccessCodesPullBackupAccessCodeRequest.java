@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class AccessCodesPullBackupAccessCodeRequest {
     private final String accessCodeId;
 
+    private final Map<String, Object> additionalProperties;
+
     private AccessCodesPullBackupAccessCodeRequest(String accessCodeId, Map<String, Object> additionalProperties) {
         this.accessCodeId = accessCodeId;
         this.additionalProperties = additionalProperties;

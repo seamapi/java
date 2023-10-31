@@ -21,6 +21,8 @@ import java.util.Optional;
 public final class DevicesListDeviceProvidersRequest {
     private final Optional<DevicesListDeviceProvidersRequestProviderCategory> providerCategory;
 
+    private final Map<String, Object> additionalProperties;
+
     private DevicesListDeviceProvidersRequest(
             Optional<DevicesListDeviceProvidersRequestProviderCategory> providerCategory,
             Map<String, Object> additionalProperties) {

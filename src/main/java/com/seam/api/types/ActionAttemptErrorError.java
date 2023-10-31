@@ -22,6 +22,8 @@ public final class ActionAttemptErrorError {
 
     private final String message;
 
+    private final Map<String, Object> additionalProperties;
+
     private ActionAttemptErrorError(String type, String message, Map<String, Object> additionalProperties) {
         this.type = type;
         this.message = message;

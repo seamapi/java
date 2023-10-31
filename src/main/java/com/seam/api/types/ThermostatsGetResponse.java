@@ -22,6 +22,8 @@ public final class ThermostatsGetResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private ThermostatsGetResponse(Device thermostat, boolean ok, Map<String, Object> additionalProperties) {
         this.thermostat = thermostat;
         this.ok = ok;

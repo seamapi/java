@@ -29,6 +29,8 @@ public final class DevicesListDeviceProvidersResponseDeviceProvidersItem {
 
     private final List<DevicesListDeviceProvidersResponseDeviceProvidersItemProviderCategoriesItem> providerCategories;
 
+    private final Map<String, Object> additionalProperties;
+
     private DevicesListDeviceProvidersResponseDeviceProvidersItem(
             String deviceProviderName,
             String displayName,

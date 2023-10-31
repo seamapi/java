@@ -26,6 +26,8 @@ public final class UnmanagedConvertToManagedRequest {
 
     private final Optional<Boolean> sync;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedConvertToManagedRequest(
             String accessCodeId,
             Optional<Boolean> force,

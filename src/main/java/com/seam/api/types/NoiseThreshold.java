@@ -34,6 +34,8 @@ public final class NoiseThreshold {
 
     private final double noiseThresholdDecibels;
 
+    private final Map<String, Object> additionalProperties;
+
     private NoiseThreshold(
             String noiseThresholdId,
             String deviceId,

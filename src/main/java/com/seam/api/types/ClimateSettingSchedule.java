@@ -49,6 +49,8 @@ public final class ClimateSettingSchedule {
 
     private final Optional<Boolean> manualOverrideAllowed;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClimateSettingSchedule(
             String climateSettingScheduleId,
             String deviceId,

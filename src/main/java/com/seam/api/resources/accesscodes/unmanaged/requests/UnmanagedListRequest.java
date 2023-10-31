@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class UnmanagedListRequest {
     private final String deviceId;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedListRequest(String deviceId, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.additionalProperties = additionalProperties;

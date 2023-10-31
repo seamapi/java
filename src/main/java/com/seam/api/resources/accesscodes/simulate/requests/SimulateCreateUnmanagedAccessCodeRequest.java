@@ -24,6 +24,8 @@ public final class SimulateCreateUnmanagedAccessCodeRequest {
 
     private final String code;
 
+    private final Map<String, Object> additionalProperties;
+
     private SimulateCreateUnmanagedAccessCodeRequest(
             String deviceId, String name, String code, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;

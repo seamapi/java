@@ -33,6 +33,8 @@ public final class Event {
 
     private final OffsetDateTime occurredAt;
 
+    private final Map<String, Object> additionalProperties;
+
     private Event(
             String eventId,
             Optional<String> deviceId,

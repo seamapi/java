@@ -28,6 +28,8 @@ public final class Workspace {
 
     private final Optional<String> connectPartnerName;
 
+    private final Map<String, Object> additionalProperties;
+
     private Workspace(
             String workspaceId,
             String name,

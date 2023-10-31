@@ -25,6 +25,8 @@ public final class WorkspacesListResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private WorkspacesListResponse(List<Workspace> workspaces, boolean ok, Map<String, Object> additionalProperties) {
         this.workspaces = workspaces;
         this.ok = ok;

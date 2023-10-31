@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class ServiceByServiceNameRequest {
     private final String serviceName;
 
+    private final Map<String, Object> additionalProperties;
+
     private ServiceByServiceNameRequest(String serviceName, Map<String, Object> additionalProperties) {
         this.serviceName = serviceName;
         this.additionalProperties = additionalProperties;

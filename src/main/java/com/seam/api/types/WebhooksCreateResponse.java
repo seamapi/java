@@ -22,6 +22,8 @@ public final class WebhooksCreateResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private WebhooksCreateResponse(Webhook webhook, boolean ok, Map<String, Object> additionalProperties) {
         this.webhook = webhook;
         this.ok = ok;

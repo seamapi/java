@@ -25,6 +25,8 @@ public final class ClimateSettingSchedulesListResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClimateSettingSchedulesListResponse(
             List<ClimateSettingSchedule> climateSettingSchedules,
             boolean ok,

@@ -34,6 +34,8 @@ public final class DeviceProperties {
 
     private final Optional<CurrentClimateSetting> currentClimateSetting;
 
+    private final Map<String, Object> additionalProperties;
+
     private DeviceProperties(
             boolean online,
             String name,

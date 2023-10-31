@@ -24,6 +24,8 @@ public final class HealthGetServiceHealthResponse {
 
     private final ServiceHealth serviceHealth;
 
+    private final Map<String, Object> additionalProperties;
+
     private HealthGetServiceHealthResponse(
             boolean ok,
             String lastServiceEvaluationAt,

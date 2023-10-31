@@ -24,6 +24,8 @@ public final class UnmanagedDeleteRequest {
 
     private final Optional<Boolean> sync;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedDeleteRequest(
             String accessCodeId, Optional<Boolean> sync, Map<String, Object> additionalProperties) {
         this.accessCodeId = accessCodeId;

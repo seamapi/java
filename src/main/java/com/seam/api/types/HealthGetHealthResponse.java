@@ -28,6 +28,8 @@ public final class HealthGetHealthResponse {
 
     private final List<ServiceHealth> serviceHealthStatuses;
 
+    private final Map<String, Object> additionalProperties;
+
     private HealthGetHealthResponse(
             boolean ok,
             Optional<String> lastServiceEvaluationAt,

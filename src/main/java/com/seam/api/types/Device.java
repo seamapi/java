@@ -45,6 +45,8 @@ public final class Device {
 
     private final boolean isManaged;
 
+    private final Map<String, Object> additionalProperties;
+
     private Device(
             String deviceId,
             DeviceType deviceType,

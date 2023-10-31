@@ -27,6 +27,8 @@ public final class EventsListResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private EventsListResponse(
             Optional<List<Event>> events,
             Optional<String> message,

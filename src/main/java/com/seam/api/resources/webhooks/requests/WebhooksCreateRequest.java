@@ -25,6 +25,8 @@ public final class WebhooksCreateRequest {
 
     private final Optional<List<String>> eventTypes;
 
+    private final Map<String, Object> additionalProperties;
+
     private WebhooksCreateRequest(
             String url, Optional<List<String>> eventTypes, Map<String, Object> additionalProperties) {
         this.url = url;

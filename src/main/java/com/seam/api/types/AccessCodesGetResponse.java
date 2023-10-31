@@ -22,6 +22,8 @@ public final class AccessCodesGetResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private AccessCodesGetResponse(AccessCode accessCode, boolean ok, Map<String, Object> additionalProperties) {
         this.accessCode = accessCode;
         this.ok = ok;

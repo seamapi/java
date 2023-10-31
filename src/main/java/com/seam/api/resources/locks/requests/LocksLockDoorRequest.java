@@ -24,6 +24,8 @@ public final class LocksLockDoorRequest {
 
     private final Optional<Boolean> sync;
 
+    private final Map<String, Object> additionalProperties;
+
     private LocksLockDoorRequest(String deviceId, Optional<Boolean> sync, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.sync = sync;

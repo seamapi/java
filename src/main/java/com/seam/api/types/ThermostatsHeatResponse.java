@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class ThermostatsHeatResponse {
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private ThermostatsHeatResponse(boolean ok, Map<String, Object> additionalProperties) {
         this.ok = ok;
         this.additionalProperties = additionalProperties;

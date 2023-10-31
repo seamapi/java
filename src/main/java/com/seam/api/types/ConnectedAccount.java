@@ -33,6 +33,8 @@ public final class ConnectedAccount {
 
     private final Optional<Map<String, Optional<ConnectedAccountCustomMetadataValue>>> customMetadata;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectedAccount(
             Optional<String> connectedAccountId,
             Optional<OffsetDateTime> createdAt,

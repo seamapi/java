@@ -22,6 +22,8 @@ public final class ClientSessionsGetResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClientSessionsGetResponse(
             ClientSession clientSession, boolean ok, Map<String, Object> additionalProperties) {
         this.clientSession = clientSession;

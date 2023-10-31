@@ -32,6 +32,8 @@ public final class SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing {
 
     private final Optional<String> endsAt;
 
+    private final Map<String, Object> additionalProperties;
+
     private SimulateCreateUnmanagedAccessCodeResponseAccessCodeOngoing(
             String accessCodeId,
             Optional<String> code,

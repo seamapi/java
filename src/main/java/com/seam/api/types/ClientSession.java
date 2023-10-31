@@ -39,6 +39,8 @@ public final class ClientSession {
 
     private final String workspaceId;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClientSession(
             String clientSessionId,
             Optional<String> userIdentifierKey,

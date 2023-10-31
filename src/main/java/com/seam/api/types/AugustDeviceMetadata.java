@@ -34,6 +34,8 @@ public final class AugustDeviceMetadata {
 
     private final Optional<String> keypadBatteryLevel;
 
+    private final Map<String, Object> additionalProperties;
+
     private AugustDeviceMetadata(
             String lockId,
             String lockName,

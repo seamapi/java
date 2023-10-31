@@ -24,6 +24,8 @@ public final class UnmanagedGetRequest {
 
     private final Optional<String> code;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedGetRequest(
             Optional<String> deviceId,
             Optional<String> accessCodeId,

@@ -25,6 +25,8 @@ public final class ConnectedAccountsListResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectedAccountsListResponse(
             List<ConnectedAccount> connectedAccounts, boolean ok, Map<String, Object> additionalProperties) {
         this.connectedAccounts = connectedAccounts;

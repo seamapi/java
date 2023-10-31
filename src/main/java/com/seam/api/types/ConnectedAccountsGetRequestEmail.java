@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class ConnectedAccountsGetRequestEmail {
     private final String email;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectedAccountsGetRequestEmail(String email, Map<String, Object> additionalProperties) {
         this.email = email;
         this.additionalProperties = additionalProperties;

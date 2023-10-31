@@ -25,6 +25,8 @@ public final class UnmanagedListResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedListResponse(List<UnmanagedDevice> devices, boolean ok, Map<String, Object> additionalProperties) {
         this.devices = devices;
         this.ok = ok;

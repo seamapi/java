@@ -22,6 +22,8 @@ public final class NoiseThresholdsUpdateResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private NoiseThresholdsUpdateResponse(
             ActionAttempt actionAttempt, boolean ok, Map<String, Object> additionalProperties) {
         this.actionAttempt = actionAttempt;

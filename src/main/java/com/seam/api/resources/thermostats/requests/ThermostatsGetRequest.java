@@ -22,6 +22,8 @@ public final class ThermostatsGetRequest {
 
     private final Optional<String> name;
 
+    private final Map<String, Object> additionalProperties;
+
     private ThermostatsGetRequest(
             Optional<String> deviceId, Optional<String> name, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;

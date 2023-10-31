@@ -24,6 +24,8 @@ public final class EventsGetRequest {
 
     private final Optional<String> deviceId;
 
+    private final Map<String, Object> additionalProperties;
+
     private EventsGetRequest(
             Optional<String> eventId,
             Optional<String> eventType,

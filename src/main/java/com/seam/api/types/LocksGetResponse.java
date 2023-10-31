@@ -26,6 +26,8 @@ public final class LocksGetResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private LocksGetResponse(
             Optional<Object> lock, Device device, boolean ok, Map<String, Object> additionalProperties) {
         this.lock = lock;

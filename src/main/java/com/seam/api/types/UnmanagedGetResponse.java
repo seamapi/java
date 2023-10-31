@@ -22,6 +22,8 @@ public final class UnmanagedGetResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedGetResponse(
             UnmanagedGetResponseAccessCode accessCode, boolean ok, Map<String, Object> additionalProperties) {
         this.accessCode = accessCode;

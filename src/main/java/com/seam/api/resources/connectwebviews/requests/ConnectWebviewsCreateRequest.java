@@ -35,6 +35,8 @@ public final class ConnectWebviewsCreateRequest {
 
     private final Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> customMetadata;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectWebviewsCreateRequest(
             Optional<ConnectWebviewsCreateRequestDeviceSelectionMode> deviceSelectionMode,
             Optional<String> customRedirectUrl,

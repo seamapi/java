@@ -25,6 +25,8 @@ public final class AccessCodesListRequest {
 
     private final Optional<List<String>> accessCodeIds;
 
+    private final Map<String, Object> additionalProperties;
+
     private AccessCodesListRequest(
             String deviceId, Optional<List<String>> accessCodeIds, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;

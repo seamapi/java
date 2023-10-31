@@ -22,6 +22,8 @@ public final class ClimateSettingSchedulesGetRequest {
 
     private final Optional<String> deviceId;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClimateSettingSchedulesGetRequest(
             Optional<String> climateSettingScheduleId,
             Optional<String> deviceId,

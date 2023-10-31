@@ -24,6 +24,8 @@ public final class WorkspacesGetResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private WorkspacesGetResponse(Optional<Workspace> workspace, boolean ok, Map<String, Object> additionalProperties) {
         this.workspace = workspace;
         this.ok = ok;

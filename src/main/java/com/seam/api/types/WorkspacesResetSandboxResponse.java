@@ -22,6 +22,8 @@ public final class WorkspacesResetSandboxResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private WorkspacesResetSandboxResponse(String message, boolean ok, Map<String, Object> additionalProperties) {
         this.message = message;
         this.ok = ok;

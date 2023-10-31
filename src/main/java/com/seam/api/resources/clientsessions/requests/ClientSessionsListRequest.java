@@ -24,6 +24,8 @@ public final class ClientSessionsListRequest {
 
     private final Optional<Boolean> withoutUserIdentifierKey;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClientSessionsListRequest(
             Optional<String> clientSessionId,
             Optional<String> userIdentifierKey,

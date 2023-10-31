@@ -42,6 +42,8 @@ public final class UnmanagedDevice {
 
     private final UnmanagedDeviceProperties properties;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedDevice(
             String deviceId,
             DeviceType deviceType,

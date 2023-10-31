@@ -40,6 +40,8 @@ public final class UnmanagedListRequest {
 
     private final Optional<OffsetDateTime> createdBefore;
 
+    private final Map<String, Object> additionalProperties;
+
     private UnmanagedListRequest(
             Optional<String> connectedAccountId,
             Optional<List<String>> connectedAccountIds,

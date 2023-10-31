@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class ConnectWebviewsGetRequest {
     private final String connectWebviewId;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectWebviewsGetRequest(String connectWebviewId, Map<String, Object> additionalProperties) {
         this.connectWebviewId = connectWebviewId;
         this.additionalProperties = additionalProperties;

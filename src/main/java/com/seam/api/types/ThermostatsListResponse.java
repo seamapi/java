@@ -25,6 +25,8 @@ public final class ThermostatsListResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private ThermostatsListResponse(List<Device> thermostats, boolean ok, Map<String, Object> additionalProperties) {
         this.thermostats = thermostats;
         this.ok = ok;

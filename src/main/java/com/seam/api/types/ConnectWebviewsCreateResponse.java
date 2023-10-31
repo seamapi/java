@@ -22,6 +22,8 @@ public final class ConnectWebviewsCreateResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private ConnectWebviewsCreateResponse(
             ConnectWebview connectWebview, boolean ok, Map<String, Object> additionalProperties) {
         this.connectWebview = connectWebview;

@@ -32,6 +32,8 @@ public final class DevicesUpdateRequest {
 
     private final Optional<Boolean> isManaged;
 
+    private final Map<String, Object> additionalProperties;
+
     private DevicesUpdateRequest(
             String deviceId,
             Optional<DevicesUpdateRequestProperties> properties,

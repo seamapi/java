@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class HealthGetServiceHealthRequest {
     private final String service;
 
+    private final Map<String, Object> additionalProperties;
+
     private HealthGetServiceHealthRequest(String service, Map<String, Object> additionalProperties) {
         this.service = service;
         this.additionalProperties = additionalProperties;

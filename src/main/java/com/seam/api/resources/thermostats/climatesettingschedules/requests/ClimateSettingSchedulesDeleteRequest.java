@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class ClimateSettingSchedulesDeleteRequest {
     private final String climateSettingScheduleId;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClimateSettingSchedulesDeleteRequest(
             String climateSettingScheduleId, Map<String, Object> additionalProperties) {
         this.climateSettingScheduleId = climateSettingScheduleId;

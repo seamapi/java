@@ -40,6 +40,8 @@ public final class AccessCodesCreateRequest {
 
     private final Optional<Boolean> useBackupAccessCodePool;
 
+    private final Map<String, Object> additionalProperties;
+
     private AccessCodesCreateRequest(
             String deviceId,
             Optional<String> name,

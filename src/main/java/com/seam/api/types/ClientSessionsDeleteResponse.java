@@ -20,6 +20,8 @@ import java.util.Objects;
 public final class ClientSessionsDeleteResponse {
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClientSessionsDeleteResponse(boolean ok, Map<String, Object> additionalProperties) {
         this.ok = ok;
         this.additionalProperties = additionalProperties;

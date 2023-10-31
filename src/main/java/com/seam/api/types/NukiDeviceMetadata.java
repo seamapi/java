@@ -20,6 +20,8 @@ import java.util.Optional;
 public final class NukiDeviceMetadata {
     private final Optional<Boolean> keypadBatteryCritical;
 
+    private final Map<String, Object> additionalProperties;
+
     private NukiDeviceMetadata(Optional<Boolean> keypadBatteryCritical, Map<String, Object> additionalProperties) {
         this.keypadBatteryCritical = keypadBatteryCritical;
         this.additionalProperties = additionalProperties;

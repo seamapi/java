@@ -8,6 +8,8 @@ import com.seam.api.core.ObjectMappers;
 import java.util.Map;
 
 public final class DevicesUpdateRequestLocation {
+    private final Map<String, Object> additionalProperties;
+
     private DevicesUpdateRequestLocation(Map<String, Object> additionalProperties) {
         this.additionalProperties = additionalProperties;
     }

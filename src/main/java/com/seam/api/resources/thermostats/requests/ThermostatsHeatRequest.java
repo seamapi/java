@@ -28,6 +28,8 @@ public final class ThermostatsHeatRequest {
 
     private final Optional<Boolean> sync;
 
+    private final Map<String, Object> additionalProperties;
+
     private ThermostatsHeatRequest(
             String deviceId,
             Optional<Double> heatingSetPointCelsius,

@@ -22,6 +22,8 @@ public final class ClimateSettingSchedulesUpdateResponse {
 
     private final boolean ok;
 
+    private final Map<String, Object> additionalProperties;
+
     private ClimateSettingSchedulesUpdateResponse(
             ClimateSettingSchedule climateSettingSchedule, boolean ok, Map<String, Object> additionalProperties) {
         this.climateSettingSchedule = climateSettingSchedule;
