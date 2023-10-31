@@ -2,6 +2,7 @@ package com.seam.api.events;
 
 import com.seam.api.Seam;
 import com.seam.api.TestUtils;
+import com.seam.api.TestUtils.FakeSeamStartedResponse;
 import com.seam.api.resources.events.requests.EventsGetRequest;
 import com.seam.api.resources.events.requests.EventsListRequest;
 import com.seam.api.types.Event;
@@ -21,7 +22,7 @@ public final class EventsTest {
 
     @BeforeAll
     public static void beforeAll() {
-        var response = TestUtils.startFakeSeam();
+        FakeSeamStartedResponse response = TestUtils.startFakeSeam();
         seam = response.seam;
         p = response.process;
     }

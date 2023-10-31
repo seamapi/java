@@ -2,6 +2,7 @@ package com.seam.api.connectwebview;
 
 import com.seam.api.Seam;
 import com.seam.api.TestUtils;
+import com.seam.api.TestUtils.FakeSeamStartedResponse;
 import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsCreateRequest;
 import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsGetRequest;
 import com.seam.api.types.ConnectWebview;
@@ -20,7 +21,7 @@ public final class ConnectWebviewsTest {
 
     @BeforeAll
     public static void beforeAll() {
-        var response = TestUtils.startFakeSeam();
+        FakeSeamStartedResponse response = TestUtils.startFakeSeam();
         seam = response.seam;
         p = response.process;
     }

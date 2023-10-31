@@ -2,6 +2,7 @@ package com.seam.api.connectedaccounts;
 
 import com.seam.api.Seam;
 import com.seam.api.TestUtils;
+import com.seam.api.TestUtils.FakeSeamStartedResponse;
 import com.seam.api.types.ConnectedAccount;
 import com.seam.api.types.ConnectedAccountsGetRequest;
 import java.util.List;
@@ -17,7 +18,7 @@ public final class ConnectedAccountsTest {
 
     @BeforeAll
     public static void beforeAll() {
-        var response = TestUtils.startFakeSeam();
+        FakeSeamStartedResponse response = TestUtils.startFakeSeam();
         seam = response.seam;
         p = response.process;
     }
