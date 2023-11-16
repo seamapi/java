@@ -7,8 +7,6 @@ import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsCreateRequ
 import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsGetRequest;
 import com.seam.api.types.AcceptedProvider;
 import com.seam.api.types.ConnectWebview;
-import com.seam.api.types.ConnectWebviewsCreateRequestAcceptedProvidersItem;
-import com.seam.api.types.ConnectWebviewsCreateRequestProviderCategory;
 import com.seam.api.types.ProviderCategory;
 import java.util.List;
 import org.assertj.core.api.Assertions;
