@@ -31,7 +31,7 @@ public final class ConnectWebview {
 
     private final String workspaceId;
 
-    private final ConnectWebviewDeviceSelectionMode deviceSelectionMode;
+    private final SelectionMode deviceSelectionMode;
 
     private final List<String> acceptedProviders;
 
@@ -54,7 +54,7 @@ public final class ConnectWebview {
             Optional<String> connectedAccountId,
             String url,
             String workspaceId,
-            ConnectWebviewDeviceSelectionMode deviceSelectionMode,
+            SelectionMode deviceSelectionMode,
             List<String> acceptedProviders,
             List<String> acceptedDevices,
             boolean anyProviderAllowed,
@@ -99,7 +99,7 @@ public final class ConnectWebview {
     }
 
     @JsonProperty("device_selection_mode")
-    public ConnectWebviewDeviceSelectionMode getDeviceSelectionMode() {
+    public SelectionMode getDeviceSelectionMode() {
         return deviceSelectionMode;
     }
 
@@ -205,7 +205,7 @@ public final class ConnectWebview {
     }
 
     public interface DeviceSelectionModeStage {
-        AnyProviderAllowedStage deviceSelectionMode(ConnectWebviewDeviceSelectionMode deviceSelectionMode);
+        AnyProviderAllowedStage deviceSelectionMode(SelectionMode deviceSelectionMode);
     }
 
     public interface AnyProviderAllowedStage {
@@ -266,7 +266,7 @@ public final class ConnectWebview {
 
         private String workspaceId;
 
-        private ConnectWebviewDeviceSelectionMode deviceSelectionMode;
+        private SelectionMode deviceSelectionMode;
 
         private boolean anyProviderAllowed;
 
@@ -329,7 +329,7 @@ public final class ConnectWebview {
 
         @Override
         @JsonSetter("device_selection_mode")
-        public AnyProviderAllowedStage deviceSelectionMode(ConnectWebviewDeviceSelectionMode deviceSelectionMode) {
+        public AnyProviderAllowedStage deviceSelectionMode(SelectionMode deviceSelectionMode) {
             this.deviceSelectionMode = deviceSelectionMode;
             return this;
         }

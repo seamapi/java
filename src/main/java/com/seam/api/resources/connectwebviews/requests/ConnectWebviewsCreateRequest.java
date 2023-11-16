@@ -12,10 +12,10 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
-import com.seam.api.types.ConnectWebviewsCreateRequestAcceptedProvidersItem;
-import com.seam.api.types.ConnectWebviewsCreateRequestCustomMetadataValue;
-import com.seam.api.types.ConnectWebviewsCreateRequestDeviceSelectionMode;
-import com.seam.api.types.ConnectWebviewsCreateRequestProviderCategory;
+import com.seam.api.types.AcceptedProvider;
+import com.seam.api.types.CustomMetadataValue;
+import com.seam.api.types.ProviderCategory;
+import com.seam.api.types.SelectionMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,27 +25,27 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = ConnectWebviewsCreateRequest.Builder.class)
 public final class ConnectWebviewsCreateRequest {
-    private final Optional<ConnectWebviewsCreateRequestDeviceSelectionMode> deviceSelectionMode;
+    private final Optional<SelectionMode> deviceSelectionMode;
 
     private final Optional<String> customRedirectUrl;
 
     private final Optional<String> customRedirectFailureUrl;
 
-    private final Optional<List<ConnectWebviewsCreateRequestAcceptedProvidersItem>> acceptedProviders;
+    private final Optional<List<AcceptedProvider>> acceptedProviders;
 
-    private final Optional<ConnectWebviewsCreateRequestProviderCategory> providerCategory;
+    private final Optional<ProviderCategory> providerCategory;
 
-    private final Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> customMetadata;
+    private final Optional<Map<String, CustomMetadataValue>> customMetadata;
 
     private final Map<String, Object> additionalProperties;
 
     private ConnectWebviewsCreateRequest(
-            Optional<ConnectWebviewsCreateRequestDeviceSelectionMode> deviceSelectionMode,
+            Optional<SelectionMode> deviceSelectionMode,
             Optional<String> customRedirectUrl,
             Optional<String> customRedirectFailureUrl,
-            Optional<List<ConnectWebviewsCreateRequestAcceptedProvidersItem>> acceptedProviders,
-            Optional<ConnectWebviewsCreateRequestProviderCategory> providerCategory,
-            Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> customMetadata,
+            Optional<List<AcceptedProvider>> acceptedProviders,
+            Optional<ProviderCategory> providerCategory,
+            Optional<Map<String, CustomMetadataValue>> customMetadata,
             Map<String, Object> additionalProperties) {
         this.deviceSelectionMode = deviceSelectionMode;
         this.customRedirectUrl = customRedirectUrl;
@@ -57,7 +57,7 @@ public final class ConnectWebviewsCreateRequest {
     }
 
     @JsonProperty("device_selection_mode")
-    public Optional<ConnectWebviewsCreateRequestDeviceSelectionMode> getDeviceSelectionMode() {
+    public Optional<SelectionMode> getDeviceSelectionMode() {
         return deviceSelectionMode;
     }
 
@@ -72,17 +72,17 @@ public final class ConnectWebviewsCreateRequest {
     }
 
     @JsonProperty("accepted_providers")
-    public Optional<List<ConnectWebviewsCreateRequestAcceptedProvidersItem>> getAcceptedProviders() {
+    public Optional<List<AcceptedProvider>> getAcceptedProviders() {
         return acceptedProviders;
     }
 
     @JsonProperty("provider_category")
-    public Optional<ConnectWebviewsCreateRequestProviderCategory> getProviderCategory() {
+    public Optional<ProviderCategory> getProviderCategory() {
         return providerCategory;
     }
 
     @JsonProperty("custom_metadata")
-    public Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> getCustomMetadata() {
+    public Optional<Map<String, CustomMetadataValue>> getCustomMetadata() {
         return customMetadata;
     }
 
@@ -128,18 +128,17 @@ public final class ConnectWebviewsCreateRequest {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder {
-        private Optional<ConnectWebviewsCreateRequestDeviceSelectionMode> deviceSelectionMode = Optional.empty();
+        private Optional<SelectionMode> deviceSelectionMode = Optional.empty();
 
         private Optional<String> customRedirectUrl = Optional.empty();
 
         private Optional<String> customRedirectFailureUrl = Optional.empty();
 
-        private Optional<List<ConnectWebviewsCreateRequestAcceptedProvidersItem>> acceptedProviders = Optional.empty();
+        private Optional<List<AcceptedProvider>> acceptedProviders = Optional.empty();
 
-        private Optional<ConnectWebviewsCreateRequestProviderCategory> providerCategory = Optional.empty();
+        private Optional<ProviderCategory> providerCategory = Optional.empty();
 
-        private Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> customMetadata =
-                Optional.empty();
+        private Optional<Map<String, CustomMetadataValue>> customMetadata = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -157,13 +156,12 @@ public final class ConnectWebviewsCreateRequest {
         }
 
         @JsonSetter(value = "device_selection_mode", nulls = Nulls.SKIP)
-        public Builder deviceSelectionMode(
-                Optional<ConnectWebviewsCreateRequestDeviceSelectionMode> deviceSelectionMode) {
+        public Builder deviceSelectionMode(Optional<SelectionMode> deviceSelectionMode) {
             this.deviceSelectionMode = deviceSelectionMode;
             return this;
         }
 
-        public Builder deviceSelectionMode(ConnectWebviewsCreateRequestDeviceSelectionMode deviceSelectionMode) {
+        public Builder deviceSelectionMode(SelectionMode deviceSelectionMode) {
             this.deviceSelectionMode = Optional.of(deviceSelectionMode);
             return this;
         }
@@ -191,37 +189,34 @@ public final class ConnectWebviewsCreateRequest {
         }
 
         @JsonSetter(value = "accepted_providers", nulls = Nulls.SKIP)
-        public Builder acceptedProviders(
-                Optional<List<ConnectWebviewsCreateRequestAcceptedProvidersItem>> acceptedProviders) {
+        public Builder acceptedProviders(Optional<List<AcceptedProvider>> acceptedProviders) {
             this.acceptedProviders = acceptedProviders;
             return this;
         }
 
-        public Builder acceptedProviders(List<ConnectWebviewsCreateRequestAcceptedProvidersItem> acceptedProviders) {
+        public Builder acceptedProviders(List<AcceptedProvider> acceptedProviders) {
             this.acceptedProviders = Optional.of(acceptedProviders);
             return this;
         }
 
         @JsonSetter(value = "provider_category", nulls = Nulls.SKIP)
-        public Builder providerCategory(Optional<ConnectWebviewsCreateRequestProviderCategory> providerCategory) {
+        public Builder providerCategory(Optional<ProviderCategory> providerCategory) {
             this.providerCategory = providerCategory;
             return this;
         }
 
-        public Builder providerCategory(ConnectWebviewsCreateRequestProviderCategory providerCategory) {
+        public Builder providerCategory(ProviderCategory providerCategory) {
             this.providerCategory = Optional.of(providerCategory);
             return this;
         }
 
         @JsonSetter(value = "custom_metadata", nulls = Nulls.SKIP)
-        public Builder customMetadata(
-                Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> customMetadata) {
+        public Builder customMetadata(Optional<Map<String, CustomMetadataValue>> customMetadata) {
             this.customMetadata = customMetadata;
             return this;
         }
 
-        public Builder customMetadata(
-                Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>> customMetadata) {
+        public Builder customMetadata(Map<String, CustomMetadataValue> customMetadata) {
             this.customMetadata = Optional.of(customMetadata);
             return this;
         }

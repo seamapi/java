@@ -5,7 +5,7 @@ package com.seam.api.types;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum ConnectWebviewsCreateRequestAcceptedProvidersItem {
+public enum AcceptedProvider {
     AKUVOX("akuvox"),
 
     AUGUST("august"),
@@ -62,7 +62,7 @@ public enum ConnectWebviewsCreateRequestAcceptedProvidersItem {
 
     private final String value;
 
-    ConnectWebviewsCreateRequestAcceptedProvidersItem(String value) {
+    AcceptedProvider(String value) {
         this.value = value;
     }
 

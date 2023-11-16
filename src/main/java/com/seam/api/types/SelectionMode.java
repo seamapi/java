@@ -5,16 +5,16 @@ package com.seam.api.types;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum ConnectWebviewsCreateRequestProviderCategory {
-    STABLE("stable"),
+public enum SelectionMode {
+    NONE("none"),
 
-    CONSUMER_SMARTLOCKS("consumer_smartlocks"),
+    SINGLE("single"),
 
-    INTERNAL_BETA("internal_beta");
+    MULTIPLE("multiple");
 
     private final String value;
 
-    ConnectWebviewsCreateRequestProviderCategory(String value) {
+    SelectionMode(String value) {
         this.value = value;
     }
 
