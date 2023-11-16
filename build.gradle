@@ -47,7 +47,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'io.github.seamapi'
             artifactId = 'java'
-            version = '0.1.25'
+            version = '0.1.26'
             from components.java
         }
     }

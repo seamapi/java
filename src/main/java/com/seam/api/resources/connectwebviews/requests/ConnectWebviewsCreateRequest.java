@@ -37,6 +37,10 @@ public final class ConnectWebviewsCreateRequest {
 
     private final Optional<Map<String, CustomMetadataValue>> customMetadata;
 
+    private final Optional<Boolean> automaticallyManageNewDevices;
+
+    private final Optional<Boolean> waitForDeviceCreation;
+
     private final Map<String, Object> additionalProperties;
 
     private ConnectWebviewsCreateRequest(
@@ -46,6 +50,8 @@ public final class ConnectWebviewsCreateRequest {
             Optional<List<AcceptedProvider>> acceptedProviders,
             Optional<ProviderCategory> providerCategory,
             Optional<Map<String, CustomMetadataValue>> customMetadata,
+            Optional<Boolean> automaticallyManageNewDevices,
+            Optional<Boolean> waitForDeviceCreation,
             Map<String, Object> additionalProperties) {
         this.deviceSelectionMode = deviceSelectionMode;
         this.customRedirectUrl = customRedirectUrl;
@@ -53,6 +59,8 @@ public final class ConnectWebviewsCreateRequest {
         this.acceptedProviders = acceptedProviders;
         this.providerCategory = providerCategory;
         this.customMetadata = customMetadata;
+        this.automaticallyManageNewDevices = automaticallyManageNewDevices;
+        this.waitForDeviceCreation = waitForDeviceCreation;
         this.additionalProperties = additionalProperties;
     }
 
@@ -86,6 +94,16 @@ public final class ConnectWebviewsCreateRequest {
         return customMetadata;
     }
 
+    @JsonProperty("automatically_manage_new_devices")
+    public Optional<Boolean> getAutomaticallyManageNewDevices() {
+        return automaticallyManageNewDevices;
+    }
+
+    @JsonProperty("wait_for_device_creation")
+    public Optional<Boolean> getWaitForDeviceCreation() {
+        return waitForDeviceCreation;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -103,7 +121,9 @@ public final class ConnectWebviewsCreateRequest {
                 && customRedirectFailureUrl.equals(other.customRedirectFailureUrl)
                 && acceptedProviders.equals(other.acceptedProviders)
                 && providerCategory.equals(other.providerCategory)
-                && customMetadata.equals(other.customMetadata);
+                && customMetadata.equals(other.customMetadata)
+                && automaticallyManageNewDevices.equals(other.automaticallyManageNewDevices)
+                && waitForDeviceCreation.equals(other.waitForDeviceCreation);
     }
 
     @Override
@@ -114,7 +134,9 @@ public final class ConnectWebviewsCreateRequest {
                 this.customRedirectFailureUrl,
                 this.acceptedProviders,
                 this.providerCategory,
-                this.customMetadata);
+                this.customMetadata,
+                this.automaticallyManageNewDevices,
+                this.waitForDeviceCreation);
     }
 
     @Override
@@ -140,6 +162,10 @@ public final class ConnectWebviewsCreateRequest {
 
         private Optional<Map<String, CustomMetadataValue>> customMetadata = Optional.empty();
 
+        private Optional<Boolean> automaticallyManageNewDevices = Optional.empty();
+
+        private Optional<Boolean> waitForDeviceCreation = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -152,6 +178,8 @@ public final class ConnectWebviewsCreateRequest {
             acceptedProviders(other.getAcceptedProviders());
             providerCategory(other.getProviderCategory());
             customMetadata(other.getCustomMetadata());
+            automaticallyManageNewDevices(other.getAutomaticallyManageNewDevices());
+            waitForDeviceCreation(other.getWaitForDeviceCreation());
             return this;
         }
 
@@ -221,6 +249,28 @@ public final class ConnectWebviewsCreateRequest {
             return this;
         }
 
+        @JsonSetter(value = "automatically_manage_new_devices", nulls = Nulls.SKIP)
+        public Builder automaticallyManageNewDevices(Optional<Boolean> automaticallyManageNewDevices) {
+            this.automaticallyManageNewDevices = automaticallyManageNewDevices;
+            return this;
+        }
+
+        public Builder automaticallyManageNewDevices(Boolean automaticallyManageNewDevices) {
+            this.automaticallyManageNewDevices = Optional.of(automaticallyManageNewDevices);
+            return this;
+        }
+
+        @JsonSetter(value = "wait_for_device_creation", nulls = Nulls.SKIP)
+        public Builder waitForDeviceCreation(Optional<Boolean> waitForDeviceCreation) {
+            this.waitForDeviceCreation = waitForDeviceCreation;
+            return this;
+        }
+
+        public Builder waitForDeviceCreation(Boolean waitForDeviceCreation) {
+            this.waitForDeviceCreation = Optional.of(waitForDeviceCreation);
+            return this;
+        }
+
         public ConnectWebviewsCreateRequest build() {
             return new ConnectWebviewsCreateRequest(
                     deviceSelectionMode,
@@ -229,6 +279,8 @@ public final class ConnectWebviewsCreateRequest {
                     acceptedProviders,
                     providerCategory,
                     customMetadata,
+                    automaticallyManageNewDevices,
+                    waitForDeviceCreation,
                     additionalProperties);
         }
     }
