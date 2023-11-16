@@ -5,9 +5,9 @@ import com.seam.api.TestUtils;
 import com.seam.api.TestUtils.FakeSeamStartedResponse;
 import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsCreateRequest;
 import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsGetRequest;
+import com.seam.api.types.AcceptedProvider;
 import com.seam.api.types.ConnectWebview;
-import com.seam.api.types.ConnectWebviewsCreateRequestAcceptedProvidersItem;
-import com.seam.api.types.ConnectWebviewsCreateRequestProviderCategory;
+import com.seam.api.types.ProviderCategory;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
@@ -35,7 +35,7 @@ public final class ConnectWebviewsTest {
     public void test_connect_webviews() throws InterruptedException {
         ConnectWebview createdWebView = seam.connectWebviews()
                 .create(ConnectWebviewsCreateRequest.builder()
-                        .acceptedProviders(List.of(ConnectWebviewsCreateRequestAcceptedProvidersItem.SCHLAGE))
+                        .acceptedProviders(List.of(AcceptedProvider.SCHLAGE))
                         .build());
         Assertions.assertThat(createdWebView.getConnectWebviewId()).isNotNull();
 
@@ -49,7 +49,7 @@ public final class ConnectWebviewsTest {
         // Test with provider category
         ConnectWebview newWebview = seam.connectWebviews()
                 .create(ConnectWebviewsCreateRequest.builder()
-                        .providerCategory(ConnectWebviewsCreateRequestProviderCategory.STABLE)
+                        .providerCategory(ProviderCategory.STABLE)
                         .build());
         Assertions.assertThat(newWebview.getConnectWebviewId()).isNotNull();
 
