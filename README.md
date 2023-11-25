@@ -1,7 +1,7 @@
 # Seam Java Library
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.seamapi/java)](https://central.sonatype.com/artifact/io.github.seamapi/java) 
-[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-SDK%20generated%20by%20Fern-brightgreen)](https://github.com/fern-api/fern)
+[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-SDK%20generated%20by%20Fern-brightgreen)](https://buildwithfern.com/?utm_source=seamapi/java/readme)
 
 ## Documentation
 
