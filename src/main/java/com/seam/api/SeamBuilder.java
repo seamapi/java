@@ -16,6 +16,11 @@ public final class SeamBuilder {
         return this;
     }
 
+    public SeamBuilder seamWorkspace(String seamWorkspace) {
+        this.clientOptionsBuilder.addHeader("Seam-Workspace", seamWorkspace);
+        return this;
+    }
+
     public SeamBuilder environment(Environment environment) {
         this.environment = environment;
         return this;
