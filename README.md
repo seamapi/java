@@ -48,6 +48,20 @@ AccessCode accessCode = seam.accessCodes().create(AccessCodesCreateRequest.build
 System.out.println(accessCode);
 ```
 
+## Using PATs
+If you're using access tokens to authenticate with the API, make sure 
+to supply the seam workspace when you construct the client. 
+
+```java
+import com.seam.api.Seam;
+import com.seam.api.types.AccessCode;
+
+Seam seam = Seam.builder()
+        .token("YOUR_PAT")
+        .seamWorkspace("YOUR_WORKSPACE")
+        .build();
+```
+
 ## Handling Errors
 When the API returns a non-success status code (4xx or 5xx response),
 a subclass of [ApiError](src/main/java/com/seam/api/core/ApiError.java)
