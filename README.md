@@ -58,7 +58,7 @@ import com.seam.api.types.AccessCode;
 
 Seam seam = Seam.builder()
         .token("YOUR_PAT")
-        .seamWorkspace("YOUR_WORKSPACE")
+        .seamWorkspace("YOUR_WORKSPACE_ID")
         .build();
 ```
 
