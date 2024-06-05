@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
-import com.seam.api.types.HvacModeSetting;
+import com.seam.api.resources.thermostats.climatesettingschedules.types.ClimateSettingSchedulesCreateRequestHvacModeSetting;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -35,7 +35,7 @@ public final class ClimateSettingSchedulesCreateRequest {
 
     private final Optional<Boolean> automaticCoolingEnabled;
 
-    private final Optional<HvacModeSetting> hvacModeSetting;
+    private final Optional<ClimateSettingSchedulesCreateRequestHvacModeSetting> hvacModeSetting;
 
     private final Optional<Double> coolingSetPointCelsius;
 
@@ -57,7 +57,7 @@ public final class ClimateSettingSchedulesCreateRequest {
             String scheduleEndsAt,
             Optional<Boolean> automaticHeatingEnabled,
             Optional<Boolean> automaticCoolingEnabled,
-            Optional<HvacModeSetting> hvacModeSetting,
+            Optional<ClimateSettingSchedulesCreateRequestHvacModeSetting> hvacModeSetting,
             Optional<Double> coolingSetPointCelsius,
             Optional<Double> heatingSetPointCelsius,
             Optional<Double> coolingSetPointFahrenheit,
@@ -116,7 +116,7 @@ public final class ClimateSettingSchedulesCreateRequest {
     }
 
     @JsonProperty("hvac_mode_setting")
-    public Optional<HvacModeSetting> getHvacModeSetting() {
+    public Optional<ClimateSettingSchedulesCreateRequestHvacModeSetting> getHvacModeSetting() {
         return hvacModeSetting;
     }
 
@@ -233,9 +233,9 @@ public final class ClimateSettingSchedulesCreateRequest {
 
         _FinalStage automaticCoolingEnabled(Boolean automaticCoolingEnabled);
 
-        _FinalStage hvacModeSetting(Optional<HvacModeSetting> hvacModeSetting);
+        _FinalStage hvacModeSetting(Optional<ClimateSettingSchedulesCreateRequestHvacModeSetting> hvacModeSetting);
 
-        _FinalStage hvacModeSetting(HvacModeSetting hvacModeSetting);
+        _FinalStage hvacModeSetting(ClimateSettingSchedulesCreateRequestHvacModeSetting hvacModeSetting);
 
         _FinalStage coolingSetPointCelsius(Optional<Double> coolingSetPointCelsius);
 
@@ -277,7 +277,7 @@ public final class ClimateSettingSchedulesCreateRequest {
 
         private Optional<Double> coolingSetPointCelsius = Optional.empty();
 
-        private Optional<HvacModeSetting> hvacModeSetting = Optional.empty();
+        private Optional<ClimateSettingSchedulesCreateRequestHvacModeSetting> hvacModeSetting = Optional.empty();
 
         private Optional<Boolean> automaticCoolingEnabled = Optional.empty();
 
@@ -397,14 +397,15 @@ public final class ClimateSettingSchedulesCreateRequest {
         }
 
         @Override
-        public _FinalStage hvacModeSetting(HvacModeSetting hvacModeSetting) {
+        public _FinalStage hvacModeSetting(ClimateSettingSchedulesCreateRequestHvacModeSetting hvacModeSetting) {
             this.hvacModeSetting = Optional.of(hvacModeSetting);
             return this;
         }
 
         @Override
         @JsonSetter(value = "hvac_mode_setting", nulls = Nulls.SKIP)
-        public _FinalStage hvacModeSetting(Optional<HvacModeSetting> hvacModeSetting) {
+        public _FinalStage hvacModeSetting(
+                Optional<ClimateSettingSchedulesCreateRequestHvacModeSetting> hvacModeSetting) {
             this.hvacModeSetting = hvacModeSetting;
             return this;
         }

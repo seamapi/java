@@ -25,12 +25,18 @@ public final class AccessCodesListRequest {
 
     private final Optional<List<String>> accessCodeIds;
 
+    private final Optional<String> userIdentifierKey;
+
     private final Map<String, Object> additionalProperties;
 
     private AccessCodesListRequest(
-            String deviceId, Optional<List<String>> accessCodeIds, Map<String, Object> additionalProperties) {
+            String deviceId,
+            Optional<List<String>> accessCodeIds,
+            Optional<String> userIdentifierKey,
+            Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.accessCodeIds = accessCodeIds;
+        this.userIdentifierKey = userIdentifierKey;
         this.additionalProperties = additionalProperties;
     }
 
@@ -42,6 +48,11 @@ public final class AccessCodesListRequest {
     @JsonProperty("access_code_ids")
     public Optional<List<String>> getAccessCodeIds() {
         return accessCodeIds;
+    }
+
+    @JsonProperty("user_identifier_key")
+    public Optional<String> getUserIdentifierKey() {
+        return userIdentifierKey;
     }
 
     @Override
@@ -56,12 +67,14 @@ public final class AccessCodesListRequest {
     }
 
     private boolean equalTo(AccessCodesListRequest other) {
-        return deviceId.equals(other.deviceId) && accessCodeIds.equals(other.accessCodeIds);
+        return deviceId.equals(other.deviceId)
+                && accessCodeIds.equals(other.accessCodeIds)
+                && userIdentifierKey.equals(other.userIdentifierKey);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.deviceId, this.accessCodeIds);
+        return Objects.hash(this.deviceId, this.accessCodeIds, this.userIdentifierKey);
     }
 
     @Override
@@ -85,11 +98,17 @@ public final class AccessCodesListRequest {
         _FinalStage accessCodeIds(Optional<List<String>> accessCodeIds);
 
         _FinalStage accessCodeIds(List<String> accessCodeIds);
+
+        _FinalStage userIdentifierKey(Optional<String> userIdentifierKey);
+
+        _FinalStage userIdentifierKey(String userIdentifierKey);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements DeviceIdStage, _FinalStage {
         private String deviceId;
+
+        private Optional<String> userIdentifierKey = Optional.empty();
 
         private Optional<List<String>> accessCodeIds = Optional.empty();
 
@@ -102,6 +121,7 @@ public final class AccessCodesListRequest {
         public Builder from(AccessCodesListRequest other) {
             deviceId(other.getDeviceId());
             accessCodeIds(other.getAccessCodeIds());
+            userIdentifierKey(other.getUserIdentifierKey());
             return this;
         }
 
@@ -109,6 +129,19 @@ public final class AccessCodesListRequest {
         @JsonSetter("device_id")
         public _FinalStage deviceId(String deviceId) {
             this.deviceId = deviceId;
+            return this;
+        }
+
+        @Override
+        public _FinalStage userIdentifierKey(String userIdentifierKey) {
+            this.userIdentifierKey = Optional.of(userIdentifierKey);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "user_identifier_key", nulls = Nulls.SKIP)
+        public _FinalStage userIdentifierKey(Optional<String> userIdentifierKey) {
+            this.userIdentifierKey = userIdentifierKey;
             return this;
         }
 
@@ -127,7 +160,7 @@ public final class AccessCodesListRequest {
 
         @Override
         public AccessCodesListRequest build() {
-            return new AccessCodesListRequest(deviceId, accessCodeIds, additionalProperties);
+            return new AccessCodesListRequest(deviceId, accessCodeIds, userIdentifierKey, additionalProperties);
         }
     }
 }

@@ -57,6 +57,12 @@ public final class AccessCode {
 
     private final Optional<String> pulledBackupAccessCodeId;
 
+    private final boolean isExternalModificationAllowed;
+
+    private final boolean isOneTimeUse;
+
+    private final boolean isOfflineAccessCode;
+
     private final Map<String, Object> additionalProperties;
 
     private AccessCode(
@@ -78,6 +84,9 @@ public final class AccessCode {
             boolean isBackupAccessCodeAvailable,
             Optional<Boolean> isBackup,
             Optional<String> pulledBackupAccessCodeId,
+            boolean isExternalModificationAllowed,
+            boolean isOneTimeUse,
+            boolean isOfflineAccessCode,
             Map<String, Object> additionalProperties) {
         this.commonCodeKey = commonCodeKey;
         this.isScheduledOnDevice = isScheduledOnDevice;
@@ -97,49 +106,79 @@ public final class AccessCode {
         this.isBackupAccessCodeAvailable = isBackupAccessCodeAvailable;
         this.isBackup = isBackup;
         this.pulledBackupAccessCodeId = pulledBackupAccessCodeId;
+        this.isExternalModificationAllowed = isExternalModificationAllowed;
+        this.isOneTimeUse = isOneTimeUse;
+        this.isOfflineAccessCode = isOfflineAccessCode;
         this.additionalProperties = additionalProperties;
     }
 
+    /**
+     * @return Unique identifier for a group of access codes that share the same code.
+     */
     @JsonProperty("common_code_key")
     public Optional<String> getCommonCodeKey() {
         return commonCodeKey;
     }
 
+    /**
+     * @return Indicates whether the code is set on the device according to a preconfigured schedule.
+     */
     @JsonProperty("is_scheduled_on_device")
     public Optional<Boolean> getIsScheduledOnDevice() {
         return isScheduledOnDevice;
     }
 
+    /**
+     * @return Nature of the access code. Values are &quot;ongoing&quot; for access codes that are active continuously until deactivated manually or &quot;time_bound&quot; for access codes that have a specific duration.
+     */
     @JsonProperty("type")
     public AccessCodeType getType() {
         return type;
     }
 
+    /**
+     * @return Indicates whether the access code is waiting for a code assignment.
+     */
     @JsonProperty("is_waiting_for_code_assignment")
     public Optional<Boolean> getIsWaitingForCodeAssignment() {
         return isWaitingForCodeAssignment;
     }
 
+    /**
+     * @return Unique identifier for the access code.
+     */
     @JsonProperty("access_code_id")
     public String getAccessCodeId() {
         return accessCodeId;
     }
 
+    /**
+     * @return Unique identifier for the device associated with the access code.
+     */
     @JsonProperty("device_id")
     public String getDeviceId() {
         return deviceId;
     }
 
+    /**
+     * @return Name of the access code. Enables administrators and users to identify the access code easily, especially when there are numerous access codes.
+     */
     @JsonProperty("name")
     public Optional<String> getName() {
         return name;
     }
 
+    /**
+     * @return Code used for access. Typically, a numeric or alphanumeric string.
+     */
     @JsonProperty("code")
     public Optional<String> getCode() {
         return code;
     }
 
+    /**
+     * @return Date and time at which the access code was created.
+     */
     @JsonProperty("created_at")
     public OffsetDateTime getCreatedAt() {
         return createdAt;
@@ -155,39 +194,84 @@ public final class AccessCode {
         return warnings;
     }
 
+    /**
+     * @return Indicates whether Seam manages the access code.
+     */
     @JsonProperty("is_managed")
     public boolean getIsManaged() {
         return isManaged;
     }
 
+    /**
+     * @return Date and time at which the time-bound access code becomes active.
+     */
     @JsonProperty("starts_at")
     public Optional<OffsetDateTime> getStartsAt() {
         return startsAt;
     }
 
+    /**
+     * @return Date and time after which the time-bound access code becomes inactive.
+     */
     @JsonProperty("ends_at")
     public Optional<OffsetDateTime> getEndsAt() {
         return endsAt;
     }
 
+    /**
+     * @return Current status of the access code within the operational lifecycle. Values are &quot;setting,&quot; a transitional phase that indicates that the code is being configured or activated; &quot;set&quot;, which indicates that the code is active and operational; &quot;unset,&quot; which indicates a deactivated or unused state, either before activation or after deliberate deactivation; &quot;removing,&quot; which indicates a transitional period in which the code is being deleted or made inactive; and &quot;unknown,&quot; which indicates an indeterminate state, due to reasons such as system errors or incomplete data, that highlights a potential need for system review or troubleshooting.
+     */
     @JsonProperty("status")
     public AccessCodeStatus getStatus() {
         return status;
     }
 
+    /**
+     * @return Indicates whether a backup access code is available for use if the primary access code is lost or compromised.
+     */
     @JsonProperty("is_backup_access_code_available")
     public boolean getIsBackupAccessCodeAvailable() {
         return isBackupAccessCodeAvailable;
     }
 
+    /**
+     * @return Indicates whether the access code is a backup code.
+     */
     @JsonProperty("is_backup")
     public Optional<Boolean> getIsBackup() {
         return isBackup;
     }
 
+    /**
+     * @return Identifier of the pulled backup access code. Used to associate the pulled backup access code with the original access code.
+     */
     @JsonProperty("pulled_backup_access_code_id")
     public Optional<String> getPulledBackupAccessCodeId() {
         return pulledBackupAccessCodeId;
+    }
+
+    /**
+     * @return Indicates whether changes to the access code from external sources are permitted.
+     */
+    @JsonProperty("is_external_modification_allowed")
+    public boolean getIsExternalModificationAllowed() {
+        return isExternalModificationAllowed;
+    }
+
+    /**
+     * @return Indicates whether the access code can only be used once. If &quot;true,&quot; the code becomes invalid after the first use.
+     */
+    @JsonProperty("is_one_time_use")
+    public boolean getIsOneTimeUse() {
+        return isOneTimeUse;
+    }
+
+    /**
+     * @return Indicates whether the access code is intended for use in offline scenarios. If &quot;true,&quot; this code can be created on a device without a network connection.
+     */
+    @JsonProperty("is_offline_access_code")
+    public boolean getIsOfflineAccessCode() {
+        return isOfflineAccessCode;
     }
 
     @Override
@@ -219,7 +303,10 @@ public final class AccessCode {
                 && status.equals(other.status)
                 && isBackupAccessCodeAvailable == other.isBackupAccessCodeAvailable
                 && isBackup.equals(other.isBackup)
-                && pulledBackupAccessCodeId.equals(other.pulledBackupAccessCodeId);
+                && pulledBackupAccessCodeId.equals(other.pulledBackupAccessCodeId)
+                && isExternalModificationAllowed == other.isExternalModificationAllowed
+                && isOneTimeUse == other.isOneTimeUse
+                && isOfflineAccessCode == other.isOfflineAccessCode;
     }
 
     @Override
@@ -242,7 +329,10 @@ public final class AccessCode {
                 this.status,
                 this.isBackupAccessCodeAvailable,
                 this.isBackup,
-                this.pulledBackupAccessCodeId);
+                this.pulledBackupAccessCodeId,
+                this.isExternalModificationAllowed,
+                this.isOneTimeUse,
+                this.isOfflineAccessCode);
     }
 
     @Override
@@ -281,7 +371,19 @@ public final class AccessCode {
     }
 
     public interface IsBackupAccessCodeAvailableStage {
-        _FinalStage isBackupAccessCodeAvailable(boolean isBackupAccessCodeAvailable);
+        IsExternalModificationAllowedStage isBackupAccessCodeAvailable(boolean isBackupAccessCodeAvailable);
+    }
+
+    public interface IsExternalModificationAllowedStage {
+        IsOneTimeUseStage isExternalModificationAllowed(boolean isExternalModificationAllowed);
+    }
+
+    public interface IsOneTimeUseStage {
+        IsOfflineAccessCodeStage isOneTimeUse(boolean isOneTimeUse);
+    }
+
+    public interface IsOfflineAccessCodeStage {
+        _FinalStage isOfflineAccessCode(boolean isOfflineAccessCode);
     }
 
     public interface _FinalStage {
@@ -341,6 +443,9 @@ public final class AccessCode {
                     IsManagedStage,
                     StatusStage,
                     IsBackupAccessCodeAvailableStage,
+                    IsExternalModificationAllowedStage,
+                    IsOneTimeUseStage,
+                    IsOfflineAccessCodeStage,
                     _FinalStage {
         private AccessCodeType type;
 
@@ -355,6 +460,12 @@ public final class AccessCode {
         private AccessCodeStatus status;
 
         private boolean isBackupAccessCodeAvailable;
+
+        private boolean isExternalModificationAllowed;
+
+        private boolean isOneTimeUse;
+
+        private boolean isOfflineAccessCode;
 
         private Optional<String> pulledBackupAccessCodeId = Optional.empty();
 
@@ -403,9 +514,16 @@ public final class AccessCode {
             isBackupAccessCodeAvailable(other.getIsBackupAccessCodeAvailable());
             isBackup(other.getIsBackup());
             pulledBackupAccessCodeId(other.getPulledBackupAccessCodeId());
+            isExternalModificationAllowed(other.getIsExternalModificationAllowed());
+            isOneTimeUse(other.getIsOneTimeUse());
+            isOfflineAccessCode(other.getIsOfflineAccessCode());
             return this;
         }
 
+        /**
+         * <p>Nature of the access code. Values are &quot;ongoing&quot; for access codes that are active continuously until deactivated manually or &quot;time_bound&quot; for access codes that have a specific duration.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         @JsonSetter("type")
         public AccessCodeIdStage type(AccessCodeType type) {
@@ -413,6 +531,10 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Unique identifier for the access code.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         @JsonSetter("access_code_id")
         public DeviceIdStage accessCodeId(String accessCodeId) {
@@ -420,6 +542,10 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Unique identifier for the device associated with the access code.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         @JsonSetter("device_id")
         public CreatedAtStage deviceId(String deviceId) {
@@ -427,6 +553,10 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Date and time at which the access code was created.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         @JsonSetter("created_at")
         public IsManagedStage createdAt(OffsetDateTime createdAt) {
@@ -434,6 +564,10 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Indicates whether Seam manages the access code.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         @JsonSetter("is_managed")
         public StatusStage isManaged(boolean isManaged) {
@@ -441,6 +575,10 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Current status of the access code within the operational lifecycle. Values are &quot;setting,&quot; a transitional phase that indicates that the code is being configured or activated; &quot;set&quot;, which indicates that the code is active and operational; &quot;unset,&quot; which indicates a deactivated or unused state, either before activation or after deliberate deactivation; &quot;removing,&quot; which indicates a transitional period in which the code is being deleted or made inactive; and &quot;unknown,&quot; which indicates an indeterminate state, due to reasons such as system errors or incomplete data, that highlights a potential need for system review or troubleshooting.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         @JsonSetter("status")
         public IsBackupAccessCodeAvailableStage status(AccessCodeStatus status) {
@@ -448,13 +586,54 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Indicates whether a backup access code is available for use if the primary access code is lost or compromised.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         @JsonSetter("is_backup_access_code_available")
-        public _FinalStage isBackupAccessCodeAvailable(boolean isBackupAccessCodeAvailable) {
+        public IsExternalModificationAllowedStage isBackupAccessCodeAvailable(boolean isBackupAccessCodeAvailable) {
             this.isBackupAccessCodeAvailable = isBackupAccessCodeAvailable;
             return this;
         }
 
+        /**
+         * <p>Indicates whether changes to the access code from external sources are permitted.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @Override
+        @JsonSetter("is_external_modification_allowed")
+        public IsOneTimeUseStage isExternalModificationAllowed(boolean isExternalModificationAllowed) {
+            this.isExternalModificationAllowed = isExternalModificationAllowed;
+            return this;
+        }
+
+        /**
+         * <p>Indicates whether the access code can only be used once. If &quot;true,&quot; the code becomes invalid after the first use.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @Override
+        @JsonSetter("is_one_time_use")
+        public IsOfflineAccessCodeStage isOneTimeUse(boolean isOneTimeUse) {
+            this.isOneTimeUse = isOneTimeUse;
+            return this;
+        }
+
+        /**
+         * <p>Indicates whether the access code is intended for use in offline scenarios. If &quot;true,&quot; this code can be created on a device without a network connection.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @Override
+        @JsonSetter("is_offline_access_code")
+        public _FinalStage isOfflineAccessCode(boolean isOfflineAccessCode) {
+            this.isOfflineAccessCode = isOfflineAccessCode;
+            return this;
+        }
+
+        /**
+         * <p>Identifier of the pulled backup access code. Used to associate the pulled backup access code with the original access code.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         public _FinalStage pulledBackupAccessCodeId(String pulledBackupAccessCodeId) {
             this.pulledBackupAccessCodeId = Optional.of(pulledBackupAccessCodeId);
@@ -468,6 +647,10 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Indicates whether the access code is a backup code.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         public _FinalStage isBackup(Boolean isBackup) {
             this.isBackup = Optional.of(isBackup);
@@ -481,6 +664,10 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Date and time after which the time-bound access code becomes inactive.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         public _FinalStage endsAt(OffsetDateTime endsAt) {
             this.endsAt = Optional.of(endsAt);
@@ -494,6 +681,10 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Date and time at which the time-bound access code becomes active.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         public _FinalStage startsAt(OffsetDateTime startsAt) {
             this.startsAt = Optional.of(startsAt);
@@ -533,6 +724,10 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Code used for access. Typically, a numeric or alphanumeric string.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         public _FinalStage code(String code) {
             this.code = Optional.of(code);
@@ -546,6 +741,10 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Name of the access code. Enables administrators and users to identify the access code easily, especially when there are numerous access codes.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         public _FinalStage name(String name) {
             this.name = Optional.of(name);
@@ -559,6 +758,10 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Indicates whether the access code is waiting for a code assignment.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         public _FinalStage isWaitingForCodeAssignment(Boolean isWaitingForCodeAssignment) {
             this.isWaitingForCodeAssignment = Optional.of(isWaitingForCodeAssignment);
@@ -572,6 +775,10 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Indicates whether the code is set on the device according to a preconfigured schedule.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         public _FinalStage isScheduledOnDevice(Boolean isScheduledOnDevice) {
             this.isScheduledOnDevice = Optional.of(isScheduledOnDevice);
@@ -585,6 +792,10 @@ public final class AccessCode {
             return this;
         }
 
+        /**
+         * <p>Unique identifier for a group of access codes that share the same code.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         public _FinalStage commonCodeKey(String commonCodeKey) {
             this.commonCodeKey = Optional.of(commonCodeKey);
@@ -619,6 +830,9 @@ public final class AccessCode {
                     isBackupAccessCodeAvailable,
                     isBackup,
                     pulledBackupAccessCodeId,
+                    isExternalModificationAllowed,
+                    isOneTimeUse,
+                    isOfflineAccessCode,
                     additionalProperties);
         }
     }

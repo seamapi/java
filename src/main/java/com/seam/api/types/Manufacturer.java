@@ -10,11 +10,15 @@ public enum Manufacturer {
 
     AUGUST("august"),
 
+    AVIGILON_ALTA("avigilon_alta"),
+
     BRIVO("brivo"),
 
     BUTTERFLYMX("butterflymx"),
 
     DOORKING("doorking"),
+
+    FOUR_SUITES("four_suites"),
 
     GENIE("genie"),
 
@@ -42,6 +46,8 @@ public enum Manufacturer {
 
     UNKNOWN("unknown"),
 
+    WYZE("wyze"),
+
     YALE("yale"),
 
     MINUT("minut"),
@@ -56,7 +62,13 @@ public enum Manufacturer {
 
     ECOBEE("ecobee"),
 
-    HUBITAT("hubitat");
+    HUBITAT("hubitat"),
+
+    CONTROLBYWEB("controlbyweb"),
+
+    SMARTTHINGS("smartthings"),
+
+    DORMAKABA_ORACODE("dormakaba_oracode");
 
     private final String value;
 

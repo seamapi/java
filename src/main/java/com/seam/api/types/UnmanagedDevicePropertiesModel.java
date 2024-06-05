@@ -9,27 +9,109 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = UnmanagedDevicePropertiesModel.Builder.class)
 public final class UnmanagedDevicePropertiesModel {
+    private final Optional<Boolean> canConnectAccessoryKeypad;
+
     private final String displayName;
+
+    private final String manufacturerDisplayName;
+
+    private final Optional<Boolean> hasBuiltInKeypad;
+
+    private final Optional<Boolean> offlineAccessCodesSupported;
+
+    private final Optional<Boolean> onlineAccessCodesSupported;
+
+    private final Optional<Boolean> accessoryKeypadSupported;
 
     private final Map<String, Object> additionalProperties;
 
-    private UnmanagedDevicePropertiesModel(String displayName, Map<String, Object> additionalProperties) {
+    private UnmanagedDevicePropertiesModel(
+            Optional<Boolean> canConnectAccessoryKeypad,
+            String displayName,
+            String manufacturerDisplayName,
+            Optional<Boolean> hasBuiltInKeypad,
+            Optional<Boolean> offlineAccessCodesSupported,
+            Optional<Boolean> onlineAccessCodesSupported,
+            Optional<Boolean> accessoryKeypadSupported,
+            Map<String, Object> additionalProperties) {
+        this.canConnectAccessoryKeypad = canConnectAccessoryKeypad;
         this.displayName = displayName;
+        this.manufacturerDisplayName = manufacturerDisplayName;
+        this.hasBuiltInKeypad = hasBuiltInKeypad;
+        this.offlineAccessCodesSupported = offlineAccessCodesSupported;
+        this.onlineAccessCodesSupported = onlineAccessCodesSupported;
+        this.accessoryKeypadSupported = accessoryKeypadSupported;
         this.additionalProperties = additionalProperties;
     }
 
+    /**
+     * @return Indicates whether the device can connect a accessory keypad.
+     */
+    @JsonProperty("can_connect_accessory_keypad")
+    public Optional<Boolean> getCanConnectAccessoryKeypad() {
+        return canConnectAccessoryKeypad;
+    }
+
+    /**
+     * @return Display name of the device model.
+     */
     @JsonProperty("display_name")
     public String getDisplayName() {
         return displayName;
+    }
+
+    /**
+     * @return Display name that corresponds to the manufacturer-specific terminology for the device.
+     */
+    @JsonProperty("manufacturer_display_name")
+    public String getManufacturerDisplayName() {
+        return manufacturerDisplayName;
+    }
+
+    /**
+     * @return Indicates whether the device has a built in accessory keypad.
+     */
+    @JsonProperty("has_built_in_keypad")
+    public Optional<Boolean> getHasBuiltInKeypad() {
+        return hasBuiltInKeypad;
+    }
+
+    /**
+     * @return Indicates whether the device supports offline access codes.
+     */
+    @JsonProperty("offline_access_codes_supported")
+    public Optional<Boolean> getOfflineAccessCodesSupported() {
+        return offlineAccessCodesSupported;
+    }
+
+    /**
+     * @return Indicates whether the device supports online access codes.
+     */
+    @JsonProperty("online_access_codes_supported")
+    public Optional<Boolean> getOnlineAccessCodesSupported() {
+        return onlineAccessCodesSupported;
+    }
+
+    /**
+     * @return <hr />
+     * <pre><code>  deprecated: use device.properties.model.can_connect_accessory_keypad
+     *   ---
+     * </code></pre>
+     */
+    @JsonProperty("accessory_keypad_supported")
+    public Optional<Boolean> getAccessoryKeypadSupported() {
+        return accessoryKeypadSupported;
     }
 
     @Override
@@ -44,12 +126,25 @@ public final class UnmanagedDevicePropertiesModel {
     }
 
     private boolean equalTo(UnmanagedDevicePropertiesModel other) {
-        return displayName.equals(other.displayName);
+        return canConnectAccessoryKeypad.equals(other.canConnectAccessoryKeypad)
+                && displayName.equals(other.displayName)
+                && manufacturerDisplayName.equals(other.manufacturerDisplayName)
+                && hasBuiltInKeypad.equals(other.hasBuiltInKeypad)
+                && offlineAccessCodesSupported.equals(other.offlineAccessCodesSupported)
+                && onlineAccessCodesSupported.equals(other.onlineAccessCodesSupported)
+                && accessoryKeypadSupported.equals(other.accessoryKeypadSupported);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.displayName);
+        return Objects.hash(
+                this.canConnectAccessoryKeypad,
+                this.displayName,
+                this.manufacturerDisplayName,
+                this.hasBuiltInKeypad,
+                this.offlineAccessCodesSupported,
+                this.onlineAccessCodesSupported,
+                this.accessoryKeypadSupported);
     }
 
     @Override
@@ -62,18 +157,54 @@ public final class UnmanagedDevicePropertiesModel {
     }
 
     public interface DisplayNameStage {
-        _FinalStage displayName(String displayName);
+        ManufacturerDisplayNameStage displayName(String displayName);
 
         Builder from(UnmanagedDevicePropertiesModel other);
     }
 
+    public interface ManufacturerDisplayNameStage {
+        _FinalStage manufacturerDisplayName(String manufacturerDisplayName);
+    }
+
     public interface _FinalStage {
         UnmanagedDevicePropertiesModel build();
+
+        _FinalStage canConnectAccessoryKeypad(Optional<Boolean> canConnectAccessoryKeypad);
+
+        _FinalStage canConnectAccessoryKeypad(Boolean canConnectAccessoryKeypad);
+
+        _FinalStage hasBuiltInKeypad(Optional<Boolean> hasBuiltInKeypad);
+
+        _FinalStage hasBuiltInKeypad(Boolean hasBuiltInKeypad);
+
+        _FinalStage offlineAccessCodesSupported(Optional<Boolean> offlineAccessCodesSupported);
+
+        _FinalStage offlineAccessCodesSupported(Boolean offlineAccessCodesSupported);
+
+        _FinalStage onlineAccessCodesSupported(Optional<Boolean> onlineAccessCodesSupported);
+
+        _FinalStage onlineAccessCodesSupported(Boolean onlineAccessCodesSupported);
+
+        _FinalStage accessoryKeypadSupported(Optional<Boolean> accessoryKeypadSupported);
+
+        _FinalStage accessoryKeypadSupported(Boolean accessoryKeypadSupported);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static final class Builder implements DisplayNameStage, _FinalStage {
+    public static final class Builder implements DisplayNameStage, ManufacturerDisplayNameStage, _FinalStage {
         private String displayName;
+
+        private String manufacturerDisplayName;
+
+        private Optional<Boolean> accessoryKeypadSupported = Optional.empty();
+
+        private Optional<Boolean> onlineAccessCodesSupported = Optional.empty();
+
+        private Optional<Boolean> offlineAccessCodesSupported = Optional.empty();
+
+        private Optional<Boolean> hasBuiltInKeypad = Optional.empty();
+
+        private Optional<Boolean> canConnectAccessoryKeypad = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -82,20 +213,137 @@ public final class UnmanagedDevicePropertiesModel {
 
         @Override
         public Builder from(UnmanagedDevicePropertiesModel other) {
+            canConnectAccessoryKeypad(other.getCanConnectAccessoryKeypad());
             displayName(other.getDisplayName());
+            manufacturerDisplayName(other.getManufacturerDisplayName());
+            hasBuiltInKeypad(other.getHasBuiltInKeypad());
+            offlineAccessCodesSupported(other.getOfflineAccessCodesSupported());
+            onlineAccessCodesSupported(other.getOnlineAccessCodesSupported());
+            accessoryKeypadSupported(other.getAccessoryKeypadSupported());
+            return this;
+        }
+
+        /**
+         * <p>Display name of the device model.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @Override
+        @JsonSetter("display_name")
+        public ManufacturerDisplayNameStage displayName(String displayName) {
+            this.displayName = displayName;
+            return this;
+        }
+
+        /**
+         * <p>Display name that corresponds to the manufacturer-specific terminology for the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @Override
+        @JsonSetter("manufacturer_display_name")
+        public _FinalStage manufacturerDisplayName(String manufacturerDisplayName) {
+            this.manufacturerDisplayName = manufacturerDisplayName;
+            return this;
+        }
+
+        /**
+         * <hr />
+         * <pre><code>  deprecated: use device.properties.model.can_connect_accessory_keypad
+         *   ---
+         * </code></pre>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @Override
+        public _FinalStage accessoryKeypadSupported(Boolean accessoryKeypadSupported) {
+            this.accessoryKeypadSupported = Optional.of(accessoryKeypadSupported);
             return this;
         }
 
         @Override
-        @JsonSetter("display_name")
-        public _FinalStage displayName(String displayName) {
-            this.displayName = displayName;
+        @JsonSetter(value = "accessory_keypad_supported", nulls = Nulls.SKIP)
+        public _FinalStage accessoryKeypadSupported(Optional<Boolean> accessoryKeypadSupported) {
+            this.accessoryKeypadSupported = accessoryKeypadSupported;
+            return this;
+        }
+
+        /**
+         * <p>Indicates whether the device supports online access codes.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @Override
+        public _FinalStage onlineAccessCodesSupported(Boolean onlineAccessCodesSupported) {
+            this.onlineAccessCodesSupported = Optional.of(onlineAccessCodesSupported);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "online_access_codes_supported", nulls = Nulls.SKIP)
+        public _FinalStage onlineAccessCodesSupported(Optional<Boolean> onlineAccessCodesSupported) {
+            this.onlineAccessCodesSupported = onlineAccessCodesSupported;
+            return this;
+        }
+
+        /**
+         * <p>Indicates whether the device supports offline access codes.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @Override
+        public _FinalStage offlineAccessCodesSupported(Boolean offlineAccessCodesSupported) {
+            this.offlineAccessCodesSupported = Optional.of(offlineAccessCodesSupported);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "offline_access_codes_supported", nulls = Nulls.SKIP)
+        public _FinalStage offlineAccessCodesSupported(Optional<Boolean> offlineAccessCodesSupported) {
+            this.offlineAccessCodesSupported = offlineAccessCodesSupported;
+            return this;
+        }
+
+        /**
+         * <p>Indicates whether the device has a built in accessory keypad.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @Override
+        public _FinalStage hasBuiltInKeypad(Boolean hasBuiltInKeypad) {
+            this.hasBuiltInKeypad = Optional.of(hasBuiltInKeypad);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "has_built_in_keypad", nulls = Nulls.SKIP)
+        public _FinalStage hasBuiltInKeypad(Optional<Boolean> hasBuiltInKeypad) {
+            this.hasBuiltInKeypad = hasBuiltInKeypad;
+            return this;
+        }
+
+        /**
+         * <p>Indicates whether the device can connect a accessory keypad.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @Override
+        public _FinalStage canConnectAccessoryKeypad(Boolean canConnectAccessoryKeypad) {
+            this.canConnectAccessoryKeypad = Optional.of(canConnectAccessoryKeypad);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "can_connect_accessory_keypad", nulls = Nulls.SKIP)
+        public _FinalStage canConnectAccessoryKeypad(Optional<Boolean> canConnectAccessoryKeypad) {
+            this.canConnectAccessoryKeypad = canConnectAccessoryKeypad;
             return this;
         }
 
         @Override
         public UnmanagedDevicePropertiesModel build() {
-            return new UnmanagedDevicePropertiesModel(displayName, additionalProperties);
+            return new UnmanagedDevicePropertiesModel(
+                    canConnectAccessoryKeypad,
+                    displayName,
+                    manufacturerDisplayName,
+                    hasBuiltInKeypad,
+                    offlineAccessCodesSupported,
+                    onlineAccessCodesSupported,
+                    accessoryKeypadSupported,
+                    additionalProperties);
         }
     }
 }

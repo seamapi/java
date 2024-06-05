@@ -9,27 +9,38 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = NoiseThresholdsListRequest.Builder.class)
 public final class NoiseThresholdsListRequest {
     private final String deviceId;
 
+    private final Optional<Boolean> isProgrammed;
+
     private final Map<String, Object> additionalProperties;
 
-    private NoiseThresholdsListRequest(String deviceId, Map<String, Object> additionalProperties) {
+    private NoiseThresholdsListRequest(
+            String deviceId, Optional<Boolean> isProgrammed, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
+        this.isProgrammed = isProgrammed;
         this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_id")
     public String getDeviceId() {
         return deviceId;
+    }
+
+    @JsonProperty("is_programmed")
+    public Optional<Boolean> getIsProgrammed() {
+        return isProgrammed;
     }
 
     @Override
@@ -44,12 +55,12 @@ public final class NoiseThresholdsListRequest {
     }
 
     private boolean equalTo(NoiseThresholdsListRequest other) {
-        return deviceId.equals(other.deviceId);
+        return deviceId.equals(other.deviceId) && isProgrammed.equals(other.isProgrammed);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.deviceId);
+        return Objects.hash(this.deviceId, this.isProgrammed);
     }
 
     @Override
@@ -69,11 +80,17 @@ public final class NoiseThresholdsListRequest {
 
     public interface _FinalStage {
         NoiseThresholdsListRequest build();
+
+        _FinalStage isProgrammed(Optional<Boolean> isProgrammed);
+
+        _FinalStage isProgrammed(Boolean isProgrammed);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements DeviceIdStage, _FinalStage {
         private String deviceId;
+
+        private Optional<Boolean> isProgrammed = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -83,6 +100,7 @@ public final class NoiseThresholdsListRequest {
         @Override
         public Builder from(NoiseThresholdsListRequest other) {
             deviceId(other.getDeviceId());
+            isProgrammed(other.getIsProgrammed());
             return this;
         }
 
@@ -94,8 +112,21 @@ public final class NoiseThresholdsListRequest {
         }
 
         @Override
+        public _FinalStage isProgrammed(Boolean isProgrammed) {
+            this.isProgrammed = Optional.of(isProgrammed);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "is_programmed", nulls = Nulls.SKIP)
+        public _FinalStage isProgrammed(Optional<Boolean> isProgrammed) {
+            this.isProgrammed = isProgrammed;
+            return this;
+        }
+
+        @Override
         public NoiseThresholdsListRequest build() {
-            return new NoiseThresholdsListRequest(deviceId, additionalProperties);
+            return new NoiseThresholdsListRequest(deviceId, isProgrammed, additionalProperties);
         }
     }
 }

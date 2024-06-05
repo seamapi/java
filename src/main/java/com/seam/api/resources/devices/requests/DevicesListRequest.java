@@ -12,6 +12,9 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.resources.devices.types.DevicesListRequestCustomMetadataHasValue;
+import com.seam.api.resources.devices.types.DevicesListRequestExcludeIfItem;
+import com.seam.api.resources.devices.types.DevicesListRequestIncludeIfItem;
 import com.seam.api.types.DeviceType;
 import com.seam.api.types.Manufacturer;
 import java.time.OffsetDateTime;
@@ -42,6 +45,14 @@ public final class DevicesListRequest {
 
     private final Optional<OffsetDateTime> createdBefore;
 
+    private final Optional<String> userIdentifierKey;
+
+    private final Optional<Map<String, DevicesListRequestCustomMetadataHasValue>> customMetadataHas;
+
+    private final Optional<List<DevicesListRequestIncludeIfItem>> includeIf;
+
+    private final Optional<List<DevicesListRequestExcludeIfItem>> excludeIf;
+
     private final Map<String, Object> additionalProperties;
 
     private DevicesListRequest(
@@ -54,6 +65,10 @@ public final class DevicesListRequest {
             Optional<List<String>> deviceIds,
             Optional<Double> limit,
             Optional<OffsetDateTime> createdBefore,
+            Optional<String> userIdentifierKey,
+            Optional<Map<String, DevicesListRequestCustomMetadataHasValue>> customMetadataHas,
+            Optional<List<DevicesListRequestIncludeIfItem>> includeIf,
+            Optional<List<DevicesListRequestExcludeIfItem>> excludeIf,
             Map<String, Object> additionalProperties) {
         this.connectedAccountId = connectedAccountId;
         this.connectedAccountIds = connectedAccountIds;
@@ -64,9 +79,16 @@ public final class DevicesListRequest {
         this.deviceIds = deviceIds;
         this.limit = limit;
         this.createdBefore = createdBefore;
+        this.userIdentifierKey = userIdentifierKey;
+        this.customMetadataHas = customMetadataHas;
+        this.includeIf = includeIf;
+        this.excludeIf = excludeIf;
         this.additionalProperties = additionalProperties;
     }
 
+    /**
+     * @return List all devices owned by this connected account
+     */
     @JsonProperty("connected_account_id")
     public Optional<String> getConnectedAccountId() {
         return connectedAccountId;
@@ -112,6 +134,26 @@ public final class DevicesListRequest {
         return createdBefore;
     }
 
+    @JsonProperty("user_identifier_key")
+    public Optional<String> getUserIdentifierKey() {
+        return userIdentifierKey;
+    }
+
+    @JsonProperty("custom_metadata_has")
+    public Optional<Map<String, DevicesListRequestCustomMetadataHasValue>> getCustomMetadataHas() {
+        return customMetadataHas;
+    }
+
+    @JsonProperty("include_if")
+    public Optional<List<DevicesListRequestIncludeIfItem>> getIncludeIf() {
+        return includeIf;
+    }
+
+    @JsonProperty("exclude_if")
+    public Optional<List<DevicesListRequestExcludeIfItem>> getExcludeIf() {
+        return excludeIf;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -132,7 +174,11 @@ public final class DevicesListRequest {
                 && manufacturer.equals(other.manufacturer)
                 && deviceIds.equals(other.deviceIds)
                 && limit.equals(other.limit)
-                && createdBefore.equals(other.createdBefore);
+                && createdBefore.equals(other.createdBefore)
+                && userIdentifierKey.equals(other.userIdentifierKey)
+                && customMetadataHas.equals(other.customMetadataHas)
+                && includeIf.equals(other.includeIf)
+                && excludeIf.equals(other.excludeIf);
     }
 
     @Override
@@ -146,7 +192,11 @@ public final class DevicesListRequest {
                 this.manufacturer,
                 this.deviceIds,
                 this.limit,
-                this.createdBefore);
+                this.createdBefore,
+                this.userIdentifierKey,
+                this.customMetadataHas,
+                this.includeIf,
+                this.excludeIf);
     }
 
     @Override
@@ -178,6 +228,14 @@ public final class DevicesListRequest {
 
         private Optional<OffsetDateTime> createdBefore = Optional.empty();
 
+        private Optional<String> userIdentifierKey = Optional.empty();
+
+        private Optional<Map<String, DevicesListRequestCustomMetadataHasValue>> customMetadataHas = Optional.empty();
+
+        private Optional<List<DevicesListRequestIncludeIfItem>> includeIf = Optional.empty();
+
+        private Optional<List<DevicesListRequestExcludeIfItem>> excludeIf = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -193,6 +251,10 @@ public final class DevicesListRequest {
             deviceIds(other.getDeviceIds());
             limit(other.getLimit());
             createdBefore(other.getCreatedBefore());
+            userIdentifierKey(other.getUserIdentifierKey());
+            customMetadataHas(other.getCustomMetadataHas());
+            includeIf(other.getIncludeIf());
+            excludeIf(other.getExcludeIf());
             return this;
         }
 
@@ -295,6 +357,51 @@ public final class DevicesListRequest {
             return this;
         }
 
+        @JsonSetter(value = "user_identifier_key", nulls = Nulls.SKIP)
+        public Builder userIdentifierKey(Optional<String> userIdentifierKey) {
+            this.userIdentifierKey = userIdentifierKey;
+            return this;
+        }
+
+        public Builder userIdentifierKey(String userIdentifierKey) {
+            this.userIdentifierKey = Optional.of(userIdentifierKey);
+            return this;
+        }
+
+        @JsonSetter(value = "custom_metadata_has", nulls = Nulls.SKIP)
+        public Builder customMetadataHas(
+                Optional<Map<String, DevicesListRequestCustomMetadataHasValue>> customMetadataHas) {
+            this.customMetadataHas = customMetadataHas;
+            return this;
+        }
+
+        public Builder customMetadataHas(Map<String, DevicesListRequestCustomMetadataHasValue> customMetadataHas) {
+            this.customMetadataHas = Optional.of(customMetadataHas);
+            return this;
+        }
+
+        @JsonSetter(value = "include_if", nulls = Nulls.SKIP)
+        public Builder includeIf(Optional<List<DevicesListRequestIncludeIfItem>> includeIf) {
+            this.includeIf = includeIf;
+            return this;
+        }
+
+        public Builder includeIf(List<DevicesListRequestIncludeIfItem> includeIf) {
+            this.includeIf = Optional.of(includeIf);
+            return this;
+        }
+
+        @JsonSetter(value = "exclude_if", nulls = Nulls.SKIP)
+        public Builder excludeIf(Optional<List<DevicesListRequestExcludeIfItem>> excludeIf) {
+            this.excludeIf = excludeIf;
+            return this;
+        }
+
+        public Builder excludeIf(List<DevicesListRequestExcludeIfItem> excludeIf) {
+            this.excludeIf = Optional.of(excludeIf);
+            return this;
+        }
+
         public DevicesListRequest build() {
             return new DevicesListRequest(
                     connectedAccountId,
@@ -306,6 +413,10 @@ public final class DevicesListRequest {
                     deviceIds,
                     limit,
                     createdBefore,
+                    userIdentifierKey,
+                    customMetadataHas,
+                    includeIf,
+                    excludeIf,
                     additionalProperties);
         }
     }

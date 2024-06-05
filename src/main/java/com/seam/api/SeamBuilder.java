@@ -11,13 +11,23 @@ public final class SeamBuilder {
 
     private Environment environment = Environment.DEFAULT;
 
-    public SeamBuilder apiKey(String apiKey) {
-        this.clientOptionsBuilder.addHeader("Authorization", "Bearer " + apiKey);
+    public SeamBuilder token(String token) {
+        this.clientOptionsBuilder.addHeader("Authorization", "Bearer " + token);
         return this;
     }
 
     public SeamBuilder seamWorkspace(String seamWorkspace) {
-        this.clientOptionsBuilder.addHeader("Seam-Workspace", seamWorkspace);
+        this.clientOptionsBuilder.addHeader("seam-workspace", seamWorkspace);
+        return this;
+    }
+
+    public SeamBuilder seamClientSessionToken(String seamClientSessionToken) {
+        this.clientOptionsBuilder.addHeader("seam-client-session-token", seamClientSessionToken);
+        return this;
+    }
+
+    public SeamBuilder clientSessionToken(String clientSessionToken) {
+        this.clientOptionsBuilder.addHeader("client-session-token", clientSessionToken);
         return this;
     }
 

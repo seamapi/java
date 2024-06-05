@@ -12,11 +12,11 @@ import com.seam.api.resources.accesscodes.unmanaged.requests.UnmanagedDeleteRequ
 import com.seam.api.resources.accesscodes.unmanaged.requests.UnmanagedGetRequest;
 import com.seam.api.resources.accesscodes.unmanaged.requests.UnmanagedListRequest;
 import com.seam.api.resources.accesscodes.unmanaged.requests.UnmanagedUpdateRequest;
-import com.seam.api.types.UnmanagedConvertToManagedResponse;
-import com.seam.api.types.UnmanagedDeleteResponse;
-import com.seam.api.types.UnmanagedGetResponse;
-import com.seam.api.types.UnmanagedListResponse;
-import com.seam.api.types.UnmanagedUpdateResponse;
+import com.seam.api.resources.accesscodes.unmanaged.types.UnmanagedConvertToManagedResponse;
+import com.seam.api.resources.accesscodes.unmanaged.types.UnmanagedDeleteResponse;
+import com.seam.api.resources.accesscodes.unmanaged.types.UnmanagedGetResponse;
+import com.seam.api.resources.accesscodes.unmanaged.types.UnmanagedListResponse;
+import com.seam.api.resources.accesscodes.unmanaged.types.UnmanagedUpdateResponse;
 import java.io.IOException;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
@@ -84,7 +84,7 @@ public class UnmanagedClient {
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
-                .method("DELETE", body)
+                .method("POST", body)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();

@@ -14,7 +14,9 @@ public enum DeviceCapabilitiesSupportedItem {
 
     THERMOSTAT("thermostat"),
 
-    BATTERY("battery");
+    BATTERY("battery"),
+
+    PHONE("phone");
 
     private final String value;
 

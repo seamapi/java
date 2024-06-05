@@ -9,27 +9,38 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = UnmanagedListRequest.Builder.class)
 public final class UnmanagedListRequest {
     private final String deviceId;
 
+    private final Optional<String> userIdentifierKey;
+
     private final Map<String, Object> additionalProperties;
 
-    private UnmanagedListRequest(String deviceId, Map<String, Object> additionalProperties) {
+    private UnmanagedListRequest(
+            String deviceId, Optional<String> userIdentifierKey, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
+        this.userIdentifierKey = userIdentifierKey;
         this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("device_id")
     public String getDeviceId() {
         return deviceId;
+    }
+
+    @JsonProperty("user_identifier_key")
+    public Optional<String> getUserIdentifierKey() {
+        return userIdentifierKey;
     }
 
     @Override
@@ -44,12 +55,12 @@ public final class UnmanagedListRequest {
     }
 
     private boolean equalTo(UnmanagedListRequest other) {
-        return deviceId.equals(other.deviceId);
+        return deviceId.equals(other.deviceId) && userIdentifierKey.equals(other.userIdentifierKey);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.deviceId);
+        return Objects.hash(this.deviceId, this.userIdentifierKey);
     }
 
     @Override
@@ -69,11 +80,17 @@ public final class UnmanagedListRequest {
 
     public interface _FinalStage {
         UnmanagedListRequest build();
+
+        _FinalStage userIdentifierKey(Optional<String> userIdentifierKey);
+
+        _FinalStage userIdentifierKey(String userIdentifierKey);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements DeviceIdStage, _FinalStage {
         private String deviceId;
+
+        private Optional<String> userIdentifierKey = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -83,6 +100,7 @@ public final class UnmanagedListRequest {
         @Override
         public Builder from(UnmanagedListRequest other) {
             deviceId(other.getDeviceId());
+            userIdentifierKey(other.getUserIdentifierKey());
             return this;
         }
 
@@ -94,8 +112,21 @@ public final class UnmanagedListRequest {
         }
 
         @Override
+        public _FinalStage userIdentifierKey(String userIdentifierKey) {
+            this.userIdentifierKey = Optional.of(userIdentifierKey);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "user_identifier_key", nulls = Nulls.SKIP)
+        public _FinalStage userIdentifierKey(Optional<String> userIdentifierKey) {
+            this.userIdentifierKey = userIdentifierKey;
+            return this;
+        }
+
+        @Override
         public UnmanagedListRequest build() {
-            return new UnmanagedListRequest(deviceId, additionalProperties);
+            return new UnmanagedListRequest(deviceId, userIdentifierKey, additionalProperties);
         }
     }
 }

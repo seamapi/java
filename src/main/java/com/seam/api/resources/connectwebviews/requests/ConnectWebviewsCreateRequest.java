@@ -12,8 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
-import com.seam.api.types.AcceptedProvider;
-import com.seam.api.types.CustomMetadataValue;
+import com.seam.api.resources.connectwebviews.types.AcceptedProvider;
+import com.seam.api.resources.connectwebviews.types.ConnectWebviewsCreateRequestCustomMetadataValue;
 import com.seam.api.types.ProviderCategory;
 import com.seam.api.types.SelectionMode;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ public final class ConnectWebviewsCreateRequest {
 
     private final Optional<ProviderCategory> providerCategory;
 
-    private final Optional<Map<String, CustomMetadataValue>> customMetadata;
+    private final Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> customMetadata;
 
     private final Optional<Boolean> automaticallyManageNewDevices;
 
@@ -49,7 +49,7 @@ public final class ConnectWebviewsCreateRequest {
             Optional<String> customRedirectFailureUrl,
             Optional<List<AcceptedProvider>> acceptedProviders,
             Optional<ProviderCategory> providerCategory,
-            Optional<Map<String, CustomMetadataValue>> customMetadata,
+            Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> customMetadata,
             Optional<Boolean> automaticallyManageNewDevices,
             Optional<Boolean> waitForDeviceCreation,
             Map<String, Object> additionalProperties) {
@@ -90,7 +90,7 @@ public final class ConnectWebviewsCreateRequest {
     }
 
     @JsonProperty("custom_metadata")
-    public Optional<Map<String, CustomMetadataValue>> getCustomMetadata() {
+    public Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> getCustomMetadata() {
         return customMetadata;
     }
 
@@ -160,7 +160,8 @@ public final class ConnectWebviewsCreateRequest {
 
         private Optional<ProviderCategory> providerCategory = Optional.empty();
 
-        private Optional<Map<String, CustomMetadataValue>> customMetadata = Optional.empty();
+        private Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> customMetadata =
+                Optional.empty();
 
         private Optional<Boolean> automaticallyManageNewDevices = Optional.empty();
 
@@ -239,12 +240,14 @@ public final class ConnectWebviewsCreateRequest {
         }
 
         @JsonSetter(value = "custom_metadata", nulls = Nulls.SKIP)
-        public Builder customMetadata(Optional<Map<String, CustomMetadataValue>> customMetadata) {
+        public Builder customMetadata(
+                Optional<Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>>> customMetadata) {
             this.customMetadata = customMetadata;
             return this;
         }
 
-        public Builder customMetadata(Map<String, CustomMetadataValue> customMetadata) {
+        public Builder customMetadata(
+                Map<String, Optional<ConnectWebviewsCreateRequestCustomMetadataValue>> customMetadata) {
             this.customMetadata = Optional.of(customMetadata);
             return this;
         }

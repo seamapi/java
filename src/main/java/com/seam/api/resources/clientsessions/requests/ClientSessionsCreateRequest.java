@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +28,24 @@ public final class ClientSessionsCreateRequest {
 
     private final Optional<List<String>> connectedAccountIds;
 
+    private final Optional<List<String>> userIdentityIds;
+
+    private final Optional<OffsetDateTime> expiresAt;
+
     private final Map<String, Object> additionalProperties;
 
     private ClientSessionsCreateRequest(
             Optional<String> userIdentifierKey,
             Optional<List<String>> connectWebviewIds,
             Optional<List<String>> connectedAccountIds,
+            Optional<List<String>> userIdentityIds,
+            Optional<OffsetDateTime> expiresAt,
             Map<String, Object> additionalProperties) {
         this.userIdentifierKey = userIdentifierKey;
         this.connectWebviewIds = connectWebviewIds;
         this.connectedAccountIds = connectedAccountIds;
+        this.userIdentityIds = userIdentityIds;
+        this.expiresAt = expiresAt;
         this.additionalProperties = additionalProperties;
     }
 
@@ -55,6 +64,16 @@ public final class ClientSessionsCreateRequest {
         return connectedAccountIds;
     }
 
+    @JsonProperty("user_identity_ids")
+    public Optional<List<String>> getUserIdentityIds() {
+        return userIdentityIds;
+    }
+
+    @JsonProperty("expires_at")
+    public Optional<OffsetDateTime> getExpiresAt() {
+        return expiresAt;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -69,12 +88,19 @@ public final class ClientSessionsCreateRequest {
     private boolean equalTo(ClientSessionsCreateRequest other) {
         return userIdentifierKey.equals(other.userIdentifierKey)
                 && connectWebviewIds.equals(other.connectWebviewIds)
-                && connectedAccountIds.equals(other.connectedAccountIds);
+                && connectedAccountIds.equals(other.connectedAccountIds)
+                && userIdentityIds.equals(other.userIdentityIds)
+                && expiresAt.equals(other.expiresAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.userIdentifierKey, this.connectWebviewIds, this.connectedAccountIds);
+        return Objects.hash(
+                this.userIdentifierKey,
+                this.connectWebviewIds,
+                this.connectedAccountIds,
+                this.userIdentityIds,
+                this.expiresAt);
     }
 
     @Override
@@ -94,6 +120,10 @@ public final class ClientSessionsCreateRequest {
 
         private Optional<List<String>> connectedAccountIds = Optional.empty();
 
+        private Optional<List<String>> userIdentityIds = Optional.empty();
+
+        private Optional<OffsetDateTime> expiresAt = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -103,6 +133,8 @@ public final class ClientSessionsCreateRequest {
             userIdentifierKey(other.getUserIdentifierKey());
             connectWebviewIds(other.getConnectWebviewIds());
             connectedAccountIds(other.getConnectedAccountIds());
+            userIdentityIds(other.getUserIdentityIds());
+            expiresAt(other.getExpiresAt());
             return this;
         }
 
@@ -139,9 +171,36 @@ public final class ClientSessionsCreateRequest {
             return this;
         }
 
+        @JsonSetter(value = "user_identity_ids", nulls = Nulls.SKIP)
+        public Builder userIdentityIds(Optional<List<String>> userIdentityIds) {
+            this.userIdentityIds = userIdentityIds;
+            return this;
+        }
+
+        public Builder userIdentityIds(List<String> userIdentityIds) {
+            this.userIdentityIds = Optional.of(userIdentityIds);
+            return this;
+        }
+
+        @JsonSetter(value = "expires_at", nulls = Nulls.SKIP)
+        public Builder expiresAt(Optional<OffsetDateTime> expiresAt) {
+            this.expiresAt = expiresAt;
+            return this;
+        }
+
+        public Builder expiresAt(OffsetDateTime expiresAt) {
+            this.expiresAt = Optional.of(expiresAt);
+            return this;
+        }
+
         public ClientSessionsCreateRequest build() {
             return new ClientSessionsCreateRequest(
-                    userIdentifierKey, connectWebviewIds, connectedAccountIds, additionalProperties);
+                    userIdentifierKey,
+                    connectWebviewIds,
+                    connectedAccountIds,
+                    userIdentityIds,
+                    expiresAt,
+                    additionalProperties);
         }
     }
 }
