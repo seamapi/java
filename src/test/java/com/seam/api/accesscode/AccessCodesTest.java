@@ -122,7 +122,6 @@ public final class AccessCodesTest {
                 .delete(AccessCodesDeleteRequest.builder()
                         .accessCodeId(createdAccessCode.getAccessCodeId())
                         .build());
-                        System.out.println(deleteActionAttempt);
         Assertions.assertThat(deleteActionAttempt.getSuccess()).isNotEmpty();
 
         accessCodes = seam.accessCodes()
