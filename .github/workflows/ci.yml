@@ -38,7 +38,7 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: Install Fake Seam
-        run: npm install -g @seamapi/fake-seam-connect@v1.41.0
+        run: npm install -g @seamapi/fake-seam-connect@v1.65.5
 
       - name: Test
         run: ./gradlew test
