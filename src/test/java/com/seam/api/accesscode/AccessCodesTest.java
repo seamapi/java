@@ -1,5 +1,13 @@
 package com.seam.api.accesscode;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import com.seam.api.Seam;
 import com.seam.api.TestUtils;
 import com.seam.api.TestUtils.FakeSeamStartedResponse;
@@ -13,12 +21,6 @@ import com.seam.api.types.AccessCode;
 import com.seam.api.types.AccessCodeStatus;
 import com.seam.api.types.ActionAttempt;
 import com.seam.api.types.Device;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 public final class AccessCodesTest {
 
@@ -120,6 +122,7 @@ public final class AccessCodesTest {
                 .delete(AccessCodesDeleteRequest.builder()
                         .accessCodeId(createdAccessCode.getAccessCodeId())
                         .build());
+                        System.out.println(deleteActionAttempt);
         Assertions.assertThat(deleteActionAttempt.getSuccess()).isNotEmpty();
 
         accessCodes = seam.accessCodes()
