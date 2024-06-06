@@ -122,7 +122,7 @@ public final class AccessCodesTest {
                 .delete(AccessCodesDeleteRequest.builder()
                         .accessCodeId(createdAccessCode.getAccessCodeId())
                         .build());
-        Assertions.assertThat(deleteActionAttempt.getSuccess()).isNotEmpty();
+        Assertions.assertThat(deleteActionAttempt.isSuccess());
 
         accessCodes = seam.accessCodes()
                 .createMultiple(AccessCodesCreateMultipleRequest.builder()
