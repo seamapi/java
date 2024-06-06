@@ -9,27 +9,38 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = ConnectedAccountsDeleteRequest.Builder.class)
 public final class ConnectedAccountsDeleteRequest {
     private final String connectedAccountId;
 
+    private final Optional<Boolean> sync;
+
     private final Map<String, Object> additionalProperties;
 
-    private ConnectedAccountsDeleteRequest(String connectedAccountId, Map<String, Object> additionalProperties) {
+    private ConnectedAccountsDeleteRequest(
+            String connectedAccountId, Optional<Boolean> sync, Map<String, Object> additionalProperties) {
         this.connectedAccountId = connectedAccountId;
+        this.sync = sync;
         this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("connected_account_id")
     public String getConnectedAccountId() {
         return connectedAccountId;
+    }
+
+    @JsonProperty("sync")
+    public Optional<Boolean> getSync() {
+        return sync;
     }
 
     @Override
@@ -44,12 +55,12 @@ public final class ConnectedAccountsDeleteRequest {
     }
 
     private boolean equalTo(ConnectedAccountsDeleteRequest other) {
-        return connectedAccountId.equals(other.connectedAccountId);
+        return connectedAccountId.equals(other.connectedAccountId) && sync.equals(other.sync);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.connectedAccountId);
+        return Objects.hash(this.connectedAccountId, this.sync);
     }
 
     @Override
@@ -69,11 +80,17 @@ public final class ConnectedAccountsDeleteRequest {
 
     public interface _FinalStage {
         ConnectedAccountsDeleteRequest build();
+
+        _FinalStage sync(Optional<Boolean> sync);
+
+        _FinalStage sync(Boolean sync);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements ConnectedAccountIdStage, _FinalStage {
         private String connectedAccountId;
+
+        private Optional<Boolean> sync = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -83,6 +100,7 @@ public final class ConnectedAccountsDeleteRequest {
         @Override
         public Builder from(ConnectedAccountsDeleteRequest other) {
             connectedAccountId(other.getConnectedAccountId());
+            sync(other.getSync());
             return this;
         }
 
@@ -94,8 +112,21 @@ public final class ConnectedAccountsDeleteRequest {
         }
 
         @Override
+        public _FinalStage sync(Boolean sync) {
+            this.sync = Optional.of(sync);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "sync", nulls = Nulls.SKIP)
+        public _FinalStage sync(Optional<Boolean> sync) {
+            this.sync = sync;
+            return this;
+        }
+
+        @Override
         public ConnectedAccountsDeleteRequest build() {
-            return new ConnectedAccountsDeleteRequest(connectedAccountId, additionalProperties);
+            return new ConnectedAccountsDeleteRequest(connectedAccountId, sync, additionalProperties);
         }
     }
 }

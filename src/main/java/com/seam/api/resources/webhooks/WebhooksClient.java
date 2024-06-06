@@ -10,10 +10,12 @@ import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.webhooks.requests.WebhooksCreateRequest;
 import com.seam.api.resources.webhooks.requests.WebhooksDeleteRequest;
 import com.seam.api.resources.webhooks.requests.WebhooksGetRequest;
-import com.seam.api.types.WebhooksCreateResponse;
-import com.seam.api.types.WebhooksDeleteResponse;
-import com.seam.api.types.WebhooksGetResponse;
-import com.seam.api.types.WebhooksListResponse;
+import com.seam.api.resources.webhooks.requests.WebhooksUpdateRequest;
+import com.seam.api.resources.webhooks.types.WebhooksCreateResponse;
+import com.seam.api.resources.webhooks.types.WebhooksDeleteResponse;
+import com.seam.api.resources.webhooks.types.WebhooksGetResponse;
+import com.seam.api.resources.webhooks.types.WebhooksListResponse;
+import com.seam.api.resources.webhooks.types.WebhooksUpdateResponse;
 import java.io.IOException;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
@@ -79,7 +81,7 @@ public class WebhooksClient {
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
-                .method("DELETE", body)
+                .method("POST", body)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
@@ -144,7 +146,7 @@ public class WebhooksClient {
                 .build();
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
-                .method("GET", null)
+                .method("POST", RequestBody.create("", null))
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
@@ -164,5 +166,41 @@ public class WebhooksClient {
 
     public WebhooksListResponse list() {
         return list(null);
+    }
+
+    public WebhooksUpdateResponse update(WebhooksUpdateRequest request, RequestOptions requestOptions) {
+        HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
+                .newBuilder()
+                .addPathSegments("webhooks/update")
+                .build();
+        RequestBody body;
+        try {
+            body = RequestBody.create(
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        Request okhttpRequest = new Request.Builder()
+                .url(httpUrl)
+                .method("POST", body)
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
+                .addHeader("Content-Type", "application/json")
+                .build();
+        try {
+            Response response =
+                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+            if (response.isSuccessful()) {
+                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), WebhooksUpdateResponse.class);
+            }
+            throw new ApiError(
+                    response.code(),
+                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public WebhooksUpdateResponse update(WebhooksUpdateRequest request) {
+        return update(request, null);
     }
 }

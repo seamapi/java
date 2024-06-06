@@ -12,11 +12,11 @@ import com.seam.api.resources.thermostats.climatesettingschedules.requests.Clima
 import com.seam.api.resources.thermostats.climatesettingschedules.requests.ClimateSettingSchedulesGetRequest;
 import com.seam.api.resources.thermostats.climatesettingschedules.requests.ClimateSettingSchedulesListRequest;
 import com.seam.api.resources.thermostats.climatesettingschedules.requests.ClimateSettingSchedulesUpdateRequest;
-import com.seam.api.types.ClimateSettingSchedulesCreateResponse;
-import com.seam.api.types.ClimateSettingSchedulesDeleteResponse;
-import com.seam.api.types.ClimateSettingSchedulesGetResponse;
-import com.seam.api.types.ClimateSettingSchedulesListResponse;
-import com.seam.api.types.ClimateSettingSchedulesUpdateResponse;
+import com.seam.api.resources.thermostats.climatesettingschedules.types.ClimateSettingSchedulesCreateResponse;
+import com.seam.api.resources.thermostats.climatesettingschedules.types.ClimateSettingSchedulesDeleteResponse;
+import com.seam.api.resources.thermostats.climatesettingschedules.types.ClimateSettingSchedulesGetResponse;
+import com.seam.api.resources.thermostats.climatesettingschedules.types.ClimateSettingSchedulesListResponse;
+import com.seam.api.resources.thermostats.climatesettingschedules.types.ClimateSettingSchedulesUpdateResponse;
 import java.io.IOException;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
@@ -85,7 +85,7 @@ public class ClimateSettingSchedulesClient {
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
-                .method("DELETE", body)
+                .method("POST", body)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();

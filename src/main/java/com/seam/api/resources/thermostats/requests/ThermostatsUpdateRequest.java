@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
-import com.seam.api.types.ThermostatsUpdateRequestDefaultClimateSetting;
+import com.seam.api.resources.thermostats.types.ThermostatsUpdateRequestDefaultClimateSetting;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

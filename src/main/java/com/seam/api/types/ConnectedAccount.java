@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,11 +30,15 @@ public final class ConnectedAccount {
 
     private final Optional<String> accountType;
 
+    private final String accountTypeDisplayName;
+
     private final Optional<Object> errors;
 
     private final Optional<Object> warnings;
 
-    private final Optional<Map<String, Optional<ConnectedAccountCustomMetadataValue>>> customMetadata;
+    private final Map<String, ConnectedAccountCustomMetadataValue> customMetadata;
+
+    private final boolean automaticallyManageNewDevices;
 
     private final Map<String, Object> additionalProperties;
 
@@ -42,17 +47,21 @@ public final class ConnectedAccount {
             Optional<OffsetDateTime> createdAt,
             Optional<ConnectedAccountUserIdentifier> userIdentifier,
             Optional<String> accountType,
+            String accountTypeDisplayName,
             Optional<Object> errors,
             Optional<Object> warnings,
-            Optional<Map<String, Optional<ConnectedAccountCustomMetadataValue>>> customMetadata,
+            Map<String, ConnectedAccountCustomMetadataValue> customMetadata,
+            boolean automaticallyManageNewDevices,
             Map<String, Object> additionalProperties) {
         this.connectedAccountId = connectedAccountId;
         this.createdAt = createdAt;
         this.userIdentifier = userIdentifier;
         this.accountType = accountType;
+        this.accountTypeDisplayName = accountTypeDisplayName;
         this.errors = errors;
         this.warnings = warnings;
         this.customMetadata = customMetadata;
+        this.automaticallyManageNewDevices = automaticallyManageNewDevices;
         this.additionalProperties = additionalProperties;
     }
 
@@ -76,6 +85,11 @@ public final class ConnectedAccount {
         return accountType;
     }
 
+    @JsonProperty("account_type_display_name")
+    public String getAccountTypeDisplayName() {
+        return accountTypeDisplayName;
+    }
+
     @JsonProperty("errors")
     public Optional<Object> getErrors() {
         return errors;
@@ -87,8 +101,13 @@ public final class ConnectedAccount {
     }
 
     @JsonProperty("custom_metadata")
-    public Optional<Map<String, Optional<ConnectedAccountCustomMetadataValue>>> getCustomMetadata() {
+    public Map<String, ConnectedAccountCustomMetadataValue> getCustomMetadata() {
         return customMetadata;
+    }
+
+    @JsonProperty("automatically_manage_new_devices")
+    public boolean getAutomaticallyManageNewDevices() {
+        return automaticallyManageNewDevices;
     }
 
     @Override
@@ -107,9 +126,11 @@ public final class ConnectedAccount {
                 && createdAt.equals(other.createdAt)
                 && userIdentifier.equals(other.userIdentifier)
                 && accountType.equals(other.accountType)
+                && accountTypeDisplayName.equals(other.accountTypeDisplayName)
                 && errors.equals(other.errors)
                 && warnings.equals(other.warnings)
-                && customMetadata.equals(other.customMetadata);
+                && customMetadata.equals(other.customMetadata)
+                && automaticallyManageNewDevices == other.automaticallyManageNewDevices;
     }
 
     @Override
@@ -119,9 +140,11 @@ public final class ConnectedAccount {
                 this.createdAt,
                 this.userIdentifier,
                 this.accountType,
+                this.accountTypeDisplayName,
                 this.errors,
                 this.warnings,
-                this.customMetadata);
+                this.customMetadata,
+                this.automaticallyManageNewDevices);
     }
 
     @Override
@@ -129,129 +152,218 @@ public final class ConnectedAccount {
         return ObjectMappers.stringify(this);
     }
 
-    public static Builder builder() {
+    public static AccountTypeDisplayNameStage builder() {
         return new Builder();
     }
 
+    public interface AccountTypeDisplayNameStage {
+        AutomaticallyManageNewDevicesStage accountTypeDisplayName(String accountTypeDisplayName);
+
+        Builder from(ConnectedAccount other);
+    }
+
+    public interface AutomaticallyManageNewDevicesStage {
+        _FinalStage automaticallyManageNewDevices(boolean automaticallyManageNewDevices);
+    }
+
+    public interface _FinalStage {
+        ConnectedAccount build();
+
+        _FinalStage connectedAccountId(Optional<String> connectedAccountId);
+
+        _FinalStage connectedAccountId(String connectedAccountId);
+
+        _FinalStage createdAt(Optional<OffsetDateTime> createdAt);
+
+        _FinalStage createdAt(OffsetDateTime createdAt);
+
+        _FinalStage userIdentifier(Optional<ConnectedAccountUserIdentifier> userIdentifier);
+
+        _FinalStage userIdentifier(ConnectedAccountUserIdentifier userIdentifier);
+
+        _FinalStage accountType(Optional<String> accountType);
+
+        _FinalStage accountType(String accountType);
+
+        _FinalStage errors(Optional<Object> errors);
+
+        _FinalStage errors(Object errors);
+
+        _FinalStage warnings(Optional<Object> warnings);
+
+        _FinalStage warnings(Object warnings);
+
+        _FinalStage customMetadata(Map<String, ConnectedAccountCustomMetadataValue> customMetadata);
+
+        _FinalStage putAllCustomMetadata(Map<String, ConnectedAccountCustomMetadataValue> customMetadata);
+
+        _FinalStage customMetadata(String key, ConnectedAccountCustomMetadataValue value);
+    }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static final class Builder {
-        private Optional<String> connectedAccountId = Optional.empty();
+    public static final class Builder
+            implements AccountTypeDisplayNameStage, AutomaticallyManageNewDevicesStage, _FinalStage {
+        private String accountTypeDisplayName;
 
-        private Optional<OffsetDateTime> createdAt = Optional.empty();
+        private boolean automaticallyManageNewDevices;
 
-        private Optional<ConnectedAccountUserIdentifier> userIdentifier = Optional.empty();
-
-        private Optional<String> accountType = Optional.empty();
-
-        private Optional<Object> errors = Optional.empty();
+        private Map<String, ConnectedAccountCustomMetadataValue> customMetadata = new LinkedHashMap<>();
 
         private Optional<Object> warnings = Optional.empty();
 
-        private Optional<Map<String, Optional<ConnectedAccountCustomMetadataValue>>> customMetadata = Optional.empty();
+        private Optional<Object> errors = Optional.empty();
+
+        private Optional<String> accountType = Optional.empty();
+
+        private Optional<ConnectedAccountUserIdentifier> userIdentifier = Optional.empty();
+
+        private Optional<OffsetDateTime> createdAt = Optional.empty();
+
+        private Optional<String> connectedAccountId = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
+        @Override
         public Builder from(ConnectedAccount other) {
             connectedAccountId(other.getConnectedAccountId());
             createdAt(other.getCreatedAt());
             userIdentifier(other.getUserIdentifier());
             accountType(other.getAccountType());
+            accountTypeDisplayName(other.getAccountTypeDisplayName());
             errors(other.getErrors());
             warnings(other.getWarnings());
             customMetadata(other.getCustomMetadata());
+            automaticallyManageNewDevices(other.getAutomaticallyManageNewDevices());
             return this;
         }
 
-        @JsonSetter(value = "connected_account_id", nulls = Nulls.SKIP)
-        public Builder connectedAccountId(Optional<String> connectedAccountId) {
-            this.connectedAccountId = connectedAccountId;
+        @Override
+        @JsonSetter("account_type_display_name")
+        public AutomaticallyManageNewDevicesStage accountTypeDisplayName(String accountTypeDisplayName) {
+            this.accountTypeDisplayName = accountTypeDisplayName;
             return this;
         }
 
-        public Builder connectedAccountId(String connectedAccountId) {
-            this.connectedAccountId = Optional.of(connectedAccountId);
+        @Override
+        @JsonSetter("automatically_manage_new_devices")
+        public _FinalStage automaticallyManageNewDevices(boolean automaticallyManageNewDevices) {
+            this.automaticallyManageNewDevices = automaticallyManageNewDevices;
             return this;
         }
 
-        @JsonSetter(value = "created_at", nulls = Nulls.SKIP)
-        public Builder createdAt(Optional<OffsetDateTime> createdAt) {
-            this.createdAt = createdAt;
+        @Override
+        public _FinalStage customMetadata(String key, ConnectedAccountCustomMetadataValue value) {
+            this.customMetadata.put(key, value);
             return this;
         }
 
-        public Builder createdAt(OffsetDateTime createdAt) {
-            this.createdAt = Optional.of(createdAt);
+        @Override
+        public _FinalStage putAllCustomMetadata(Map<String, ConnectedAccountCustomMetadataValue> customMetadata) {
+            this.customMetadata.putAll(customMetadata);
             return this;
         }
 
-        @JsonSetter(value = "user_identifier", nulls = Nulls.SKIP)
-        public Builder userIdentifier(Optional<ConnectedAccountUserIdentifier> userIdentifier) {
-            this.userIdentifier = userIdentifier;
+        @Override
+        @JsonSetter(value = "custom_metadata", nulls = Nulls.SKIP)
+        public _FinalStage customMetadata(Map<String, ConnectedAccountCustomMetadataValue> customMetadata) {
+            this.customMetadata.clear();
+            this.customMetadata.putAll(customMetadata);
             return this;
         }
 
-        public Builder userIdentifier(ConnectedAccountUserIdentifier userIdentifier) {
-            this.userIdentifier = Optional.of(userIdentifier);
-            return this;
-        }
-
-        @JsonSetter(value = "account_type", nulls = Nulls.SKIP)
-        public Builder accountType(Optional<String> accountType) {
-            this.accountType = accountType;
-            return this;
-        }
-
-        public Builder accountType(String accountType) {
-            this.accountType = Optional.of(accountType);
-            return this;
-        }
-
-        @JsonSetter(value = "errors", nulls = Nulls.SKIP)
-        public Builder errors(Optional<Object> errors) {
-            this.errors = errors;
-            return this;
-        }
-
-        public Builder errors(Object errors) {
-            this.errors = Optional.of(errors);
-            return this;
-        }
-
-        @JsonSetter(value = "warnings", nulls = Nulls.SKIP)
-        public Builder warnings(Optional<Object> warnings) {
-            this.warnings = warnings;
-            return this;
-        }
-
-        public Builder warnings(Object warnings) {
+        @Override
+        public _FinalStage warnings(Object warnings) {
             this.warnings = Optional.of(warnings);
             return this;
         }
 
-        @JsonSetter(value = "custom_metadata", nulls = Nulls.SKIP)
-        public Builder customMetadata(
-                Optional<Map<String, Optional<ConnectedAccountCustomMetadataValue>>> customMetadata) {
-            this.customMetadata = customMetadata;
+        @Override
+        @JsonSetter(value = "warnings", nulls = Nulls.SKIP)
+        public _FinalStage warnings(Optional<Object> warnings) {
+            this.warnings = warnings;
             return this;
         }
 
-        public Builder customMetadata(Map<String, Optional<ConnectedAccountCustomMetadataValue>> customMetadata) {
-            this.customMetadata = Optional.of(customMetadata);
+        @Override
+        public _FinalStage errors(Object errors) {
+            this.errors = Optional.of(errors);
             return this;
         }
 
+        @Override
+        @JsonSetter(value = "errors", nulls = Nulls.SKIP)
+        public _FinalStage errors(Optional<Object> errors) {
+            this.errors = errors;
+            return this;
+        }
+
+        @Override
+        public _FinalStage accountType(String accountType) {
+            this.accountType = Optional.of(accountType);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "account_type", nulls = Nulls.SKIP)
+        public _FinalStage accountType(Optional<String> accountType) {
+            this.accountType = accountType;
+            return this;
+        }
+
+        @Override
+        public _FinalStage userIdentifier(ConnectedAccountUserIdentifier userIdentifier) {
+            this.userIdentifier = Optional.of(userIdentifier);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "user_identifier", nulls = Nulls.SKIP)
+        public _FinalStage userIdentifier(Optional<ConnectedAccountUserIdentifier> userIdentifier) {
+            this.userIdentifier = userIdentifier;
+            return this;
+        }
+
+        @Override
+        public _FinalStage createdAt(OffsetDateTime createdAt) {
+            this.createdAt = Optional.of(createdAt);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "created_at", nulls = Nulls.SKIP)
+        public _FinalStage createdAt(Optional<OffsetDateTime> createdAt) {
+            this.createdAt = createdAt;
+            return this;
+        }
+
+        @Override
+        public _FinalStage connectedAccountId(String connectedAccountId) {
+            this.connectedAccountId = Optional.of(connectedAccountId);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "connected_account_id", nulls = Nulls.SKIP)
+        public _FinalStage connectedAccountId(Optional<String> connectedAccountId) {
+            this.connectedAccountId = connectedAccountId;
+            return this;
+        }
+
+        @Override
         public ConnectedAccount build() {
             return new ConnectedAccount(
                     connectedAccountId,
                     createdAt,
                     userIdentifier,
                     accountType,
+                    accountTypeDisplayName,
                     errors,
                     warnings,
                     customMetadata,
+                    automaticallyManageNewDevices,
                     additionalProperties);
         }
     }

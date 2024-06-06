@@ -12,7 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
-import com.seam.api.types.AccessCodesUpdateRequestType;
+import com.seam.api.resources.accesscodes.types.AccessCodesUpdateRequestType;
+import com.seam.api.types.MaxTimeRounding;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -37,11 +38,25 @@ public final class AccessCodesUpdateRequest {
 
     private final Optional<Boolean> useBackupAccessCodePool;
 
+    private final Optional<Boolean> allowExternalModification;
+
+    private final Optional<Boolean> isExternalModificationAllowed;
+
+    private final Optional<Boolean> useOfflineAccessCode;
+
+    private final Optional<Boolean> isOfflineAccessCode;
+
+    private final Optional<Boolean> isOneTimeUse;
+
+    private final Optional<MaxTimeRounding> maxTimeRounding;
+
     private final String accessCodeId;
 
     private final Optional<String> deviceId;
 
     private final Optional<AccessCodesUpdateRequestType> type;
+
+    private final Optional<Boolean> isManaged;
 
     private final Map<String, Object> additionalProperties;
 
@@ -54,9 +69,16 @@ public final class AccessCodesUpdateRequest {
             Optional<Boolean> attemptForOfflineDevice,
             Optional<Boolean> preferNativeScheduling,
             Optional<Boolean> useBackupAccessCodePool,
+            Optional<Boolean> allowExternalModification,
+            Optional<Boolean> isExternalModificationAllowed,
+            Optional<Boolean> useOfflineAccessCode,
+            Optional<Boolean> isOfflineAccessCode,
+            Optional<Boolean> isOneTimeUse,
+            Optional<MaxTimeRounding> maxTimeRounding,
             String accessCodeId,
             Optional<String> deviceId,
             Optional<AccessCodesUpdateRequestType> type,
+            Optional<Boolean> isManaged,
             Map<String, Object> additionalProperties) {
         this.name = name;
         this.startsAt = startsAt;
@@ -66,9 +88,16 @@ public final class AccessCodesUpdateRequest {
         this.attemptForOfflineDevice = attemptForOfflineDevice;
         this.preferNativeScheduling = preferNativeScheduling;
         this.useBackupAccessCodePool = useBackupAccessCodePool;
+        this.allowExternalModification = allowExternalModification;
+        this.isExternalModificationAllowed = isExternalModificationAllowed;
+        this.useOfflineAccessCode = useOfflineAccessCode;
+        this.isOfflineAccessCode = isOfflineAccessCode;
+        this.isOneTimeUse = isOneTimeUse;
+        this.maxTimeRounding = maxTimeRounding;
         this.accessCodeId = accessCodeId;
         this.deviceId = deviceId;
         this.type = type;
+        this.isManaged = isManaged;
         this.additionalProperties = additionalProperties;
     }
 
@@ -112,6 +141,36 @@ public final class AccessCodesUpdateRequest {
         return useBackupAccessCodePool;
     }
 
+    @JsonProperty("allow_external_modification")
+    public Optional<Boolean> getAllowExternalModification() {
+        return allowExternalModification;
+    }
+
+    @JsonProperty("is_external_modification_allowed")
+    public Optional<Boolean> getIsExternalModificationAllowed() {
+        return isExternalModificationAllowed;
+    }
+
+    @JsonProperty("use_offline_access_code")
+    public Optional<Boolean> getUseOfflineAccessCode() {
+        return useOfflineAccessCode;
+    }
+
+    @JsonProperty("is_offline_access_code")
+    public Optional<Boolean> getIsOfflineAccessCode() {
+        return isOfflineAccessCode;
+    }
+
+    @JsonProperty("is_one_time_use")
+    public Optional<Boolean> getIsOneTimeUse() {
+        return isOneTimeUse;
+    }
+
+    @JsonProperty("max_time_rounding")
+    public Optional<MaxTimeRounding> getMaxTimeRounding() {
+        return maxTimeRounding;
+    }
+
     @JsonProperty("access_code_id")
     public String getAccessCodeId() {
         return accessCodeId;
@@ -125,6 +184,11 @@ public final class AccessCodesUpdateRequest {
     @JsonProperty("type")
     public Optional<AccessCodesUpdateRequestType> getType() {
         return type;
+    }
+
+    @JsonProperty("is_managed")
+    public Optional<Boolean> getIsManaged() {
+        return isManaged;
     }
 
     @Override
@@ -147,9 +211,16 @@ public final class AccessCodesUpdateRequest {
                 && attemptForOfflineDevice.equals(other.attemptForOfflineDevice)
                 && preferNativeScheduling.equals(other.preferNativeScheduling)
                 && useBackupAccessCodePool.equals(other.useBackupAccessCodePool)
+                && allowExternalModification.equals(other.allowExternalModification)
+                && isExternalModificationAllowed.equals(other.isExternalModificationAllowed)
+                && useOfflineAccessCode.equals(other.useOfflineAccessCode)
+                && isOfflineAccessCode.equals(other.isOfflineAccessCode)
+                && isOneTimeUse.equals(other.isOneTimeUse)
+                && maxTimeRounding.equals(other.maxTimeRounding)
                 && accessCodeId.equals(other.accessCodeId)
                 && deviceId.equals(other.deviceId)
-                && type.equals(other.type);
+                && type.equals(other.type)
+                && isManaged.equals(other.isManaged);
     }
 
     @Override
@@ -163,9 +234,16 @@ public final class AccessCodesUpdateRequest {
                 this.attemptForOfflineDevice,
                 this.preferNativeScheduling,
                 this.useBackupAccessCodePool,
+                this.allowExternalModification,
+                this.isExternalModificationAllowed,
+                this.useOfflineAccessCode,
+                this.isOfflineAccessCode,
+                this.isOneTimeUse,
+                this.maxTimeRounding,
                 this.accessCodeId,
                 this.deviceId,
-                this.type);
+                this.type,
+                this.isManaged);
     }
 
     @Override
@@ -218,6 +296,30 @@ public final class AccessCodesUpdateRequest {
 
         _FinalStage useBackupAccessCodePool(Boolean useBackupAccessCodePool);
 
+        _FinalStage allowExternalModification(Optional<Boolean> allowExternalModification);
+
+        _FinalStage allowExternalModification(Boolean allowExternalModification);
+
+        _FinalStage isExternalModificationAllowed(Optional<Boolean> isExternalModificationAllowed);
+
+        _FinalStage isExternalModificationAllowed(Boolean isExternalModificationAllowed);
+
+        _FinalStage useOfflineAccessCode(Optional<Boolean> useOfflineAccessCode);
+
+        _FinalStage useOfflineAccessCode(Boolean useOfflineAccessCode);
+
+        _FinalStage isOfflineAccessCode(Optional<Boolean> isOfflineAccessCode);
+
+        _FinalStage isOfflineAccessCode(Boolean isOfflineAccessCode);
+
+        _FinalStage isOneTimeUse(Optional<Boolean> isOneTimeUse);
+
+        _FinalStage isOneTimeUse(Boolean isOneTimeUse);
+
+        _FinalStage maxTimeRounding(Optional<MaxTimeRounding> maxTimeRounding);
+
+        _FinalStage maxTimeRounding(MaxTimeRounding maxTimeRounding);
+
         _FinalStage deviceId(Optional<String> deviceId);
 
         _FinalStage deviceId(String deviceId);
@@ -225,15 +327,33 @@ public final class AccessCodesUpdateRequest {
         _FinalStage type(Optional<AccessCodesUpdateRequestType> type);
 
         _FinalStage type(AccessCodesUpdateRequestType type);
+
+        _FinalStage isManaged(Optional<Boolean> isManaged);
+
+        _FinalStage isManaged(Boolean isManaged);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements AccessCodeIdStage, _FinalStage {
         private String accessCodeId;
 
+        private Optional<Boolean> isManaged = Optional.empty();
+
         private Optional<AccessCodesUpdateRequestType> type = Optional.empty();
 
         private Optional<String> deviceId = Optional.empty();
+
+        private Optional<MaxTimeRounding> maxTimeRounding = Optional.empty();
+
+        private Optional<Boolean> isOneTimeUse = Optional.empty();
+
+        private Optional<Boolean> isOfflineAccessCode = Optional.empty();
+
+        private Optional<Boolean> useOfflineAccessCode = Optional.empty();
+
+        private Optional<Boolean> isExternalModificationAllowed = Optional.empty();
+
+        private Optional<Boolean> allowExternalModification = Optional.empty();
 
         private Optional<Boolean> useBackupAccessCodePool = Optional.empty();
 
@@ -266,9 +386,16 @@ public final class AccessCodesUpdateRequest {
             attemptForOfflineDevice(other.getAttemptForOfflineDevice());
             preferNativeScheduling(other.getPreferNativeScheduling());
             useBackupAccessCodePool(other.getUseBackupAccessCodePool());
+            allowExternalModification(other.getAllowExternalModification());
+            isExternalModificationAllowed(other.getIsExternalModificationAllowed());
+            useOfflineAccessCode(other.getUseOfflineAccessCode());
+            isOfflineAccessCode(other.getIsOfflineAccessCode());
+            isOneTimeUse(other.getIsOneTimeUse());
+            maxTimeRounding(other.getMaxTimeRounding());
             accessCodeId(other.getAccessCodeId());
             deviceId(other.getDeviceId());
             type(other.getType());
+            isManaged(other.getIsManaged());
             return this;
         }
 
@@ -276,6 +403,19 @@ public final class AccessCodesUpdateRequest {
         @JsonSetter("access_code_id")
         public _FinalStage accessCodeId(String accessCodeId) {
             this.accessCodeId = accessCodeId;
+            return this;
+        }
+
+        @Override
+        public _FinalStage isManaged(Boolean isManaged) {
+            this.isManaged = Optional.of(isManaged);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "is_managed", nulls = Nulls.SKIP)
+        public _FinalStage isManaged(Optional<Boolean> isManaged) {
+            this.isManaged = isManaged;
             return this;
         }
 
@@ -302,6 +442,84 @@ public final class AccessCodesUpdateRequest {
         @JsonSetter(value = "device_id", nulls = Nulls.SKIP)
         public _FinalStage deviceId(Optional<String> deviceId) {
             this.deviceId = deviceId;
+            return this;
+        }
+
+        @Override
+        public _FinalStage maxTimeRounding(MaxTimeRounding maxTimeRounding) {
+            this.maxTimeRounding = Optional.of(maxTimeRounding);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "max_time_rounding", nulls = Nulls.SKIP)
+        public _FinalStage maxTimeRounding(Optional<MaxTimeRounding> maxTimeRounding) {
+            this.maxTimeRounding = maxTimeRounding;
+            return this;
+        }
+
+        @Override
+        public _FinalStage isOneTimeUse(Boolean isOneTimeUse) {
+            this.isOneTimeUse = Optional.of(isOneTimeUse);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "is_one_time_use", nulls = Nulls.SKIP)
+        public _FinalStage isOneTimeUse(Optional<Boolean> isOneTimeUse) {
+            this.isOneTimeUse = isOneTimeUse;
+            return this;
+        }
+
+        @Override
+        public _FinalStage isOfflineAccessCode(Boolean isOfflineAccessCode) {
+            this.isOfflineAccessCode = Optional.of(isOfflineAccessCode);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "is_offline_access_code", nulls = Nulls.SKIP)
+        public _FinalStage isOfflineAccessCode(Optional<Boolean> isOfflineAccessCode) {
+            this.isOfflineAccessCode = isOfflineAccessCode;
+            return this;
+        }
+
+        @Override
+        public _FinalStage useOfflineAccessCode(Boolean useOfflineAccessCode) {
+            this.useOfflineAccessCode = Optional.of(useOfflineAccessCode);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "use_offline_access_code", nulls = Nulls.SKIP)
+        public _FinalStage useOfflineAccessCode(Optional<Boolean> useOfflineAccessCode) {
+            this.useOfflineAccessCode = useOfflineAccessCode;
+            return this;
+        }
+
+        @Override
+        public _FinalStage isExternalModificationAllowed(Boolean isExternalModificationAllowed) {
+            this.isExternalModificationAllowed = Optional.of(isExternalModificationAllowed);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "is_external_modification_allowed", nulls = Nulls.SKIP)
+        public _FinalStage isExternalModificationAllowed(Optional<Boolean> isExternalModificationAllowed) {
+            this.isExternalModificationAllowed = isExternalModificationAllowed;
+            return this;
+        }
+
+        @Override
+        public _FinalStage allowExternalModification(Boolean allowExternalModification) {
+            this.allowExternalModification = Optional.of(allowExternalModification);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "allow_external_modification", nulls = Nulls.SKIP)
+        public _FinalStage allowExternalModification(Optional<Boolean> allowExternalModification) {
+            this.allowExternalModification = allowExternalModification;
             return this;
         }
 
@@ -420,9 +638,16 @@ public final class AccessCodesUpdateRequest {
                     attemptForOfflineDevice,
                     preferNativeScheduling,
                     useBackupAccessCodePool,
+                    allowExternalModification,
+                    isExternalModificationAllowed,
+                    useOfflineAccessCode,
+                    isOfflineAccessCode,
+                    isOneTimeUse,
+                    maxTimeRounding,
                     accessCodeId,
                     deviceId,
                     type,
+                    isManaged,
                     additionalProperties);
         }
     }

@@ -8,7 +8,7 @@ import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.noisesensors.simulate.requests.SimulateTriggerNoiseThresholdRequest;
-import com.seam.api.types.SimulateTriggerNoiseThresholdResponse;
+import com.seam.api.resources.noisesensors.simulate.types.SimulateTriggerNoiseThresholdResponse;
 import java.io.IOException;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;

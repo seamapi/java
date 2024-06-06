@@ -14,6 +14,8 @@ public enum DeviceType {
 
     BUTTERFLYMX_PANEL("butterflymx_panel"),
 
+    AVIGILON_ALTA_ENTRY("avigilon_alta_entry"),
+
     DOORKING_LOCK("doorking_lock"),
 
     GENIE_DOOR("genie_door"),
@@ -36,6 +38,8 @@ public enum DeviceType {
 
     SMARTTHINGS_LOCK("smartthings_lock"),
 
+    WYZE_LOCK("wyze_lock"),
+
     YALE_LOCK("yale_lock"),
 
     TWO_N_INTERCOM("two_n_intercom"),
@@ -48,13 +52,21 @@ public enum DeviceType {
 
     HUBITAT_LOCK("hubitat_lock"),
 
+    FOUR_SUITES_DOOR("four_suites_door"),
+
+    DORMAKABA_ORACODE_DOOR("dormakaba_oracode_door"),
+
     NOISEAWARE_ACTIVITY_ZONE("noiseaware_activity_zone"),
 
     MINUT_SENSOR("minut_sensor"),
 
     ECOBEE_THERMOSTAT("ecobee_thermostat"),
 
-    NEST_THERMOSTAT("nest_thermostat");
+    NEST_THERMOSTAT("nest_thermostat"),
+
+    IOS_PHONE("ios_phone"),
+
+    ANDROID_PHONE("android_phone");
 
     private final String value;
 

@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = UnmanagedDevice.Builder.class)
@@ -28,7 +29,7 @@ public final class UnmanagedDevice {
 
     private final String connectedAccountId;
 
-    private final List<SupportedCapabililty> capabilitiesSupported;
+    private final List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported;
 
     private final String workspaceId;
 
@@ -42,19 +43,37 @@ public final class UnmanagedDevice {
 
     private final UnmanagedDeviceProperties properties;
 
+    private final Optional<Boolean> canRemotelyUnlock;
+
+    private final Optional<Boolean> canRemotelyLock;
+
+    private final Optional<Boolean> canProgramOfflineAccessCodes;
+
+    private final Optional<Boolean> canProgramOnlineAccessCodes;
+
+    private final Optional<Boolean> canSimulateRemoval;
+
+    private final Optional<UnmanagedDeviceDeviceProvider> deviceProvider;
+
     private final Map<String, Object> additionalProperties;
 
     private UnmanagedDevice(
             String deviceId,
             DeviceType deviceType,
             String connectedAccountId,
-            List<SupportedCapabililty> capabilitiesSupported,
+            List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported,
             String workspaceId,
             List<UnmanagedDeviceErrorsItem> errors,
             List<UnmanagedDeviceWarningsItem> warnings,
             OffsetDateTime createdAt,
             boolean isManaged,
             UnmanagedDeviceProperties properties,
+            Optional<Boolean> canRemotelyUnlock,
+            Optional<Boolean> canRemotelyLock,
+            Optional<Boolean> canProgramOfflineAccessCodes,
+            Optional<Boolean> canProgramOnlineAccessCodes,
+            Optional<Boolean> canSimulateRemoval,
+            Optional<UnmanagedDeviceDeviceProvider> deviceProvider,
             Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.deviceType = deviceType;
@@ -66,44 +85,74 @@ public final class UnmanagedDevice {
         this.createdAt = createdAt;
         this.isManaged = isManaged;
         this.properties = properties;
+        this.canRemotelyUnlock = canRemotelyUnlock;
+        this.canRemotelyLock = canRemotelyLock;
+        this.canProgramOfflineAccessCodes = canProgramOfflineAccessCodes;
+        this.canProgramOnlineAccessCodes = canProgramOnlineAccessCodes;
+        this.canSimulateRemoval = canSimulateRemoval;
+        this.deviceProvider = deviceProvider;
         this.additionalProperties = additionalProperties;
     }
 
+    /**
+     * @return Unique identifier for the device.
+     */
     @JsonProperty("device_id")
     public String getDeviceId() {
         return deviceId;
     }
 
+    /**
+     * @return Type of the device.
+     */
     @JsonProperty("device_type")
     public DeviceType getDeviceType() {
         return deviceType;
     }
 
+    /**
+     * @return Unique identifier for the account associated with the device.
+     */
     @JsonProperty("connected_account_id")
     public String getConnectedAccountId() {
         return connectedAccountId;
     }
 
+    /**
+     * @return Collection of capabilities that the device supports when connected to Seam. Values are &quot;access_code,&quot; which indicates that the device can manage and utilize digital PIN codes for secure access; &quot;lock,&quot; which indicates that the device controls a door locking mechanism, enabling the remote opening and closing of doors and other entry points; &quot;noise_detection,&quot; which indicates that the device supports monitoring and responding to ambient noise levels; &quot;thermostat,&quot; which indicates that the device can regulate and adjust indoor temperatures; and &quot;battery,&quot; which indicates that the device can manage battery life and health.
+     */
     @JsonProperty("capabilities_supported")
-    public List<SupportedCapabililty> getCapabilitiesSupported() {
+    public List<UnmanagedDeviceCapabilitiesSupportedItem> getCapabilitiesSupported() {
         return capabilitiesSupported;
     }
 
+    /**
+     * @return Unique identifier for the Seam workspace associated with the device.
+     */
     @JsonProperty("workspace_id")
     public String getWorkspaceId() {
         return workspaceId;
     }
 
+    /**
+     * @return Array of errors associated with the device. Each error object within the array contains two fields: &quot;error_code&quot; and &quot;message.&quot; &quot;error_code&quot; is a string that uniquely identifies the type of error, enabling quick recognition and categorization of the issue. &quot;message&quot; provides a more detailed description of the error, offering insights into the issue and potentially how to rectify it.
+     */
     @JsonProperty("errors")
     public List<UnmanagedDeviceErrorsItem> getErrors() {
         return errors;
     }
 
+    /**
+     * @return Array of warnings associated with the device. Each warning object within the array contains two fields: &quot;warning_code&quot; and &quot;message.&quot; &quot;warning_code&quot; is a string that uniquely identifies the type of warning, enabling quick recognition and categorization of the issue. &quot;message&quot; provides a more detailed description of the warning, offering insights into the issue and potentially how to rectify it.
+     */
     @JsonProperty("warnings")
     public List<UnmanagedDeviceWarningsItem> getWarnings() {
         return warnings;
     }
 
+    /**
+     * @return Date and time at which the device object was created.
+     */
     @JsonProperty("created_at")
     public OffsetDateTime getCreatedAt() {
         return createdAt;
@@ -117,6 +166,36 @@ public final class UnmanagedDevice {
     @JsonProperty("properties")
     public UnmanagedDeviceProperties getProperties() {
         return properties;
+    }
+
+    @JsonProperty("can_remotely_unlock")
+    public Optional<Boolean> getCanRemotelyUnlock() {
+        return canRemotelyUnlock;
+    }
+
+    @JsonProperty("can_remotely_lock")
+    public Optional<Boolean> getCanRemotelyLock() {
+        return canRemotelyLock;
+    }
+
+    @JsonProperty("can_program_offline_access_codes")
+    public Optional<Boolean> getCanProgramOfflineAccessCodes() {
+        return canProgramOfflineAccessCodes;
+    }
+
+    @JsonProperty("can_program_online_access_codes")
+    public Optional<Boolean> getCanProgramOnlineAccessCodes() {
+        return canProgramOnlineAccessCodes;
+    }
+
+    @JsonProperty("can_simulate_removal")
+    public Optional<Boolean> getCanSimulateRemoval() {
+        return canSimulateRemoval;
+    }
+
+    @JsonProperty("device_provider")
+    public Optional<UnmanagedDeviceDeviceProvider> getDeviceProvider() {
+        return deviceProvider;
     }
 
     @Override
@@ -140,7 +219,13 @@ public final class UnmanagedDevice {
                 && warnings.equals(other.warnings)
                 && createdAt.equals(other.createdAt)
                 && isManaged == other.isManaged
-                && properties.equals(other.properties);
+                && properties.equals(other.properties)
+                && canRemotelyUnlock.equals(other.canRemotelyUnlock)
+                && canRemotelyLock.equals(other.canRemotelyLock)
+                && canProgramOfflineAccessCodes.equals(other.canProgramOfflineAccessCodes)
+                && canProgramOnlineAccessCodes.equals(other.canProgramOnlineAccessCodes)
+                && canSimulateRemoval.equals(other.canSimulateRemoval)
+                && deviceProvider.equals(other.deviceProvider);
     }
 
     @Override
@@ -155,7 +240,13 @@ public final class UnmanagedDevice {
                 this.warnings,
                 this.createdAt,
                 this.isManaged,
-                this.properties);
+                this.properties,
+                this.canRemotelyUnlock,
+                this.canRemotelyLock,
+                this.canProgramOfflineAccessCodes,
+                this.canProgramOnlineAccessCodes,
+                this.canSimulateRemoval,
+                this.deviceProvider);
     }
 
     @Override
@@ -200,11 +291,11 @@ public final class UnmanagedDevice {
     public interface _FinalStage {
         UnmanagedDevice build();
 
-        _FinalStage capabilitiesSupported(List<SupportedCapabililty> capabilitiesSupported);
+        _FinalStage capabilitiesSupported(List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported);
 
-        _FinalStage addCapabilitiesSupported(SupportedCapabililty capabilitiesSupported);
+        _FinalStage addCapabilitiesSupported(UnmanagedDeviceCapabilitiesSupportedItem capabilitiesSupported);
 
-        _FinalStage addAllCapabilitiesSupported(List<SupportedCapabililty> capabilitiesSupported);
+        _FinalStage addAllCapabilitiesSupported(List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported);
 
         _FinalStage errors(List<UnmanagedDeviceErrorsItem> errors);
 
@@ -217,6 +308,30 @@ public final class UnmanagedDevice {
         _FinalStage addWarnings(UnmanagedDeviceWarningsItem warnings);
 
         _FinalStage addAllWarnings(List<UnmanagedDeviceWarningsItem> warnings);
+
+        _FinalStage canRemotelyUnlock(Optional<Boolean> canRemotelyUnlock);
+
+        _FinalStage canRemotelyUnlock(Boolean canRemotelyUnlock);
+
+        _FinalStage canRemotelyLock(Optional<Boolean> canRemotelyLock);
+
+        _FinalStage canRemotelyLock(Boolean canRemotelyLock);
+
+        _FinalStage canProgramOfflineAccessCodes(Optional<Boolean> canProgramOfflineAccessCodes);
+
+        _FinalStage canProgramOfflineAccessCodes(Boolean canProgramOfflineAccessCodes);
+
+        _FinalStage canProgramOnlineAccessCodes(Optional<Boolean> canProgramOnlineAccessCodes);
+
+        _FinalStage canProgramOnlineAccessCodes(Boolean canProgramOnlineAccessCodes);
+
+        _FinalStage canSimulateRemoval(Optional<Boolean> canSimulateRemoval);
+
+        _FinalStage canSimulateRemoval(Boolean canSimulateRemoval);
+
+        _FinalStage deviceProvider(Optional<UnmanagedDeviceDeviceProvider> deviceProvider);
+
+        _FinalStage deviceProvider(UnmanagedDeviceDeviceProvider deviceProvider);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -243,11 +358,23 @@ public final class UnmanagedDevice {
 
         private UnmanagedDeviceProperties properties;
 
+        private Optional<UnmanagedDeviceDeviceProvider> deviceProvider = Optional.empty();
+
+        private Optional<Boolean> canSimulateRemoval = Optional.empty();
+
+        private Optional<Boolean> canProgramOnlineAccessCodes = Optional.empty();
+
+        private Optional<Boolean> canProgramOfflineAccessCodes = Optional.empty();
+
+        private Optional<Boolean> canRemotelyLock = Optional.empty();
+
+        private Optional<Boolean> canRemotelyUnlock = Optional.empty();
+
         private List<UnmanagedDeviceWarningsItem> warnings = new ArrayList<>();
 
         private List<UnmanagedDeviceErrorsItem> errors = new ArrayList<>();
 
-        private List<SupportedCapabililty> capabilitiesSupported = new ArrayList<>();
+        private List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported = new ArrayList<>();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -266,9 +393,19 @@ public final class UnmanagedDevice {
             createdAt(other.getCreatedAt());
             isManaged(other.getIsManaged());
             properties(other.getProperties());
+            canRemotelyUnlock(other.getCanRemotelyUnlock());
+            canRemotelyLock(other.getCanRemotelyLock());
+            canProgramOfflineAccessCodes(other.getCanProgramOfflineAccessCodes());
+            canProgramOnlineAccessCodes(other.getCanProgramOnlineAccessCodes());
+            canSimulateRemoval(other.getCanSimulateRemoval());
+            deviceProvider(other.getDeviceProvider());
             return this;
         }
 
+        /**
+         * <p>Unique identifier for the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         @JsonSetter("device_id")
         public DeviceTypeStage deviceId(String deviceId) {
@@ -276,6 +413,10 @@ public final class UnmanagedDevice {
             return this;
         }
 
+        /**
+         * <p>Type of the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         @JsonSetter("device_type")
         public ConnectedAccountIdStage deviceType(DeviceType deviceType) {
@@ -283,6 +424,10 @@ public final class UnmanagedDevice {
             return this;
         }
 
+        /**
+         * <p>Unique identifier for the account associated with the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         @JsonSetter("connected_account_id")
         public WorkspaceIdStage connectedAccountId(String connectedAccountId) {
@@ -290,6 +435,10 @@ public final class UnmanagedDevice {
             return this;
         }
 
+        /**
+         * <p>Unique identifier for the Seam workspace associated with the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         @JsonSetter("workspace_id")
         public CreatedAtStage workspaceId(String workspaceId) {
@@ -297,6 +446,10 @@ public final class UnmanagedDevice {
             return this;
         }
 
+        /**
+         * <p>Date and time at which the device object was created.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         @JsonSetter("created_at")
         public IsManagedStage createdAt(OffsetDateTime createdAt) {
@@ -319,11 +472,97 @@ public final class UnmanagedDevice {
         }
 
         @Override
+        public _FinalStage deviceProvider(UnmanagedDeviceDeviceProvider deviceProvider) {
+            this.deviceProvider = Optional.of(deviceProvider);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "device_provider", nulls = Nulls.SKIP)
+        public _FinalStage deviceProvider(Optional<UnmanagedDeviceDeviceProvider> deviceProvider) {
+            this.deviceProvider = deviceProvider;
+            return this;
+        }
+
+        @Override
+        public _FinalStage canSimulateRemoval(Boolean canSimulateRemoval) {
+            this.canSimulateRemoval = Optional.of(canSimulateRemoval);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "can_simulate_removal", nulls = Nulls.SKIP)
+        public _FinalStage canSimulateRemoval(Optional<Boolean> canSimulateRemoval) {
+            this.canSimulateRemoval = canSimulateRemoval;
+            return this;
+        }
+
+        @Override
+        public _FinalStage canProgramOnlineAccessCodes(Boolean canProgramOnlineAccessCodes) {
+            this.canProgramOnlineAccessCodes = Optional.of(canProgramOnlineAccessCodes);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "can_program_online_access_codes", nulls = Nulls.SKIP)
+        public _FinalStage canProgramOnlineAccessCodes(Optional<Boolean> canProgramOnlineAccessCodes) {
+            this.canProgramOnlineAccessCodes = canProgramOnlineAccessCodes;
+            return this;
+        }
+
+        @Override
+        public _FinalStage canProgramOfflineAccessCodes(Boolean canProgramOfflineAccessCodes) {
+            this.canProgramOfflineAccessCodes = Optional.of(canProgramOfflineAccessCodes);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "can_program_offline_access_codes", nulls = Nulls.SKIP)
+        public _FinalStage canProgramOfflineAccessCodes(Optional<Boolean> canProgramOfflineAccessCodes) {
+            this.canProgramOfflineAccessCodes = canProgramOfflineAccessCodes;
+            return this;
+        }
+
+        @Override
+        public _FinalStage canRemotelyLock(Boolean canRemotelyLock) {
+            this.canRemotelyLock = Optional.of(canRemotelyLock);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "can_remotely_lock", nulls = Nulls.SKIP)
+        public _FinalStage canRemotelyLock(Optional<Boolean> canRemotelyLock) {
+            this.canRemotelyLock = canRemotelyLock;
+            return this;
+        }
+
+        @Override
+        public _FinalStage canRemotelyUnlock(Boolean canRemotelyUnlock) {
+            this.canRemotelyUnlock = Optional.of(canRemotelyUnlock);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "can_remotely_unlock", nulls = Nulls.SKIP)
+        public _FinalStage canRemotelyUnlock(Optional<Boolean> canRemotelyUnlock) {
+            this.canRemotelyUnlock = canRemotelyUnlock;
+            return this;
+        }
+
+        /**
+         * <p>Array of warnings associated with the device. Each warning object within the array contains two fields: &quot;warning_code&quot; and &quot;message.&quot; &quot;warning_code&quot; is a string that uniquely identifies the type of warning, enabling quick recognition and categorization of the issue. &quot;message&quot; provides a more detailed description of the warning, offering insights into the issue and potentially how to rectify it.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @Override
         public _FinalStage addAllWarnings(List<UnmanagedDeviceWarningsItem> warnings) {
             this.warnings.addAll(warnings);
             return this;
         }
 
+        /**
+         * <p>Array of warnings associated with the device. Each warning object within the array contains two fields: &quot;warning_code&quot; and &quot;message.&quot; &quot;warning_code&quot; is a string that uniquely identifies the type of warning, enabling quick recognition and categorization of the issue. &quot;message&quot; provides a more detailed description of the warning, offering insights into the issue and potentially how to rectify it.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         public _FinalStage addWarnings(UnmanagedDeviceWarningsItem warnings) {
             this.warnings.add(warnings);
@@ -338,12 +577,20 @@ public final class UnmanagedDevice {
             return this;
         }
 
+        /**
+         * <p>Array of errors associated with the device. Each error object within the array contains two fields: &quot;error_code&quot; and &quot;message.&quot; &quot;error_code&quot; is a string that uniquely identifies the type of error, enabling quick recognition and categorization of the issue. &quot;message&quot; provides a more detailed description of the error, offering insights into the issue and potentially how to rectify it.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         public _FinalStage addAllErrors(List<UnmanagedDeviceErrorsItem> errors) {
             this.errors.addAll(errors);
             return this;
         }
 
+        /**
+         * <p>Array of errors associated with the device. Each error object within the array contains two fields: &quot;error_code&quot; and &quot;message.&quot; &quot;error_code&quot; is a string that uniquely identifies the type of error, enabling quick recognition and categorization of the issue. &quot;message&quot; provides a more detailed description of the error, offering insights into the issue and potentially how to rectify it.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
         public _FinalStage addErrors(UnmanagedDeviceErrorsItem errors) {
             this.errors.add(errors);
@@ -358,21 +605,30 @@ public final class UnmanagedDevice {
             return this;
         }
 
+        /**
+         * <p>Collection of capabilities that the device supports when connected to Seam. Values are &quot;access_code,&quot; which indicates that the device can manage and utilize digital PIN codes for secure access; &quot;lock,&quot; which indicates that the device controls a door locking mechanism, enabling the remote opening and closing of doors and other entry points; &quot;noise_detection,&quot; which indicates that the device supports monitoring and responding to ambient noise levels; &quot;thermostat,&quot; which indicates that the device can regulate and adjust indoor temperatures; and &quot;battery,&quot; which indicates that the device can manage battery life and health.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
-        public _FinalStage addAllCapabilitiesSupported(List<SupportedCapabililty> capabilitiesSupported) {
+        public _FinalStage addAllCapabilitiesSupported(
+                List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported) {
             this.capabilitiesSupported.addAll(capabilitiesSupported);
             return this;
         }
 
+        /**
+         * <p>Collection of capabilities that the device supports when connected to Seam. Values are &quot;access_code,&quot; which indicates that the device can manage and utilize digital PIN codes for secure access; &quot;lock,&quot; which indicates that the device controls a door locking mechanism, enabling the remote opening and closing of doors and other entry points; &quot;noise_detection,&quot; which indicates that the device supports monitoring and responding to ambient noise levels; &quot;thermostat,&quot; which indicates that the device can regulate and adjust indoor temperatures; and &quot;battery,&quot; which indicates that the device can manage battery life and health.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
         @Override
-        public _FinalStage addCapabilitiesSupported(SupportedCapabililty capabilitiesSupported) {
+        public _FinalStage addCapabilitiesSupported(UnmanagedDeviceCapabilitiesSupportedItem capabilitiesSupported) {
             this.capabilitiesSupported.add(capabilitiesSupported);
             return this;
         }
 
         @Override
         @JsonSetter(value = "capabilities_supported", nulls = Nulls.SKIP)
-        public _FinalStage capabilitiesSupported(List<SupportedCapabililty> capabilitiesSupported) {
+        public _FinalStage capabilitiesSupported(List<UnmanagedDeviceCapabilitiesSupportedItem> capabilitiesSupported) {
             this.capabilitiesSupported.clear();
             this.capabilitiesSupported.addAll(capabilitiesSupported);
             return this;
@@ -391,6 +647,12 @@ public final class UnmanagedDevice {
                     createdAt,
                     isManaged,
                     properties,
+                    canRemotelyUnlock,
+                    canRemotelyLock,
+                    canProgramOfflineAccessCodes,
+                    canProgramOnlineAccessCodes,
+                    canSimulateRemoval,
+                    deviceProvider,
                     additionalProperties);
         }
     }

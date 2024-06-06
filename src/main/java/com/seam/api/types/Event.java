@@ -25,6 +25,18 @@ public final class Event {
 
     private final Optional<String> deviceId;
 
+    private final Optional<String> actionAttemptId;
+
+    private final Optional<String> acsCredentialId;
+
+    private final Optional<String> acsUserId;
+
+    private final Optional<String> acsSystemId;
+
+    private final Optional<String> clientSessionId;
+
+    private final Optional<String> enrollmentAutomationId;
+
     private final String eventType;
 
     private final String workspaceId;
@@ -38,6 +50,12 @@ public final class Event {
     private Event(
             String eventId,
             Optional<String> deviceId,
+            Optional<String> actionAttemptId,
+            Optional<String> acsCredentialId,
+            Optional<String> acsUserId,
+            Optional<String> acsSystemId,
+            Optional<String> clientSessionId,
+            Optional<String> enrollmentAutomationId,
             String eventType,
             String workspaceId,
             OffsetDateTime createdAt,
@@ -45,6 +63,12 @@ public final class Event {
             Map<String, Object> additionalProperties) {
         this.eventId = eventId;
         this.deviceId = deviceId;
+        this.actionAttemptId = actionAttemptId;
+        this.acsCredentialId = acsCredentialId;
+        this.acsUserId = acsUserId;
+        this.acsSystemId = acsSystemId;
+        this.clientSessionId = clientSessionId;
+        this.enrollmentAutomationId = enrollmentAutomationId;
         this.eventType = eventType;
         this.workspaceId = workspaceId;
         this.createdAt = createdAt;
@@ -60,6 +84,36 @@ public final class Event {
     @JsonProperty("device_id")
     public Optional<String> getDeviceId() {
         return deviceId;
+    }
+
+    @JsonProperty("action_attempt_id")
+    public Optional<String> getActionAttemptId() {
+        return actionAttemptId;
+    }
+
+    @JsonProperty("acs_credential_id")
+    public Optional<String> getAcsCredentialId() {
+        return acsCredentialId;
+    }
+
+    @JsonProperty("acs_user_id")
+    public Optional<String> getAcsUserId() {
+        return acsUserId;
+    }
+
+    @JsonProperty("acs_system_id")
+    public Optional<String> getAcsSystemId() {
+        return acsSystemId;
+    }
+
+    @JsonProperty("client_session_id")
+    public Optional<String> getClientSessionId() {
+        return clientSessionId;
+    }
+
+    @JsonProperty("enrollment_automation_id")
+    public Optional<String> getEnrollmentAutomationId() {
+        return enrollmentAutomationId;
     }
 
     @JsonProperty("event_type")
@@ -96,6 +150,12 @@ public final class Event {
     private boolean equalTo(Event other) {
         return eventId.equals(other.eventId)
                 && deviceId.equals(other.deviceId)
+                && actionAttemptId.equals(other.actionAttemptId)
+                && acsCredentialId.equals(other.acsCredentialId)
+                && acsUserId.equals(other.acsUserId)
+                && acsSystemId.equals(other.acsSystemId)
+                && clientSessionId.equals(other.clientSessionId)
+                && enrollmentAutomationId.equals(other.enrollmentAutomationId)
                 && eventType.equals(other.eventType)
                 && workspaceId.equals(other.workspaceId)
                 && createdAt.equals(other.createdAt)
@@ -105,7 +165,18 @@ public final class Event {
     @Override
     public int hashCode() {
         return Objects.hash(
-                this.eventId, this.deviceId, this.eventType, this.workspaceId, this.createdAt, this.occurredAt);
+                this.eventId,
+                this.deviceId,
+                this.actionAttemptId,
+                this.acsCredentialId,
+                this.acsUserId,
+                this.acsSystemId,
+                this.clientSessionId,
+                this.enrollmentAutomationId,
+                this.eventType,
+                this.workspaceId,
+                this.createdAt,
+                this.occurredAt);
     }
 
     @Override
@@ -145,6 +216,30 @@ public final class Event {
         _FinalStage deviceId(Optional<String> deviceId);
 
         _FinalStage deviceId(String deviceId);
+
+        _FinalStage actionAttemptId(Optional<String> actionAttemptId);
+
+        _FinalStage actionAttemptId(String actionAttemptId);
+
+        _FinalStage acsCredentialId(Optional<String> acsCredentialId);
+
+        _FinalStage acsCredentialId(String acsCredentialId);
+
+        _FinalStage acsUserId(Optional<String> acsUserId);
+
+        _FinalStage acsUserId(String acsUserId);
+
+        _FinalStage acsSystemId(Optional<String> acsSystemId);
+
+        _FinalStage acsSystemId(String acsSystemId);
+
+        _FinalStage clientSessionId(Optional<String> clientSessionId);
+
+        _FinalStage clientSessionId(String clientSessionId);
+
+        _FinalStage enrollmentAutomationId(Optional<String> enrollmentAutomationId);
+
+        _FinalStage enrollmentAutomationId(String enrollmentAutomationId);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -160,6 +255,18 @@ public final class Event {
 
         private OffsetDateTime occurredAt;
 
+        private Optional<String> enrollmentAutomationId = Optional.empty();
+
+        private Optional<String> clientSessionId = Optional.empty();
+
+        private Optional<String> acsSystemId = Optional.empty();
+
+        private Optional<String> acsUserId = Optional.empty();
+
+        private Optional<String> acsCredentialId = Optional.empty();
+
+        private Optional<String> actionAttemptId = Optional.empty();
+
         private Optional<String> deviceId = Optional.empty();
 
         @JsonAnySetter
@@ -171,6 +278,12 @@ public final class Event {
         public Builder from(Event other) {
             eventId(other.getEventId());
             deviceId(other.getDeviceId());
+            actionAttemptId(other.getActionAttemptId());
+            acsCredentialId(other.getAcsCredentialId());
+            acsUserId(other.getAcsUserId());
+            acsSystemId(other.getAcsSystemId());
+            clientSessionId(other.getClientSessionId());
+            enrollmentAutomationId(other.getEnrollmentAutomationId());
             eventType(other.getEventType());
             workspaceId(other.getWorkspaceId());
             createdAt(other.getCreatedAt());
@@ -214,6 +327,84 @@ public final class Event {
         }
 
         @Override
+        public _FinalStage enrollmentAutomationId(String enrollmentAutomationId) {
+            this.enrollmentAutomationId = Optional.of(enrollmentAutomationId);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "enrollment_automation_id", nulls = Nulls.SKIP)
+        public _FinalStage enrollmentAutomationId(Optional<String> enrollmentAutomationId) {
+            this.enrollmentAutomationId = enrollmentAutomationId;
+            return this;
+        }
+
+        @Override
+        public _FinalStage clientSessionId(String clientSessionId) {
+            this.clientSessionId = Optional.of(clientSessionId);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "client_session_id", nulls = Nulls.SKIP)
+        public _FinalStage clientSessionId(Optional<String> clientSessionId) {
+            this.clientSessionId = clientSessionId;
+            return this;
+        }
+
+        @Override
+        public _FinalStage acsSystemId(String acsSystemId) {
+            this.acsSystemId = Optional.of(acsSystemId);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "acs_system_id", nulls = Nulls.SKIP)
+        public _FinalStage acsSystemId(Optional<String> acsSystemId) {
+            this.acsSystemId = acsSystemId;
+            return this;
+        }
+
+        @Override
+        public _FinalStage acsUserId(String acsUserId) {
+            this.acsUserId = Optional.of(acsUserId);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "acs_user_id", nulls = Nulls.SKIP)
+        public _FinalStage acsUserId(Optional<String> acsUserId) {
+            this.acsUserId = acsUserId;
+            return this;
+        }
+
+        @Override
+        public _FinalStage acsCredentialId(String acsCredentialId) {
+            this.acsCredentialId = Optional.of(acsCredentialId);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "acs_credential_id", nulls = Nulls.SKIP)
+        public _FinalStage acsCredentialId(Optional<String> acsCredentialId) {
+            this.acsCredentialId = acsCredentialId;
+            return this;
+        }
+
+        @Override
+        public _FinalStage actionAttemptId(String actionAttemptId) {
+            this.actionAttemptId = Optional.of(actionAttemptId);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "action_attempt_id", nulls = Nulls.SKIP)
+        public _FinalStage actionAttemptId(Optional<String> actionAttemptId) {
+            this.actionAttemptId = actionAttemptId;
+            return this;
+        }
+
+        @Override
         public _FinalStage deviceId(String deviceId) {
             this.deviceId = Optional.of(deviceId);
             return this;
@@ -228,7 +419,20 @@ public final class Event {
 
         @Override
         public Event build() {
-            return new Event(eventId, deviceId, eventType, workspaceId, createdAt, occurredAt, additionalProperties);
+            return new Event(
+                    eventId,
+                    deviceId,
+                    actionAttemptId,
+                    acsCredentialId,
+                    acsUserId,
+                    acsSystemId,
+                    clientSessionId,
+                    enrollmentAutomationId,
+                    eventType,
+                    workspaceId,
+                    createdAt,
+                    occurredAt,
+                    additionalProperties);
         }
     }
 }

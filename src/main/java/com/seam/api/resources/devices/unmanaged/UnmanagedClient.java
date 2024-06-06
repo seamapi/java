@@ -7,10 +7,12 @@ import com.seam.api.core.ApiError;
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
+import com.seam.api.resources.devices.unmanaged.requests.UnmanagedGetRequest;
 import com.seam.api.resources.devices.unmanaged.requests.UnmanagedListRequest;
 import com.seam.api.resources.devices.unmanaged.requests.UnmanagedUpdateRequest;
-import com.seam.api.types.UnmanagedListResponse;
-import com.seam.api.types.UnmanagedUpdateResponse;
+import com.seam.api.resources.devices.unmanaged.types.UnmanagedGetResponse;
+import com.seam.api.resources.devices.unmanaged.types.UnmanagedListResponse;
+import com.seam.api.resources.devices.unmanaged.types.UnmanagedUpdateResponse;
 import java.io.IOException;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
@@ -24,6 +26,46 @@ public class UnmanagedClient {
 
     public UnmanagedClient(ClientOptions clientOptions) {
         this.clientOptions = clientOptions;
+    }
+
+    public UnmanagedGetResponse get() {
+        return get(UnmanagedGetRequest.builder().build());
+    }
+
+    public UnmanagedGetResponse get(UnmanagedGetRequest request, RequestOptions requestOptions) {
+        HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
+                .newBuilder()
+                .addPathSegments("devices/unmanaged/get")
+                .build();
+        RequestBody body;
+        try {
+            body = RequestBody.create(
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        Request okhttpRequest = new Request.Builder()
+                .url(httpUrl)
+                .method("POST", body)
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
+                .addHeader("Content-Type", "application/json")
+                .build();
+        try {
+            Response response =
+                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+            if (response.isSuccessful()) {
+                return ObjectMappers.JSON_MAPPER.readValue(response.body().string(), UnmanagedGetResponse.class);
+            }
+            throw new ApiError(
+                    response.code(),
+                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public UnmanagedGetResponse get(UnmanagedGetRequest request) {
+        return get(request, null);
     }
 
     public UnmanagedListResponse list() {

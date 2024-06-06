@@ -3,257 +3,608 @@
  */
 package com.seam.api.types;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.seam.api.core.ObjectMappers;
+import java.io.IOException;
 import java.util.Objects;
-import java.util.Optional;
 
+@JsonDeserialize(using = ActionAttempt.Deserializer.class)
 public final class ActionAttempt {
-    private final Value value;
+    private final Object value;
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    private ActionAttempt(Value value) {
+    private final int type;
+
+    private ActionAttempt(Object value, int type) {
         this.value = value;
-    }
-
-    public <T> T visit(Visitor<T> visitor) {
-        return value.visit(visitor);
-    }
-
-    public static ActionAttempt success(ActionAttemptSuccess value) {
-        return new ActionAttempt(new SuccessValue(value));
-    }
-
-    public static ActionAttempt pending(ActionAttemptPending value) {
-        return new ActionAttempt(new PendingValue(value));
-    }
-
-    public static ActionAttempt error(ActionAttemptError value) {
-        return new ActionAttempt(new ErrorValue(value));
-    }
-
-    public boolean isSuccess() {
-        return value instanceof SuccessValue;
-    }
-
-    public boolean isPending() {
-        return value instanceof PendingValue;
-    }
-
-    public boolean isError() {
-        return value instanceof ErrorValue;
-    }
-
-    public boolean _isUnknown() {
-        return value instanceof _UnknownValue;
-    }
-
-    public Optional<ActionAttemptSuccess> getSuccess() {
-        if (isSuccess()) {
-            return Optional.of(((SuccessValue) value).value);
-        }
-        return Optional.empty();
-    }
-
-    public Optional<ActionAttemptPending> getPending() {
-        if (isPending()) {
-            return Optional.of(((PendingValue) value).value);
-        }
-        return Optional.empty();
-    }
-
-    public Optional<ActionAttemptError> getError() {
-        if (isError()) {
-            return Optional.of(((ErrorValue) value).value);
-        }
-        return Optional.empty();
-    }
-
-    public Optional<Object> _getUnknown() {
-        if (_isUnknown()) {
-            return Optional.of(((_UnknownValue) value).value);
-        }
-        return Optional.empty();
+        this.type = type;
     }
 
     @JsonValue
-    private Value getValue() {
+    public Object get() {
         return this.value;
     }
 
+    public <T> T visit(Visitor<T> visitor) {
+        if (this.type == 0) {
+            return visitor.visit((ActionAttemptZero) this.value);
+        } else if (this.type == 1) {
+            return visitor.visit((ActionAttemptOne) this.value);
+        } else if (this.type == 2) {
+            return visitor.visit((ActionAttemptTwo) this.value);
+        } else if (this.type == 3) {
+            return visitor.visit((ActionAttemptThree) this.value);
+        } else if (this.type == 4) {
+            return visitor.visit((ActionAttemptFour) this.value);
+        } else if (this.type == 5) {
+            return visitor.visit((ActionAttemptFive) this.value);
+        } else if (this.type == 6) {
+            return visitor.visit((ActionAttemptSix) this.value);
+        } else if (this.type == 7) {
+            return visitor.visit((ActionAttemptSeven) this.value);
+        } else if (this.type == 8) {
+            return visitor.visit((ActionAttemptEight) this.value);
+        } else if (this.type == 9) {
+            return visitor.visit((ActionAttemptNine) this.value);
+        } else if (this.type == 10) {
+            return visitor.visit((ActionAttemptTen) this.value);
+        } else if (this.type == 11) {
+            return visitor.visit((ActionAttemptEleven) this.value);
+        } else if (this.type == 12) {
+            return visitor.visit((ActionAttemptTwelve) this.value);
+        } else if (this.type == 13) {
+            return visitor.visit((ActionAttemptThirteen) this.value);
+        } else if (this.type == 14) {
+            return visitor.visit((ActionAttemptFourteen) this.value);
+        } else if (this.type == 15) {
+            return visitor.visit((ActionAttemptFifteen) this.value);
+        } else if (this.type == 16) {
+            return visitor.visit((ActionAttemptSixteen) this.value);
+        } else if (this.type == 17) {
+            return visitor.visit((ActionAttemptSeventeen) this.value);
+        } else if (this.type == 18) {
+            return visitor.visit((ActionAttemptEighteen) this.value);
+        } else if (this.type == 19) {
+            return visitor.visit((ActionAttemptNineteen) this.value);
+        } else if (this.type == 20) {
+            return visitor.visit((ActionAttemptTwenty) this.value);
+        } else if (this.type == 21) {
+            return visitor.visit((ActionAttemptTwentyOne) this.value);
+        } else if (this.type == 22) {
+            return visitor.visit((ActionAttemptTwentyTwo) this.value);
+        } else if (this.type == 23) {
+            return visitor.visit((ActionAttemptTwentyThree) this.value);
+        } else if (this.type == 24) {
+            return visitor.visit((ActionAttemptTwentyFour) this.value);
+        } else if (this.type == 25) {
+            return visitor.visit((ActionAttemptTwentyFive) this.value);
+        } else if (this.type == 26) {
+            return visitor.visit((ActionAttemptTwentySix) this.value);
+        } else if (this.type == 27) {
+            return visitor.visit((ActionAttemptTwentySeven) this.value);
+        } else if (this.type == 28) {
+            return visitor.visit((ActionAttemptTwentyEight) this.value);
+        } else if (this.type == 29) {
+            return visitor.visit((ActionAttemptTwentyNine) this.value);
+        } else if (this.type == 30) {
+            return visitor.visit((ActionAttemptThirty) this.value);
+        } else if (this.type == 31) {
+            return visitor.visit((ActionAttemptThirtyOne) this.value);
+        } else if (this.type == 32) {
+            return visitor.visit((ActionAttemptThirtyTwo) this.value);
+        } else if (this.type == 33) {
+            return visitor.visit((ActionAttemptThirtyThree) this.value);
+        } else if (this.type == 34) {
+            return visitor.visit((ActionAttemptThirtyFour) this.value);
+        } else if (this.type == 35) {
+            return visitor.visit((ActionAttemptThirtyFive) this.value);
+        } else if (this.type == 36) {
+            return visitor.visit((ActionAttemptThirtySix) this.value);
+        } else if (this.type == 37) {
+            return visitor.visit((ActionAttemptThirtySeven) this.value);
+        } else if (this.type == 38) {
+            return visitor.visit((ActionAttemptThirtyEight) this.value);
+        } else if (this.type == 39) {
+            return visitor.visit((ActionAttemptThirtyNine) this.value);
+        } else if (this.type == 40) {
+            return visitor.visit((ActionAttemptForty) this.value);
+        } else if (this.type == 41) {
+            return visitor.visit((ActionAttemptFortyOne) this.value);
+        } else if (this.type == 42) {
+            return visitor.visit((ActionAttemptFortyTwo) this.value);
+        } else if (this.type == 43) {
+            return visitor.visit((ActionAttemptFortyThree) this.value);
+        } else if (this.type == 44) {
+            return visitor.visit((ActionAttemptActionAttemptId) this.value);
+        }
+        throw new IllegalStateException("Failed to visit value. This should never happen.");
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        return other instanceof ActionAttempt && equalTo((ActionAttempt) other);
+    }
+
+    private boolean equalTo(ActionAttempt other) {
+        return value.equals(other.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.value);
+    }
+
+    @Override
+    public String toString() {
+        return this.value.toString();
+    }
+
+    public static ActionAttempt of(ActionAttemptZero value) {
+        return new ActionAttempt(value, 0);
+    }
+
+    public static ActionAttempt of(ActionAttemptOne value) {
+        return new ActionAttempt(value, 1);
+    }
+
+    public static ActionAttempt of(ActionAttemptTwo value) {
+        return new ActionAttempt(value, 2);
+    }
+
+    public static ActionAttempt of(ActionAttemptThree value) {
+        return new ActionAttempt(value, 3);
+    }
+
+    public static ActionAttempt of(ActionAttemptFour value) {
+        return new ActionAttempt(value, 4);
+    }
+
+    public static ActionAttempt of(ActionAttemptFive value) {
+        return new ActionAttempt(value, 5);
+    }
+
+    public static ActionAttempt of(ActionAttemptSix value) {
+        return new ActionAttempt(value, 6);
+    }
+
+    public static ActionAttempt of(ActionAttemptSeven value) {
+        return new ActionAttempt(value, 7);
+    }
+
+    public static ActionAttempt of(ActionAttemptEight value) {
+        return new ActionAttempt(value, 8);
+    }
+
+    public static ActionAttempt of(ActionAttemptNine value) {
+        return new ActionAttempt(value, 9);
+    }
+
+    public static ActionAttempt of(ActionAttemptTen value) {
+        return new ActionAttempt(value, 10);
+    }
+
+    public static ActionAttempt of(ActionAttemptEleven value) {
+        return new ActionAttempt(value, 11);
+    }
+
+    public static ActionAttempt of(ActionAttemptTwelve value) {
+        return new ActionAttempt(value, 12);
+    }
+
+    public static ActionAttempt of(ActionAttemptThirteen value) {
+        return new ActionAttempt(value, 13);
+    }
+
+    public static ActionAttempt of(ActionAttemptFourteen value) {
+        return new ActionAttempt(value, 14);
+    }
+
+    public static ActionAttempt of(ActionAttemptFifteen value) {
+        return new ActionAttempt(value, 15);
+    }
+
+    public static ActionAttempt of(ActionAttemptSixteen value) {
+        return new ActionAttempt(value, 16);
+    }
+
+    public static ActionAttempt of(ActionAttemptSeventeen value) {
+        return new ActionAttempt(value, 17);
+    }
+
+    public static ActionAttempt of(ActionAttemptEighteen value) {
+        return new ActionAttempt(value, 18);
+    }
+
+    public static ActionAttempt of(ActionAttemptNineteen value) {
+        return new ActionAttempt(value, 19);
+    }
+
+    public static ActionAttempt of(ActionAttemptTwenty value) {
+        return new ActionAttempt(value, 20);
+    }
+
+    public static ActionAttempt of(ActionAttemptTwentyOne value) {
+        return new ActionAttempt(value, 21);
+    }
+
+    public static ActionAttempt of(ActionAttemptTwentyTwo value) {
+        return new ActionAttempt(value, 22);
+    }
+
+    public static ActionAttempt of(ActionAttemptTwentyThree value) {
+        return new ActionAttempt(value, 23);
+    }
+
+    public static ActionAttempt of(ActionAttemptTwentyFour value) {
+        return new ActionAttempt(value, 24);
+    }
+
+    public static ActionAttempt of(ActionAttemptTwentyFive value) {
+        return new ActionAttempt(value, 25);
+    }
+
+    public static ActionAttempt of(ActionAttemptTwentySix value) {
+        return new ActionAttempt(value, 26);
+    }
+
+    public static ActionAttempt of(ActionAttemptTwentySeven value) {
+        return new ActionAttempt(value, 27);
+    }
+
+    public static ActionAttempt of(ActionAttemptTwentyEight value) {
+        return new ActionAttempt(value, 28);
+    }
+
+    public static ActionAttempt of(ActionAttemptTwentyNine value) {
+        return new ActionAttempt(value, 29);
+    }
+
+    public static ActionAttempt of(ActionAttemptThirty value) {
+        return new ActionAttempt(value, 30);
+    }
+
+    public static ActionAttempt of(ActionAttemptThirtyOne value) {
+        return new ActionAttempt(value, 31);
+    }
+
+    public static ActionAttempt of(ActionAttemptThirtyTwo value) {
+        return new ActionAttempt(value, 32);
+    }
+
+    public static ActionAttempt of(ActionAttemptThirtyThree value) {
+        return new ActionAttempt(value, 33);
+    }
+
+    public static ActionAttempt of(ActionAttemptThirtyFour value) {
+        return new ActionAttempt(value, 34);
+    }
+
+    public static ActionAttempt of(ActionAttemptThirtyFive value) {
+        return new ActionAttempt(value, 35);
+    }
+
+    public static ActionAttempt of(ActionAttemptThirtySix value) {
+        return new ActionAttempt(value, 36);
+    }
+
+    public static ActionAttempt of(ActionAttemptThirtySeven value) {
+        return new ActionAttempt(value, 37);
+    }
+
+    public static ActionAttempt of(ActionAttemptThirtyEight value) {
+        return new ActionAttempt(value, 38);
+    }
+
+    public static ActionAttempt of(ActionAttemptThirtyNine value) {
+        return new ActionAttempt(value, 39);
+    }
+
+    public static ActionAttempt of(ActionAttemptForty value) {
+        return new ActionAttempt(value, 40);
+    }
+
+    public static ActionAttempt of(ActionAttemptFortyOne value) {
+        return new ActionAttempt(value, 41);
+    }
+
+    public static ActionAttempt of(ActionAttemptFortyTwo value) {
+        return new ActionAttempt(value, 42);
+    }
+
+    public static ActionAttempt of(ActionAttemptFortyThree value) {
+        return new ActionAttempt(value, 43);
+    }
+
+    public static ActionAttempt of(ActionAttemptActionAttemptId value) {
+        return new ActionAttempt(value, 44);
+    }
+
     public interface Visitor<T> {
-        T visitSuccess(ActionAttemptSuccess success);
+        T visit(ActionAttemptZero value);
 
-        T visitPending(ActionAttemptPending pending);
+        T visit(ActionAttemptOne value);
 
-        T visitError(ActionAttemptError error);
+        T visit(ActionAttemptTwo value);
 
-        T _visitUnknown(Object unknownType);
+        T visit(ActionAttemptThree value);
+
+        T visit(ActionAttemptFour value);
+
+        T visit(ActionAttemptFive value);
+
+        T visit(ActionAttemptSix value);
+
+        T visit(ActionAttemptSeven value);
+
+        T visit(ActionAttemptEight value);
+
+        T visit(ActionAttemptNine value);
+
+        T visit(ActionAttemptTen value);
+
+        T visit(ActionAttemptEleven value);
+
+        T visit(ActionAttemptTwelve value);
+
+        T visit(ActionAttemptThirteen value);
+
+        T visit(ActionAttemptFourteen value);
+
+        T visit(ActionAttemptFifteen value);
+
+        T visit(ActionAttemptSixteen value);
+
+        T visit(ActionAttemptSeventeen value);
+
+        T visit(ActionAttemptEighteen value);
+
+        T visit(ActionAttemptNineteen value);
+
+        T visit(ActionAttemptTwenty value);
+
+        T visit(ActionAttemptTwentyOne value);
+
+        T visit(ActionAttemptTwentyTwo value);
+
+        T visit(ActionAttemptTwentyThree value);
+
+        T visit(ActionAttemptTwentyFour value);
+
+        T visit(ActionAttemptTwentyFive value);
+
+        T visit(ActionAttemptTwentySix value);
+
+        T visit(ActionAttemptTwentySeven value);
+
+        T visit(ActionAttemptTwentyEight value);
+
+        T visit(ActionAttemptTwentyNine value);
+
+        T visit(ActionAttemptThirty value);
+
+        T visit(ActionAttemptThirtyOne value);
+
+        T visit(ActionAttemptThirtyTwo value);
+
+        T visit(ActionAttemptThirtyThree value);
+
+        T visit(ActionAttemptThirtyFour value);
+
+        T visit(ActionAttemptThirtyFive value);
+
+        T visit(ActionAttemptThirtySix value);
+
+        T visit(ActionAttemptThirtySeven value);
+
+        T visit(ActionAttemptThirtyEight value);
+
+        T visit(ActionAttemptThirtyNine value);
+
+        T visit(ActionAttemptForty value);
+
+        T visit(ActionAttemptFortyOne value);
+
+        T visit(ActionAttemptFortyTwo value);
+
+        T visit(ActionAttemptFortyThree value);
+
+        T visit(ActionAttemptActionAttemptId value);
     }
 
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "status", visible = true, defaultImpl = _UnknownValue.class)
-    @JsonSubTypes({
-        @JsonSubTypes.Type(SuccessValue.class),
-        @JsonSubTypes.Type(PendingValue.class),
-        @JsonSubTypes.Type(ErrorValue.class)
-    })
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    private interface Value {
-        <T> T visit(Visitor<T> visitor);
-    }
-
-    @JsonTypeName("success")
-    private static final class SuccessValue implements Value {
-        @JsonUnwrapped
-        private ActionAttemptSuccess value;
-
-        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-        private SuccessValue() {}
-
-        private SuccessValue(ActionAttemptSuccess value) {
-            this.value = value;
+    static final class Deserializer extends StdDeserializer<ActionAttempt> {
+        Deserializer() {
+            super(ActionAttempt.class);
         }
 
         @Override
-        public <T> T visit(Visitor<T> visitor) {
-            return visitor.visitSuccess(value);
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            if (this == other) return true;
-            return other instanceof SuccessValue && equalTo((SuccessValue) other);
-        }
-
-        private boolean equalTo(SuccessValue other) {
-            return value.equals(other.value);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(this.value);
-        }
-
-        @Override
-        public String toString() {
-            return "ActionAttempt{" + "value: " + value + "}";
-        }
-    }
-
-    @JsonTypeName("pending")
-    private static final class PendingValue implements Value {
-        @JsonUnwrapped
-        private ActionAttemptPending value;
-
-        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-        private PendingValue() {}
-
-        private PendingValue(ActionAttemptPending value) {
-            this.value = value;
-        }
-
-        @Override
-        public <T> T visit(Visitor<T> visitor) {
-            return visitor.visitPending(value);
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            if (this == other) return true;
-            return other instanceof PendingValue && equalTo((PendingValue) other);
-        }
-
-        private boolean equalTo(PendingValue other) {
-            return value.equals(other.value);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(this.value);
-        }
-
-        @Override
-        public String toString() {
-            return "ActionAttempt{" + "value: " + value + "}";
-        }
-    }
-
-    @JsonTypeName("error")
-    private static final class ErrorValue implements Value {
-        @JsonUnwrapped
-        private ActionAttemptError value;
-
-        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-        private ErrorValue() {}
-
-        private ErrorValue(ActionAttemptError value) {
-            this.value = value;
-        }
-
-        @Override
-        public <T> T visit(Visitor<T> visitor) {
-            return visitor.visitError(value);
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            if (this == other) return true;
-            return other instanceof ErrorValue && equalTo((ErrorValue) other);
-        }
-
-        private boolean equalTo(ErrorValue other) {
-            return value.equals(other.value);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(this.value);
-        }
-
-        @Override
-        public String toString() {
-            return "ActionAttempt{" + "value: " + value + "}";
-        }
-    }
-
-    private static final class _UnknownValue implements Value {
-        private String type;
-
-        @JsonValue
-        private Object value;
-
-        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-        private _UnknownValue(@JsonProperty("value") Object value) {}
-
-        @Override
-        public <T> T visit(Visitor<T> visitor) {
-            return visitor._visitUnknown(value);
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            if (this == other) return true;
-            return other instanceof _UnknownValue && equalTo((_UnknownValue) other);
-        }
-
-        private boolean equalTo(_UnknownValue other) {
-            return type.equals(other.type) && value.equals(other.value);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(this.type, this.value);
-        }
-
-        @Override
-        public String toString() {
-            return "ActionAttempt{" + "type: " + type + ", value: " + value + "}";
+        public ActionAttempt deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+            Object value = p.readValueAs(Object.class);
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptZero.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptOne.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptTwo.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptThree.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptFour.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptFive.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptSix.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptSeven.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptEight.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptNine.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptTen.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptEleven.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptTwelve.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptThirteen.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptFourteen.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptFifteen.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptSixteen.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptSeventeen.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptEighteen.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptNineteen.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptTwenty.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptTwentyOne.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptTwentyTwo.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptTwentyThree.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptTwentyFour.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptTwentyFive.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptTwentySix.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptTwentySeven.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptTwentyEight.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptTwentyNine.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptThirty.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptThirtyOne.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptThirtyTwo.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptThirtyThree.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptThirtyFour.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptThirtyFive.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptThirtySix.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptThirtySeven.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptThirtyEight.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptThirtyNine.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptForty.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptFortyOne.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptFortyTwo.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptFortyThree.class));
+            } catch (IllegalArgumentException e) {
+            }
+            try {
+                return of(ObjectMappers.JSON_MAPPER.convertValue(value, ActionAttemptActionAttemptId.class));
+            } catch (IllegalArgumentException e) {
+            }
+            throw new JsonParseException(p, "Failed to deserialize");
         }
     }
 }

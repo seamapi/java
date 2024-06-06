@@ -37,6 +37,8 @@ public final class ClientSession {
 
     private final List<String> connectWebviewIds;
 
+    private final List<String> userIdentityIds;
+
     private final String workspaceId;
 
     private final Map<String, Object> additionalProperties;
@@ -49,6 +51,7 @@ public final class ClientSession {
             double deviceCount,
             List<String> connectedAccountIds,
             List<String> connectWebviewIds,
+            List<String> userIdentityIds,
             String workspaceId,
             Map<String, Object> additionalProperties) {
         this.clientSessionId = clientSessionId;
@@ -58,6 +61,7 @@ public final class ClientSession {
         this.deviceCount = deviceCount;
         this.connectedAccountIds = connectedAccountIds;
         this.connectWebviewIds = connectWebviewIds;
+        this.userIdentityIds = userIdentityIds;
         this.workspaceId = workspaceId;
         this.additionalProperties = additionalProperties;
     }
@@ -97,6 +101,11 @@ public final class ClientSession {
         return connectWebviewIds;
     }
 
+    @JsonProperty("user_identity_ids")
+    public List<String> getUserIdentityIds() {
+        return userIdentityIds;
+    }
+
     @JsonProperty("workspace_id")
     public String getWorkspaceId() {
         return workspaceId;
@@ -121,6 +130,7 @@ public final class ClientSession {
                 && deviceCount == other.deviceCount
                 && connectedAccountIds.equals(other.connectedAccountIds)
                 && connectWebviewIds.equals(other.connectWebviewIds)
+                && userIdentityIds.equals(other.userIdentityIds)
                 && workspaceId.equals(other.workspaceId);
     }
 
@@ -134,6 +144,7 @@ public final class ClientSession {
                 this.deviceCount,
                 this.connectedAccountIds,
                 this.connectWebviewIds,
+                this.userIdentityIds,
                 this.workspaceId);
     }
 
@@ -186,6 +197,12 @@ public final class ClientSession {
         _FinalStage addConnectWebviewIds(String connectWebviewIds);
 
         _FinalStage addAllConnectWebviewIds(List<String> connectWebviewIds);
+
+        _FinalStage userIdentityIds(List<String> userIdentityIds);
+
+        _FinalStage addUserIdentityIds(String userIdentityIds);
+
+        _FinalStage addAllUserIdentityIds(List<String> userIdentityIds);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -205,6 +222,8 @@ public final class ClientSession {
         private double deviceCount;
 
         private String workspaceId;
+
+        private List<String> userIdentityIds = new ArrayList<>();
 
         private List<String> connectWebviewIds = new ArrayList<>();
 
@@ -226,6 +245,7 @@ public final class ClientSession {
             deviceCount(other.getDeviceCount());
             connectedAccountIds(other.getConnectedAccountIds());
             connectWebviewIds(other.getConnectWebviewIds());
+            userIdentityIds(other.getUserIdentityIds());
             workspaceId(other.getWorkspaceId());
             return this;
         }
@@ -262,6 +282,26 @@ public final class ClientSession {
         @JsonSetter("workspace_id")
         public _FinalStage workspaceId(String workspaceId) {
             this.workspaceId = workspaceId;
+            return this;
+        }
+
+        @Override
+        public _FinalStage addAllUserIdentityIds(List<String> userIdentityIds) {
+            this.userIdentityIds.addAll(userIdentityIds);
+            return this;
+        }
+
+        @Override
+        public _FinalStage addUserIdentityIds(String userIdentityIds) {
+            this.userIdentityIds.add(userIdentityIds);
+            return this;
+        }
+
+        @Override
+        @JsonSetter(value = "user_identity_ids", nulls = Nulls.SKIP)
+        public _FinalStage userIdentityIds(List<String> userIdentityIds) {
+            this.userIdentityIds.clear();
+            this.userIdentityIds.addAll(userIdentityIds);
             return this;
         }
 
@@ -328,6 +368,7 @@ public final class ClientSession {
                     deviceCount,
                     connectedAccountIds,
                     connectWebviewIds,
+                    userIdentityIds,
                     workspaceId,
                     additionalProperties);
         }

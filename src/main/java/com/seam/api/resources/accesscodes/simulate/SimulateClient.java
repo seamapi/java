@@ -8,7 +8,7 @@ import com.seam.api.core.ClientOptions;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
 import com.seam.api.resources.accesscodes.simulate.requests.SimulateCreateUnmanagedAccessCodeRequest;
-import com.seam.api.types.SimulateCreateUnmanagedAccessCodeResponse;
+import com.seam.api.resources.accesscodes.simulate.types.SimulateCreateUnmanagedAccessCodeResponse;
 import java.io.IOException;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
