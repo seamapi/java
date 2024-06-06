@@ -35,7 +35,7 @@ public final class ActionAttemptsListRequest {
         return actionAttemptIds;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ActionAttemptsListRequest && equalTo((ActionAttemptsListRequest) other);
@@ -50,12 +50,12 @@ public final class ActionAttemptsListRequest {
         return actionAttemptIds.equals(other.actionAttemptIds);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.actionAttemptIds);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }

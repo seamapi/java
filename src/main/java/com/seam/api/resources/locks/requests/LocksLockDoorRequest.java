@@ -42,7 +42,7 @@ public final class LocksLockDoorRequest {
         return sync;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof LocksLockDoorRequest && equalTo((LocksLockDoorRequest) other);
@@ -57,12 +57,12 @@ public final class LocksLockDoorRequest {
         return deviceId.equals(other.deviceId) && sync.equals(other.sync);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.deviceId, this.sync);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -96,34 +96,34 @@ public final class LocksLockDoorRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(LocksLockDoorRequest other) {
             deviceId(other.getDeviceId());
             sync(other.getSync());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public _FinalStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage sync(Boolean sync) {
             this.sync = Optional.of(sync);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "sync", nulls = Nulls.SKIP)
         public _FinalStage sync(Optional<Boolean> sync) {
             this.sync = sync;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public LocksLockDoorRequest build() {
             return new LocksLockDoorRequest(deviceId, sync, additionalProperties);
         }

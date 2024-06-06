@@ -72,7 +72,7 @@ public final class ConnectedAccountUserIdentifier {
         return exclusive;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ConnectedAccountUserIdentifier && equalTo((ConnectedAccountUserIdentifier) other);
@@ -91,12 +91,12 @@ public final class ConnectedAccountUserIdentifier {
                 && exclusive.equals(other.exclusive);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.username, this.apiUrl, this.email, this.phone, this.exclusive);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }

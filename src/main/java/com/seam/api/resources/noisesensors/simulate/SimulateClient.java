@@ -3,25 +3,35 @@
  */
 package com.seam.api.resources.noisesensors.simulate;
 
-import com.seam.api.core.ApiError;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.seam.api.core.ClientOptions;
+import com.seam.api.core.MediaTypes;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
+import com.seam.api.core.SeamApiApiError;
+import com.seam.api.core.SeamApiError;
+import com.seam.api.errors.SeamApiBadRequestError;
+import com.seam.api.errors.SeamApiUnauthorizedError;
 import com.seam.api.resources.noisesensors.simulate.requests.SimulateTriggerNoiseThresholdRequest;
-import com.seam.api.types.SimulateTriggerNoiseThresholdResponse;
+import com.seam.api.resources.noisesensors.simulate.types.SimulateTriggerNoiseThresholdResponse;
 import java.io.IOException;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
-import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class SimulateClient {
     protected final ClientOptions clientOptions;
 
     public SimulateClient(ClientOptions clientOptions) {
         this.clientOptions = clientOptions;
+    }
+
+    public SimulateTriggerNoiseThresholdResponse triggerNoiseThreshold(SimulateTriggerNoiseThresholdRequest request) {
+        return triggerNoiseThreshold(request, null);
     }
 
     public SimulateTriggerNoiseThresholdResponse triggerNoiseThreshold(
@@ -33,9 +43,9 @@ public class SimulateClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -43,22 +53,35 @@ public class SimulateClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
                 return ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), SimulateTriggerNoiseThresholdResponse.class);
+                        responseBody.string(), SimulateTriggerNoiseThresholdResponse.class);
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
-    }
-
-    public SimulateTriggerNoiseThresholdResponse triggerNoiseThreshold(SimulateTriggerNoiseThresholdRequest request) {
-        return triggerNoiseThreshold(request, null);
     }
 }

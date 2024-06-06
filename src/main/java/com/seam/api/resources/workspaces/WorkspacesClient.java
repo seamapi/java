@@ -3,22 +3,31 @@
  */
 package com.seam.api.resources.workspaces;
 
-import com.seam.api.core.ApiError;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.seam.api.core.ClientOptions;
+import com.seam.api.core.MediaTypes;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
+import com.seam.api.core.SeamApiApiError;
+import com.seam.api.core.SeamApiError;
+import com.seam.api.errors.SeamApiBadRequestError;
+import com.seam.api.errors.SeamApiUnauthorizedError;
+import com.seam.api.resources.workspaces.requests.WorkspacesCreateRequest;
+import com.seam.api.resources.workspaces.types.WorkspacesCreateResponse;
+import com.seam.api.resources.workspaces.types.WorkspacesGetResponse;
+import com.seam.api.resources.workspaces.types.WorkspacesListResponse;
+import com.seam.api.resources.workspaces.types.WorkspacesResetSandboxResponse;
+import com.seam.api.types.ActionAttempt;
 import com.seam.api.types.Workspace;
-import com.seam.api.types.WorkspacesGetResponse;
-import com.seam.api.types.WorkspacesListResponse;
-import com.seam.api.types.WorkspacesResetSandboxResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class WorkspacesClient {
     protected final ClientOptions clientOptions;
@@ -27,34 +36,106 @@ public class WorkspacesClient {
         this.clientOptions = clientOptions;
     }
 
-    public Optional<Workspace> get() {
+    public Workspace create(WorkspacesCreateRequest request) {
+        return create(request, null);
+    }
+
+    public Workspace create(WorkspacesCreateRequest request, RequestOptions requestOptions) {
+        HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
+                .newBuilder()
+                .addPathSegments("workspaces/create")
+                .build();
+        RequestBody body;
+        try {
+            body = RequestBody.create(
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
+        }
+        Request okhttpRequest = new Request.Builder()
+                .url(httpUrl)
+                .method("POST", body)
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
+                .addHeader("Content-Type", "application/json")
+                .build();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
+            if (response.isSuccessful()) {
+                WorkspacesCreateResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), WorkspacesCreateResponse.class);
+                return parsedResponse.getWorkspace();
+            }
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
+                    response.code(),
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+        } catch (IOException e) {
+            throw new SeamApiError("Network error executing HTTP request", e);
+        }
+    }
+
+    public Workspace get() {
         return get(null);
     }
 
-    public Optional<Workspace> get(RequestOptions requestOptions) {
+    public Workspace get(RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("workspaces/get")
                 .build();
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
-                .method("GET", null)
+                .method("POST", RequestBody.create("", null))
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
                 WorkspacesGetResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), WorkspacesGetResponse.class);
+                        ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), WorkspacesGetResponse.class);
                 return parsedResponse.getWorkspace();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
@@ -69,31 +150,48 @@ public class WorkspacesClient {
                 .build();
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
-                .method("GET", null)
+                .method("POST", RequestBody.create("", null))
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
                 WorkspacesListResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), WorkspacesListResponse.class);
+                        ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), WorkspacesListResponse.class);
                 return parsedResponse.getWorkspaces();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
-    public WorkspacesResetSandboxResponse resetSandbox() {
+    public ActionAttempt resetSandbox() {
         return resetSandbox(null);
     }
 
-    public WorkspacesResetSandboxResponse resetSandbox(RequestOptions requestOptions) {
+    public ActionAttempt resetSandbox(RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("workspaces/reset_sandbox")
@@ -104,18 +202,36 @@ public class WorkspacesClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
-                return ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), WorkspacesResetSandboxResponse.class);
+                WorkspacesResetSandboxResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
+                        responseBody.string(), WorkspacesResetSandboxResponse.class);
+                return parsedResponse.getActionAttempt();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 }

@@ -14,7 +14,9 @@ public enum DeviceCapabilitiesSupportedItem {
 
     THERMOSTAT("thermostat"),
 
-    BATTERY("battery");
+    BATTERY("battery"),
+
+    PHONE("phone");
 
     private final String value;
 
@@ -23,7 +25,7 @@ public enum DeviceCapabilitiesSupportedItem {
     }
 
     @JsonValue
-    @Override
+    @java.lang.Override
     public String toString() {
         return this.value;
     }
