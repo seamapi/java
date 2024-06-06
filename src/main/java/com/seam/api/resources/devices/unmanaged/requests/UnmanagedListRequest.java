@@ -12,6 +12,9 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.resources.devices.unmanaged.types.UnmanagedListRequestCustomMetadataHasValue;
+import com.seam.api.resources.devices.unmanaged.types.UnmanagedListRequestExcludeIfItem;
+import com.seam.api.resources.devices.unmanaged.types.UnmanagedListRequestIncludeIfItem;
 import com.seam.api.types.DeviceType;
 import com.seam.api.types.Manufacturer;
 import java.time.OffsetDateTime;
@@ -42,6 +45,14 @@ public final class UnmanagedListRequest {
 
     private final Optional<OffsetDateTime> createdBefore;
 
+    private final Optional<String> userIdentifierKey;
+
+    private final Optional<Map<String, UnmanagedListRequestCustomMetadataHasValue>> customMetadataHas;
+
+    private final Optional<List<UnmanagedListRequestIncludeIfItem>> includeIf;
+
+    private final Optional<List<UnmanagedListRequestExcludeIfItem>> excludeIf;
+
     private final Map<String, Object> additionalProperties;
 
     private UnmanagedListRequest(
@@ -54,6 +65,10 @@ public final class UnmanagedListRequest {
             Optional<List<String>> deviceIds,
             Optional<Double> limit,
             Optional<OffsetDateTime> createdBefore,
+            Optional<String> userIdentifierKey,
+            Optional<Map<String, UnmanagedListRequestCustomMetadataHasValue>> customMetadataHas,
+            Optional<List<UnmanagedListRequestIncludeIfItem>> includeIf,
+            Optional<List<UnmanagedListRequestExcludeIfItem>> excludeIf,
             Map<String, Object> additionalProperties) {
         this.connectedAccountId = connectedAccountId;
         this.connectedAccountIds = connectedAccountIds;
@@ -64,9 +79,16 @@ public final class UnmanagedListRequest {
         this.deviceIds = deviceIds;
         this.limit = limit;
         this.createdBefore = createdBefore;
+        this.userIdentifierKey = userIdentifierKey;
+        this.customMetadataHas = customMetadataHas;
+        this.includeIf = includeIf;
+        this.excludeIf = excludeIf;
         this.additionalProperties = additionalProperties;
     }
 
+    /**
+     * @return List all devices owned by this connected account
+     */
     @JsonProperty("connected_account_id")
     public Optional<String> getConnectedAccountId() {
         return connectedAccountId;
@@ -112,7 +134,27 @@ public final class UnmanagedListRequest {
         return createdBefore;
     }
 
-    @Override
+    @JsonProperty("user_identifier_key")
+    public Optional<String> getUserIdentifierKey() {
+        return userIdentifierKey;
+    }
+
+    @JsonProperty("custom_metadata_has")
+    public Optional<Map<String, UnmanagedListRequestCustomMetadataHasValue>> getCustomMetadataHas() {
+        return customMetadataHas;
+    }
+
+    @JsonProperty("include_if")
+    public Optional<List<UnmanagedListRequestIncludeIfItem>> getIncludeIf() {
+        return includeIf;
+    }
+
+    @JsonProperty("exclude_if")
+    public Optional<List<UnmanagedListRequestExcludeIfItem>> getExcludeIf() {
+        return excludeIf;
+    }
+
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof UnmanagedListRequest && equalTo((UnmanagedListRequest) other);
@@ -132,10 +174,14 @@ public final class UnmanagedListRequest {
                 && manufacturer.equals(other.manufacturer)
                 && deviceIds.equals(other.deviceIds)
                 && limit.equals(other.limit)
-                && createdBefore.equals(other.createdBefore);
+                && createdBefore.equals(other.createdBefore)
+                && userIdentifierKey.equals(other.userIdentifierKey)
+                && customMetadataHas.equals(other.customMetadataHas)
+                && includeIf.equals(other.includeIf)
+                && excludeIf.equals(other.excludeIf);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(
                 this.connectedAccountId,
@@ -146,10 +192,14 @@ public final class UnmanagedListRequest {
                 this.manufacturer,
                 this.deviceIds,
                 this.limit,
-                this.createdBefore);
+                this.createdBefore,
+                this.userIdentifierKey,
+                this.customMetadataHas,
+                this.includeIf,
+                this.excludeIf);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -178,6 +228,14 @@ public final class UnmanagedListRequest {
 
         private Optional<OffsetDateTime> createdBefore = Optional.empty();
 
+        private Optional<String> userIdentifierKey = Optional.empty();
+
+        private Optional<Map<String, UnmanagedListRequestCustomMetadataHasValue>> customMetadataHas = Optional.empty();
+
+        private Optional<List<UnmanagedListRequestIncludeIfItem>> includeIf = Optional.empty();
+
+        private Optional<List<UnmanagedListRequestExcludeIfItem>> excludeIf = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -193,6 +251,10 @@ public final class UnmanagedListRequest {
             deviceIds(other.getDeviceIds());
             limit(other.getLimit());
             createdBefore(other.getCreatedBefore());
+            userIdentifierKey(other.getUserIdentifierKey());
+            customMetadataHas(other.getCustomMetadataHas());
+            includeIf(other.getIncludeIf());
+            excludeIf(other.getExcludeIf());
             return this;
         }
 
@@ -295,6 +357,51 @@ public final class UnmanagedListRequest {
             return this;
         }
 
+        @JsonSetter(value = "user_identifier_key", nulls = Nulls.SKIP)
+        public Builder userIdentifierKey(Optional<String> userIdentifierKey) {
+            this.userIdentifierKey = userIdentifierKey;
+            return this;
+        }
+
+        public Builder userIdentifierKey(String userIdentifierKey) {
+            this.userIdentifierKey = Optional.of(userIdentifierKey);
+            return this;
+        }
+
+        @JsonSetter(value = "custom_metadata_has", nulls = Nulls.SKIP)
+        public Builder customMetadataHas(
+                Optional<Map<String, UnmanagedListRequestCustomMetadataHasValue>> customMetadataHas) {
+            this.customMetadataHas = customMetadataHas;
+            return this;
+        }
+
+        public Builder customMetadataHas(Map<String, UnmanagedListRequestCustomMetadataHasValue> customMetadataHas) {
+            this.customMetadataHas = Optional.of(customMetadataHas);
+            return this;
+        }
+
+        @JsonSetter(value = "include_if", nulls = Nulls.SKIP)
+        public Builder includeIf(Optional<List<UnmanagedListRequestIncludeIfItem>> includeIf) {
+            this.includeIf = includeIf;
+            return this;
+        }
+
+        public Builder includeIf(List<UnmanagedListRequestIncludeIfItem> includeIf) {
+            this.includeIf = Optional.of(includeIf);
+            return this;
+        }
+
+        @JsonSetter(value = "exclude_if", nulls = Nulls.SKIP)
+        public Builder excludeIf(Optional<List<UnmanagedListRequestExcludeIfItem>> excludeIf) {
+            this.excludeIf = excludeIf;
+            return this;
+        }
+
+        public Builder excludeIf(List<UnmanagedListRequestExcludeIfItem> excludeIf) {
+            this.excludeIf = Optional.of(excludeIf);
+            return this;
+        }
+
         public UnmanagedListRequest build() {
             return new UnmanagedListRequest(
                     connectedAccountId,
@@ -306,6 +413,10 @@ public final class UnmanagedListRequest {
                     deviceIds,
                     limit,
                     createdBefore,
+                    userIdentifierKey,
+                    customMetadataHas,
+                    includeIf,
+                    excludeIf,
                     additionalProperties);
         }
     }

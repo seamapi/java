@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,45 +25,252 @@ public final class DeviceProperties {
 
     private final String name;
 
+    private final Optional<DevicePropertiesAccessoryKeypad> accessoryKeypad;
+
+    private final DevicePropertiesAppearance appearance;
+
     private final DevicePropertiesModel model;
 
-    private final Optional<AugustDeviceMetadata> augustMetadata;
+    private final Optional<Boolean> hasDirectPower;
 
-    private final Optional<SchlageDeviceMetadata> schlageMetadata;
+    private final Optional<Double> batteryLevel;
 
-    private final Object smartthingsMetadata;
+    private final Optional<DevicePropertiesBattery> battery;
 
-    private final Optional<CurrentClimateSetting> currentClimateSetting;
+    private final Optional<String> manufacturer;
+
+    private final Optional<String> imageUrl;
+
+    private final Optional<String> imageAltText;
+
+    private final Optional<String> serialNumber;
+
+    private final Optional<Boolean> onlineAccessCodesEnabled;
+
+    private final Optional<Boolean> offlineAccessCodesEnabled;
+
+    private final Optional<Boolean> supportsAccessoryKeypad;
+
+    private final Optional<Boolean> supportsOfflineAccessCodes;
+
+    private final Optional<Double> noiseLevelDecibels;
+
+    private final Optional<DevicePropertiesAssaAbloyCredentialServiceMetadata> assaAbloyCredentialServiceMetadata;
+
+    private final Optional<DevicePropertiesAugustMetadata> augustMetadata;
+
+    private final Optional<DevicePropertiesAvigilonAltaMetadata> avigilonAltaMetadata;
+
+    private final Optional<DevicePropertiesSchlageMetadata> schlageMetadata;
+
+    private final Optional<DevicePropertiesSmartthingsMetadata> smartthingsMetadata;
+
+    private final Optional<DevicePropertiesLocklyMetadata> locklyMetadata;
+
+    private final Optional<DevicePropertiesNukiMetadata> nukiMetadata;
+
+    private final Optional<DevicePropertiesKwiksetMetadata> kwiksetMetadata;
+
+    private final Optional<DevicePropertiesSaltoMetadata> saltoMetadata;
+
+    private final Optional<DevicePropertiesGenieMetadata> genieMetadata;
+
+    private final Optional<DevicePropertiesBrivoMetadata> brivoMetadata;
+
+    private final Optional<DevicePropertiesIglooMetadata> iglooMetadata;
+
+    private final Optional<DevicePropertiesNoiseawareMetadata> noiseawareMetadata;
+
+    private final Optional<DevicePropertiesMinutMetadata> minutMetadata;
+
+    private final Optional<DevicePropertiesFourSuitesMetadata> fourSuitesMetadata;
+
+    private final Optional<DevicePropertiesTwoNMetadata> twoNMetadata;
+
+    private final Optional<DevicePropertiesControlbywebMetadata> controlbywebMetadata;
+
+    private final Optional<DevicePropertiesTtlockMetadata> ttlockMetadata;
+
+    private final Optional<DevicePropertiesSeamBridgeMetadata> seamBridgeMetadata;
+
+    private final Optional<DevicePropertiesIgloohomeMetadata> igloohomeMetadata;
+
+    private final Optional<DevicePropertiesNestMetadata> nestMetadata;
+
+    private final Optional<DevicePropertiesEcobeeMetadata> ecobeeMetadata;
+
+    private final Optional<DevicePropertiesHoneywellResideoMetadata> honeywellResideoMetadata;
+
+    private final Optional<DevicePropertiesHubitatMetadata> hubitatMetadata;
+
+    private final Optional<DevicePropertiesDormakabaOracodeMetadata> dormakabaOracodeMetadata;
+
+    private final Optional<DevicePropertiesWyzeMetadata> wyzeMetadata;
+
+    private final Optional<DevicePropertiesTedeeMetadata> tedeeMetadata;
+
+    private final Optional<List<Double>> experimentalSupportedCodeFromAccessCodesLengths;
+
+    private final Optional<List<DevicePropertiesCodeConstraintsItem>> codeConstraints;
+
+    private final Optional<List<Double>> supportedCodeLengths;
+
+    private final Optional<Double> maxActiveCodesSupported;
+
+    private final Optional<Boolean> supportsBackupAccessCodePool;
+
+    private final Optional<Boolean> hasNativeEntryEvents;
+
+    private final Optional<Boolean> locked;
+
+    private final Optional<DevicePropertiesKeypadBattery> keypadBattery;
+
+    private final Optional<Boolean> doorOpen;
 
     private final Map<String, Object> additionalProperties;
 
     private DeviceProperties(
             boolean online,
             String name,
+            Optional<DevicePropertiesAccessoryKeypad> accessoryKeypad,
+            DevicePropertiesAppearance appearance,
             DevicePropertiesModel model,
-            Optional<AugustDeviceMetadata> augustMetadata,
-            Optional<SchlageDeviceMetadata> schlageMetadata,
-            Object smartthingsMetadata,
-            Optional<CurrentClimateSetting> currentClimateSetting,
+            Optional<Boolean> hasDirectPower,
+            Optional<Double> batteryLevel,
+            Optional<DevicePropertiesBattery> battery,
+            Optional<String> manufacturer,
+            Optional<String> imageUrl,
+            Optional<String> imageAltText,
+            Optional<String> serialNumber,
+            Optional<Boolean> onlineAccessCodesEnabled,
+            Optional<Boolean> offlineAccessCodesEnabled,
+            Optional<Boolean> supportsAccessoryKeypad,
+            Optional<Boolean> supportsOfflineAccessCodes,
+            Optional<Double> noiseLevelDecibels,
+            Optional<DevicePropertiesAssaAbloyCredentialServiceMetadata> assaAbloyCredentialServiceMetadata,
+            Optional<DevicePropertiesAugustMetadata> augustMetadata,
+            Optional<DevicePropertiesAvigilonAltaMetadata> avigilonAltaMetadata,
+            Optional<DevicePropertiesSchlageMetadata> schlageMetadata,
+            Optional<DevicePropertiesSmartthingsMetadata> smartthingsMetadata,
+            Optional<DevicePropertiesLocklyMetadata> locklyMetadata,
+            Optional<DevicePropertiesNukiMetadata> nukiMetadata,
+            Optional<DevicePropertiesKwiksetMetadata> kwiksetMetadata,
+            Optional<DevicePropertiesSaltoMetadata> saltoMetadata,
+            Optional<DevicePropertiesGenieMetadata> genieMetadata,
+            Optional<DevicePropertiesBrivoMetadata> brivoMetadata,
+            Optional<DevicePropertiesIglooMetadata> iglooMetadata,
+            Optional<DevicePropertiesNoiseawareMetadata> noiseawareMetadata,
+            Optional<DevicePropertiesMinutMetadata> minutMetadata,
+            Optional<DevicePropertiesFourSuitesMetadata> fourSuitesMetadata,
+            Optional<DevicePropertiesTwoNMetadata> twoNMetadata,
+            Optional<DevicePropertiesControlbywebMetadata> controlbywebMetadata,
+            Optional<DevicePropertiesTtlockMetadata> ttlockMetadata,
+            Optional<DevicePropertiesSeamBridgeMetadata> seamBridgeMetadata,
+            Optional<DevicePropertiesIgloohomeMetadata> igloohomeMetadata,
+            Optional<DevicePropertiesNestMetadata> nestMetadata,
+            Optional<DevicePropertiesEcobeeMetadata> ecobeeMetadata,
+            Optional<DevicePropertiesHoneywellResideoMetadata> honeywellResideoMetadata,
+            Optional<DevicePropertiesHubitatMetadata> hubitatMetadata,
+            Optional<DevicePropertiesDormakabaOracodeMetadata> dormakabaOracodeMetadata,
+            Optional<DevicePropertiesWyzeMetadata> wyzeMetadata,
+            Optional<DevicePropertiesTedeeMetadata> tedeeMetadata,
+            Optional<List<Double>> experimentalSupportedCodeFromAccessCodesLengths,
+            Optional<List<DevicePropertiesCodeConstraintsItem>> codeConstraints,
+            Optional<List<Double>> supportedCodeLengths,
+            Optional<Double> maxActiveCodesSupported,
+            Optional<Boolean> supportsBackupAccessCodePool,
+            Optional<Boolean> hasNativeEntryEvents,
+            Optional<Boolean> locked,
+            Optional<DevicePropertiesKeypadBattery> keypadBattery,
+            Optional<Boolean> doorOpen,
             Map<String, Object> additionalProperties) {
         this.online = online;
         this.name = name;
+        this.accessoryKeypad = accessoryKeypad;
+        this.appearance = appearance;
         this.model = model;
+        this.hasDirectPower = hasDirectPower;
+        this.batteryLevel = batteryLevel;
+        this.battery = battery;
+        this.manufacturer = manufacturer;
+        this.imageUrl = imageUrl;
+        this.imageAltText = imageAltText;
+        this.serialNumber = serialNumber;
+        this.onlineAccessCodesEnabled = onlineAccessCodesEnabled;
+        this.offlineAccessCodesEnabled = offlineAccessCodesEnabled;
+        this.supportsAccessoryKeypad = supportsAccessoryKeypad;
+        this.supportsOfflineAccessCodes = supportsOfflineAccessCodes;
+        this.noiseLevelDecibels = noiseLevelDecibels;
+        this.assaAbloyCredentialServiceMetadata = assaAbloyCredentialServiceMetadata;
         this.augustMetadata = augustMetadata;
+        this.avigilonAltaMetadata = avigilonAltaMetadata;
         this.schlageMetadata = schlageMetadata;
         this.smartthingsMetadata = smartthingsMetadata;
-        this.currentClimateSetting = currentClimateSetting;
+        this.locklyMetadata = locklyMetadata;
+        this.nukiMetadata = nukiMetadata;
+        this.kwiksetMetadata = kwiksetMetadata;
+        this.saltoMetadata = saltoMetadata;
+        this.genieMetadata = genieMetadata;
+        this.brivoMetadata = brivoMetadata;
+        this.iglooMetadata = iglooMetadata;
+        this.noiseawareMetadata = noiseawareMetadata;
+        this.minutMetadata = minutMetadata;
+        this.fourSuitesMetadata = fourSuitesMetadata;
+        this.twoNMetadata = twoNMetadata;
+        this.controlbywebMetadata = controlbywebMetadata;
+        this.ttlockMetadata = ttlockMetadata;
+        this.seamBridgeMetadata = seamBridgeMetadata;
+        this.igloohomeMetadata = igloohomeMetadata;
+        this.nestMetadata = nestMetadata;
+        this.ecobeeMetadata = ecobeeMetadata;
+        this.honeywellResideoMetadata = honeywellResideoMetadata;
+        this.hubitatMetadata = hubitatMetadata;
+        this.dormakabaOracodeMetadata = dormakabaOracodeMetadata;
+        this.wyzeMetadata = wyzeMetadata;
+        this.tedeeMetadata = tedeeMetadata;
+        this.experimentalSupportedCodeFromAccessCodesLengths = experimentalSupportedCodeFromAccessCodesLengths;
+        this.codeConstraints = codeConstraints;
+        this.supportedCodeLengths = supportedCodeLengths;
+        this.maxActiveCodesSupported = maxActiveCodesSupported;
+        this.supportsBackupAccessCodePool = supportsBackupAccessCodePool;
+        this.hasNativeEntryEvents = hasNativeEntryEvents;
+        this.locked = locked;
+        this.keypadBattery = keypadBattery;
+        this.doorOpen = doorOpen;
         this.additionalProperties = additionalProperties;
     }
 
+    /**
+     * @return Indicates whether the device is online.
+     */
     @JsonProperty("online")
     public boolean getOnline() {
         return online;
     }
 
+    /**
+     * @return <hr />
+     * <pre><code>  deprecated: use device.display_name instead
+     *   ---
+     *   Name of the device.
+     * </code></pre>
+     */
     @JsonProperty("name")
     public String getName() {
         return name;
+    }
+
+    /**
+     * @return Represents the accessory keypad state.
+     */
+    @JsonProperty("accessory_keypad")
+    public Optional<DevicePropertiesAccessoryKeypad> getAccessoryKeypad() {
+        return accessoryKeypad;
+    }
+
+    @JsonProperty("appearance")
+    public DevicePropertiesAppearance getAppearance() {
+        return appearance;
     }
 
     @JsonProperty("model")
@@ -70,27 +278,289 @@ public final class DeviceProperties {
         return model;
     }
 
+    /**
+     * @return Indicates whether the device has direct power.
+     */
+    @JsonProperty("has_direct_power")
+    public Optional<Boolean> getHasDirectPower() {
+        return hasDirectPower;
+    }
+
+    /**
+     * @return Indicates the battery level of the device as a decimal value between 0 and 1, inclusive.
+     */
+    @JsonProperty("battery_level")
+    public Optional<Double> getBatteryLevel() {
+        return batteryLevel;
+    }
+
+    /**
+     * @return Represents the current status of the battery charge level. Values are &quot;critical,&quot; which indicates an extremely low level, suggesting imminent shutdown or an urgent need for charging; &quot;low,&quot; which signifies that the battery is under the preferred threshold and should be charged soon; &quot;good,&quot; which denotes a satisfactory charge level, adequate for normal use without the immediate need for recharging; and &quot;full,&quot; which represents a battery that is fully charged, providing the maximum duration of usage.
+     */
+    @JsonProperty("battery")
+    public Optional<DevicePropertiesBattery> getBattery() {
+        return battery;
+    }
+
+    /**
+     * @return Manufacturer of the device.
+     */
+    @JsonProperty("manufacturer")
+    public Optional<String> getManufacturer() {
+        return manufacturer;
+    }
+
+    /**
+     * @return Image URL for the device.
+     */
+    @JsonProperty("image_url")
+    public Optional<String> getImageUrl() {
+        return imageUrl;
+    }
+
+    /**
+     * @return Alt text for the device image.
+     */
+    @JsonProperty("image_alt_text")
+    public Optional<String> getImageAltText() {
+        return imageAltText;
+    }
+
+    /**
+     * @return Serial number of the device.
+     */
+    @JsonProperty("serial_number")
+    public Optional<String> getSerialNumber() {
+        return serialNumber;
+    }
+
+    /**
+     * @return Indicates whether it is currently possible to use online access codes for the device.
+     */
+    @JsonProperty("online_access_codes_enabled")
+    public Optional<Boolean> getOnlineAccessCodesEnabled() {
+        return onlineAccessCodesEnabled;
+    }
+
+    /**
+     * @return Indicates whether it is currently possible to use offline access codes for the device.
+     */
+    @JsonProperty("offline_access_codes_enabled")
+    public Optional<Boolean> getOfflineAccessCodesEnabled() {
+        return offlineAccessCodesEnabled;
+    }
+
+    /**
+     * @return <hr />
+     * <pre><code>  deprecated: use device.properties.model.can_connect_accessory_keypad
+     *   ---
+     * </code></pre>
+     */
+    @JsonProperty("supports_accessory_keypad")
+    public Optional<Boolean> getSupportsAccessoryKeypad() {
+        return supportsAccessoryKeypad;
+    }
+
+    /**
+     * @return <hr />
+     * <pre><code>  deprecated: use offline_access_codes_enabled
+     *   ---
+     * </code></pre>
+     */
+    @JsonProperty("supports_offline_access_codes")
+    public Optional<Boolean> getSupportsOfflineAccessCodes() {
+        return supportsOfflineAccessCodes;
+    }
+
+    /**
+     * @return Indicates current noise level in decibels, if the device supports noise detection.
+     */
+    @JsonProperty("noise_level_decibels")
+    public Optional<Double> getNoiseLevelDecibels() {
+        return noiseLevelDecibels;
+    }
+
+    @JsonProperty("assa_abloy_credential_service_metadata")
+    public Optional<DevicePropertiesAssaAbloyCredentialServiceMetadata> getAssaAbloyCredentialServiceMetadata() {
+        return assaAbloyCredentialServiceMetadata;
+    }
+
     @JsonProperty("august_metadata")
-    public Optional<AugustDeviceMetadata> getAugustMetadata() {
+    public Optional<DevicePropertiesAugustMetadata> getAugustMetadata() {
         return augustMetadata;
     }
 
+    @JsonProperty("avigilon_alta_metadata")
+    public Optional<DevicePropertiesAvigilonAltaMetadata> getAvigilonAltaMetadata() {
+        return avigilonAltaMetadata;
+    }
+
     @JsonProperty("schlage_metadata")
-    public Optional<SchlageDeviceMetadata> getSchlageMetadata() {
+    public Optional<DevicePropertiesSchlageMetadata> getSchlageMetadata() {
         return schlageMetadata;
     }
 
     @JsonProperty("smartthings_metadata")
-    public Object getSmartthingsMetadata() {
+    public Optional<DevicePropertiesSmartthingsMetadata> getSmartthingsMetadata() {
         return smartthingsMetadata;
     }
 
-    @JsonProperty("current_climate_setting")
-    public Optional<CurrentClimateSetting> getCurrentClimateSetting() {
-        return currentClimateSetting;
+    @JsonProperty("lockly_metadata")
+    public Optional<DevicePropertiesLocklyMetadata> getLocklyMetadata() {
+        return locklyMetadata;
     }
 
-    @Override
+    @JsonProperty("nuki_metadata")
+    public Optional<DevicePropertiesNukiMetadata> getNukiMetadata() {
+        return nukiMetadata;
+    }
+
+    @JsonProperty("kwikset_metadata")
+    public Optional<DevicePropertiesKwiksetMetadata> getKwiksetMetadata() {
+        return kwiksetMetadata;
+    }
+
+    @JsonProperty("salto_metadata")
+    public Optional<DevicePropertiesSaltoMetadata> getSaltoMetadata() {
+        return saltoMetadata;
+    }
+
+    @JsonProperty("genie_metadata")
+    public Optional<DevicePropertiesGenieMetadata> getGenieMetadata() {
+        return genieMetadata;
+    }
+
+    @JsonProperty("brivo_metadata")
+    public Optional<DevicePropertiesBrivoMetadata> getBrivoMetadata() {
+        return brivoMetadata;
+    }
+
+    @JsonProperty("igloo_metadata")
+    public Optional<DevicePropertiesIglooMetadata> getIglooMetadata() {
+        return iglooMetadata;
+    }
+
+    @JsonProperty("noiseaware_metadata")
+    public Optional<DevicePropertiesNoiseawareMetadata> getNoiseawareMetadata() {
+        return noiseawareMetadata;
+    }
+
+    @JsonProperty("minut_metadata")
+    public Optional<DevicePropertiesMinutMetadata> getMinutMetadata() {
+        return minutMetadata;
+    }
+
+    @JsonProperty("four_suites_metadata")
+    public Optional<DevicePropertiesFourSuitesMetadata> getFourSuitesMetadata() {
+        return fourSuitesMetadata;
+    }
+
+    @JsonProperty("two_n_metadata")
+    public Optional<DevicePropertiesTwoNMetadata> getTwoNMetadata() {
+        return twoNMetadata;
+    }
+
+    @JsonProperty("controlbyweb_metadata")
+    public Optional<DevicePropertiesControlbywebMetadata> getControlbywebMetadata() {
+        return controlbywebMetadata;
+    }
+
+    @JsonProperty("ttlock_metadata")
+    public Optional<DevicePropertiesTtlockMetadata> getTtlockMetadata() {
+        return ttlockMetadata;
+    }
+
+    @JsonProperty("seam_bridge_metadata")
+    public Optional<DevicePropertiesSeamBridgeMetadata> getSeamBridgeMetadata() {
+        return seamBridgeMetadata;
+    }
+
+    @JsonProperty("igloohome_metadata")
+    public Optional<DevicePropertiesIgloohomeMetadata> getIgloohomeMetadata() {
+        return igloohomeMetadata;
+    }
+
+    @JsonProperty("nest_metadata")
+    public Optional<DevicePropertiesNestMetadata> getNestMetadata() {
+        return nestMetadata;
+    }
+
+    @JsonProperty("ecobee_metadata")
+    public Optional<DevicePropertiesEcobeeMetadata> getEcobeeMetadata() {
+        return ecobeeMetadata;
+    }
+
+    @JsonProperty("honeywell_resideo_metadata")
+    public Optional<DevicePropertiesHoneywellResideoMetadata> getHoneywellResideoMetadata() {
+        return honeywellResideoMetadata;
+    }
+
+    @JsonProperty("hubitat_metadata")
+    public Optional<DevicePropertiesHubitatMetadata> getHubitatMetadata() {
+        return hubitatMetadata;
+    }
+
+    @JsonProperty("dormakaba_oracode_metadata")
+    public Optional<DevicePropertiesDormakabaOracodeMetadata> getDormakabaOracodeMetadata() {
+        return dormakabaOracodeMetadata;
+    }
+
+    @JsonProperty("wyze_metadata")
+    public Optional<DevicePropertiesWyzeMetadata> getWyzeMetadata() {
+        return wyzeMetadata;
+    }
+
+    @JsonProperty("tedee_metadata")
+    public Optional<DevicePropertiesTedeeMetadata> getTedeeMetadata() {
+        return tedeeMetadata;
+    }
+
+    @JsonProperty("_experimental_supported_code_from_access_codes_lengths")
+    public Optional<List<Double>> getExperimentalSupportedCodeFromAccessCodesLengths() {
+        return experimentalSupportedCodeFromAccessCodesLengths;
+    }
+
+    @JsonProperty("code_constraints")
+    public Optional<List<DevicePropertiesCodeConstraintsItem>> getCodeConstraints() {
+        return codeConstraints;
+    }
+
+    @JsonProperty("supported_code_lengths")
+    public Optional<List<Double>> getSupportedCodeLengths() {
+        return supportedCodeLengths;
+    }
+
+    @JsonProperty("max_active_codes_supported")
+    public Optional<Double> getMaxActiveCodesSupported() {
+        return maxActiveCodesSupported;
+    }
+
+    @JsonProperty("supports_backup_access_code_pool")
+    public Optional<Boolean> getSupportsBackupAccessCodePool() {
+        return supportsBackupAccessCodePool;
+    }
+
+    @JsonProperty("has_native_entry_events")
+    public Optional<Boolean> getHasNativeEntryEvents() {
+        return hasNativeEntryEvents;
+    }
+
+    @JsonProperty("locked")
+    public Optional<Boolean> getLocked() {
+        return locked;
+    }
+
+    @JsonProperty("keypad_battery")
+    public Optional<DevicePropertiesKeypadBattery> getKeypadBattery() {
+        return keypadBattery;
+    }
+
+    @JsonProperty("door_open")
+    public Optional<Boolean> getDoorOpen() {
+        return doorOpen;
+    }
+
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof DeviceProperties && equalTo((DeviceProperties) other);
@@ -104,26 +574,119 @@ public final class DeviceProperties {
     private boolean equalTo(DeviceProperties other) {
         return online == other.online
                 && name.equals(other.name)
+                && accessoryKeypad.equals(other.accessoryKeypad)
+                && appearance.equals(other.appearance)
                 && model.equals(other.model)
+                && hasDirectPower.equals(other.hasDirectPower)
+                && batteryLevel.equals(other.batteryLevel)
+                && battery.equals(other.battery)
+                && manufacturer.equals(other.manufacturer)
+                && imageUrl.equals(other.imageUrl)
+                && imageAltText.equals(other.imageAltText)
+                && serialNumber.equals(other.serialNumber)
+                && onlineAccessCodesEnabled.equals(other.onlineAccessCodesEnabled)
+                && offlineAccessCodesEnabled.equals(other.offlineAccessCodesEnabled)
+                && supportsAccessoryKeypad.equals(other.supportsAccessoryKeypad)
+                && supportsOfflineAccessCodes.equals(other.supportsOfflineAccessCodes)
+                && noiseLevelDecibels.equals(other.noiseLevelDecibels)
+                && assaAbloyCredentialServiceMetadata.equals(other.assaAbloyCredentialServiceMetadata)
                 && augustMetadata.equals(other.augustMetadata)
+                && avigilonAltaMetadata.equals(other.avigilonAltaMetadata)
                 && schlageMetadata.equals(other.schlageMetadata)
                 && smartthingsMetadata.equals(other.smartthingsMetadata)
-                && currentClimateSetting.equals(other.currentClimateSetting);
+                && locklyMetadata.equals(other.locklyMetadata)
+                && nukiMetadata.equals(other.nukiMetadata)
+                && kwiksetMetadata.equals(other.kwiksetMetadata)
+                && saltoMetadata.equals(other.saltoMetadata)
+                && genieMetadata.equals(other.genieMetadata)
+                && brivoMetadata.equals(other.brivoMetadata)
+                && iglooMetadata.equals(other.iglooMetadata)
+                && noiseawareMetadata.equals(other.noiseawareMetadata)
+                && minutMetadata.equals(other.minutMetadata)
+                && fourSuitesMetadata.equals(other.fourSuitesMetadata)
+                && twoNMetadata.equals(other.twoNMetadata)
+                && controlbywebMetadata.equals(other.controlbywebMetadata)
+                && ttlockMetadata.equals(other.ttlockMetadata)
+                && seamBridgeMetadata.equals(other.seamBridgeMetadata)
+                && igloohomeMetadata.equals(other.igloohomeMetadata)
+                && nestMetadata.equals(other.nestMetadata)
+                && ecobeeMetadata.equals(other.ecobeeMetadata)
+                && honeywellResideoMetadata.equals(other.honeywellResideoMetadata)
+                && hubitatMetadata.equals(other.hubitatMetadata)
+                && dormakabaOracodeMetadata.equals(other.dormakabaOracodeMetadata)
+                && wyzeMetadata.equals(other.wyzeMetadata)
+                && tedeeMetadata.equals(other.tedeeMetadata)
+                && experimentalSupportedCodeFromAccessCodesLengths.equals(
+                        other.experimentalSupportedCodeFromAccessCodesLengths)
+                && codeConstraints.equals(other.codeConstraints)
+                && supportedCodeLengths.equals(other.supportedCodeLengths)
+                && maxActiveCodesSupported.equals(other.maxActiveCodesSupported)
+                && supportsBackupAccessCodePool.equals(other.supportsBackupAccessCodePool)
+                && hasNativeEntryEvents.equals(other.hasNativeEntryEvents)
+                && locked.equals(other.locked)
+                && keypadBattery.equals(other.keypadBattery)
+                && doorOpen.equals(other.doorOpen);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(
                 this.online,
                 this.name,
+                this.accessoryKeypad,
+                this.appearance,
                 this.model,
+                this.hasDirectPower,
+                this.batteryLevel,
+                this.battery,
+                this.manufacturer,
+                this.imageUrl,
+                this.imageAltText,
+                this.serialNumber,
+                this.onlineAccessCodesEnabled,
+                this.offlineAccessCodesEnabled,
+                this.supportsAccessoryKeypad,
+                this.supportsOfflineAccessCodes,
+                this.noiseLevelDecibels,
+                this.assaAbloyCredentialServiceMetadata,
                 this.augustMetadata,
+                this.avigilonAltaMetadata,
                 this.schlageMetadata,
                 this.smartthingsMetadata,
-                this.currentClimateSetting);
+                this.locklyMetadata,
+                this.nukiMetadata,
+                this.kwiksetMetadata,
+                this.saltoMetadata,
+                this.genieMetadata,
+                this.brivoMetadata,
+                this.iglooMetadata,
+                this.noiseawareMetadata,
+                this.minutMetadata,
+                this.fourSuitesMetadata,
+                this.twoNMetadata,
+                this.controlbywebMetadata,
+                this.ttlockMetadata,
+                this.seamBridgeMetadata,
+                this.igloohomeMetadata,
+                this.nestMetadata,
+                this.ecobeeMetadata,
+                this.honeywellResideoMetadata,
+                this.hubitatMetadata,
+                this.dormakabaOracodeMetadata,
+                this.wyzeMetadata,
+                this.tedeeMetadata,
+                this.experimentalSupportedCodeFromAccessCodesLengths,
+                this.codeConstraints,
+                this.supportedCodeLengths,
+                this.maxActiveCodesSupported,
+                this.supportsBackupAccessCodePool,
+                this.hasNativeEntryEvents,
+                this.locked,
+                this.keypadBattery,
+                this.doorOpen);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -139,144 +702,1193 @@ public final class DeviceProperties {
     }
 
     public interface NameStage {
-        ModelStage name(String name);
+        AppearanceStage name(String name);
+    }
+
+    public interface AppearanceStage {
+        ModelStage appearance(DevicePropertiesAppearance appearance);
     }
 
     public interface ModelStage {
-        SmartthingsMetadataStage model(DevicePropertiesModel model);
-    }
-
-    public interface SmartthingsMetadataStage {
-        _FinalStage smartthingsMetadata(Object smartthingsMetadata);
+        _FinalStage model(DevicePropertiesModel model);
     }
 
     public interface _FinalStage {
         DeviceProperties build();
 
-        _FinalStage augustMetadata(Optional<AugustDeviceMetadata> augustMetadata);
+        _FinalStage accessoryKeypad(Optional<DevicePropertiesAccessoryKeypad> accessoryKeypad);
 
-        _FinalStage augustMetadata(AugustDeviceMetadata augustMetadata);
+        _FinalStage accessoryKeypad(DevicePropertiesAccessoryKeypad accessoryKeypad);
 
-        _FinalStage schlageMetadata(Optional<SchlageDeviceMetadata> schlageMetadata);
+        _FinalStage hasDirectPower(Optional<Boolean> hasDirectPower);
 
-        _FinalStage schlageMetadata(SchlageDeviceMetadata schlageMetadata);
+        _FinalStage hasDirectPower(Boolean hasDirectPower);
 
-        _FinalStage currentClimateSetting(Optional<CurrentClimateSetting> currentClimateSetting);
+        _FinalStage batteryLevel(Optional<Double> batteryLevel);
 
-        _FinalStage currentClimateSetting(CurrentClimateSetting currentClimateSetting);
+        _FinalStage batteryLevel(Double batteryLevel);
+
+        _FinalStage battery(Optional<DevicePropertiesBattery> battery);
+
+        _FinalStage battery(DevicePropertiesBattery battery);
+
+        _FinalStage manufacturer(Optional<String> manufacturer);
+
+        _FinalStage manufacturer(String manufacturer);
+
+        _FinalStage imageUrl(Optional<String> imageUrl);
+
+        _FinalStage imageUrl(String imageUrl);
+
+        _FinalStage imageAltText(Optional<String> imageAltText);
+
+        _FinalStage imageAltText(String imageAltText);
+
+        _FinalStage serialNumber(Optional<String> serialNumber);
+
+        _FinalStage serialNumber(String serialNumber);
+
+        _FinalStage onlineAccessCodesEnabled(Optional<Boolean> onlineAccessCodesEnabled);
+
+        _FinalStage onlineAccessCodesEnabled(Boolean onlineAccessCodesEnabled);
+
+        _FinalStage offlineAccessCodesEnabled(Optional<Boolean> offlineAccessCodesEnabled);
+
+        _FinalStage offlineAccessCodesEnabled(Boolean offlineAccessCodesEnabled);
+
+        _FinalStage supportsAccessoryKeypad(Optional<Boolean> supportsAccessoryKeypad);
+
+        _FinalStage supportsAccessoryKeypad(Boolean supportsAccessoryKeypad);
+
+        _FinalStage supportsOfflineAccessCodes(Optional<Boolean> supportsOfflineAccessCodes);
+
+        _FinalStage supportsOfflineAccessCodes(Boolean supportsOfflineAccessCodes);
+
+        _FinalStage noiseLevelDecibels(Optional<Double> noiseLevelDecibels);
+
+        _FinalStage noiseLevelDecibels(Double noiseLevelDecibels);
+
+        _FinalStage assaAbloyCredentialServiceMetadata(
+                Optional<DevicePropertiesAssaAbloyCredentialServiceMetadata> assaAbloyCredentialServiceMetadata);
+
+        _FinalStage assaAbloyCredentialServiceMetadata(
+                DevicePropertiesAssaAbloyCredentialServiceMetadata assaAbloyCredentialServiceMetadata);
+
+        _FinalStage augustMetadata(Optional<DevicePropertiesAugustMetadata> augustMetadata);
+
+        _FinalStage augustMetadata(DevicePropertiesAugustMetadata augustMetadata);
+
+        _FinalStage avigilonAltaMetadata(Optional<DevicePropertiesAvigilonAltaMetadata> avigilonAltaMetadata);
+
+        _FinalStage avigilonAltaMetadata(DevicePropertiesAvigilonAltaMetadata avigilonAltaMetadata);
+
+        _FinalStage schlageMetadata(Optional<DevicePropertiesSchlageMetadata> schlageMetadata);
+
+        _FinalStage schlageMetadata(DevicePropertiesSchlageMetadata schlageMetadata);
+
+        _FinalStage smartthingsMetadata(Optional<DevicePropertiesSmartthingsMetadata> smartthingsMetadata);
+
+        _FinalStage smartthingsMetadata(DevicePropertiesSmartthingsMetadata smartthingsMetadata);
+
+        _FinalStage locklyMetadata(Optional<DevicePropertiesLocklyMetadata> locklyMetadata);
+
+        _FinalStage locklyMetadata(DevicePropertiesLocklyMetadata locklyMetadata);
+
+        _FinalStage nukiMetadata(Optional<DevicePropertiesNukiMetadata> nukiMetadata);
+
+        _FinalStage nukiMetadata(DevicePropertiesNukiMetadata nukiMetadata);
+
+        _FinalStage kwiksetMetadata(Optional<DevicePropertiesKwiksetMetadata> kwiksetMetadata);
+
+        _FinalStage kwiksetMetadata(DevicePropertiesKwiksetMetadata kwiksetMetadata);
+
+        _FinalStage saltoMetadata(Optional<DevicePropertiesSaltoMetadata> saltoMetadata);
+
+        _FinalStage saltoMetadata(DevicePropertiesSaltoMetadata saltoMetadata);
+
+        _FinalStage genieMetadata(Optional<DevicePropertiesGenieMetadata> genieMetadata);
+
+        _FinalStage genieMetadata(DevicePropertiesGenieMetadata genieMetadata);
+
+        _FinalStage brivoMetadata(Optional<DevicePropertiesBrivoMetadata> brivoMetadata);
+
+        _FinalStage brivoMetadata(DevicePropertiesBrivoMetadata brivoMetadata);
+
+        _FinalStage iglooMetadata(Optional<DevicePropertiesIglooMetadata> iglooMetadata);
+
+        _FinalStage iglooMetadata(DevicePropertiesIglooMetadata iglooMetadata);
+
+        _FinalStage noiseawareMetadata(Optional<DevicePropertiesNoiseawareMetadata> noiseawareMetadata);
+
+        _FinalStage noiseawareMetadata(DevicePropertiesNoiseawareMetadata noiseawareMetadata);
+
+        _FinalStage minutMetadata(Optional<DevicePropertiesMinutMetadata> minutMetadata);
+
+        _FinalStage minutMetadata(DevicePropertiesMinutMetadata minutMetadata);
+
+        _FinalStage fourSuitesMetadata(Optional<DevicePropertiesFourSuitesMetadata> fourSuitesMetadata);
+
+        _FinalStage fourSuitesMetadata(DevicePropertiesFourSuitesMetadata fourSuitesMetadata);
+
+        _FinalStage twoNMetadata(Optional<DevicePropertiesTwoNMetadata> twoNMetadata);
+
+        _FinalStage twoNMetadata(DevicePropertiesTwoNMetadata twoNMetadata);
+
+        _FinalStage controlbywebMetadata(Optional<DevicePropertiesControlbywebMetadata> controlbywebMetadata);
+
+        _FinalStage controlbywebMetadata(DevicePropertiesControlbywebMetadata controlbywebMetadata);
+
+        _FinalStage ttlockMetadata(Optional<DevicePropertiesTtlockMetadata> ttlockMetadata);
+
+        _FinalStage ttlockMetadata(DevicePropertiesTtlockMetadata ttlockMetadata);
+
+        _FinalStage seamBridgeMetadata(Optional<DevicePropertiesSeamBridgeMetadata> seamBridgeMetadata);
+
+        _FinalStage seamBridgeMetadata(DevicePropertiesSeamBridgeMetadata seamBridgeMetadata);
+
+        _FinalStage igloohomeMetadata(Optional<DevicePropertiesIgloohomeMetadata> igloohomeMetadata);
+
+        _FinalStage igloohomeMetadata(DevicePropertiesIgloohomeMetadata igloohomeMetadata);
+
+        _FinalStage nestMetadata(Optional<DevicePropertiesNestMetadata> nestMetadata);
+
+        _FinalStage nestMetadata(DevicePropertiesNestMetadata nestMetadata);
+
+        _FinalStage ecobeeMetadata(Optional<DevicePropertiesEcobeeMetadata> ecobeeMetadata);
+
+        _FinalStage ecobeeMetadata(DevicePropertiesEcobeeMetadata ecobeeMetadata);
+
+        _FinalStage honeywellResideoMetadata(
+                Optional<DevicePropertiesHoneywellResideoMetadata> honeywellResideoMetadata);
+
+        _FinalStage honeywellResideoMetadata(DevicePropertiesHoneywellResideoMetadata honeywellResideoMetadata);
+
+        _FinalStage hubitatMetadata(Optional<DevicePropertiesHubitatMetadata> hubitatMetadata);
+
+        _FinalStage hubitatMetadata(DevicePropertiesHubitatMetadata hubitatMetadata);
+
+        _FinalStage dormakabaOracodeMetadata(
+                Optional<DevicePropertiesDormakabaOracodeMetadata> dormakabaOracodeMetadata);
+
+        _FinalStage dormakabaOracodeMetadata(DevicePropertiesDormakabaOracodeMetadata dormakabaOracodeMetadata);
+
+        _FinalStage wyzeMetadata(Optional<DevicePropertiesWyzeMetadata> wyzeMetadata);
+
+        _FinalStage wyzeMetadata(DevicePropertiesWyzeMetadata wyzeMetadata);
+
+        _FinalStage tedeeMetadata(Optional<DevicePropertiesTedeeMetadata> tedeeMetadata);
+
+        _FinalStage tedeeMetadata(DevicePropertiesTedeeMetadata tedeeMetadata);
+
+        _FinalStage experimentalSupportedCodeFromAccessCodesLengths(
+                Optional<List<Double>> experimentalSupportedCodeFromAccessCodesLengths);
+
+        _FinalStage experimentalSupportedCodeFromAccessCodesLengths(
+                List<Double> experimentalSupportedCodeFromAccessCodesLengths);
+
+        _FinalStage codeConstraints(Optional<List<DevicePropertiesCodeConstraintsItem>> codeConstraints);
+
+        _FinalStage codeConstraints(List<DevicePropertiesCodeConstraintsItem> codeConstraints);
+
+        _FinalStage supportedCodeLengths(Optional<List<Double>> supportedCodeLengths);
+
+        _FinalStage supportedCodeLengths(List<Double> supportedCodeLengths);
+
+        _FinalStage maxActiveCodesSupported(Optional<Double> maxActiveCodesSupported);
+
+        _FinalStage maxActiveCodesSupported(Double maxActiveCodesSupported);
+
+        _FinalStage supportsBackupAccessCodePool(Optional<Boolean> supportsBackupAccessCodePool);
+
+        _FinalStage supportsBackupAccessCodePool(Boolean supportsBackupAccessCodePool);
+
+        _FinalStage hasNativeEntryEvents(Optional<Boolean> hasNativeEntryEvents);
+
+        _FinalStage hasNativeEntryEvents(Boolean hasNativeEntryEvents);
+
+        _FinalStage locked(Optional<Boolean> locked);
+
+        _FinalStage locked(Boolean locked);
+
+        _FinalStage keypadBattery(Optional<DevicePropertiesKeypadBattery> keypadBattery);
+
+        _FinalStage keypadBattery(DevicePropertiesKeypadBattery keypadBattery);
+
+        _FinalStage doorOpen(Optional<Boolean> doorOpen);
+
+        _FinalStage doorOpen(Boolean doorOpen);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static final class Builder
-            implements OnlineStage, NameStage, ModelStage, SmartthingsMetadataStage, _FinalStage {
+    public static final class Builder implements OnlineStage, NameStage, AppearanceStage, ModelStage, _FinalStage {
         private boolean online;
 
         private String name;
 
+        private DevicePropertiesAppearance appearance;
+
         private DevicePropertiesModel model;
 
-        private Object smartthingsMetadata;
+        private Optional<Boolean> doorOpen = Optional.empty();
 
-        private Optional<CurrentClimateSetting> currentClimateSetting = Optional.empty();
+        private Optional<DevicePropertiesKeypadBattery> keypadBattery = Optional.empty();
 
-        private Optional<SchlageDeviceMetadata> schlageMetadata = Optional.empty();
+        private Optional<Boolean> locked = Optional.empty();
 
-        private Optional<AugustDeviceMetadata> augustMetadata = Optional.empty();
+        private Optional<Boolean> hasNativeEntryEvents = Optional.empty();
+
+        private Optional<Boolean> supportsBackupAccessCodePool = Optional.empty();
+
+        private Optional<Double> maxActiveCodesSupported = Optional.empty();
+
+        private Optional<List<Double>> supportedCodeLengths = Optional.empty();
+
+        private Optional<List<DevicePropertiesCodeConstraintsItem>> codeConstraints = Optional.empty();
+
+        private Optional<List<Double>> experimentalSupportedCodeFromAccessCodesLengths = Optional.empty();
+
+        private Optional<DevicePropertiesTedeeMetadata> tedeeMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesWyzeMetadata> wyzeMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesDormakabaOracodeMetadata> dormakabaOracodeMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesHubitatMetadata> hubitatMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesHoneywellResideoMetadata> honeywellResideoMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesEcobeeMetadata> ecobeeMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesNestMetadata> nestMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesIgloohomeMetadata> igloohomeMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesSeamBridgeMetadata> seamBridgeMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesTtlockMetadata> ttlockMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesControlbywebMetadata> controlbywebMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesTwoNMetadata> twoNMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesFourSuitesMetadata> fourSuitesMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesMinutMetadata> minutMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesNoiseawareMetadata> noiseawareMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesIglooMetadata> iglooMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesBrivoMetadata> brivoMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesGenieMetadata> genieMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesSaltoMetadata> saltoMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesKwiksetMetadata> kwiksetMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesNukiMetadata> nukiMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesLocklyMetadata> locklyMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesSmartthingsMetadata> smartthingsMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesSchlageMetadata> schlageMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesAvigilonAltaMetadata> avigilonAltaMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesAugustMetadata> augustMetadata = Optional.empty();
+
+        private Optional<DevicePropertiesAssaAbloyCredentialServiceMetadata> assaAbloyCredentialServiceMetadata =
+                Optional.empty();
+
+        private Optional<Double> noiseLevelDecibels = Optional.empty();
+
+        private Optional<Boolean> supportsOfflineAccessCodes = Optional.empty();
+
+        private Optional<Boolean> supportsAccessoryKeypad = Optional.empty();
+
+        private Optional<Boolean> offlineAccessCodesEnabled = Optional.empty();
+
+        private Optional<Boolean> onlineAccessCodesEnabled = Optional.empty();
+
+        private Optional<String> serialNumber = Optional.empty();
+
+        private Optional<String> imageAltText = Optional.empty();
+
+        private Optional<String> imageUrl = Optional.empty();
+
+        private Optional<String> manufacturer = Optional.empty();
+
+        private Optional<DevicePropertiesBattery> battery = Optional.empty();
+
+        private Optional<Double> batteryLevel = Optional.empty();
+
+        private Optional<Boolean> hasDirectPower = Optional.empty();
+
+        private Optional<DevicePropertiesAccessoryKeypad> accessoryKeypad = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(DeviceProperties other) {
             online(other.getOnline());
             name(other.getName());
+            accessoryKeypad(other.getAccessoryKeypad());
+            appearance(other.getAppearance());
             model(other.getModel());
+            hasDirectPower(other.getHasDirectPower());
+            batteryLevel(other.getBatteryLevel());
+            battery(other.getBattery());
+            manufacturer(other.getManufacturer());
+            imageUrl(other.getImageUrl());
+            imageAltText(other.getImageAltText());
+            serialNumber(other.getSerialNumber());
+            onlineAccessCodesEnabled(other.getOnlineAccessCodesEnabled());
+            offlineAccessCodesEnabled(other.getOfflineAccessCodesEnabled());
+            supportsAccessoryKeypad(other.getSupportsAccessoryKeypad());
+            supportsOfflineAccessCodes(other.getSupportsOfflineAccessCodes());
+            noiseLevelDecibels(other.getNoiseLevelDecibels());
+            assaAbloyCredentialServiceMetadata(other.getAssaAbloyCredentialServiceMetadata());
             augustMetadata(other.getAugustMetadata());
+            avigilonAltaMetadata(other.getAvigilonAltaMetadata());
             schlageMetadata(other.getSchlageMetadata());
             smartthingsMetadata(other.getSmartthingsMetadata());
-            currentClimateSetting(other.getCurrentClimateSetting());
+            locklyMetadata(other.getLocklyMetadata());
+            nukiMetadata(other.getNukiMetadata());
+            kwiksetMetadata(other.getKwiksetMetadata());
+            saltoMetadata(other.getSaltoMetadata());
+            genieMetadata(other.getGenieMetadata());
+            brivoMetadata(other.getBrivoMetadata());
+            iglooMetadata(other.getIglooMetadata());
+            noiseawareMetadata(other.getNoiseawareMetadata());
+            minutMetadata(other.getMinutMetadata());
+            fourSuitesMetadata(other.getFourSuitesMetadata());
+            twoNMetadata(other.getTwoNMetadata());
+            controlbywebMetadata(other.getControlbywebMetadata());
+            ttlockMetadata(other.getTtlockMetadata());
+            seamBridgeMetadata(other.getSeamBridgeMetadata());
+            igloohomeMetadata(other.getIgloohomeMetadata());
+            nestMetadata(other.getNestMetadata());
+            ecobeeMetadata(other.getEcobeeMetadata());
+            honeywellResideoMetadata(other.getHoneywellResideoMetadata());
+            hubitatMetadata(other.getHubitatMetadata());
+            dormakabaOracodeMetadata(other.getDormakabaOracodeMetadata());
+            wyzeMetadata(other.getWyzeMetadata());
+            tedeeMetadata(other.getTedeeMetadata());
+            experimentalSupportedCodeFromAccessCodesLengths(other.getExperimentalSupportedCodeFromAccessCodesLengths());
+            codeConstraints(other.getCodeConstraints());
+            supportedCodeLengths(other.getSupportedCodeLengths());
+            maxActiveCodesSupported(other.getMaxActiveCodesSupported());
+            supportsBackupAccessCodePool(other.getSupportsBackupAccessCodePool());
+            hasNativeEntryEvents(other.getHasNativeEntryEvents());
+            locked(other.getLocked());
+            keypadBattery(other.getKeypadBattery());
+            doorOpen(other.getDoorOpen());
             return this;
         }
 
-        @Override
+        /**
+         * <p>Indicates whether the device is online.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         @JsonSetter("online")
         public NameStage online(boolean online) {
             this.online = online;
             return this;
         }
 
-        @Override
+        /**
+         * <hr />
+         * <pre><code>  deprecated: use device.display_name instead
+         *   ---
+         *   Name of the device.
+         * </code></pre>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         @JsonSetter("name")
-        public ModelStage name(String name) {
+        public AppearanceStage name(String name) {
             this.name = name;
             return this;
         }
 
-        @Override
+        @java.lang.Override
+        @JsonSetter("appearance")
+        public ModelStage appearance(DevicePropertiesAppearance appearance) {
+            this.appearance = appearance;
+            return this;
+        }
+
+        @java.lang.Override
         @JsonSetter("model")
-        public SmartthingsMetadataStage model(DevicePropertiesModel model) {
+        public _FinalStage model(DevicePropertiesModel model) {
             this.model = model;
             return this;
         }
 
-        @Override
-        @JsonSetter("smartthings_metadata")
-        public _FinalStage smartthingsMetadata(Object smartthingsMetadata) {
+        @java.lang.Override
+        public _FinalStage doorOpen(Boolean doorOpen) {
+            this.doorOpen = Optional.of(doorOpen);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "door_open", nulls = Nulls.SKIP)
+        public _FinalStage doorOpen(Optional<Boolean> doorOpen) {
+            this.doorOpen = doorOpen;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage keypadBattery(DevicePropertiesKeypadBattery keypadBattery) {
+            this.keypadBattery = Optional.of(keypadBattery);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "keypad_battery", nulls = Nulls.SKIP)
+        public _FinalStage keypadBattery(Optional<DevicePropertiesKeypadBattery> keypadBattery) {
+            this.keypadBattery = keypadBattery;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage locked(Boolean locked) {
+            this.locked = Optional.of(locked);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "locked", nulls = Nulls.SKIP)
+        public _FinalStage locked(Optional<Boolean> locked) {
+            this.locked = locked;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage hasNativeEntryEvents(Boolean hasNativeEntryEvents) {
+            this.hasNativeEntryEvents = Optional.of(hasNativeEntryEvents);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "has_native_entry_events", nulls = Nulls.SKIP)
+        public _FinalStage hasNativeEntryEvents(Optional<Boolean> hasNativeEntryEvents) {
+            this.hasNativeEntryEvents = hasNativeEntryEvents;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage supportsBackupAccessCodePool(Boolean supportsBackupAccessCodePool) {
+            this.supportsBackupAccessCodePool = Optional.of(supportsBackupAccessCodePool);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "supports_backup_access_code_pool", nulls = Nulls.SKIP)
+        public _FinalStage supportsBackupAccessCodePool(Optional<Boolean> supportsBackupAccessCodePool) {
+            this.supportsBackupAccessCodePool = supportsBackupAccessCodePool;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage maxActiveCodesSupported(Double maxActiveCodesSupported) {
+            this.maxActiveCodesSupported = Optional.of(maxActiveCodesSupported);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "max_active_codes_supported", nulls = Nulls.SKIP)
+        public _FinalStage maxActiveCodesSupported(Optional<Double> maxActiveCodesSupported) {
+            this.maxActiveCodesSupported = maxActiveCodesSupported;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage supportedCodeLengths(List<Double> supportedCodeLengths) {
+            this.supportedCodeLengths = Optional.of(supportedCodeLengths);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "supported_code_lengths", nulls = Nulls.SKIP)
+        public _FinalStage supportedCodeLengths(Optional<List<Double>> supportedCodeLengths) {
+            this.supportedCodeLengths = supportedCodeLengths;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage codeConstraints(List<DevicePropertiesCodeConstraintsItem> codeConstraints) {
+            this.codeConstraints = Optional.of(codeConstraints);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "code_constraints", nulls = Nulls.SKIP)
+        public _FinalStage codeConstraints(Optional<List<DevicePropertiesCodeConstraintsItem>> codeConstraints) {
+            this.codeConstraints = codeConstraints;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage experimentalSupportedCodeFromAccessCodesLengths(
+                List<Double> experimentalSupportedCodeFromAccessCodesLengths) {
+            this.experimentalSupportedCodeFromAccessCodesLengths =
+                    Optional.of(experimentalSupportedCodeFromAccessCodesLengths);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "_experimental_supported_code_from_access_codes_lengths", nulls = Nulls.SKIP)
+        public _FinalStage experimentalSupportedCodeFromAccessCodesLengths(
+                Optional<List<Double>> experimentalSupportedCodeFromAccessCodesLengths) {
+            this.experimentalSupportedCodeFromAccessCodesLengths = experimentalSupportedCodeFromAccessCodesLengths;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage tedeeMetadata(DevicePropertiesTedeeMetadata tedeeMetadata) {
+            this.tedeeMetadata = Optional.of(tedeeMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "tedee_metadata", nulls = Nulls.SKIP)
+        public _FinalStage tedeeMetadata(Optional<DevicePropertiesTedeeMetadata> tedeeMetadata) {
+            this.tedeeMetadata = tedeeMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage wyzeMetadata(DevicePropertiesWyzeMetadata wyzeMetadata) {
+            this.wyzeMetadata = Optional.of(wyzeMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "wyze_metadata", nulls = Nulls.SKIP)
+        public _FinalStage wyzeMetadata(Optional<DevicePropertiesWyzeMetadata> wyzeMetadata) {
+            this.wyzeMetadata = wyzeMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage dormakabaOracodeMetadata(DevicePropertiesDormakabaOracodeMetadata dormakabaOracodeMetadata) {
+            this.dormakabaOracodeMetadata = Optional.of(dormakabaOracodeMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "dormakaba_oracode_metadata", nulls = Nulls.SKIP)
+        public _FinalStage dormakabaOracodeMetadata(
+                Optional<DevicePropertiesDormakabaOracodeMetadata> dormakabaOracodeMetadata) {
+            this.dormakabaOracodeMetadata = dormakabaOracodeMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage hubitatMetadata(DevicePropertiesHubitatMetadata hubitatMetadata) {
+            this.hubitatMetadata = Optional.of(hubitatMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "hubitat_metadata", nulls = Nulls.SKIP)
+        public _FinalStage hubitatMetadata(Optional<DevicePropertiesHubitatMetadata> hubitatMetadata) {
+            this.hubitatMetadata = hubitatMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage honeywellResideoMetadata(DevicePropertiesHoneywellResideoMetadata honeywellResideoMetadata) {
+            this.honeywellResideoMetadata = Optional.of(honeywellResideoMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "honeywell_resideo_metadata", nulls = Nulls.SKIP)
+        public _FinalStage honeywellResideoMetadata(
+                Optional<DevicePropertiesHoneywellResideoMetadata> honeywellResideoMetadata) {
+            this.honeywellResideoMetadata = honeywellResideoMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage ecobeeMetadata(DevicePropertiesEcobeeMetadata ecobeeMetadata) {
+            this.ecobeeMetadata = Optional.of(ecobeeMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "ecobee_metadata", nulls = Nulls.SKIP)
+        public _FinalStage ecobeeMetadata(Optional<DevicePropertiesEcobeeMetadata> ecobeeMetadata) {
+            this.ecobeeMetadata = ecobeeMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage nestMetadata(DevicePropertiesNestMetadata nestMetadata) {
+            this.nestMetadata = Optional.of(nestMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "nest_metadata", nulls = Nulls.SKIP)
+        public _FinalStage nestMetadata(Optional<DevicePropertiesNestMetadata> nestMetadata) {
+            this.nestMetadata = nestMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage igloohomeMetadata(DevicePropertiesIgloohomeMetadata igloohomeMetadata) {
+            this.igloohomeMetadata = Optional.of(igloohomeMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "igloohome_metadata", nulls = Nulls.SKIP)
+        public _FinalStage igloohomeMetadata(Optional<DevicePropertiesIgloohomeMetadata> igloohomeMetadata) {
+            this.igloohomeMetadata = igloohomeMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage seamBridgeMetadata(DevicePropertiesSeamBridgeMetadata seamBridgeMetadata) {
+            this.seamBridgeMetadata = Optional.of(seamBridgeMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "seam_bridge_metadata", nulls = Nulls.SKIP)
+        public _FinalStage seamBridgeMetadata(Optional<DevicePropertiesSeamBridgeMetadata> seamBridgeMetadata) {
+            this.seamBridgeMetadata = seamBridgeMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage ttlockMetadata(DevicePropertiesTtlockMetadata ttlockMetadata) {
+            this.ttlockMetadata = Optional.of(ttlockMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "ttlock_metadata", nulls = Nulls.SKIP)
+        public _FinalStage ttlockMetadata(Optional<DevicePropertiesTtlockMetadata> ttlockMetadata) {
+            this.ttlockMetadata = ttlockMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage controlbywebMetadata(DevicePropertiesControlbywebMetadata controlbywebMetadata) {
+            this.controlbywebMetadata = Optional.of(controlbywebMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "controlbyweb_metadata", nulls = Nulls.SKIP)
+        public _FinalStage controlbywebMetadata(Optional<DevicePropertiesControlbywebMetadata> controlbywebMetadata) {
+            this.controlbywebMetadata = controlbywebMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage twoNMetadata(DevicePropertiesTwoNMetadata twoNMetadata) {
+            this.twoNMetadata = Optional.of(twoNMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "two_n_metadata", nulls = Nulls.SKIP)
+        public _FinalStage twoNMetadata(Optional<DevicePropertiesTwoNMetadata> twoNMetadata) {
+            this.twoNMetadata = twoNMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage fourSuitesMetadata(DevicePropertiesFourSuitesMetadata fourSuitesMetadata) {
+            this.fourSuitesMetadata = Optional.of(fourSuitesMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "four_suites_metadata", nulls = Nulls.SKIP)
+        public _FinalStage fourSuitesMetadata(Optional<DevicePropertiesFourSuitesMetadata> fourSuitesMetadata) {
+            this.fourSuitesMetadata = fourSuitesMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage minutMetadata(DevicePropertiesMinutMetadata minutMetadata) {
+            this.minutMetadata = Optional.of(minutMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "minut_metadata", nulls = Nulls.SKIP)
+        public _FinalStage minutMetadata(Optional<DevicePropertiesMinutMetadata> minutMetadata) {
+            this.minutMetadata = minutMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage noiseawareMetadata(DevicePropertiesNoiseawareMetadata noiseawareMetadata) {
+            this.noiseawareMetadata = Optional.of(noiseawareMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "noiseaware_metadata", nulls = Nulls.SKIP)
+        public _FinalStage noiseawareMetadata(Optional<DevicePropertiesNoiseawareMetadata> noiseawareMetadata) {
+            this.noiseawareMetadata = noiseawareMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage iglooMetadata(DevicePropertiesIglooMetadata iglooMetadata) {
+            this.iglooMetadata = Optional.of(iglooMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "igloo_metadata", nulls = Nulls.SKIP)
+        public _FinalStage iglooMetadata(Optional<DevicePropertiesIglooMetadata> iglooMetadata) {
+            this.iglooMetadata = iglooMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage brivoMetadata(DevicePropertiesBrivoMetadata brivoMetadata) {
+            this.brivoMetadata = Optional.of(brivoMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "brivo_metadata", nulls = Nulls.SKIP)
+        public _FinalStage brivoMetadata(Optional<DevicePropertiesBrivoMetadata> brivoMetadata) {
+            this.brivoMetadata = brivoMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage genieMetadata(DevicePropertiesGenieMetadata genieMetadata) {
+            this.genieMetadata = Optional.of(genieMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "genie_metadata", nulls = Nulls.SKIP)
+        public _FinalStage genieMetadata(Optional<DevicePropertiesGenieMetadata> genieMetadata) {
+            this.genieMetadata = genieMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage saltoMetadata(DevicePropertiesSaltoMetadata saltoMetadata) {
+            this.saltoMetadata = Optional.of(saltoMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "salto_metadata", nulls = Nulls.SKIP)
+        public _FinalStage saltoMetadata(Optional<DevicePropertiesSaltoMetadata> saltoMetadata) {
+            this.saltoMetadata = saltoMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage kwiksetMetadata(DevicePropertiesKwiksetMetadata kwiksetMetadata) {
+            this.kwiksetMetadata = Optional.of(kwiksetMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "kwikset_metadata", nulls = Nulls.SKIP)
+        public _FinalStage kwiksetMetadata(Optional<DevicePropertiesKwiksetMetadata> kwiksetMetadata) {
+            this.kwiksetMetadata = kwiksetMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage nukiMetadata(DevicePropertiesNukiMetadata nukiMetadata) {
+            this.nukiMetadata = Optional.of(nukiMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "nuki_metadata", nulls = Nulls.SKIP)
+        public _FinalStage nukiMetadata(Optional<DevicePropertiesNukiMetadata> nukiMetadata) {
+            this.nukiMetadata = nukiMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage locklyMetadata(DevicePropertiesLocklyMetadata locklyMetadata) {
+            this.locklyMetadata = Optional.of(locklyMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "lockly_metadata", nulls = Nulls.SKIP)
+        public _FinalStage locklyMetadata(Optional<DevicePropertiesLocklyMetadata> locklyMetadata) {
+            this.locklyMetadata = locklyMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage smartthingsMetadata(DevicePropertiesSmartthingsMetadata smartthingsMetadata) {
+            this.smartthingsMetadata = Optional.of(smartthingsMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "smartthings_metadata", nulls = Nulls.SKIP)
+        public _FinalStage smartthingsMetadata(Optional<DevicePropertiesSmartthingsMetadata> smartthingsMetadata) {
             this.smartthingsMetadata = smartthingsMetadata;
             return this;
         }
 
-        @Override
-        public _FinalStage currentClimateSetting(CurrentClimateSetting currentClimateSetting) {
-            this.currentClimateSetting = Optional.of(currentClimateSetting);
-            return this;
-        }
-
-        @Override
-        @JsonSetter(value = "current_climate_setting", nulls = Nulls.SKIP)
-        public _FinalStage currentClimateSetting(Optional<CurrentClimateSetting> currentClimateSetting) {
-            this.currentClimateSetting = currentClimateSetting;
-            return this;
-        }
-
-        @Override
-        public _FinalStage schlageMetadata(SchlageDeviceMetadata schlageMetadata) {
+        @java.lang.Override
+        public _FinalStage schlageMetadata(DevicePropertiesSchlageMetadata schlageMetadata) {
             this.schlageMetadata = Optional.of(schlageMetadata);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "schlage_metadata", nulls = Nulls.SKIP)
-        public _FinalStage schlageMetadata(Optional<SchlageDeviceMetadata> schlageMetadata) {
+        public _FinalStage schlageMetadata(Optional<DevicePropertiesSchlageMetadata> schlageMetadata) {
             this.schlageMetadata = schlageMetadata;
             return this;
         }
 
-        @Override
-        public _FinalStage augustMetadata(AugustDeviceMetadata augustMetadata) {
+        @java.lang.Override
+        public _FinalStage avigilonAltaMetadata(DevicePropertiesAvigilonAltaMetadata avigilonAltaMetadata) {
+            this.avigilonAltaMetadata = Optional.of(avigilonAltaMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "avigilon_alta_metadata", nulls = Nulls.SKIP)
+        public _FinalStage avigilonAltaMetadata(Optional<DevicePropertiesAvigilonAltaMetadata> avigilonAltaMetadata) {
+            this.avigilonAltaMetadata = avigilonAltaMetadata;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage augustMetadata(DevicePropertiesAugustMetadata augustMetadata) {
             this.augustMetadata = Optional.of(augustMetadata);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "august_metadata", nulls = Nulls.SKIP)
-        public _FinalStage augustMetadata(Optional<AugustDeviceMetadata> augustMetadata) {
+        public _FinalStage augustMetadata(Optional<DevicePropertiesAugustMetadata> augustMetadata) {
             this.augustMetadata = augustMetadata;
             return this;
         }
 
-        @Override
+        @java.lang.Override
+        public _FinalStage assaAbloyCredentialServiceMetadata(
+                DevicePropertiesAssaAbloyCredentialServiceMetadata assaAbloyCredentialServiceMetadata) {
+            this.assaAbloyCredentialServiceMetadata = Optional.of(assaAbloyCredentialServiceMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "assa_abloy_credential_service_metadata", nulls = Nulls.SKIP)
+        public _FinalStage assaAbloyCredentialServiceMetadata(
+                Optional<DevicePropertiesAssaAbloyCredentialServiceMetadata> assaAbloyCredentialServiceMetadata) {
+            this.assaAbloyCredentialServiceMetadata = assaAbloyCredentialServiceMetadata;
+            return this;
+        }
+
+        /**
+         * <p>Indicates current noise level in decibels, if the device supports noise detection.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage noiseLevelDecibels(Double noiseLevelDecibels) {
+            this.noiseLevelDecibels = Optional.of(noiseLevelDecibels);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "noise_level_decibels", nulls = Nulls.SKIP)
+        public _FinalStage noiseLevelDecibels(Optional<Double> noiseLevelDecibels) {
+            this.noiseLevelDecibels = noiseLevelDecibels;
+            return this;
+        }
+
+        /**
+         * <hr />
+         * <pre><code>  deprecated: use offline_access_codes_enabled
+         *   ---
+         * </code></pre>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage supportsOfflineAccessCodes(Boolean supportsOfflineAccessCodes) {
+            this.supportsOfflineAccessCodes = Optional.of(supportsOfflineAccessCodes);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "supports_offline_access_codes", nulls = Nulls.SKIP)
+        public _FinalStage supportsOfflineAccessCodes(Optional<Boolean> supportsOfflineAccessCodes) {
+            this.supportsOfflineAccessCodes = supportsOfflineAccessCodes;
+            return this;
+        }
+
+        /**
+         * <hr />
+         * <pre><code>  deprecated: use device.properties.model.can_connect_accessory_keypad
+         *   ---
+         * </code></pre>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage supportsAccessoryKeypad(Boolean supportsAccessoryKeypad) {
+            this.supportsAccessoryKeypad = Optional.of(supportsAccessoryKeypad);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "supports_accessory_keypad", nulls = Nulls.SKIP)
+        public _FinalStage supportsAccessoryKeypad(Optional<Boolean> supportsAccessoryKeypad) {
+            this.supportsAccessoryKeypad = supportsAccessoryKeypad;
+            return this;
+        }
+
+        /**
+         * <p>Indicates whether it is currently possible to use offline access codes for the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage offlineAccessCodesEnabled(Boolean offlineAccessCodesEnabled) {
+            this.offlineAccessCodesEnabled = Optional.of(offlineAccessCodesEnabled);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "offline_access_codes_enabled", nulls = Nulls.SKIP)
+        public _FinalStage offlineAccessCodesEnabled(Optional<Boolean> offlineAccessCodesEnabled) {
+            this.offlineAccessCodesEnabled = offlineAccessCodesEnabled;
+            return this;
+        }
+
+        /**
+         * <p>Indicates whether it is currently possible to use online access codes for the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage onlineAccessCodesEnabled(Boolean onlineAccessCodesEnabled) {
+            this.onlineAccessCodesEnabled = Optional.of(onlineAccessCodesEnabled);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "online_access_codes_enabled", nulls = Nulls.SKIP)
+        public _FinalStage onlineAccessCodesEnabled(Optional<Boolean> onlineAccessCodesEnabled) {
+            this.onlineAccessCodesEnabled = onlineAccessCodesEnabled;
+            return this;
+        }
+
+        /**
+         * <p>Serial number of the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage serialNumber(String serialNumber) {
+            this.serialNumber = Optional.of(serialNumber);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "serial_number", nulls = Nulls.SKIP)
+        public _FinalStage serialNumber(Optional<String> serialNumber) {
+            this.serialNumber = serialNumber;
+            return this;
+        }
+
+        /**
+         * <p>Alt text for the device image.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage imageAltText(String imageAltText) {
+            this.imageAltText = Optional.of(imageAltText);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "image_alt_text", nulls = Nulls.SKIP)
+        public _FinalStage imageAltText(Optional<String> imageAltText) {
+            this.imageAltText = imageAltText;
+            return this;
+        }
+
+        /**
+         * <p>Image URL for the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage imageUrl(String imageUrl) {
+            this.imageUrl = Optional.of(imageUrl);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "image_url", nulls = Nulls.SKIP)
+        public _FinalStage imageUrl(Optional<String> imageUrl) {
+            this.imageUrl = imageUrl;
+            return this;
+        }
+
+        /**
+         * <p>Manufacturer of the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage manufacturer(String manufacturer) {
+            this.manufacturer = Optional.of(manufacturer);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "manufacturer", nulls = Nulls.SKIP)
+        public _FinalStage manufacturer(Optional<String> manufacturer) {
+            this.manufacturer = manufacturer;
+            return this;
+        }
+
+        /**
+         * <p>Represents the current status of the battery charge level. Values are &quot;critical,&quot; which indicates an extremely low level, suggesting imminent shutdown or an urgent need for charging; &quot;low,&quot; which signifies that the battery is under the preferred threshold and should be charged soon; &quot;good,&quot; which denotes a satisfactory charge level, adequate for normal use without the immediate need for recharging; and &quot;full,&quot; which represents a battery that is fully charged, providing the maximum duration of usage.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage battery(DevicePropertiesBattery battery) {
+            this.battery = Optional.of(battery);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "battery", nulls = Nulls.SKIP)
+        public _FinalStage battery(Optional<DevicePropertiesBattery> battery) {
+            this.battery = battery;
+            return this;
+        }
+
+        /**
+         * <p>Indicates the battery level of the device as a decimal value between 0 and 1, inclusive.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage batteryLevel(Double batteryLevel) {
+            this.batteryLevel = Optional.of(batteryLevel);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "battery_level", nulls = Nulls.SKIP)
+        public _FinalStage batteryLevel(Optional<Double> batteryLevel) {
+            this.batteryLevel = batteryLevel;
+            return this;
+        }
+
+        /**
+         * <p>Indicates whether the device has direct power.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage hasDirectPower(Boolean hasDirectPower) {
+            this.hasDirectPower = Optional.of(hasDirectPower);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "has_direct_power", nulls = Nulls.SKIP)
+        public _FinalStage hasDirectPower(Optional<Boolean> hasDirectPower) {
+            this.hasDirectPower = hasDirectPower;
+            return this;
+        }
+
+        /**
+         * <p>Represents the accessory keypad state.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage accessoryKeypad(DevicePropertiesAccessoryKeypad accessoryKeypad) {
+            this.accessoryKeypad = Optional.of(accessoryKeypad);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "accessory_keypad", nulls = Nulls.SKIP)
+        public _FinalStage accessoryKeypad(Optional<DevicePropertiesAccessoryKeypad> accessoryKeypad) {
+            this.accessoryKeypad = accessoryKeypad;
+            return this;
+        }
+
+        @java.lang.Override
         public DeviceProperties build() {
             return new DeviceProperties(
                     online,
                     name,
+                    accessoryKeypad,
+                    appearance,
                     model,
+                    hasDirectPower,
+                    batteryLevel,
+                    battery,
+                    manufacturer,
+                    imageUrl,
+                    imageAltText,
+                    serialNumber,
+                    onlineAccessCodesEnabled,
+                    offlineAccessCodesEnabled,
+                    supportsAccessoryKeypad,
+                    supportsOfflineAccessCodes,
+                    noiseLevelDecibels,
+                    assaAbloyCredentialServiceMetadata,
                     augustMetadata,
+                    avigilonAltaMetadata,
                     schlageMetadata,
                     smartthingsMetadata,
-                    currentClimateSetting,
+                    locklyMetadata,
+                    nukiMetadata,
+                    kwiksetMetadata,
+                    saltoMetadata,
+                    genieMetadata,
+                    brivoMetadata,
+                    iglooMetadata,
+                    noiseawareMetadata,
+                    minutMetadata,
+                    fourSuitesMetadata,
+                    twoNMetadata,
+                    controlbywebMetadata,
+                    ttlockMetadata,
+                    seamBridgeMetadata,
+                    igloohomeMetadata,
+                    nestMetadata,
+                    ecobeeMetadata,
+                    honeywellResideoMetadata,
+                    hubitatMetadata,
+                    dormakabaOracodeMetadata,
+                    wyzeMetadata,
+                    tedeeMetadata,
+                    experimentalSupportedCodeFromAccessCodesLengths,
+                    codeConstraints,
+                    supportedCodeLengths,
+                    maxActiveCodesSupported,
+                    supportsBackupAccessCodePool,
+                    hasNativeEntryEvents,
+                    locked,
+                    keypadBattery,
+                    doorOpen,
                     additionalProperties);
         }
     }

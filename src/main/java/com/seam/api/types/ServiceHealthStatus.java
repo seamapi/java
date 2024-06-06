@@ -19,7 +19,7 @@ public enum ServiceHealthStatus {
     }
 
     @JsonValue
-    @Override
+    @java.lang.Override
     public String toString() {
         return this.value;
     }

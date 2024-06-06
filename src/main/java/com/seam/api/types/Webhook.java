@@ -64,7 +64,7 @@ public final class Webhook {
         return secret;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof Webhook && equalTo((Webhook) other);
@@ -82,12 +82,12 @@ public final class Webhook {
                 && secret.equals(other.secret);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.webhookId, this.url, this.eventTypes, this.secret);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -133,7 +133,7 @@ public final class Webhook {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(Webhook other) {
             webhookId(other.getWebhookId());
             url(other.getUrl());
@@ -142,47 +142,47 @@ public final class Webhook {
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("webhook_id")
         public UrlStage webhookId(String webhookId) {
             this.webhookId = webhookId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("url")
         public _FinalStage url(String url) {
             this.url = url;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage secret(String secret) {
             this.secret = Optional.of(secret);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "secret", nulls = Nulls.SKIP)
         public _FinalStage secret(Optional<String> secret) {
             this.secret = secret;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage eventTypes(List<String> eventTypes) {
             this.eventTypes = Optional.of(eventTypes);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "event_types", nulls = Nulls.SKIP)
         public _FinalStage eventTypes(Optional<List<String>> eventTypes) {
             this.eventTypes = eventTypes;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public Webhook build() {
             return new Webhook(webhookId, url, eventTypes, secret, additionalProperties);
         }

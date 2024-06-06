@@ -90,7 +90,7 @@ public final class NoiseThresholdsCreateRequest {
         return noiseThresholdNrs;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof NoiseThresholdsCreateRequest && equalTo((NoiseThresholdsCreateRequest) other);
@@ -111,7 +111,7 @@ public final class NoiseThresholdsCreateRequest {
                 && noiseThresholdNrs.equals(other.noiseThresholdNrs);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(
                 this.deviceId,
@@ -123,7 +123,7 @@ public final class NoiseThresholdsCreateRequest {
                 this.noiseThresholdNrs);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -187,7 +187,7 @@ public final class NoiseThresholdsCreateRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(NoiseThresholdsCreateRequest other) {
             deviceId(other.getDeviceId());
             sync(other.getSync());
@@ -199,80 +199,80 @@ public final class NoiseThresholdsCreateRequest {
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public StartsDailyAtStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("starts_daily_at")
         public EndsDailyAtStage startsDailyAt(String startsDailyAt) {
             this.startsDailyAt = startsDailyAt;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("ends_daily_at")
         public _FinalStage endsDailyAt(String endsDailyAt) {
             this.endsDailyAt = endsDailyAt;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage noiseThresholdNrs(Double noiseThresholdNrs) {
             this.noiseThresholdNrs = Optional.of(noiseThresholdNrs);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "noise_threshold_nrs", nulls = Nulls.SKIP)
         public _FinalStage noiseThresholdNrs(Optional<Double> noiseThresholdNrs) {
             this.noiseThresholdNrs = noiseThresholdNrs;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage noiseThresholdDecibels(Double noiseThresholdDecibels) {
             this.noiseThresholdDecibels = Optional.of(noiseThresholdDecibels);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "noise_threshold_decibels", nulls = Nulls.SKIP)
         public _FinalStage noiseThresholdDecibels(Optional<Double> noiseThresholdDecibels) {
             this.noiseThresholdDecibels = noiseThresholdDecibels;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage name(String name) {
             this.name = Optional.of(name);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "name", nulls = Nulls.SKIP)
         public _FinalStage name(Optional<String> name) {
             this.name = name;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage sync(Boolean sync) {
             this.sync = Optional.of(sync);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "sync", nulls = Nulls.SKIP)
         public _FinalStage sync(Optional<Boolean> sync) {
             this.sync = sync;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public NoiseThresholdsCreateRequest build() {
             return new NoiseThresholdsCreateRequest(
                     deviceId,

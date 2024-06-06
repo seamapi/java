@@ -32,7 +32,7 @@ public final class NoiseThresholdsGetRequest {
         return noiseThresholdId;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof NoiseThresholdsGetRequest && equalTo((NoiseThresholdsGetRequest) other);
@@ -47,12 +47,12 @@ public final class NoiseThresholdsGetRequest {
         return noiseThresholdId.equals(other.noiseThresholdId);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.noiseThresholdId);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -80,20 +80,20 @@ public final class NoiseThresholdsGetRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(NoiseThresholdsGetRequest other) {
             noiseThresholdId(other.getNoiseThresholdId());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("noise_threshold_id")
         public _FinalStage noiseThresholdId(String noiseThresholdId) {
             this.noiseThresholdId = noiseThresholdId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public NoiseThresholdsGetRequest build() {
             return new NoiseThresholdsGetRequest(noiseThresholdId, additionalProperties);
         }

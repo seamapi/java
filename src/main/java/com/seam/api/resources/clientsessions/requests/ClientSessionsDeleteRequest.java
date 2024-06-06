@@ -32,7 +32,7 @@ public final class ClientSessionsDeleteRequest {
         return clientSessionId;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ClientSessionsDeleteRequest && equalTo((ClientSessionsDeleteRequest) other);
@@ -47,12 +47,12 @@ public final class ClientSessionsDeleteRequest {
         return clientSessionId.equals(other.clientSessionId);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.clientSessionId);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -80,20 +80,20 @@ public final class ClientSessionsDeleteRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(ClientSessionsDeleteRequest other) {
             clientSessionId(other.getClientSessionId());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("client_session_id")
         public _FinalStage clientSessionId(String clientSessionId) {
             this.clientSessionId = clientSessionId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public ClientSessionsDeleteRequest build() {
             return new ClientSessionsDeleteRequest(clientSessionId, additionalProperties);
         }

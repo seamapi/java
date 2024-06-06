@@ -32,7 +32,7 @@ public final class DevicesDeleteRequest {
         return deviceId;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof DevicesDeleteRequest && equalTo((DevicesDeleteRequest) other);
@@ -47,12 +47,12 @@ public final class DevicesDeleteRequest {
         return deviceId.equals(other.deviceId);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.deviceId);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -80,20 +80,20 @@ public final class DevicesDeleteRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(DevicesDeleteRequest other) {
             deviceId(other.getDeviceId());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public _FinalStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public DevicesDeleteRequest build() {
             return new DevicesDeleteRequest(deviceId, additionalProperties);
         }

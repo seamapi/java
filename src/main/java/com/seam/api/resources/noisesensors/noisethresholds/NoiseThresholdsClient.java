@@ -3,30 +3,35 @@
  */
 package com.seam.api.resources.noisesensors.noisethresholds;
 
-import com.seam.api.core.ApiError;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.seam.api.core.ClientOptions;
+import com.seam.api.core.MediaTypes;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
+import com.seam.api.core.SeamApiApiError;
+import com.seam.api.core.SeamApiError;
+import com.seam.api.errors.SeamApiBadRequestError;
+import com.seam.api.errors.SeamApiUnauthorizedError;
 import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseThresholdsCreateRequest;
 import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseThresholdsDeleteRequest;
 import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseThresholdsGetRequest;
 import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseThresholdsListRequest;
 import com.seam.api.resources.noisesensors.noisethresholds.requests.NoiseThresholdsUpdateRequest;
-import com.seam.api.types.ActionAttempt;
+import com.seam.api.resources.noisesensors.noisethresholds.types.NoiseThresholdsCreateResponse;
+import com.seam.api.resources.noisesensors.noisethresholds.types.NoiseThresholdsDeleteResponse;
+import com.seam.api.resources.noisesensors.noisethresholds.types.NoiseThresholdsGetResponse;
+import com.seam.api.resources.noisesensors.noisethresholds.types.NoiseThresholdsListResponse;
+import com.seam.api.resources.noisesensors.noisethresholds.types.NoiseThresholdsUpdateResponse;
 import com.seam.api.types.NoiseThreshold;
-import com.seam.api.types.NoiseThresholdsCreateResponse;
-import com.seam.api.types.NoiseThresholdsDeleteResponse;
-import com.seam.api.types.NoiseThresholdsGetResponse;
-import com.seam.api.types.NoiseThresholdsListResponse;
-import com.seam.api.types.NoiseThresholdsUpdateResponse;
 import java.io.IOException;
 import java.util.List;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
-import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class NoiseThresholdsClient {
     protected final ClientOptions clientOptions;
@@ -35,11 +40,11 @@ public class NoiseThresholdsClient {
         this.clientOptions = clientOptions;
     }
 
-    public ActionAttempt create(NoiseThresholdsCreateRequest request) {
+    public NoiseThreshold create(NoiseThresholdsCreateRequest request) {
         return create(request, null);
     }
 
-    public ActionAttempt create(NoiseThresholdsCreateRequest request, RequestOptions requestOptions) {
+    public NoiseThreshold create(NoiseThresholdsCreateRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("noise_sensors/noise_thresholds/create")
@@ -47,9 +52,9 @@ public class NoiseThresholdsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -57,27 +62,44 @@ public class NoiseThresholdsClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
-                NoiseThresholdsCreateResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), NoiseThresholdsCreateResponse.class);
-                return parsedResponse.getActionAttempt();
+                NoiseThresholdsCreateResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), NoiseThresholdsCreateResponse.class);
+                return parsedResponse.getNoiseThreshold();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
-    public ActionAttempt delete(NoiseThresholdsDeleteRequest request) {
+    public NoiseThresholdsDeleteResponse delete(NoiseThresholdsDeleteRequest request) {
         return delete(request, null);
     }
 
-    public ActionAttempt delete(NoiseThresholdsDeleteRequest request, RequestOptions requestOptions) {
+    public NoiseThresholdsDeleteResponse delete(NoiseThresholdsDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("noise_sensors/noise_thresholds/delete")
@@ -85,9 +107,9 @@ public class NoiseThresholdsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -95,19 +117,34 @@ public class NoiseThresholdsClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
-                NoiseThresholdsDeleteResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), NoiseThresholdsDeleteResponse.class);
-                return parsedResponse.getActionAttempt();
+                return ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), NoiseThresholdsDeleteResponse.class);
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
@@ -123,9 +160,9 @@ public class NoiseThresholdsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -133,19 +170,36 @@ public class NoiseThresholdsClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
                 NoiseThresholdsGetResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), NoiseThresholdsGetResponse.class);
+                        ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), NoiseThresholdsGetResponse.class);
                 return parsedResponse.getNoiseThreshold();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
@@ -161,9 +215,9 @@ public class NoiseThresholdsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -171,27 +225,44 @@ public class NoiseThresholdsClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
-                NoiseThresholdsListResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), NoiseThresholdsListResponse.class);
+                NoiseThresholdsListResponse parsedResponse =
+                        ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), NoiseThresholdsListResponse.class);
                 return parsedResponse.getNoiseThresholds();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
-    public ActionAttempt update(NoiseThresholdsUpdateRequest request) {
+    public NoiseThresholdsUpdateResponse update(NoiseThresholdsUpdateRequest request) {
         return update(request, null);
     }
 
-    public ActionAttempt update(NoiseThresholdsUpdateRequest request, RequestOptions requestOptions) {
+    public NoiseThresholdsUpdateResponse update(NoiseThresholdsUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("noise_sensors/noise_thresholds/update")
@@ -199,9 +270,9 @@ public class NoiseThresholdsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -209,19 +280,34 @@ public class NoiseThresholdsClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
-                NoiseThresholdsUpdateResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), NoiseThresholdsUpdateResponse.class);
-                return parsedResponse.getActionAttempt();
+                return ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), NoiseThresholdsUpdateResponse.class);
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 }

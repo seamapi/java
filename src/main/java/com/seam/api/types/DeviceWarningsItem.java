@@ -40,7 +40,7 @@ public final class DeviceWarningsItem {
         return message;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof DeviceWarningsItem && equalTo((DeviceWarningsItem) other);
@@ -55,12 +55,12 @@ public final class DeviceWarningsItem {
         return warningCode.equals(other.warningCode) && message.equals(other.message);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.warningCode, this.message);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -94,28 +94,28 @@ public final class DeviceWarningsItem {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(DeviceWarningsItem other) {
             warningCode(other.getWarningCode());
             message(other.getMessage());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("warning_code")
         public MessageStage warningCode(String warningCode) {
             this.warningCode = warningCode;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("message")
         public _FinalStage message(String message) {
             this.message = message;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public DeviceWarningsItem build() {
             return new DeviceWarningsItem(warningCode, message, additionalProperties);
         }

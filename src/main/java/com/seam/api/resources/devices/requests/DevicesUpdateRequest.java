@@ -12,8 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
-import com.seam.api.types.DevicesUpdateRequestLocation;
-import com.seam.api.types.DevicesUpdateRequestProperties;
+import com.seam.api.resources.devices.types.DevicesUpdateRequestCustomMetadataValue;
+import com.seam.api.resources.devices.types.DevicesUpdateRequestProperties;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -28,9 +28,9 @@ public final class DevicesUpdateRequest {
 
     private final Optional<String> name;
 
-    private final Optional<DevicesUpdateRequestLocation> location;
-
     private final Optional<Boolean> isManaged;
+
+    private final Optional<Map<String, Optional<DevicesUpdateRequestCustomMetadataValue>>> customMetadata;
 
     private final Map<String, Object> additionalProperties;
 
@@ -38,14 +38,14 @@ public final class DevicesUpdateRequest {
             String deviceId,
             Optional<DevicesUpdateRequestProperties> properties,
             Optional<String> name,
-            Optional<DevicesUpdateRequestLocation> location,
             Optional<Boolean> isManaged,
+            Optional<Map<String, Optional<DevicesUpdateRequestCustomMetadataValue>>> customMetadata,
             Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.properties = properties;
         this.name = name;
-        this.location = location;
         this.isManaged = isManaged;
+        this.customMetadata = customMetadata;
         this.additionalProperties = additionalProperties;
     }
 
@@ -64,17 +64,17 @@ public final class DevicesUpdateRequest {
         return name;
     }
 
-    @JsonProperty("location")
-    public Optional<DevicesUpdateRequestLocation> getLocation() {
-        return location;
-    }
-
     @JsonProperty("is_managed")
     public Optional<Boolean> getIsManaged() {
         return isManaged;
     }
 
-    @Override
+    @JsonProperty("custom_metadata")
+    public Optional<Map<String, Optional<DevicesUpdateRequestCustomMetadataValue>>> getCustomMetadata() {
+        return customMetadata;
+    }
+
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof DevicesUpdateRequest && equalTo((DevicesUpdateRequest) other);
@@ -89,16 +89,16 @@ public final class DevicesUpdateRequest {
         return deviceId.equals(other.deviceId)
                 && properties.equals(other.properties)
                 && name.equals(other.name)
-                && location.equals(other.location)
-                && isManaged.equals(other.isManaged);
+                && isManaged.equals(other.isManaged)
+                && customMetadata.equals(other.customMetadata);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.deviceId, this.properties, this.name, this.location, this.isManaged);
+        return Objects.hash(this.deviceId, this.properties, this.name, this.isManaged, this.customMetadata);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -124,22 +124,24 @@ public final class DevicesUpdateRequest {
 
         _FinalStage name(String name);
 
-        _FinalStage location(Optional<DevicesUpdateRequestLocation> location);
-
-        _FinalStage location(DevicesUpdateRequestLocation location);
-
         _FinalStage isManaged(Optional<Boolean> isManaged);
 
         _FinalStage isManaged(Boolean isManaged);
+
+        _FinalStage customMetadata(
+                Optional<Map<String, Optional<DevicesUpdateRequestCustomMetadataValue>>> customMetadata);
+
+        _FinalStage customMetadata(Map<String, Optional<DevicesUpdateRequestCustomMetadataValue>> customMetadata);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements DeviceIdStage, _FinalStage {
         private String deviceId;
 
-        private Optional<Boolean> isManaged = Optional.empty();
+        private Optional<Map<String, Optional<DevicesUpdateRequestCustomMetadataValue>>> customMetadata =
+                Optional.empty();
 
-        private Optional<DevicesUpdateRequestLocation> location = Optional.empty();
+        private Optional<Boolean> isManaged = Optional.empty();
 
         private Optional<String> name = Optional.empty();
 
@@ -150,78 +152,81 @@ public final class DevicesUpdateRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(DevicesUpdateRequest other) {
             deviceId(other.getDeviceId());
             properties(other.getProperties());
             name(other.getName());
-            location(other.getLocation());
             isManaged(other.getIsManaged());
+            customMetadata(other.getCustomMetadata());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public _FinalStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
+        public _FinalStage customMetadata(
+                Map<String, Optional<DevicesUpdateRequestCustomMetadataValue>> customMetadata) {
+            this.customMetadata = Optional.of(customMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "custom_metadata", nulls = Nulls.SKIP)
+        public _FinalStage customMetadata(
+                Optional<Map<String, Optional<DevicesUpdateRequestCustomMetadataValue>>> customMetadata) {
+            this.customMetadata = customMetadata;
+            return this;
+        }
+
+        @java.lang.Override
         public _FinalStage isManaged(Boolean isManaged) {
             this.isManaged = Optional.of(isManaged);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "is_managed", nulls = Nulls.SKIP)
         public _FinalStage isManaged(Optional<Boolean> isManaged) {
             this.isManaged = isManaged;
             return this;
         }
 
-        @Override
-        public _FinalStage location(DevicesUpdateRequestLocation location) {
-            this.location = Optional.of(location);
-            return this;
-        }
-
-        @Override
-        @JsonSetter(value = "location", nulls = Nulls.SKIP)
-        public _FinalStage location(Optional<DevicesUpdateRequestLocation> location) {
-            this.location = location;
-            return this;
-        }
-
-        @Override
+        @java.lang.Override
         public _FinalStage name(String name) {
             this.name = Optional.of(name);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "name", nulls = Nulls.SKIP)
         public _FinalStage name(Optional<String> name) {
             this.name = name;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage properties(DevicesUpdateRequestProperties properties) {
             this.properties = Optional.of(properties);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "properties", nulls = Nulls.SKIP)
         public _FinalStage properties(Optional<DevicesUpdateRequestProperties> properties) {
             this.properties = properties;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public DevicesUpdateRequest build() {
-            return new DevicesUpdateRequest(deviceId, properties, name, location, isManaged, additionalProperties);
+            return new DevicesUpdateRequest(
+                    deviceId, properties, name, isManaged, customMetadata, additionalProperties);
         }
     }
 }

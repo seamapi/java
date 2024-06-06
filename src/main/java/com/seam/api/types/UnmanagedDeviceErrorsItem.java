@@ -40,7 +40,7 @@ public final class UnmanagedDeviceErrorsItem {
         return message;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof UnmanagedDeviceErrorsItem && equalTo((UnmanagedDeviceErrorsItem) other);
@@ -55,12 +55,12 @@ public final class UnmanagedDeviceErrorsItem {
         return errorCode.equals(other.errorCode) && message.equals(other.message);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.errorCode, this.message);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -94,28 +94,28 @@ public final class UnmanagedDeviceErrorsItem {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(UnmanagedDeviceErrorsItem other) {
             errorCode(other.getErrorCode());
             message(other.getMessage());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("error_code")
         public MessageStage errorCode(String errorCode) {
             this.errorCode = errorCode;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("message")
         public _FinalStage message(String message) {
             this.message = message;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public UnmanagedDeviceErrorsItem build() {
             return new UnmanagedDeviceErrorsItem(errorCode, message, additionalProperties);
         }

@@ -12,7 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
-import com.seam.api.types.FanModeSetting;
+import com.seam.api.resources.thermostats.types.ThermostatsSetFanModeRequestFanModeSetting;
+import com.seam.api.types.FanMode;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -23,9 +24,9 @@ import java.util.Optional;
 public final class ThermostatsSetFanModeRequest {
     private final String deviceId;
 
-    private final Optional<FanModeSetting> fanMode;
+    private final Optional<FanMode> fanMode;
 
-    private final Optional<FanModeSetting> fanModeSetting;
+    private final Optional<ThermostatsSetFanModeRequestFanModeSetting> fanModeSetting;
 
     private final Optional<Boolean> sync;
 
@@ -33,8 +34,8 @@ public final class ThermostatsSetFanModeRequest {
 
     private ThermostatsSetFanModeRequest(
             String deviceId,
-            Optional<FanModeSetting> fanMode,
-            Optional<FanModeSetting> fanModeSetting,
+            Optional<FanMode> fanMode,
+            Optional<ThermostatsSetFanModeRequestFanModeSetting> fanModeSetting,
             Optional<Boolean> sync,
             Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
@@ -50,12 +51,12 @@ public final class ThermostatsSetFanModeRequest {
     }
 
     @JsonProperty("fan_mode")
-    public Optional<FanModeSetting> getFanMode() {
+    public Optional<FanMode> getFanMode() {
         return fanMode;
     }
 
     @JsonProperty("fan_mode_setting")
-    public Optional<FanModeSetting> getFanModeSetting() {
+    public Optional<ThermostatsSetFanModeRequestFanModeSetting> getFanModeSetting() {
         return fanModeSetting;
     }
 
@@ -64,7 +65,7 @@ public final class ThermostatsSetFanModeRequest {
         return sync;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ThermostatsSetFanModeRequest && equalTo((ThermostatsSetFanModeRequest) other);
@@ -82,12 +83,12 @@ public final class ThermostatsSetFanModeRequest {
                 && sync.equals(other.sync);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.deviceId, this.fanMode, this.fanModeSetting, this.sync);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -105,13 +106,13 @@ public final class ThermostatsSetFanModeRequest {
     public interface _FinalStage {
         ThermostatsSetFanModeRequest build();
 
-        _FinalStage fanMode(Optional<FanModeSetting> fanMode);
+        _FinalStage fanMode(Optional<FanMode> fanMode);
 
-        _FinalStage fanMode(FanModeSetting fanMode);
+        _FinalStage fanMode(FanMode fanMode);
 
-        _FinalStage fanModeSetting(Optional<FanModeSetting> fanModeSetting);
+        _FinalStage fanModeSetting(Optional<ThermostatsSetFanModeRequestFanModeSetting> fanModeSetting);
 
-        _FinalStage fanModeSetting(FanModeSetting fanModeSetting);
+        _FinalStage fanModeSetting(ThermostatsSetFanModeRequestFanModeSetting fanModeSetting);
 
         _FinalStage sync(Optional<Boolean> sync);
 
@@ -124,16 +125,16 @@ public final class ThermostatsSetFanModeRequest {
 
         private Optional<Boolean> sync = Optional.empty();
 
-        private Optional<FanModeSetting> fanModeSetting = Optional.empty();
+        private Optional<ThermostatsSetFanModeRequestFanModeSetting> fanModeSetting = Optional.empty();
 
-        private Optional<FanModeSetting> fanMode = Optional.empty();
+        private Optional<FanMode> fanMode = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(ThermostatsSetFanModeRequest other) {
             deviceId(other.getDeviceId());
             fanMode(other.getFanMode());
@@ -142,53 +143,53 @@ public final class ThermostatsSetFanModeRequest {
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public _FinalStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage sync(Boolean sync) {
             this.sync = Optional.of(sync);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "sync", nulls = Nulls.SKIP)
         public _FinalStage sync(Optional<Boolean> sync) {
             this.sync = sync;
             return this;
         }
 
-        @Override
-        public _FinalStage fanModeSetting(FanModeSetting fanModeSetting) {
+        @java.lang.Override
+        public _FinalStage fanModeSetting(ThermostatsSetFanModeRequestFanModeSetting fanModeSetting) {
             this.fanModeSetting = Optional.of(fanModeSetting);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "fan_mode_setting", nulls = Nulls.SKIP)
-        public _FinalStage fanModeSetting(Optional<FanModeSetting> fanModeSetting) {
+        public _FinalStage fanModeSetting(Optional<ThermostatsSetFanModeRequestFanModeSetting> fanModeSetting) {
             this.fanModeSetting = fanModeSetting;
             return this;
         }
 
-        @Override
-        public _FinalStage fanMode(FanModeSetting fanMode) {
+        @java.lang.Override
+        public _FinalStage fanMode(FanMode fanMode) {
             this.fanMode = Optional.of(fanMode);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "fan_mode", nulls = Nulls.SKIP)
-        public _FinalStage fanMode(Optional<FanModeSetting> fanMode) {
+        public _FinalStage fanMode(Optional<FanMode> fanMode) {
             this.fanMode = fanMode;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public ThermostatsSetFanModeRequest build() {
             return new ThermostatsSetFanModeRequest(deviceId, fanMode, fanModeSetting, sync, additionalProperties);
         }

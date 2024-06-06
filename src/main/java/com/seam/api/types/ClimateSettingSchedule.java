@@ -33,11 +33,13 @@ public final class ClimateSettingSchedule {
 
     private final OffsetDateTime createdAt;
 
+    private final Optional<Object> errors;
+
     private final Optional<Boolean> automaticHeatingEnabled;
 
     private final Optional<Boolean> automaticCoolingEnabled;
 
-    private final Optional<HvacModeSetting> hvacModeSetting;
+    private final Optional<ClimateSettingScheduleHvacModeSetting> hvacModeSetting;
 
     private final Optional<Double> coolingSetPointCelsius;
 
@@ -58,9 +60,10 @@ public final class ClimateSettingSchedule {
             String scheduleStartsAt,
             String scheduleEndsAt,
             OffsetDateTime createdAt,
+            Optional<Object> errors,
             Optional<Boolean> automaticHeatingEnabled,
             Optional<Boolean> automaticCoolingEnabled,
-            Optional<HvacModeSetting> hvacModeSetting,
+            Optional<ClimateSettingScheduleHvacModeSetting> hvacModeSetting,
             Optional<Double> coolingSetPointCelsius,
             Optional<Double> heatingSetPointCelsius,
             Optional<Double> coolingSetPointFahrenheit,
@@ -73,6 +76,7 @@ public final class ClimateSettingSchedule {
         this.scheduleStartsAt = scheduleStartsAt;
         this.scheduleEndsAt = scheduleEndsAt;
         this.createdAt = createdAt;
+        this.errors = errors;
         this.automaticHeatingEnabled = automaticHeatingEnabled;
         this.automaticCoolingEnabled = automaticCoolingEnabled;
         this.hvacModeSetting = hvacModeSetting;
@@ -119,6 +123,11 @@ public final class ClimateSettingSchedule {
         return createdAt;
     }
 
+    @JsonProperty("errors")
+    public Optional<Object> getErrors() {
+        return errors;
+    }
+
     @JsonProperty("automatic_heating_enabled")
     public Optional<Boolean> getAutomaticHeatingEnabled() {
         return automaticHeatingEnabled;
@@ -130,7 +139,7 @@ public final class ClimateSettingSchedule {
     }
 
     @JsonProperty("hvac_mode_setting")
-    public Optional<HvacModeSetting> getHvacModeSetting() {
+    public Optional<ClimateSettingScheduleHvacModeSetting> getHvacModeSetting() {
         return hvacModeSetting;
     }
 
@@ -159,7 +168,7 @@ public final class ClimateSettingSchedule {
         return manualOverrideAllowed;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ClimateSettingSchedule && equalTo((ClimateSettingSchedule) other);
@@ -177,6 +186,7 @@ public final class ClimateSettingSchedule {
                 && scheduleStartsAt.equals(other.scheduleStartsAt)
                 && scheduleEndsAt.equals(other.scheduleEndsAt)
                 && createdAt.equals(other.createdAt)
+                && errors.equals(other.errors)
                 && automaticHeatingEnabled.equals(other.automaticHeatingEnabled)
                 && automaticCoolingEnabled.equals(other.automaticCoolingEnabled)
                 && hvacModeSetting.equals(other.hvacModeSetting)
@@ -187,7 +197,7 @@ public final class ClimateSettingSchedule {
                 && manualOverrideAllowed.equals(other.manualOverrideAllowed);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(
                 this.climateSettingScheduleId,
@@ -196,6 +206,7 @@ public final class ClimateSettingSchedule {
                 this.scheduleStartsAt,
                 this.scheduleEndsAt,
                 this.createdAt,
+                this.errors,
                 this.automaticHeatingEnabled,
                 this.automaticCoolingEnabled,
                 this.hvacModeSetting,
@@ -206,7 +217,7 @@ public final class ClimateSettingSchedule {
                 this.manualOverrideAllowed);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -244,6 +255,10 @@ public final class ClimateSettingSchedule {
 
         _FinalStage name(String name);
 
+        _FinalStage errors(Optional<Object> errors);
+
+        _FinalStage errors(Object errors);
+
         _FinalStage automaticHeatingEnabled(Optional<Boolean> automaticHeatingEnabled);
 
         _FinalStage automaticHeatingEnabled(Boolean automaticHeatingEnabled);
@@ -252,9 +267,9 @@ public final class ClimateSettingSchedule {
 
         _FinalStage automaticCoolingEnabled(Boolean automaticCoolingEnabled);
 
-        _FinalStage hvacModeSetting(Optional<HvacModeSetting> hvacModeSetting);
+        _FinalStage hvacModeSetting(Optional<ClimateSettingScheduleHvacModeSetting> hvacModeSetting);
 
-        _FinalStage hvacModeSetting(HvacModeSetting hvacModeSetting);
+        _FinalStage hvacModeSetting(ClimateSettingScheduleHvacModeSetting hvacModeSetting);
 
         _FinalStage coolingSetPointCelsius(Optional<Double> coolingSetPointCelsius);
 
@@ -305,11 +320,13 @@ public final class ClimateSettingSchedule {
 
         private Optional<Double> coolingSetPointCelsius = Optional.empty();
 
-        private Optional<HvacModeSetting> hvacModeSetting = Optional.empty();
+        private Optional<ClimateSettingScheduleHvacModeSetting> hvacModeSetting = Optional.empty();
 
         private Optional<Boolean> automaticCoolingEnabled = Optional.empty();
 
         private Optional<Boolean> automaticHeatingEnabled = Optional.empty();
+
+        private Optional<Object> errors = Optional.empty();
 
         private Optional<String> name = Optional.empty();
 
@@ -318,7 +335,7 @@ public final class ClimateSettingSchedule {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(ClimateSettingSchedule other) {
             climateSettingScheduleId(other.getClimateSettingScheduleId());
             deviceId(other.getDeviceId());
@@ -326,6 +343,7 @@ public final class ClimateSettingSchedule {
             scheduleStartsAt(other.getScheduleStartsAt());
             scheduleEndsAt(other.getScheduleEndsAt());
             createdAt(other.getCreatedAt());
+            errors(other.getErrors());
             automaticHeatingEnabled(other.getAutomaticHeatingEnabled());
             automaticCoolingEnabled(other.getAutomaticCoolingEnabled());
             hvacModeSetting(other.getHvacModeSetting());
@@ -337,159 +355,172 @@ public final class ClimateSettingSchedule {
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("climate_setting_schedule_id")
         public DeviceIdStage climateSettingScheduleId(String climateSettingScheduleId) {
             this.climateSettingScheduleId = climateSettingScheduleId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public ScheduleStartsAtStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("schedule_starts_at")
         public ScheduleEndsAtStage scheduleStartsAt(String scheduleStartsAt) {
             this.scheduleStartsAt = scheduleStartsAt;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("schedule_ends_at")
         public CreatedAtStage scheduleEndsAt(String scheduleEndsAt) {
             this.scheduleEndsAt = scheduleEndsAt;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("created_at")
         public _FinalStage createdAt(OffsetDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage manualOverrideAllowed(Boolean manualOverrideAllowed) {
             this.manualOverrideAllowed = Optional.of(manualOverrideAllowed);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "manual_override_allowed", nulls = Nulls.SKIP)
         public _FinalStage manualOverrideAllowed(Optional<Boolean> manualOverrideAllowed) {
             this.manualOverrideAllowed = manualOverrideAllowed;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage heatingSetPointFahrenheit(Double heatingSetPointFahrenheit) {
             this.heatingSetPointFahrenheit = Optional.of(heatingSetPointFahrenheit);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "heating_set_point_fahrenheit", nulls = Nulls.SKIP)
         public _FinalStage heatingSetPointFahrenheit(Optional<Double> heatingSetPointFahrenheit) {
             this.heatingSetPointFahrenheit = heatingSetPointFahrenheit;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage coolingSetPointFahrenheit(Double coolingSetPointFahrenheit) {
             this.coolingSetPointFahrenheit = Optional.of(coolingSetPointFahrenheit);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "cooling_set_point_fahrenheit", nulls = Nulls.SKIP)
         public _FinalStage coolingSetPointFahrenheit(Optional<Double> coolingSetPointFahrenheit) {
             this.coolingSetPointFahrenheit = coolingSetPointFahrenheit;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage heatingSetPointCelsius(Double heatingSetPointCelsius) {
             this.heatingSetPointCelsius = Optional.of(heatingSetPointCelsius);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "heating_set_point_celsius", nulls = Nulls.SKIP)
         public _FinalStage heatingSetPointCelsius(Optional<Double> heatingSetPointCelsius) {
             this.heatingSetPointCelsius = heatingSetPointCelsius;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage coolingSetPointCelsius(Double coolingSetPointCelsius) {
             this.coolingSetPointCelsius = Optional.of(coolingSetPointCelsius);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "cooling_set_point_celsius", nulls = Nulls.SKIP)
         public _FinalStage coolingSetPointCelsius(Optional<Double> coolingSetPointCelsius) {
             this.coolingSetPointCelsius = coolingSetPointCelsius;
             return this;
         }
 
-        @Override
-        public _FinalStage hvacModeSetting(HvacModeSetting hvacModeSetting) {
+        @java.lang.Override
+        public _FinalStage hvacModeSetting(ClimateSettingScheduleHvacModeSetting hvacModeSetting) {
             this.hvacModeSetting = Optional.of(hvacModeSetting);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "hvac_mode_setting", nulls = Nulls.SKIP)
-        public _FinalStage hvacModeSetting(Optional<HvacModeSetting> hvacModeSetting) {
+        public _FinalStage hvacModeSetting(Optional<ClimateSettingScheduleHvacModeSetting> hvacModeSetting) {
             this.hvacModeSetting = hvacModeSetting;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage automaticCoolingEnabled(Boolean automaticCoolingEnabled) {
             this.automaticCoolingEnabled = Optional.of(automaticCoolingEnabled);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "automatic_cooling_enabled", nulls = Nulls.SKIP)
         public _FinalStage automaticCoolingEnabled(Optional<Boolean> automaticCoolingEnabled) {
             this.automaticCoolingEnabled = automaticCoolingEnabled;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage automaticHeatingEnabled(Boolean automaticHeatingEnabled) {
             this.automaticHeatingEnabled = Optional.of(automaticHeatingEnabled);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "automatic_heating_enabled", nulls = Nulls.SKIP)
         public _FinalStage automaticHeatingEnabled(Optional<Boolean> automaticHeatingEnabled) {
             this.automaticHeatingEnabled = automaticHeatingEnabled;
             return this;
         }
 
-        @Override
+        @java.lang.Override
+        public _FinalStage errors(Object errors) {
+            this.errors = Optional.of(errors);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "errors", nulls = Nulls.SKIP)
+        public _FinalStage errors(Optional<Object> errors) {
+            this.errors = errors;
+            return this;
+        }
+
+        @java.lang.Override
         public _FinalStage name(String name) {
             this.name = Optional.of(name);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "name", nulls = Nulls.SKIP)
         public _FinalStage name(Optional<String> name) {
             this.name = name;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public ClimateSettingSchedule build() {
             return new ClimateSettingSchedule(
                     climateSettingScheduleId,
@@ -498,6 +529,7 @@ public final class ClimateSettingSchedule {
                     scheduleStartsAt,
                     scheduleEndsAt,
                     createdAt,
+                    errors,
                     automaticHeatingEnabled,
                     automaticCoolingEnabled,
                     hvacModeSetting,

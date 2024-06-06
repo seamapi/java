@@ -49,7 +49,7 @@ public final class ServiceHealth {
         return description;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ServiceHealth && equalTo((ServiceHealth) other);
@@ -64,12 +64,12 @@ public final class ServiceHealth {
         return service.equals(other.service) && status.equals(other.status) && description.equals(other.description);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.service, this.status, this.description);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -109,7 +109,7 @@ public final class ServiceHealth {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(ServiceHealth other) {
             service(other.getService());
             status(other.getStatus());
@@ -117,28 +117,28 @@ public final class ServiceHealth {
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("service")
         public StatusStage service(String service) {
             this.service = service;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("status")
         public DescriptionStage status(ServiceHealthStatus status) {
             this.status = status;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("description")
         public _FinalStage description(String description) {
             this.description = description;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public ServiceHealth build() {
             return new ServiceHealth(service, status, description, additionalProperties);
         }

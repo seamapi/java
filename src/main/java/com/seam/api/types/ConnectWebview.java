@@ -15,6 +15,7 @@ import com.seam.api.core.ObjectMappers;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -25,11 +26,13 @@ import java.util.Optional;
 public final class ConnectWebview {
     private final String connectWebviewId;
 
+    private final String workspaceId;
+
+    private final OffsetDateTime createdAt;
+
     private final Optional<String> connectedAccountId;
 
     private final String url;
-
-    private final String workspaceId;
 
     private final SelectionMode deviceSelectionMode;
 
@@ -37,50 +40,86 @@ public final class ConnectWebview {
 
     private final List<String> acceptedDevices;
 
-    private final boolean anyProviderAllowed;
-
     private final boolean anyDeviceAllowed;
 
-    private final OffsetDateTime createdAt;
+    private final boolean anyProviderAllowed;
 
     private final boolean loginSuccessful;
 
     private final ConnectWebviewStatus status;
 
+    private final Optional<String> customRedirectUrl;
+
+    private final Optional<String> customRedirectFailureUrl;
+
+    private final Map<String, ConnectWebviewCustomMetadataValue> customMetadata;
+
+    private final boolean automaticallyManageNewDevices;
+
+    private final boolean waitForDeviceCreation;
+
+    private final Optional<OffsetDateTime> authorizedAt;
+
+    private final Optional<String> selectedProvider;
+
     private final Map<String, Object> additionalProperties;
 
     private ConnectWebview(
             String connectWebviewId,
+            String workspaceId,
+            OffsetDateTime createdAt,
             Optional<String> connectedAccountId,
             String url,
-            String workspaceId,
             SelectionMode deviceSelectionMode,
             List<String> acceptedProviders,
             List<String> acceptedDevices,
-            boolean anyProviderAllowed,
             boolean anyDeviceAllowed,
-            OffsetDateTime createdAt,
+            boolean anyProviderAllowed,
             boolean loginSuccessful,
             ConnectWebviewStatus status,
+            Optional<String> customRedirectUrl,
+            Optional<String> customRedirectFailureUrl,
+            Map<String, ConnectWebviewCustomMetadataValue> customMetadata,
+            boolean automaticallyManageNewDevices,
+            boolean waitForDeviceCreation,
+            Optional<OffsetDateTime> authorizedAt,
+            Optional<String> selectedProvider,
             Map<String, Object> additionalProperties) {
         this.connectWebviewId = connectWebviewId;
+        this.workspaceId = workspaceId;
+        this.createdAt = createdAt;
         this.connectedAccountId = connectedAccountId;
         this.url = url;
-        this.workspaceId = workspaceId;
         this.deviceSelectionMode = deviceSelectionMode;
         this.acceptedProviders = acceptedProviders;
         this.acceptedDevices = acceptedDevices;
-        this.anyProviderAllowed = anyProviderAllowed;
         this.anyDeviceAllowed = anyDeviceAllowed;
-        this.createdAt = createdAt;
+        this.anyProviderAllowed = anyProviderAllowed;
         this.loginSuccessful = loginSuccessful;
         this.status = status;
+        this.customRedirectUrl = customRedirectUrl;
+        this.customRedirectFailureUrl = customRedirectFailureUrl;
+        this.customMetadata = customMetadata;
+        this.automaticallyManageNewDevices = automaticallyManageNewDevices;
+        this.waitForDeviceCreation = waitForDeviceCreation;
+        this.authorizedAt = authorizedAt;
+        this.selectedProvider = selectedProvider;
         this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("connect_webview_id")
     public String getConnectWebviewId() {
         return connectWebviewId;
+    }
+
+    @JsonProperty("workspace_id")
+    public String getWorkspaceId() {
+        return workspaceId;
+    }
+
+    @JsonProperty("created_at")
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
     }
 
     @JsonProperty("connected_account_id")
@@ -93,11 +132,6 @@ public final class ConnectWebview {
         return url;
     }
 
-    @JsonProperty("workspace_id")
-    public String getWorkspaceId() {
-        return workspaceId;
-    }
-
     @JsonProperty("device_selection_mode")
     public SelectionMode getDeviceSelectionMode() {
         return deviceSelectionMode;
@@ -108,24 +142,31 @@ public final class ConnectWebview {
         return acceptedProviders;
     }
 
+    /**
+     * @return <hr />
+     * <pre><code>  deprecated: Unused. Will be removed.
+     *   ---
+     * </code></pre>
+     */
     @JsonProperty("accepted_devices")
     public List<String> getAcceptedDevices() {
         return acceptedDevices;
     }
 
-    @JsonProperty("any_provider_allowed")
-    public boolean getAnyProviderAllowed() {
-        return anyProviderAllowed;
-    }
-
+    /**
+     * @return <hr />
+     * <pre><code>  deprecated: Unused. Will be removed.
+     *   ---
+     * </code></pre>
+     */
     @JsonProperty("any_device_allowed")
     public boolean getAnyDeviceAllowed() {
         return anyDeviceAllowed;
     }
 
-    @JsonProperty("created_at")
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
+    @JsonProperty("any_provider_allowed")
+    public boolean getAnyProviderAllowed() {
+        return anyProviderAllowed;
     }
 
     @JsonProperty("login_successful")
@@ -138,7 +179,42 @@ public final class ConnectWebview {
         return status;
     }
 
-    @Override
+    @JsonProperty("custom_redirect_url")
+    public Optional<String> getCustomRedirectUrl() {
+        return customRedirectUrl;
+    }
+
+    @JsonProperty("custom_redirect_failure_url")
+    public Optional<String> getCustomRedirectFailureUrl() {
+        return customRedirectFailureUrl;
+    }
+
+    @JsonProperty("custom_metadata")
+    public Map<String, ConnectWebviewCustomMetadataValue> getCustomMetadata() {
+        return customMetadata;
+    }
+
+    @JsonProperty("automatically_manage_new_devices")
+    public boolean getAutomaticallyManageNewDevices() {
+        return automaticallyManageNewDevices;
+    }
+
+    @JsonProperty("wait_for_device_creation")
+    public boolean getWaitForDeviceCreation() {
+        return waitForDeviceCreation;
+    }
+
+    @JsonProperty("authorized_at")
+    public Optional<OffsetDateTime> getAuthorizedAt() {
+        return authorizedAt;
+    }
+
+    @JsonProperty("selected_provider")
+    public Optional<String> getSelectedProvider() {
+        return selectedProvider;
+    }
+
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ConnectWebview && equalTo((ConnectWebview) other);
@@ -151,37 +227,51 @@ public final class ConnectWebview {
 
     private boolean equalTo(ConnectWebview other) {
         return connectWebviewId.equals(other.connectWebviewId)
+                && workspaceId.equals(other.workspaceId)
+                && createdAt.equals(other.createdAt)
                 && connectedAccountId.equals(other.connectedAccountId)
                 && url.equals(other.url)
-                && workspaceId.equals(other.workspaceId)
                 && deviceSelectionMode.equals(other.deviceSelectionMode)
                 && acceptedProviders.equals(other.acceptedProviders)
                 && acceptedDevices.equals(other.acceptedDevices)
-                && anyProviderAllowed == other.anyProviderAllowed
                 && anyDeviceAllowed == other.anyDeviceAllowed
-                && createdAt.equals(other.createdAt)
+                && anyProviderAllowed == other.anyProviderAllowed
                 && loginSuccessful == other.loginSuccessful
-                && status.equals(other.status);
+                && status.equals(other.status)
+                && customRedirectUrl.equals(other.customRedirectUrl)
+                && customRedirectFailureUrl.equals(other.customRedirectFailureUrl)
+                && customMetadata.equals(other.customMetadata)
+                && automaticallyManageNewDevices == other.automaticallyManageNewDevices
+                && waitForDeviceCreation == other.waitForDeviceCreation
+                && authorizedAt.equals(other.authorizedAt)
+                && selectedProvider.equals(other.selectedProvider);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(
                 this.connectWebviewId,
+                this.workspaceId,
+                this.createdAt,
                 this.connectedAccountId,
                 this.url,
-                this.workspaceId,
                 this.deviceSelectionMode,
                 this.acceptedProviders,
                 this.acceptedDevices,
-                this.anyProviderAllowed,
                 this.anyDeviceAllowed,
-                this.createdAt,
+                this.anyProviderAllowed,
                 this.loginSuccessful,
-                this.status);
+                this.status,
+                this.customRedirectUrl,
+                this.customRedirectFailureUrl,
+                this.customMetadata,
+                this.automaticallyManageNewDevices,
+                this.waitForDeviceCreation,
+                this.authorizedAt,
+                this.selectedProvider);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -191,33 +281,33 @@ public final class ConnectWebview {
     }
 
     public interface ConnectWebviewIdStage {
-        UrlStage connectWebviewId(String connectWebviewId);
+        WorkspaceIdStage connectWebviewId(String connectWebviewId);
 
         Builder from(ConnectWebview other);
     }
 
-    public interface UrlStage {
-        WorkspaceIdStage url(String url);
-    }
-
     public interface WorkspaceIdStage {
-        DeviceSelectionModeStage workspaceId(String workspaceId);
-    }
-
-    public interface DeviceSelectionModeStage {
-        AnyProviderAllowedStage deviceSelectionMode(SelectionMode deviceSelectionMode);
-    }
-
-    public interface AnyProviderAllowedStage {
-        AnyDeviceAllowedStage anyProviderAllowed(boolean anyProviderAllowed);
-    }
-
-    public interface AnyDeviceAllowedStage {
-        CreatedAtStage anyDeviceAllowed(boolean anyDeviceAllowed);
+        CreatedAtStage workspaceId(String workspaceId);
     }
 
     public interface CreatedAtStage {
-        LoginSuccessfulStage createdAt(OffsetDateTime createdAt);
+        UrlStage createdAt(OffsetDateTime createdAt);
+    }
+
+    public interface UrlStage {
+        DeviceSelectionModeStage url(String url);
+    }
+
+    public interface DeviceSelectionModeStage {
+        AnyDeviceAllowedStage deviceSelectionMode(SelectionMode deviceSelectionMode);
+    }
+
+    public interface AnyDeviceAllowedStage {
+        AnyProviderAllowedStage anyDeviceAllowed(boolean anyDeviceAllowed);
+    }
+
+    public interface AnyProviderAllowedStage {
+        LoginSuccessfulStage anyProviderAllowed(boolean anyProviderAllowed);
     }
 
     public interface LoginSuccessfulStage {
@@ -225,7 +315,15 @@ public final class ConnectWebview {
     }
 
     public interface StatusStage {
-        _FinalStage status(ConnectWebviewStatus status);
+        AutomaticallyManageNewDevicesStage status(ConnectWebviewStatus status);
+    }
+
+    public interface AutomaticallyManageNewDevicesStage {
+        WaitForDeviceCreationStage automaticallyManageNewDevices(boolean automaticallyManageNewDevices);
+    }
+
+    public interface WaitForDeviceCreationStage {
+        _FinalStage waitForDeviceCreation(boolean waitForDeviceCreation);
     }
 
     public interface _FinalStage {
@@ -246,37 +344,75 @@ public final class ConnectWebview {
         _FinalStage addAcceptedDevices(String acceptedDevices);
 
         _FinalStage addAllAcceptedDevices(List<String> acceptedDevices);
+
+        _FinalStage customRedirectUrl(Optional<String> customRedirectUrl);
+
+        _FinalStage customRedirectUrl(String customRedirectUrl);
+
+        _FinalStage customRedirectFailureUrl(Optional<String> customRedirectFailureUrl);
+
+        _FinalStage customRedirectFailureUrl(String customRedirectFailureUrl);
+
+        _FinalStage customMetadata(Map<String, ConnectWebviewCustomMetadataValue> customMetadata);
+
+        _FinalStage putAllCustomMetadata(Map<String, ConnectWebviewCustomMetadataValue> customMetadata);
+
+        _FinalStage customMetadata(String key, ConnectWebviewCustomMetadataValue value);
+
+        _FinalStage authorizedAt(Optional<OffsetDateTime> authorizedAt);
+
+        _FinalStage authorizedAt(OffsetDateTime authorizedAt);
+
+        _FinalStage selectedProvider(Optional<String> selectedProvider);
+
+        _FinalStage selectedProvider(String selectedProvider);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder
             implements ConnectWebviewIdStage,
-                    UrlStage,
                     WorkspaceIdStage,
-                    DeviceSelectionModeStage,
-                    AnyProviderAllowedStage,
-                    AnyDeviceAllowedStage,
                     CreatedAtStage,
+                    UrlStage,
+                    DeviceSelectionModeStage,
+                    AnyDeviceAllowedStage,
+                    AnyProviderAllowedStage,
                     LoginSuccessfulStage,
                     StatusStage,
+                    AutomaticallyManageNewDevicesStage,
+                    WaitForDeviceCreationStage,
                     _FinalStage {
         private String connectWebviewId;
 
-        private String url;
-
         private String workspaceId;
+
+        private OffsetDateTime createdAt;
+
+        private String url;
 
         private SelectionMode deviceSelectionMode;
 
-        private boolean anyProviderAllowed;
-
         private boolean anyDeviceAllowed;
 
-        private OffsetDateTime createdAt;
+        private boolean anyProviderAllowed;
 
         private boolean loginSuccessful;
 
         private ConnectWebviewStatus status;
+
+        private boolean automaticallyManageNewDevices;
+
+        private boolean waitForDeviceCreation;
+
+        private Optional<String> selectedProvider = Optional.empty();
+
+        private Optional<OffsetDateTime> authorizedAt = Optional.empty();
+
+        private Map<String, ConnectWebviewCustomMetadataValue> customMetadata = new LinkedHashMap<>();
+
+        private Optional<String> customRedirectFailureUrl = Optional.empty();
+
+        private Optional<String> customRedirectUrl = Optional.empty();
 
         private List<String> acceptedDevices = new ArrayList<>();
 
@@ -289,99 +425,213 @@ public final class ConnectWebview {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(ConnectWebview other) {
             connectWebviewId(other.getConnectWebviewId());
+            workspaceId(other.getWorkspaceId());
+            createdAt(other.getCreatedAt());
             connectedAccountId(other.getConnectedAccountId());
             url(other.getUrl());
-            workspaceId(other.getWorkspaceId());
             deviceSelectionMode(other.getDeviceSelectionMode());
             acceptedProviders(other.getAcceptedProviders());
             acceptedDevices(other.getAcceptedDevices());
-            anyProviderAllowed(other.getAnyProviderAllowed());
             anyDeviceAllowed(other.getAnyDeviceAllowed());
-            createdAt(other.getCreatedAt());
+            anyProviderAllowed(other.getAnyProviderAllowed());
             loginSuccessful(other.getLoginSuccessful());
             status(other.getStatus());
+            customRedirectUrl(other.getCustomRedirectUrl());
+            customRedirectFailureUrl(other.getCustomRedirectFailureUrl());
+            customMetadata(other.getCustomMetadata());
+            automaticallyManageNewDevices(other.getAutomaticallyManageNewDevices());
+            waitForDeviceCreation(other.getWaitForDeviceCreation());
+            authorizedAt(other.getAuthorizedAt());
+            selectedProvider(other.getSelectedProvider());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("connect_webview_id")
-        public UrlStage connectWebviewId(String connectWebviewId) {
+        public WorkspaceIdStage connectWebviewId(String connectWebviewId) {
             this.connectWebviewId = connectWebviewId;
             return this;
         }
 
-        @Override
-        @JsonSetter("url")
-        public WorkspaceIdStage url(String url) {
-            this.url = url;
-            return this;
-        }
-
-        @Override
+        @java.lang.Override
         @JsonSetter("workspace_id")
-        public DeviceSelectionModeStage workspaceId(String workspaceId) {
+        public CreatedAtStage workspaceId(String workspaceId) {
             this.workspaceId = workspaceId;
             return this;
         }
 
-        @Override
-        @JsonSetter("device_selection_mode")
-        public AnyProviderAllowedStage deviceSelectionMode(SelectionMode deviceSelectionMode) {
-            this.deviceSelectionMode = deviceSelectionMode;
-            return this;
-        }
-
-        @Override
-        @JsonSetter("any_provider_allowed")
-        public AnyDeviceAllowedStage anyProviderAllowed(boolean anyProviderAllowed) {
-            this.anyProviderAllowed = anyProviderAllowed;
-            return this;
-        }
-
-        @Override
-        @JsonSetter("any_device_allowed")
-        public CreatedAtStage anyDeviceAllowed(boolean anyDeviceAllowed) {
-            this.anyDeviceAllowed = anyDeviceAllowed;
-            return this;
-        }
-
-        @Override
+        @java.lang.Override
         @JsonSetter("created_at")
-        public LoginSuccessfulStage createdAt(OffsetDateTime createdAt) {
+        public UrlStage createdAt(OffsetDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }
 
-        @Override
+        @java.lang.Override
+        @JsonSetter("url")
+        public DeviceSelectionModeStage url(String url) {
+            this.url = url;
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter("device_selection_mode")
+        public AnyDeviceAllowedStage deviceSelectionMode(SelectionMode deviceSelectionMode) {
+            this.deviceSelectionMode = deviceSelectionMode;
+            return this;
+        }
+
+        /**
+         * <hr />
+         * <pre><code>  deprecated: Unused. Will be removed.
+         *   ---
+         * </code></pre>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        @JsonSetter("any_device_allowed")
+        public AnyProviderAllowedStage anyDeviceAllowed(boolean anyDeviceAllowed) {
+            this.anyDeviceAllowed = anyDeviceAllowed;
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter("any_provider_allowed")
+        public LoginSuccessfulStage anyProviderAllowed(boolean anyProviderAllowed) {
+            this.anyProviderAllowed = anyProviderAllowed;
+            return this;
+        }
+
+        @java.lang.Override
         @JsonSetter("login_successful")
         public StatusStage loginSuccessful(boolean loginSuccessful) {
             this.loginSuccessful = loginSuccessful;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("status")
-        public _FinalStage status(ConnectWebviewStatus status) {
+        public AutomaticallyManageNewDevicesStage status(ConnectWebviewStatus status) {
             this.status = status;
             return this;
         }
 
-        @Override
+        @java.lang.Override
+        @JsonSetter("automatically_manage_new_devices")
+        public WaitForDeviceCreationStage automaticallyManageNewDevices(boolean automaticallyManageNewDevices) {
+            this.automaticallyManageNewDevices = automaticallyManageNewDevices;
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter("wait_for_device_creation")
+        public _FinalStage waitForDeviceCreation(boolean waitForDeviceCreation) {
+            this.waitForDeviceCreation = waitForDeviceCreation;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage selectedProvider(String selectedProvider) {
+            this.selectedProvider = Optional.of(selectedProvider);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "selected_provider", nulls = Nulls.SKIP)
+        public _FinalStage selectedProvider(Optional<String> selectedProvider) {
+            this.selectedProvider = selectedProvider;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage authorizedAt(OffsetDateTime authorizedAt) {
+            this.authorizedAt = Optional.of(authorizedAt);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "authorized_at", nulls = Nulls.SKIP)
+        public _FinalStage authorizedAt(Optional<OffsetDateTime> authorizedAt) {
+            this.authorizedAt = authorizedAt;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage customMetadata(String key, ConnectWebviewCustomMetadataValue value) {
+            this.customMetadata.put(key, value);
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage putAllCustomMetadata(Map<String, ConnectWebviewCustomMetadataValue> customMetadata) {
+            this.customMetadata.putAll(customMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "custom_metadata", nulls = Nulls.SKIP)
+        public _FinalStage customMetadata(Map<String, ConnectWebviewCustomMetadataValue> customMetadata) {
+            this.customMetadata.clear();
+            this.customMetadata.putAll(customMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage customRedirectFailureUrl(String customRedirectFailureUrl) {
+            this.customRedirectFailureUrl = Optional.of(customRedirectFailureUrl);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "custom_redirect_failure_url", nulls = Nulls.SKIP)
+        public _FinalStage customRedirectFailureUrl(Optional<String> customRedirectFailureUrl) {
+            this.customRedirectFailureUrl = customRedirectFailureUrl;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage customRedirectUrl(String customRedirectUrl) {
+            this.customRedirectUrl = Optional.of(customRedirectUrl);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "custom_redirect_url", nulls = Nulls.SKIP)
+        public _FinalStage customRedirectUrl(Optional<String> customRedirectUrl) {
+            this.customRedirectUrl = customRedirectUrl;
+            return this;
+        }
+
+        /**
+         * <hr />
+         * <pre><code>  deprecated: Unused. Will be removed.
+         *   ---
+         * </code></pre>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         public _FinalStage addAllAcceptedDevices(List<String> acceptedDevices) {
             this.acceptedDevices.addAll(acceptedDevices);
             return this;
         }
 
-        @Override
+        /**
+         * <hr />
+         * <pre><code>  deprecated: Unused. Will be removed.
+         *   ---
+         * </code></pre>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         public _FinalStage addAcceptedDevices(String acceptedDevices) {
             this.acceptedDevices.add(acceptedDevices);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "accepted_devices", nulls = Nulls.SKIP)
         public _FinalStage acceptedDevices(List<String> acceptedDevices) {
             this.acceptedDevices.clear();
@@ -389,19 +639,19 @@ public final class ConnectWebview {
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage addAllAcceptedProviders(List<String> acceptedProviders) {
             this.acceptedProviders.addAll(acceptedProviders);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage addAcceptedProviders(String acceptedProviders) {
             this.acceptedProviders.add(acceptedProviders);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "accepted_providers", nulls = Nulls.SKIP)
         public _FinalStage acceptedProviders(List<String> acceptedProviders) {
             this.acceptedProviders.clear();
@@ -409,34 +659,41 @@ public final class ConnectWebview {
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage connectedAccountId(String connectedAccountId) {
             this.connectedAccountId = Optional.of(connectedAccountId);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "connected_account_id", nulls = Nulls.SKIP)
         public _FinalStage connectedAccountId(Optional<String> connectedAccountId) {
             this.connectedAccountId = connectedAccountId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public ConnectWebview build() {
             return new ConnectWebview(
                     connectWebviewId,
+                    workspaceId,
+                    createdAt,
                     connectedAccountId,
                     url,
-                    workspaceId,
                     deviceSelectionMode,
                     acceptedProviders,
                     acceptedDevices,
-                    anyProviderAllowed,
                     anyDeviceAllowed,
-                    createdAt,
+                    anyProviderAllowed,
                     loginSuccessful,
                     status,
+                    customRedirectUrl,
+                    customRedirectFailureUrl,
+                    customMetadata,
+                    automaticallyManageNewDevices,
+                    waitForDeviceCreation,
+                    authorizedAt,
+                    selectedProvider,
                     additionalProperties);
         }
     }

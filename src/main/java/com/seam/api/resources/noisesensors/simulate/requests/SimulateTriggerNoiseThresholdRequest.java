@@ -32,7 +32,7 @@ public final class SimulateTriggerNoiseThresholdRequest {
         return deviceId;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof SimulateTriggerNoiseThresholdRequest
@@ -48,12 +48,12 @@ public final class SimulateTriggerNoiseThresholdRequest {
         return deviceId.equals(other.deviceId);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.deviceId);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -81,20 +81,20 @@ public final class SimulateTriggerNoiseThresholdRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(SimulateTriggerNoiseThresholdRequest other) {
             deviceId(other.getDeviceId());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public _FinalStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public SimulateTriggerNoiseThresholdRequest build() {
             return new SimulateTriggerNoiseThresholdRequest(deviceId, additionalProperties);
         }

@@ -24,14 +24,25 @@ public final class UnmanagedUpdateRequest {
 
     private final boolean isManaged;
 
+    private final Optional<Boolean> allowExternalModification;
+
+    private final Optional<Boolean> isExternalModificationAllowed;
+
     private final Optional<Boolean> force;
 
     private final Map<String, Object> additionalProperties;
 
     private UnmanagedUpdateRequest(
-            String accessCodeId, boolean isManaged, Optional<Boolean> force, Map<String, Object> additionalProperties) {
+            String accessCodeId,
+            boolean isManaged,
+            Optional<Boolean> allowExternalModification,
+            Optional<Boolean> isExternalModificationAllowed,
+            Optional<Boolean> force,
+            Map<String, Object> additionalProperties) {
         this.accessCodeId = accessCodeId;
         this.isManaged = isManaged;
+        this.allowExternalModification = allowExternalModification;
+        this.isExternalModificationAllowed = isExternalModificationAllowed;
         this.force = force;
         this.additionalProperties = additionalProperties;
     }
@@ -46,12 +57,22 @@ public final class UnmanagedUpdateRequest {
         return isManaged;
     }
 
+    @JsonProperty("allow_external_modification")
+    public Optional<Boolean> getAllowExternalModification() {
+        return allowExternalModification;
+    }
+
+    @JsonProperty("is_external_modification_allowed")
+    public Optional<Boolean> getIsExternalModificationAllowed() {
+        return isExternalModificationAllowed;
+    }
+
     @JsonProperty("force")
     public Optional<Boolean> getForce() {
         return force;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof UnmanagedUpdateRequest && equalTo((UnmanagedUpdateRequest) other);
@@ -63,15 +84,24 @@ public final class UnmanagedUpdateRequest {
     }
 
     private boolean equalTo(UnmanagedUpdateRequest other) {
-        return accessCodeId.equals(other.accessCodeId) && isManaged == other.isManaged && force.equals(other.force);
+        return accessCodeId.equals(other.accessCodeId)
+                && isManaged == other.isManaged
+                && allowExternalModification.equals(other.allowExternalModification)
+                && isExternalModificationAllowed.equals(other.isExternalModificationAllowed)
+                && force.equals(other.force);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.accessCodeId, this.isManaged, this.force);
+        return Objects.hash(
+                this.accessCodeId,
+                this.isManaged,
+                this.allowExternalModification,
+                this.isExternalModificationAllowed,
+                this.force);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -93,6 +123,14 @@ public final class UnmanagedUpdateRequest {
     public interface _FinalStage {
         UnmanagedUpdateRequest build();
 
+        _FinalStage allowExternalModification(Optional<Boolean> allowExternalModification);
+
+        _FinalStage allowExternalModification(Boolean allowExternalModification);
+
+        _FinalStage isExternalModificationAllowed(Optional<Boolean> isExternalModificationAllowed);
+
+        _FinalStage isExternalModificationAllowed(Boolean isExternalModificationAllowed);
+
         _FinalStage force(Optional<Boolean> force);
 
         _FinalStage force(Boolean force);
@@ -106,49 +144,87 @@ public final class UnmanagedUpdateRequest {
 
         private Optional<Boolean> force = Optional.empty();
 
+        private Optional<Boolean> isExternalModificationAllowed = Optional.empty();
+
+        private Optional<Boolean> allowExternalModification = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(UnmanagedUpdateRequest other) {
             accessCodeId(other.getAccessCodeId());
             isManaged(other.getIsManaged());
+            allowExternalModification(other.getAllowExternalModification());
+            isExternalModificationAllowed(other.getIsExternalModificationAllowed());
             force(other.getForce());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("access_code_id")
         public IsManagedStage accessCodeId(String accessCodeId) {
             this.accessCodeId = accessCodeId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("is_managed")
         public _FinalStage isManaged(boolean isManaged) {
             this.isManaged = isManaged;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage force(Boolean force) {
             this.force = Optional.of(force);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "force", nulls = Nulls.SKIP)
         public _FinalStage force(Optional<Boolean> force) {
             this.force = force;
             return this;
         }
 
-        @Override
+        @java.lang.Override
+        public _FinalStage isExternalModificationAllowed(Boolean isExternalModificationAllowed) {
+            this.isExternalModificationAllowed = Optional.of(isExternalModificationAllowed);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "is_external_modification_allowed", nulls = Nulls.SKIP)
+        public _FinalStage isExternalModificationAllowed(Optional<Boolean> isExternalModificationAllowed) {
+            this.isExternalModificationAllowed = isExternalModificationAllowed;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage allowExternalModification(Boolean allowExternalModification) {
+            this.allowExternalModification = Optional.of(allowExternalModification);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "allow_external_modification", nulls = Nulls.SKIP)
+        public _FinalStage allowExternalModification(Optional<Boolean> allowExternalModification) {
+            this.allowExternalModification = allowExternalModification;
+            return this;
+        }
+
+        @java.lang.Override
         public UnmanagedUpdateRequest build() {
-            return new UnmanagedUpdateRequest(accessCodeId, isManaged, force, additionalProperties);
+            return new UnmanagedUpdateRequest(
+                    accessCodeId,
+                    isManaged,
+                    allowExternalModification,
+                    isExternalModificationAllowed,
+                    force,
+                    additionalProperties);
         }
     }
 }

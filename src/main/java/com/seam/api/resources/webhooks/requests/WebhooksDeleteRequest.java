@@ -32,7 +32,7 @@ public final class WebhooksDeleteRequest {
         return webhookId;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof WebhooksDeleteRequest && equalTo((WebhooksDeleteRequest) other);
@@ -47,12 +47,12 @@ public final class WebhooksDeleteRequest {
         return webhookId.equals(other.webhookId);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.webhookId);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -80,20 +80,20 @@ public final class WebhooksDeleteRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(WebhooksDeleteRequest other) {
             webhookId(other.getWebhookId());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("webhook_id")
         public _FinalStage webhookId(String webhookId) {
             this.webhookId = webhookId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public WebhooksDeleteRequest build() {
             return new WebhooksDeleteRequest(webhookId, additionalProperties);
         }

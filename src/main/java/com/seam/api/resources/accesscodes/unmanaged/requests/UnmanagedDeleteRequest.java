@@ -43,7 +43,7 @@ public final class UnmanagedDeleteRequest {
         return sync;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof UnmanagedDeleteRequest && equalTo((UnmanagedDeleteRequest) other);
@@ -58,12 +58,12 @@ public final class UnmanagedDeleteRequest {
         return accessCodeId.equals(other.accessCodeId) && sync.equals(other.sync);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.accessCodeId, this.sync);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -97,34 +97,34 @@ public final class UnmanagedDeleteRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(UnmanagedDeleteRequest other) {
             accessCodeId(other.getAccessCodeId());
             sync(other.getSync());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("access_code_id")
         public _FinalStage accessCodeId(String accessCodeId) {
             this.accessCodeId = accessCodeId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage sync(Boolean sync) {
             this.sync = Optional.of(sync);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "sync", nulls = Nulls.SKIP)
         public _FinalStage sync(Optional<Boolean> sync) {
             this.sync = sync;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public UnmanagedDeleteRequest build() {
             return new UnmanagedDeleteRequest(accessCodeId, sync, additionalProperties);
         }

@@ -32,7 +32,7 @@ public final class ConnectWebviewsGetRequest {
         return connectWebviewId;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ConnectWebviewsGetRequest && equalTo((ConnectWebviewsGetRequest) other);
@@ -47,12 +47,12 @@ public final class ConnectWebviewsGetRequest {
         return connectWebviewId.equals(other.connectWebviewId);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.connectWebviewId);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -80,20 +80,20 @@ public final class ConnectWebviewsGetRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(ConnectWebviewsGetRequest other) {
             connectWebviewId(other.getConnectWebviewId());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("connect_webview_id")
         public _FinalStage connectWebviewId(String connectWebviewId) {
             this.connectWebviewId = connectWebviewId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public ConnectWebviewsGetRequest build() {
             return new ConnectWebviewsGetRequest(connectWebviewId, additionalProperties);
         }
