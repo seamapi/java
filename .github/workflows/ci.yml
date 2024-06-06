@@ -41,7 +41,7 @@ jobs:
         run: npm install -g @seamapi/fake-seam-connect@v1.65.5
 
       - name: Test
-        run: ./gradlew test
+        run: ./gradlew test --scan
   publish:
     needs: [ compile, test ]
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
