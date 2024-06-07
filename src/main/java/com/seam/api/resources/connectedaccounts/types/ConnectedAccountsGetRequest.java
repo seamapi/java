@@ -3,6 +3,9 @@
  */
 package com.seam.api.resources.connectedaccounts.types;
 
+import java.io.IOException;
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -10,8 +13,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.seam.api.core.ObjectMappers;
-import java.io.IOException;
-import java.util.Objects;
 
 @JsonDeserialize(using = ConnectedAccountsGetRequest.Deserializer.class)
 public final class ConnectedAccountsGetRequest {
@@ -64,6 +65,14 @@ public final class ConnectedAccountsGetRequest {
 
     public static ConnectedAccountsGetRequest of(ConnectedAccountsGetRequestEmail value) {
         return new ConnectedAccountsGetRequest(value, 1);
+    }
+
+    public static ConnectedAccountsGetRequest id(String id) {
+        return new ConnectedAccountsGetRequest(
+                ConnectedAccountsGetRequestConnectedAccountId.builder()
+                        .connectedAccountId(id)
+                        .build(),
+                0);
     }
 
     public interface Visitor<T> {

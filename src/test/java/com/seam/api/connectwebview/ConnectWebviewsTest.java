@@ -5,14 +5,17 @@ import com.seam.api.TestUtils;
 import com.seam.api.TestUtils.FakeSeamStartedResponse;
 import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsCreateRequest;
 import com.seam.api.resources.connectwebviews.requests.ConnectWebviewsGetRequest;
-import com.seam.api.types.AcceptedProvider;
 import com.seam.api.types.ConnectWebview;
 import com.seam.api.types.ProviderCategory;
+
 import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import com.seam.api.resources.connectwebviews.types.AcceptedProvider;
 
 public final class ConnectWebviewsTest {
 

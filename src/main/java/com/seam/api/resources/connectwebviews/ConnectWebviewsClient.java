@@ -156,6 +156,12 @@ public class ConnectWebviewsClient {
         return get(request, null);
     }
 
+    public ConnectWebview getById(String connectWebviewId) {
+        return get(ConnectWebviewsGetRequest.builder()
+                .connectWebviewId(connectWebviewId)
+                .build());
+    }
+
     public ConnectWebview get(ConnectWebviewsGetRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
