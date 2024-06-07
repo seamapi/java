@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import com.seam.api.Seam;
 import com.seam.api.TestUtils;
 import com.seam.api.TestUtils.FakeSeamStartedResponse;
+import com.seam.api.resources.connectedaccounts.types.ConnectedAccountsGetRequest;
 import com.seam.api.types.ConnectedAccount;
-import com.seam.api.types.ConnectedAccountsGetRequest;
 
 public final class ConnectedAccountsTest {
 
