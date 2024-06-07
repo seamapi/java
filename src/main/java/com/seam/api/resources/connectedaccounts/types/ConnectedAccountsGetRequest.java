@@ -67,7 +67,7 @@ public final class ConnectedAccountsGetRequest {
         return new ConnectedAccountsGetRequest(value, 1);
     }
 
-    public static ConnectedAccountsGetRequest id(String id) {
+    public ConnectedAccountsGetRequest id(String id) {
         return new ConnectedAccountsGetRequest(
                 ConnectedAccountsGetRequestConnectedAccountId.builder()
                         .connectedAccountId(id)
