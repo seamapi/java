@@ -7,6 +7,7 @@ import com.seam.api.core.ClientOptions;
 import com.seam.api.core.Environment;
 
 public final class SeamBuilder {
+
     private ClientOptions.Builder clientOptionsBuilder = ClientOptions.builder();
 
     private String token = null;
@@ -18,6 +19,11 @@ public final class SeamBuilder {
     private String clientSessionToken = null;
 
     private Environment environment = Environment.DEFAULT;
+
+    public SeamBuilder apiKey(String apiKey) {
+        this.clientOptionsBuilder.addHeader("Authorization", "Bearer " + apiKey);
+        return this;
+    }
 
     /**
      * Sets token
