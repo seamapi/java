@@ -17,9 +17,9 @@ import com.seam.api.resources.accesscodes.requests.AccessCodesDeleteRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesGetRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesListRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesUpdateRequest;
+import com.seam.api.resources.accesscodes.types.AccessCodesDeleteResponse;
 import com.seam.api.types.AccessCode;
 import com.seam.api.types.AccessCodeStatus;
-import com.seam.api.types.ActionAttempt;
 import com.seam.api.types.Device;
 
 public final class AccessCodesTest {
@@ -92,7 +92,6 @@ public final class AccessCodesTest {
         //             .code("4444")
         //             .build());
         // }).hasCauseInstanceOf(ApiError.class);
-
         seam.accessCodes()
                 .update(AccessCodesUpdateRequest.builder()
                         .accessCodeId(createdAccessCode.getAccessCodeId())
@@ -117,12 +116,12 @@ public final class AccessCodesTest {
         //                 .accessCodeId(createdAccessCode.getAccessCodeId())
         //                 .build());
         // Assertions.assertThat(accessCode.getType()).isEqualTo(AccessCodeType.TIME_BOUND);
-
-        ActionAttempt deleteActionAttempt = seam.accessCodes()
+        AccessCodesDeleteResponse deleteActionAttempt = seam.accessCodes()
                 .delete(AccessCodesDeleteRequest.builder()
                         .accessCodeId(createdAccessCode.getAccessCodeId())
                         .build());
-        Assertions.assertThat(deleteActionAttempt.isSuccess());
+        Assertions.assertThat(deleteActionAttempt).isNotNull();
+        Assertions.assertThat(deleteActionAttempt.getActionAttempt()).isNotNull();
 
         accessCodes = seam.accessCodes()
                 .createMultiple(AccessCodesCreateMultipleRequest.builder()
@@ -132,7 +131,7 @@ public final class AccessCodesTest {
                         .build());
         Assertions.assertThat(accessCodes).hasSizeGreaterThan(0);
         Assertions.assertThat(
-                        accessCodes.stream().map(AccessCode::getCommonCodeKey).collect(Collectors.toSet()))
+                accessCodes.stream().map(AccessCode::getCommonCodeKey).collect(Collectors.toSet()))
                 .hasSize(1);
     }
 }

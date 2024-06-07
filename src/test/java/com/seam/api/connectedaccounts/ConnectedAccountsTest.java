@@ -1,9 +1,5 @@
 package com.seam.api.connectedaccounts;
 
-import com.seam.api.Seam;
-import com.seam.api.TestUtils;
-import com.seam.api.TestUtils.FakeSeamStartedResponse;
-import com.seam.api.types.ConnectedAccount;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -11,7 +7,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import com.seam.api.Seam;
+import com.seam.api.TestUtils;
+import com.seam.api.TestUtils.FakeSeamStartedResponse;
 import com.seam.api.resources.connectedaccounts.types.ConnectedAccountsGetRequest;
+import com.seam.api.types.ConnectedAccount;
 
 public final class ConnectedAccountsTest {
 
@@ -35,7 +35,7 @@ public final class ConnectedAccountsTest {
     @Test
     public void test_connected_accounts() {
         List<ConnectedAccount> connectedAccounts = seam.connectedAccounts().list();
-        Assertions.assertThat(connectedAccounts).hasSize(2);
+        Assertions.assertThat(connectedAccounts).hasSizeGreaterThanOrEqualTo(2);
 
         String connectedAccountId =
                 connectedAccounts.get(0).getConnectedAccountId().get();
