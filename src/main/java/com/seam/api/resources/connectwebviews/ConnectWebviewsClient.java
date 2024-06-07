@@ -3,6 +3,9 @@
  */
 package com.seam.api.resources.connectwebviews;
 
+import java.io.IOException;
+import java.util.List;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.seam.api.core.ClientOptions;
 import com.seam.api.core.MediaTypes;
@@ -21,8 +24,7 @@ import com.seam.api.resources.connectwebviews.types.ConnectWebviewsDeleteRespons
 import com.seam.api.resources.connectwebviews.types.ConnectWebviewsGetResponse;
 import com.seam.api.resources.connectwebviews.types.ConnectWebviewsListResponse;
 import com.seam.api.types.ConnectWebview;
-import java.io.IOException;
-import java.util.List;
+
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
