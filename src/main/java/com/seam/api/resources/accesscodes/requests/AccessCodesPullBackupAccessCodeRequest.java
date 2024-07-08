@@ -32,7 +32,7 @@ public final class AccessCodesPullBackupAccessCodeRequest {
         return accessCodeId;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof AccessCodesPullBackupAccessCodeRequest
@@ -48,12 +48,12 @@ public final class AccessCodesPullBackupAccessCodeRequest {
         return accessCodeId.equals(other.accessCodeId);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.accessCodeId);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -81,20 +81,20 @@ public final class AccessCodesPullBackupAccessCodeRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(AccessCodesPullBackupAccessCodeRequest other) {
             accessCodeId(other.getAccessCodeId());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("access_code_id")
         public _FinalStage accessCodeId(String accessCodeId) {
             this.accessCodeId = accessCodeId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public AccessCodesPullBackupAccessCodeRequest build() {
             return new AccessCodesPullBackupAccessCodeRequest(accessCodeId, additionalProperties);
         }

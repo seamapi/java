@@ -8,9 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum ProviderCategory {
     STABLE("stable"),
 
-    CONSUMER_SMARTLOCKS("consumer_smartlocks"),
-
-    INTERNAL_BETA("internal_beta");
+    CONSUMER_SMARTLOCKS("consumer_smartlocks");
 
     private final String value;
 
@@ -19,7 +17,7 @@ public enum ProviderCategory {
     }
 
     @JsonValue
-    @Override
+    @java.lang.Override
     public String toString() {
         return this.value;
     }

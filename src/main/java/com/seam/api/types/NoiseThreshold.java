@@ -90,7 +90,7 @@ public final class NoiseThreshold {
         return noiseThresholdDecibels;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof NoiseThreshold && equalTo((NoiseThreshold) other);
@@ -111,7 +111,7 @@ public final class NoiseThreshold {
                 && noiseThresholdDecibels == other.noiseThresholdDecibels;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(
                 this.noiseThresholdId,
@@ -123,7 +123,7 @@ public final class NoiseThreshold {
                 this.noiseThresholdDecibels);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -194,7 +194,7 @@ public final class NoiseThreshold {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(NoiseThreshold other) {
             noiseThresholdId(other.getNoiseThresholdId());
             deviceId(other.getDeviceId());
@@ -206,62 +206,62 @@ public final class NoiseThreshold {
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("noise_threshold_id")
         public DeviceIdStage noiseThresholdId(String noiseThresholdId) {
             this.noiseThresholdId = noiseThresholdId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public NameStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("name")
         public StartsDailyAtStage name(String name) {
             this.name = name;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("starts_daily_at")
         public EndsDailyAtStage startsDailyAt(String startsDailyAt) {
             this.startsDailyAt = startsDailyAt;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("ends_daily_at")
         public NoiseThresholdDecibelsStage endsDailyAt(String endsDailyAt) {
             this.endsDailyAt = endsDailyAt;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("noise_threshold_decibels")
         public _FinalStage noiseThresholdDecibels(double noiseThresholdDecibels) {
             this.noiseThresholdDecibels = noiseThresholdDecibels;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage noiseThresholdNrs(Double noiseThresholdNrs) {
             this.noiseThresholdNrs = Optional.of(noiseThresholdNrs);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "noise_threshold_nrs", nulls = Nulls.SKIP)
         public _FinalStage noiseThresholdNrs(Optional<Double> noiseThresholdNrs) {
             this.noiseThresholdNrs = noiseThresholdNrs;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public NoiseThreshold build() {
             return new NoiseThreshold(
                     noiseThresholdId,

@@ -15,6 +15,7 @@ import com.seam.api.core.ObjectMappers;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -27,11 +28,15 @@ public final class Device {
 
     private final DeviceType deviceType;
 
+    private final Optional<String> nickname;
+
+    private final String displayName;
+
     private final List<DeviceCapabilitiesSupportedItem> capabilitiesSupported;
 
     private final DeviceProperties properties;
 
-    private final Optional<Object> location;
+    private final Optional<DeviceLocation> location;
 
     private final String connectedAccountId;
 
@@ -45,23 +50,51 @@ public final class Device {
 
     private final boolean isManaged;
 
+    private final Map<String, DeviceCustomMetadataValue> customMetadata;
+
+    private final Optional<Boolean> canRemotelyUnlock;
+
+    private final Optional<Boolean> canRemotelyLock;
+
+    private final Optional<Boolean> canProgramOfflineAccessCodes;
+
+    private final Optional<Boolean> canProgramOnlineAccessCodes;
+
+    private final Optional<Boolean> canSimulateRemoval;
+
+    private final Optional<Boolean> canSimulateConnection;
+
+    private final Optional<Boolean> canSimulateDisconnection;
+
     private final Map<String, Object> additionalProperties;
 
     private Device(
             String deviceId,
             DeviceType deviceType,
+            Optional<String> nickname,
+            String displayName,
             List<DeviceCapabilitiesSupportedItem> capabilitiesSupported,
             DeviceProperties properties,
-            Optional<Object> location,
+            Optional<DeviceLocation> location,
             String connectedAccountId,
             String workspaceId,
             List<DeviceErrorsItem> errors,
             List<DeviceWarningsItem> warnings,
             OffsetDateTime createdAt,
             boolean isManaged,
+            Map<String, DeviceCustomMetadataValue> customMetadata,
+            Optional<Boolean> canRemotelyUnlock,
+            Optional<Boolean> canRemotelyLock,
+            Optional<Boolean> canProgramOfflineAccessCodes,
+            Optional<Boolean> canProgramOnlineAccessCodes,
+            Optional<Boolean> canSimulateRemoval,
+            Optional<Boolean> canSimulateConnection,
+            Optional<Boolean> canSimulateDisconnection,
             Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.deviceType = deviceType;
+        this.nickname = nickname;
+        this.displayName = displayName;
         this.capabilitiesSupported = capabilitiesSupported;
         this.properties = properties;
         this.location = location;
@@ -71,65 +104,162 @@ public final class Device {
         this.warnings = warnings;
         this.createdAt = createdAt;
         this.isManaged = isManaged;
+        this.customMetadata = customMetadata;
+        this.canRemotelyUnlock = canRemotelyUnlock;
+        this.canRemotelyLock = canRemotelyLock;
+        this.canProgramOfflineAccessCodes = canProgramOfflineAccessCodes;
+        this.canProgramOnlineAccessCodes = canProgramOnlineAccessCodes;
+        this.canSimulateRemoval = canSimulateRemoval;
+        this.canSimulateConnection = canSimulateConnection;
+        this.canSimulateDisconnection = canSimulateDisconnection;
         this.additionalProperties = additionalProperties;
     }
 
+    /**
+     * @return Unique identifier for the device.
+     */
     @JsonProperty("device_id")
     public String getDeviceId() {
         return deviceId;
     }
 
+    /**
+     * @return Type of the device.
+     */
     @JsonProperty("device_type")
     public DeviceType getDeviceType() {
         return deviceType;
     }
 
+    /**
+     * @return Optional nickname to describe the device, settable through Seam
+     */
+    @JsonProperty("nickname")
+    public Optional<String> getNickname() {
+        return nickname;
+    }
+
+    /**
+     * @return Display name of the device, defaults to nickname (if it is set) or properties.appearance.name otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.
+     */
+    @JsonProperty("display_name")
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    /**
+     * @return Collection of capabilities that the device supports when connected to Seam. Values are &quot;access_code,&quot; which indicates that the device can manage and utilize digital PIN codes for secure access; &quot;lock,&quot; which indicates that the device controls a door locking mechanism, enabling the remote opening and closing of doors and other entry points; &quot;noise_detection,&quot; which indicates that the device supports monitoring and responding to ambient noise levels; &quot;thermostat,&quot; which indicates that the device can regulate and adjust indoor temperatures; and &quot;battery,&quot; which indicates that the device can manage battery life and health.
+     */
     @JsonProperty("capabilities_supported")
     public List<DeviceCapabilitiesSupportedItem> getCapabilitiesSupported() {
         return capabilitiesSupported;
     }
 
+    /**
+     * @return Properties of the device.
+     */
     @JsonProperty("properties")
     public DeviceProperties getProperties() {
         return properties;
     }
 
+    /**
+     * @return Location information for the device.
+     */
     @JsonProperty("location")
-    public Optional<Object> getLocation() {
+    public Optional<DeviceLocation> getLocation() {
         return location;
     }
 
+    /**
+     * @return Unique identifier for the account associated with the device.
+     */
     @JsonProperty("connected_account_id")
     public String getConnectedAccountId() {
         return connectedAccountId;
     }
 
+    /**
+     * @return Unique identifier for the Seam workspace associated with the device.
+     */
     @JsonProperty("workspace_id")
     public String getWorkspaceId() {
         return workspaceId;
     }
 
+    /**
+     * @return Array of errors associated with the device. Each error object within the array contains two fields: &quot;error_code&quot; and &quot;message.&quot; &quot;error_code&quot; is a string that uniquely identifies the type of error, enabling quick recognition and categorization of the issue. &quot;message&quot; provides a more detailed description of the error, offering insights into the issue and potentially how to rectify it.
+     */
     @JsonProperty("errors")
     public List<DeviceErrorsItem> getErrors() {
         return errors;
     }
 
+    /**
+     * @return Array of warnings associated with the device. Each warning object within the array contains two fields: &quot;warning_code&quot; and &quot;message.&quot; &quot;warning_code&quot; is a string that uniquely identifies the type of warning, enabling quick recognition and categorization of the issue. &quot;message&quot; provides a more detailed description of the warning, offering insights into the issue and potentially how to rectify it.
+     */
     @JsonProperty("warnings")
     public List<DeviceWarningsItem> getWarnings() {
         return warnings;
     }
 
+    /**
+     * @return Date and time at which the device object was created.
+     */
     @JsonProperty("created_at")
     public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
+    /**
+     * @return Indicates whether Seam manages the device.
+     */
     @JsonProperty("is_managed")
     public boolean getIsManaged() {
         return isManaged;
     }
 
-    @Override
+    @JsonProperty("custom_metadata")
+    public Map<String, DeviceCustomMetadataValue> getCustomMetadata() {
+        return customMetadata;
+    }
+
+    @JsonProperty("can_remotely_unlock")
+    public Optional<Boolean> getCanRemotelyUnlock() {
+        return canRemotelyUnlock;
+    }
+
+    @JsonProperty("can_remotely_lock")
+    public Optional<Boolean> getCanRemotelyLock() {
+        return canRemotelyLock;
+    }
+
+    @JsonProperty("can_program_offline_access_codes")
+    public Optional<Boolean> getCanProgramOfflineAccessCodes() {
+        return canProgramOfflineAccessCodes;
+    }
+
+    @JsonProperty("can_program_online_access_codes")
+    public Optional<Boolean> getCanProgramOnlineAccessCodes() {
+        return canProgramOnlineAccessCodes;
+    }
+
+    @JsonProperty("can_simulate_removal")
+    public Optional<Boolean> getCanSimulateRemoval() {
+        return canSimulateRemoval;
+    }
+
+    @JsonProperty("can_simulate_connection")
+    public Optional<Boolean> getCanSimulateConnection() {
+        return canSimulateConnection;
+    }
+
+    @JsonProperty("can_simulate_disconnection")
+    public Optional<Boolean> getCanSimulateDisconnection() {
+        return canSimulateDisconnection;
+    }
+
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof Device && equalTo((Device) other);
@@ -143,6 +273,8 @@ public final class Device {
     private boolean equalTo(Device other) {
         return deviceId.equals(other.deviceId)
                 && deviceType.equals(other.deviceType)
+                && nickname.equals(other.nickname)
+                && displayName.equals(other.displayName)
                 && capabilitiesSupported.equals(other.capabilitiesSupported)
                 && properties.equals(other.properties)
                 && location.equals(other.location)
@@ -151,14 +283,24 @@ public final class Device {
                 && errors.equals(other.errors)
                 && warnings.equals(other.warnings)
                 && createdAt.equals(other.createdAt)
-                && isManaged == other.isManaged;
+                && isManaged == other.isManaged
+                && customMetadata.equals(other.customMetadata)
+                && canRemotelyUnlock.equals(other.canRemotelyUnlock)
+                && canRemotelyLock.equals(other.canRemotelyLock)
+                && canProgramOfflineAccessCodes.equals(other.canProgramOfflineAccessCodes)
+                && canProgramOnlineAccessCodes.equals(other.canProgramOnlineAccessCodes)
+                && canSimulateRemoval.equals(other.canSimulateRemoval)
+                && canSimulateConnection.equals(other.canSimulateConnection)
+                && canSimulateDisconnection.equals(other.canSimulateDisconnection);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(
                 this.deviceId,
                 this.deviceType,
+                this.nickname,
+                this.displayName,
                 this.capabilitiesSupported,
                 this.properties,
                 this.location,
@@ -167,10 +309,18 @@ public final class Device {
                 this.errors,
                 this.warnings,
                 this.createdAt,
-                this.isManaged);
+                this.isManaged,
+                this.customMetadata,
+                this.canRemotelyUnlock,
+                this.canRemotelyLock,
+                this.canProgramOfflineAccessCodes,
+                this.canProgramOnlineAccessCodes,
+                this.canSimulateRemoval,
+                this.canSimulateConnection,
+                this.canSimulateDisconnection);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -186,7 +336,11 @@ public final class Device {
     }
 
     public interface DeviceTypeStage {
-        PropertiesStage deviceType(DeviceType deviceType);
+        DisplayNameStage deviceType(DeviceType deviceType);
+    }
+
+    public interface DisplayNameStage {
+        PropertiesStage displayName(String displayName);
     }
 
     public interface PropertiesStage {
@@ -212,15 +366,19 @@ public final class Device {
     public interface _FinalStage {
         Device build();
 
+        _FinalStage nickname(Optional<String> nickname);
+
+        _FinalStage nickname(String nickname);
+
         _FinalStage capabilitiesSupported(List<DeviceCapabilitiesSupportedItem> capabilitiesSupported);
 
         _FinalStage addCapabilitiesSupported(DeviceCapabilitiesSupportedItem capabilitiesSupported);
 
         _FinalStage addAllCapabilitiesSupported(List<DeviceCapabilitiesSupportedItem> capabilitiesSupported);
 
-        _FinalStage location(Optional<Object> location);
+        _FinalStage location(Optional<DeviceLocation> location);
 
-        _FinalStage location(Object location);
+        _FinalStage location(DeviceLocation location);
 
         _FinalStage errors(List<DeviceErrorsItem> errors);
 
@@ -233,12 +391,47 @@ public final class Device {
         _FinalStage addWarnings(DeviceWarningsItem warnings);
 
         _FinalStage addAllWarnings(List<DeviceWarningsItem> warnings);
+
+        _FinalStage customMetadata(Map<String, DeviceCustomMetadataValue> customMetadata);
+
+        _FinalStage putAllCustomMetadata(Map<String, DeviceCustomMetadataValue> customMetadata);
+
+        _FinalStage customMetadata(String key, DeviceCustomMetadataValue value);
+
+        _FinalStage canRemotelyUnlock(Optional<Boolean> canRemotelyUnlock);
+
+        _FinalStage canRemotelyUnlock(Boolean canRemotelyUnlock);
+
+        _FinalStage canRemotelyLock(Optional<Boolean> canRemotelyLock);
+
+        _FinalStage canRemotelyLock(Boolean canRemotelyLock);
+
+        _FinalStage canProgramOfflineAccessCodes(Optional<Boolean> canProgramOfflineAccessCodes);
+
+        _FinalStage canProgramOfflineAccessCodes(Boolean canProgramOfflineAccessCodes);
+
+        _FinalStage canProgramOnlineAccessCodes(Optional<Boolean> canProgramOnlineAccessCodes);
+
+        _FinalStage canProgramOnlineAccessCodes(Boolean canProgramOnlineAccessCodes);
+
+        _FinalStage canSimulateRemoval(Optional<Boolean> canSimulateRemoval);
+
+        _FinalStage canSimulateRemoval(Boolean canSimulateRemoval);
+
+        _FinalStage canSimulateConnection(Optional<Boolean> canSimulateConnection);
+
+        _FinalStage canSimulateConnection(Boolean canSimulateConnection);
+
+        _FinalStage canSimulateDisconnection(Optional<Boolean> canSimulateDisconnection);
+
+        _FinalStage canSimulateDisconnection(Boolean canSimulateDisconnection);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder
             implements DeviceIdStage,
                     DeviceTypeStage,
+                    DisplayNameStage,
                     PropertiesStage,
                     ConnectedAccountIdStage,
                     WorkspaceIdStage,
@@ -248,6 +441,8 @@ public final class Device {
         private String deviceId;
 
         private DeviceType deviceType;
+
+        private String displayName;
 
         private DeviceProperties properties;
 
@@ -259,23 +454,43 @@ public final class Device {
 
         private boolean isManaged;
 
+        private Optional<Boolean> canSimulateDisconnection = Optional.empty();
+
+        private Optional<Boolean> canSimulateConnection = Optional.empty();
+
+        private Optional<Boolean> canSimulateRemoval = Optional.empty();
+
+        private Optional<Boolean> canProgramOnlineAccessCodes = Optional.empty();
+
+        private Optional<Boolean> canProgramOfflineAccessCodes = Optional.empty();
+
+        private Optional<Boolean> canRemotelyLock = Optional.empty();
+
+        private Optional<Boolean> canRemotelyUnlock = Optional.empty();
+
+        private Map<String, DeviceCustomMetadataValue> customMetadata = new LinkedHashMap<>();
+
         private List<DeviceWarningsItem> warnings = new ArrayList<>();
 
         private List<DeviceErrorsItem> errors = new ArrayList<>();
 
-        private Optional<Object> location = Optional.empty();
+        private Optional<DeviceLocation> location = Optional.empty();
 
         private List<DeviceCapabilitiesSupportedItem> capabilitiesSupported = new ArrayList<>();
+
+        private Optional<String> nickname = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(Device other) {
             deviceId(other.getDeviceId());
             deviceType(other.getDeviceType());
+            nickname(other.getNickname());
+            displayName(other.getDisplayName());
             capabilitiesSupported(other.getCapabilitiesSupported());
             properties(other.getProperties());
             location(other.getLocation());
@@ -285,71 +500,237 @@ public final class Device {
             warnings(other.getWarnings());
             createdAt(other.getCreatedAt());
             isManaged(other.getIsManaged());
+            customMetadata(other.getCustomMetadata());
+            canRemotelyUnlock(other.getCanRemotelyUnlock());
+            canRemotelyLock(other.getCanRemotelyLock());
+            canProgramOfflineAccessCodes(other.getCanProgramOfflineAccessCodes());
+            canProgramOnlineAccessCodes(other.getCanProgramOnlineAccessCodes());
+            canSimulateRemoval(other.getCanSimulateRemoval());
+            canSimulateConnection(other.getCanSimulateConnection());
+            canSimulateDisconnection(other.getCanSimulateDisconnection());
             return this;
         }
 
-        @Override
+        /**
+         * <p>Unique identifier for the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         @JsonSetter("device_id")
         public DeviceTypeStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        /**
+         * <p>Type of the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         @JsonSetter("device_type")
-        public PropertiesStage deviceType(DeviceType deviceType) {
+        public DisplayNameStage deviceType(DeviceType deviceType) {
             this.deviceType = deviceType;
             return this;
         }
 
-        @Override
+        /**
+         * <p>Display name of the device, defaults to nickname (if it is set) or properties.appearance.name otherwise. Enables administrators and users to identify the device easily, especially when there are numerous devices.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        @JsonSetter("display_name")
+        public PropertiesStage displayName(String displayName) {
+            this.displayName = displayName;
+            return this;
+        }
+
+        /**
+         * <p>Properties of the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         @JsonSetter("properties")
         public ConnectedAccountIdStage properties(DeviceProperties properties) {
             this.properties = properties;
             return this;
         }
 
-        @Override
+        /**
+         * <p>Unique identifier for the account associated with the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         @JsonSetter("connected_account_id")
         public WorkspaceIdStage connectedAccountId(String connectedAccountId) {
             this.connectedAccountId = connectedAccountId;
             return this;
         }
 
-        @Override
+        /**
+         * <p>Unique identifier for the Seam workspace associated with the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         @JsonSetter("workspace_id")
         public CreatedAtStage workspaceId(String workspaceId) {
             this.workspaceId = workspaceId;
             return this;
         }
 
-        @Override
+        /**
+         * <p>Date and time at which the device object was created.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         @JsonSetter("created_at")
         public IsManagedStage createdAt(OffsetDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }
 
-        @Override
+        /**
+         * <p>Indicates whether Seam manages the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         @JsonSetter("is_managed")
         public _FinalStage isManaged(boolean isManaged) {
             this.isManaged = isManaged;
             return this;
         }
 
-        @Override
+        @java.lang.Override
+        public _FinalStage canSimulateDisconnection(Boolean canSimulateDisconnection) {
+            this.canSimulateDisconnection = Optional.of(canSimulateDisconnection);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "can_simulate_disconnection", nulls = Nulls.SKIP)
+        public _FinalStage canSimulateDisconnection(Optional<Boolean> canSimulateDisconnection) {
+            this.canSimulateDisconnection = canSimulateDisconnection;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage canSimulateConnection(Boolean canSimulateConnection) {
+            this.canSimulateConnection = Optional.of(canSimulateConnection);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "can_simulate_connection", nulls = Nulls.SKIP)
+        public _FinalStage canSimulateConnection(Optional<Boolean> canSimulateConnection) {
+            this.canSimulateConnection = canSimulateConnection;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage canSimulateRemoval(Boolean canSimulateRemoval) {
+            this.canSimulateRemoval = Optional.of(canSimulateRemoval);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "can_simulate_removal", nulls = Nulls.SKIP)
+        public _FinalStage canSimulateRemoval(Optional<Boolean> canSimulateRemoval) {
+            this.canSimulateRemoval = canSimulateRemoval;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage canProgramOnlineAccessCodes(Boolean canProgramOnlineAccessCodes) {
+            this.canProgramOnlineAccessCodes = Optional.of(canProgramOnlineAccessCodes);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "can_program_online_access_codes", nulls = Nulls.SKIP)
+        public _FinalStage canProgramOnlineAccessCodes(Optional<Boolean> canProgramOnlineAccessCodes) {
+            this.canProgramOnlineAccessCodes = canProgramOnlineAccessCodes;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage canProgramOfflineAccessCodes(Boolean canProgramOfflineAccessCodes) {
+            this.canProgramOfflineAccessCodes = Optional.of(canProgramOfflineAccessCodes);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "can_program_offline_access_codes", nulls = Nulls.SKIP)
+        public _FinalStage canProgramOfflineAccessCodes(Optional<Boolean> canProgramOfflineAccessCodes) {
+            this.canProgramOfflineAccessCodes = canProgramOfflineAccessCodes;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage canRemotelyLock(Boolean canRemotelyLock) {
+            this.canRemotelyLock = Optional.of(canRemotelyLock);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "can_remotely_lock", nulls = Nulls.SKIP)
+        public _FinalStage canRemotelyLock(Optional<Boolean> canRemotelyLock) {
+            this.canRemotelyLock = canRemotelyLock;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage canRemotelyUnlock(Boolean canRemotelyUnlock) {
+            this.canRemotelyUnlock = Optional.of(canRemotelyUnlock);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "can_remotely_unlock", nulls = Nulls.SKIP)
+        public _FinalStage canRemotelyUnlock(Optional<Boolean> canRemotelyUnlock) {
+            this.canRemotelyUnlock = canRemotelyUnlock;
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage customMetadata(String key, DeviceCustomMetadataValue value) {
+            this.customMetadata.put(key, value);
+            return this;
+        }
+
+        @java.lang.Override
+        public _FinalStage putAllCustomMetadata(Map<String, DeviceCustomMetadataValue> customMetadata) {
+            this.customMetadata.putAll(customMetadata);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "custom_metadata", nulls = Nulls.SKIP)
+        public _FinalStage customMetadata(Map<String, DeviceCustomMetadataValue> customMetadata) {
+            this.customMetadata.clear();
+            this.customMetadata.putAll(customMetadata);
+            return this;
+        }
+
+        /**
+         * <p>Array of warnings associated with the device. Each warning object within the array contains two fields: &quot;warning_code&quot; and &quot;message.&quot; &quot;warning_code&quot; is a string that uniquely identifies the type of warning, enabling quick recognition and categorization of the issue. &quot;message&quot; provides a more detailed description of the warning, offering insights into the issue and potentially how to rectify it.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         public _FinalStage addAllWarnings(List<DeviceWarningsItem> warnings) {
             this.warnings.addAll(warnings);
             return this;
         }
 
-        @Override
+        /**
+         * <p>Array of warnings associated with the device. Each warning object within the array contains two fields: &quot;warning_code&quot; and &quot;message.&quot; &quot;warning_code&quot; is a string that uniquely identifies the type of warning, enabling quick recognition and categorization of the issue. &quot;message&quot; provides a more detailed description of the warning, offering insights into the issue and potentially how to rectify it.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         public _FinalStage addWarnings(DeviceWarningsItem warnings) {
             this.warnings.add(warnings);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "warnings", nulls = Nulls.SKIP)
         public _FinalStage warnings(List<DeviceWarningsItem> warnings) {
             this.warnings.clear();
@@ -357,19 +738,27 @@ public final class Device {
             return this;
         }
 
-        @Override
+        /**
+         * <p>Array of errors associated with the device. Each error object within the array contains two fields: &quot;error_code&quot; and &quot;message.&quot; &quot;error_code&quot; is a string that uniquely identifies the type of error, enabling quick recognition and categorization of the issue. &quot;message&quot; provides a more detailed description of the error, offering insights into the issue and potentially how to rectify it.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         public _FinalStage addAllErrors(List<DeviceErrorsItem> errors) {
             this.errors.addAll(errors);
             return this;
         }
 
-        @Override
+        /**
+         * <p>Array of errors associated with the device. Each error object within the array contains two fields: &quot;error_code&quot; and &quot;message.&quot; &quot;error_code&quot; is a string that uniquely identifies the type of error, enabling quick recognition and categorization of the issue. &quot;message&quot; provides a more detailed description of the error, offering insights into the issue and potentially how to rectify it.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         public _FinalStage addErrors(DeviceErrorsItem errors) {
             this.errors.add(errors);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "errors", nulls = Nulls.SKIP)
         public _FinalStage errors(List<DeviceErrorsItem> errors) {
             this.errors.clear();
@@ -377,32 +766,44 @@ public final class Device {
             return this;
         }
 
-        @Override
-        public _FinalStage location(Object location) {
+        /**
+         * <p>Location information for the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage location(DeviceLocation location) {
             this.location = Optional.of(location);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "location", nulls = Nulls.SKIP)
-        public _FinalStage location(Optional<Object> location) {
+        public _FinalStage location(Optional<DeviceLocation> location) {
             this.location = location;
             return this;
         }
 
-        @Override
+        /**
+         * <p>Collection of capabilities that the device supports when connected to Seam. Values are &quot;access_code,&quot; which indicates that the device can manage and utilize digital PIN codes for secure access; &quot;lock,&quot; which indicates that the device controls a door locking mechanism, enabling the remote opening and closing of doors and other entry points; &quot;noise_detection,&quot; which indicates that the device supports monitoring and responding to ambient noise levels; &quot;thermostat,&quot; which indicates that the device can regulate and adjust indoor temperatures; and &quot;battery,&quot; which indicates that the device can manage battery life and health.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         public _FinalStage addAllCapabilitiesSupported(List<DeviceCapabilitiesSupportedItem> capabilitiesSupported) {
             this.capabilitiesSupported.addAll(capabilitiesSupported);
             return this;
         }
 
-        @Override
+        /**
+         * <p>Collection of capabilities that the device supports when connected to Seam. Values are &quot;access_code,&quot; which indicates that the device can manage and utilize digital PIN codes for secure access; &quot;lock,&quot; which indicates that the device controls a door locking mechanism, enabling the remote opening and closing of doors and other entry points; &quot;noise_detection,&quot; which indicates that the device supports monitoring and responding to ambient noise levels; &quot;thermostat,&quot; which indicates that the device can regulate and adjust indoor temperatures; and &quot;battery,&quot; which indicates that the device can manage battery life and health.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         public _FinalStage addCapabilitiesSupported(DeviceCapabilitiesSupportedItem capabilitiesSupported) {
             this.capabilitiesSupported.add(capabilitiesSupported);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "capabilities_supported", nulls = Nulls.SKIP)
         public _FinalStage capabilitiesSupported(List<DeviceCapabilitiesSupportedItem> capabilitiesSupported) {
             this.capabilitiesSupported.clear();
@@ -410,11 +811,30 @@ public final class Device {
             return this;
         }
 
-        @Override
+        /**
+         * <p>Optional nickname to describe the device, settable through Seam</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage nickname(String nickname) {
+            this.nickname = Optional.of(nickname);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "nickname", nulls = Nulls.SKIP)
+        public _FinalStage nickname(Optional<String> nickname) {
+            this.nickname = nickname;
+            return this;
+        }
+
+        @java.lang.Override
         public Device build() {
             return new Device(
                     deviceId,
                     deviceType,
+                    nickname,
+                    displayName,
                     capabilitiesSupported,
                     properties,
                     location,
@@ -424,6 +844,14 @@ public final class Device {
                     warnings,
                     createdAt,
                     isManaged,
+                    customMetadata,
+                    canRemotelyUnlock,
+                    canRemotelyLock,
+                    canProgramOfflineAccessCodes,
+                    canProgramOnlineAccessCodes,
+                    canSimulateRemoval,
+                    canSimulateConnection,
+                    canSimulateDisconnection,
                     additionalProperties);
         }
     }

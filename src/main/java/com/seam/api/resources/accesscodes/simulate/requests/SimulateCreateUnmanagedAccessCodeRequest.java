@@ -49,7 +49,7 @@ public final class SimulateCreateUnmanagedAccessCodeRequest {
         return code;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof SimulateCreateUnmanagedAccessCodeRequest
@@ -65,12 +65,12 @@ public final class SimulateCreateUnmanagedAccessCodeRequest {
         return deviceId.equals(other.deviceId) && name.equals(other.name) && code.equals(other.code);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.deviceId, this.name, this.code);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -110,7 +110,7 @@ public final class SimulateCreateUnmanagedAccessCodeRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(SimulateCreateUnmanagedAccessCodeRequest other) {
             deviceId(other.getDeviceId());
             name(other.getName());
@@ -118,28 +118,28 @@ public final class SimulateCreateUnmanagedAccessCodeRequest {
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public NameStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("name")
         public CodeStage name(String name) {
             this.name = name;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("code")
         public _FinalStage code(String code) {
             this.code = code;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public SimulateCreateUnmanagedAccessCodeRequest build() {
             return new SimulateCreateUnmanagedAccessCodeRequest(deviceId, name, code, additionalProperties);
         }

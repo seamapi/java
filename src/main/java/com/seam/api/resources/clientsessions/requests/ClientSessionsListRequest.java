@@ -24,18 +24,26 @@ public final class ClientSessionsListRequest {
 
     private final Optional<String> userIdentifierKey;
 
+    private final Optional<String> connectWebviewId;
+
     private final Optional<Boolean> withoutUserIdentifierKey;
+
+    private final Optional<String> userIdentityId;
 
     private final Map<String, Object> additionalProperties;
 
     private ClientSessionsListRequest(
             Optional<String> clientSessionId,
             Optional<String> userIdentifierKey,
+            Optional<String> connectWebviewId,
             Optional<Boolean> withoutUserIdentifierKey,
+            Optional<String> userIdentityId,
             Map<String, Object> additionalProperties) {
         this.clientSessionId = clientSessionId;
         this.userIdentifierKey = userIdentifierKey;
+        this.connectWebviewId = connectWebviewId;
         this.withoutUserIdentifierKey = withoutUserIdentifierKey;
+        this.userIdentityId = userIdentityId;
         this.additionalProperties = additionalProperties;
     }
 
@@ -49,12 +57,22 @@ public final class ClientSessionsListRequest {
         return userIdentifierKey;
     }
 
+    @JsonProperty("connect_webview_id")
+    public Optional<String> getConnectWebviewId() {
+        return connectWebviewId;
+    }
+
     @JsonProperty("without_user_identifier_key")
     public Optional<Boolean> getWithoutUserIdentifierKey() {
         return withoutUserIdentifierKey;
     }
 
-    @Override
+    @JsonProperty("user_identity_id")
+    public Optional<String> getUserIdentityId() {
+        return userIdentityId;
+    }
+
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ClientSessionsListRequest && equalTo((ClientSessionsListRequest) other);
@@ -68,15 +86,22 @@ public final class ClientSessionsListRequest {
     private boolean equalTo(ClientSessionsListRequest other) {
         return clientSessionId.equals(other.clientSessionId)
                 && userIdentifierKey.equals(other.userIdentifierKey)
-                && withoutUserIdentifierKey.equals(other.withoutUserIdentifierKey);
+                && connectWebviewId.equals(other.connectWebviewId)
+                && withoutUserIdentifierKey.equals(other.withoutUserIdentifierKey)
+                && userIdentityId.equals(other.userIdentityId);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.clientSessionId, this.userIdentifierKey, this.withoutUserIdentifierKey);
+        return Objects.hash(
+                this.clientSessionId,
+                this.userIdentifierKey,
+                this.connectWebviewId,
+                this.withoutUserIdentifierKey,
+                this.userIdentityId);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -91,7 +116,11 @@ public final class ClientSessionsListRequest {
 
         private Optional<String> userIdentifierKey = Optional.empty();
 
+        private Optional<String> connectWebviewId = Optional.empty();
+
         private Optional<Boolean> withoutUserIdentifierKey = Optional.empty();
+
+        private Optional<String> userIdentityId = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -101,7 +130,9 @@ public final class ClientSessionsListRequest {
         public Builder from(ClientSessionsListRequest other) {
             clientSessionId(other.getClientSessionId());
             userIdentifierKey(other.getUserIdentifierKey());
+            connectWebviewId(other.getConnectWebviewId());
             withoutUserIdentifierKey(other.getWithoutUserIdentifierKey());
+            userIdentityId(other.getUserIdentityId());
             return this;
         }
 
@@ -127,6 +158,17 @@ public final class ClientSessionsListRequest {
             return this;
         }
 
+        @JsonSetter(value = "connect_webview_id", nulls = Nulls.SKIP)
+        public Builder connectWebviewId(Optional<String> connectWebviewId) {
+            this.connectWebviewId = connectWebviewId;
+            return this;
+        }
+
+        public Builder connectWebviewId(String connectWebviewId) {
+            this.connectWebviewId = Optional.of(connectWebviewId);
+            return this;
+        }
+
         @JsonSetter(value = "without_user_identifier_key", nulls = Nulls.SKIP)
         public Builder withoutUserIdentifierKey(Optional<Boolean> withoutUserIdentifierKey) {
             this.withoutUserIdentifierKey = withoutUserIdentifierKey;
@@ -138,9 +180,25 @@ public final class ClientSessionsListRequest {
             return this;
         }
 
+        @JsonSetter(value = "user_identity_id", nulls = Nulls.SKIP)
+        public Builder userIdentityId(Optional<String> userIdentityId) {
+            this.userIdentityId = userIdentityId;
+            return this;
+        }
+
+        public Builder userIdentityId(String userIdentityId) {
+            this.userIdentityId = Optional.of(userIdentityId);
+            return this;
+        }
+
         public ClientSessionsListRequest build() {
             return new ClientSessionsListRequest(
-                    clientSessionId, userIdentifierKey, withoutUserIdentifierKey, additionalProperties);
+                    clientSessionId,
+                    userIdentifierKey,
+                    connectWebviewId,
+                    withoutUserIdentifierKey,
+                    userIdentityId,
+                    additionalProperties);
         }
     }
 }

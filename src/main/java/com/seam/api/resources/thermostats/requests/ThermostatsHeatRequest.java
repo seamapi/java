@@ -63,7 +63,7 @@ public final class ThermostatsHeatRequest {
         return sync;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ThermostatsHeatRequest && equalTo((ThermostatsHeatRequest) other);
@@ -81,12 +81,12 @@ public final class ThermostatsHeatRequest {
                 && sync.equals(other.sync);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.deviceId, this.heatingSetPointCelsius, this.heatingSetPointFahrenheit, this.sync);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -132,7 +132,7 @@ public final class ThermostatsHeatRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(ThermostatsHeatRequest other) {
             deviceId(other.getDeviceId());
             heatingSetPointCelsius(other.getHeatingSetPointCelsius());
@@ -141,53 +141,53 @@ public final class ThermostatsHeatRequest {
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public _FinalStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage sync(Boolean sync) {
             this.sync = Optional.of(sync);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "sync", nulls = Nulls.SKIP)
         public _FinalStage sync(Optional<Boolean> sync) {
             this.sync = sync;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage heatingSetPointFahrenheit(Double heatingSetPointFahrenheit) {
             this.heatingSetPointFahrenheit = Optional.of(heatingSetPointFahrenheit);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "heating_set_point_fahrenheit", nulls = Nulls.SKIP)
         public _FinalStage heatingSetPointFahrenheit(Optional<Double> heatingSetPointFahrenheit) {
             this.heatingSetPointFahrenheit = heatingSetPointFahrenheit;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage heatingSetPointCelsius(Double heatingSetPointCelsius) {
             this.heatingSetPointCelsius = Optional.of(heatingSetPointCelsius);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "heating_set_point_celsius", nulls = Nulls.SKIP)
         public _FinalStage heatingSetPointCelsius(Optional<Double> heatingSetPointCelsius) {
             this.heatingSetPointCelsius = heatingSetPointCelsius;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public ThermostatsHeatRequest build() {
             return new ThermostatsHeatRequest(
                     deviceId, heatingSetPointCelsius, heatingSetPointFahrenheit, sync, additionalProperties);

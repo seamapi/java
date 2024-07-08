@@ -3,49 +3,59 @@
  */
 package com.seam.api.resources.devices;
 
-import com.seam.api.core.ApiError;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.seam.api.core.ClientOptions;
+import com.seam.api.core.MediaTypes;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
+import com.seam.api.core.SeamApiApiError;
+import com.seam.api.core.SeamApiError;
 import com.seam.api.core.Suppliers;
+import com.seam.api.errors.SeamApiBadRequestError;
+import com.seam.api.errors.SeamApiUnauthorizedError;
 import com.seam.api.resources.devices.requests.DevicesDeleteRequest;
 import com.seam.api.resources.devices.requests.DevicesGetRequest;
 import com.seam.api.resources.devices.requests.DevicesListDeviceProvidersRequest;
 import com.seam.api.resources.devices.requests.DevicesListRequest;
 import com.seam.api.resources.devices.requests.DevicesUpdateRequest;
+import com.seam.api.resources.devices.simulate.SimulateClient;
+import com.seam.api.resources.devices.types.DevicesDeleteResponse;
+import com.seam.api.resources.devices.types.DevicesGetResponse;
+import com.seam.api.resources.devices.types.DevicesListDeviceProvidersResponse;
+import com.seam.api.resources.devices.types.DevicesListResponse;
+import com.seam.api.resources.devices.types.DevicesUpdateResponse;
 import com.seam.api.resources.devices.unmanaged.UnmanagedClient;
 import com.seam.api.types.Device;
-import com.seam.api.types.DeviceListProvider;
-import com.seam.api.types.DevicesDeleteResponse;
-import com.seam.api.types.DevicesGetResponse;
-import com.seam.api.types.DevicesListDeviceProvidersResponse;
-import com.seam.api.types.DevicesListResponse;
-import com.seam.api.types.DevicesUpdateResponse;
+import com.seam.api.types.DeviceProvider;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Supplier;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
-import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class DevicesClient {
     protected final ClientOptions clientOptions;
+
+    protected final Supplier<SimulateClient> simulateClient;
 
     protected final Supplier<UnmanagedClient> unmanagedClient;
 
     public DevicesClient(ClientOptions clientOptions) {
         this.clientOptions = clientOptions;
+        this.simulateClient = Suppliers.memoize(() -> new SimulateClient(clientOptions));
         this.unmanagedClient = Suppliers.memoize(() -> new UnmanagedClient(clientOptions));
     }
 
-    public void delete(DevicesDeleteRequest request) {
-        delete(request, null);
+    public DevicesDeleteResponse delete(DevicesDeleteRequest request) {
+        return delete(request, null);
     }
 
-    public void delete(DevicesDeleteRequest request, RequestOptions requestOptions) {
+    public DevicesDeleteResponse delete(DevicesDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/delete")
@@ -53,9 +63,9 @@ public class DevicesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -63,19 +73,39 @@ public class DevicesClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
-            if (response.isSuccessful()) {
-                ObjectMappers.JSON_MAPPER.readValue(response.body().string(), DevicesDeleteResponse.class);
-                return;
-            }
-            throw new ApiError(
-                    response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
         }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
+            if (response.isSuccessful()) {
+                return ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), DevicesDeleteResponse.class);
+            }
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
+                    response.code(),
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+        } catch (IOException e) {
+            throw new SeamApiError("Network error executing HTTP request", e);
+        }
+    }
+
+    public Device get() {
+        return get(DevicesGetRequest.builder().build());
     }
 
     public Device get(DevicesGetRequest request) {
@@ -90,9 +120,9 @@ public class DevicesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -100,24 +130,41 @@ public class DevicesClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
                 DevicesGetResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), DevicesGetResponse.class);
+                        ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), DevicesGetResponse.class);
                 return parsedResponse.getDevice();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
-    public Device get() {
-        return get(DevicesGetRequest.builder().build());
+    public List<Device> list() {
+        return list(DevicesListRequest.builder().build());
     }
 
     public List<Device> list(DevicesListRequest request) {
@@ -132,9 +179,9 @@ public class DevicesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -142,31 +189,48 @@ public class DevicesClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
                 DevicesListResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), DevicesListResponse.class);
+                        ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), DevicesListResponse.class);
                 return parsedResponse.getDevices();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
-    public List<Device> list() {
-        return list(DevicesListRequest.builder().build());
+    public List<DeviceProvider> listDeviceProviders() {
+        return listDeviceProviders(DevicesListDeviceProvidersRequest.builder().build());
     }
 
-    public List<DeviceListProvider> listDeviceProviders(DevicesListDeviceProvidersRequest request) {
+    public List<DeviceProvider> listDeviceProviders(DevicesListDeviceProvidersRequest request) {
         return listDeviceProviders(request, null);
     }
 
-    public List<DeviceListProvider> listDeviceProviders(
+    public List<DeviceProvider> listDeviceProviders(
             DevicesListDeviceProvidersRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
@@ -175,9 +239,9 @@ public class DevicesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -185,31 +249,44 @@ public class DevicesClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
                 DevicesListDeviceProvidersResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), DevicesListDeviceProvidersResponse.class);
+                        responseBody.string(), DevicesListDeviceProvidersResponse.class);
                 return parsedResponse.getDeviceProviders();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
-    public List<DeviceListProvider> listDeviceProviders() {
-        return listDeviceProviders(DevicesListDeviceProvidersRequest.builder().build());
+    public DevicesUpdateResponse update(DevicesUpdateRequest request) {
+        return update(request, null);
     }
 
-    public void update(DevicesUpdateRequest request) {
-        update(request, null);
-    }
-
-    public void update(DevicesUpdateRequest request, RequestOptions requestOptions) {
+    public DevicesUpdateResponse update(DevicesUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("devices/update")
@@ -217,9 +294,9 @@ public class DevicesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -227,19 +304,39 @@ public class DevicesClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
-            if (response.isSuccessful()) {
-                ObjectMappers.JSON_MAPPER.readValue(response.body().string(), DevicesUpdateResponse.class);
-                return;
-            }
-            throw new ApiError(
-                    response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
         }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
+            if (response.isSuccessful()) {
+                return ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), DevicesUpdateResponse.class);
+            }
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
+                    response.code(),
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+        } catch (IOException e) {
+            throw new SeamApiError("Network error executing HTTP request", e);
+        }
+    }
+
+    public SimulateClient simulate() {
+        return this.simulateClient.get();
     }
 
     public UnmanagedClient unmanaged() {

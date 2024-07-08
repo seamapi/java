@@ -1,5 +1,6 @@
 package com.seam.api.accesscode;
 
+import com.seam.api.resources.accesscodes.types.AccessCodesDeleteResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,11 +119,12 @@ public final class AccessCodesTest {
         //                 .build());
         // Assertions.assertThat(accessCode.getType()).isEqualTo(AccessCodeType.TIME_BOUND);
 
-        ActionAttempt deleteActionAttempt = seam.accessCodes()
+        AccessCodesDeleteResponse deleteActionAttempt = seam.accessCodes()
                 .delete(AccessCodesDeleteRequest.builder()
                         .accessCodeId(createdAccessCode.getAccessCodeId())
                         .build());
-        Assertions.assertThat(deleteActionAttempt.isSuccess());
+        Assertions.assertThat(deleteActionAttempt).isNotNull();
+        Assertions.assertThat(deleteActionAttempt.getActionAttempt()).isNotNull();
 
         accessCodes = seam.accessCodes()
                 .createMultiple(AccessCodesCreateMultipleRequest.builder()

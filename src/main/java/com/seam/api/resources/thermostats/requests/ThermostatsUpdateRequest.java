@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
-import com.seam.api.types.ThermostatsUpdateRequestDefaultClimateSetting;
+import com.seam.api.resources.thermostats.types.ThermostatsUpdateRequestDefaultClimateSetting;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -44,7 +44,7 @@ public final class ThermostatsUpdateRequest {
         return defaultClimateSetting;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ThermostatsUpdateRequest && equalTo((ThermostatsUpdateRequest) other);
@@ -59,12 +59,12 @@ public final class ThermostatsUpdateRequest {
         return deviceId.equals(other.deviceId) && defaultClimateSetting.equals(other.defaultClimateSetting);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.deviceId, this.defaultClimateSetting);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -98,28 +98,28 @@ public final class ThermostatsUpdateRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(ThermostatsUpdateRequest other) {
             deviceId(other.getDeviceId());
             defaultClimateSetting(other.getDefaultClimateSetting());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public DefaultClimateSettingStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("default_climate_setting")
         public _FinalStage defaultClimateSetting(ThermostatsUpdateRequestDefaultClimateSetting defaultClimateSetting) {
             this.defaultClimateSetting = defaultClimateSetting;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public ThermostatsUpdateRequest build() {
             return new ThermostatsUpdateRequest(deviceId, defaultClimateSetting, additionalProperties);
         }

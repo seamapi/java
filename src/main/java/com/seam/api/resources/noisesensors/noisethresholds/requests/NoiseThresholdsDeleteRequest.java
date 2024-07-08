@@ -54,7 +54,7 @@ public final class NoiseThresholdsDeleteRequest {
         return sync;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof NoiseThresholdsDeleteRequest && equalTo((NoiseThresholdsDeleteRequest) other);
@@ -71,12 +71,12 @@ public final class NoiseThresholdsDeleteRequest {
                 && sync.equals(other.sync);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.noiseThresholdId, this.deviceId, this.sync);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -116,7 +116,7 @@ public final class NoiseThresholdsDeleteRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(NoiseThresholdsDeleteRequest other) {
             noiseThresholdId(other.getNoiseThresholdId());
             deviceId(other.getDeviceId());
@@ -124,34 +124,34 @@ public final class NoiseThresholdsDeleteRequest {
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("noise_threshold_id")
         public DeviceIdStage noiseThresholdId(String noiseThresholdId) {
             this.noiseThresholdId = noiseThresholdId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public _FinalStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage sync(Boolean sync) {
             this.sync = Optional.of(sync);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "sync", nulls = Nulls.SKIP)
         public _FinalStage sync(Optional<Boolean> sync) {
             this.sync = sync;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public NoiseThresholdsDeleteRequest build() {
             return new NoiseThresholdsDeleteRequest(noiseThresholdId, deviceId, sync, additionalProperties);
         }

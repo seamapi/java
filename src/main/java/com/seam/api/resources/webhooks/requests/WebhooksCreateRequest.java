@@ -44,7 +44,7 @@ public final class WebhooksCreateRequest {
         return eventTypes;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof WebhooksCreateRequest && equalTo((WebhooksCreateRequest) other);
@@ -59,12 +59,12 @@ public final class WebhooksCreateRequest {
         return url.equals(other.url) && eventTypes.equals(other.eventTypes);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.url, this.eventTypes);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -98,34 +98,34 @@ public final class WebhooksCreateRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(WebhooksCreateRequest other) {
             url(other.getUrl());
             eventTypes(other.getEventTypes());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("url")
         public _FinalStage url(String url) {
             this.url = url;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage eventTypes(List<String> eventTypes) {
             this.eventTypes = Optional.of(eventTypes);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "event_types", nulls = Nulls.SKIP)
         public _FinalStage eventTypes(Optional<List<String>> eventTypes) {
             this.eventTypes = eventTypes;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public WebhooksCreateRequest build() {
             return new WebhooksCreateRequest(url, eventTypes, additionalProperties);
         }

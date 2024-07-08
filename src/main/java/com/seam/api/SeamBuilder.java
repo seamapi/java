@@ -9,15 +9,15 @@ import com.seam.api.core.Environment;
 public final class SeamBuilder {
     private ClientOptions.Builder clientOptionsBuilder = ClientOptions.builder();
 
+    private String apiKey = null;
+
     private Environment environment = Environment.DEFAULT;
 
+    /**
+     * Sets apiKey
+     */
     public SeamBuilder apiKey(String apiKey) {
-        this.clientOptionsBuilder.addHeader("Authorization", "Bearer " + apiKey);
-        return this;
-    }
-
-    public SeamBuilder seamWorkspace(String seamWorkspace) {
-        this.clientOptionsBuilder.addHeader("Seam-Workspace", seamWorkspace);
+        this.apiKey = apiKey;
         return this;
     }
 
@@ -32,6 +32,7 @@ public final class SeamBuilder {
     }
 
     public Seam build() {
+        this.clientOptionsBuilder.addHeader("Authorization", "Bearer " + this.apiKey);
         clientOptionsBuilder.environment(this.environment);
         return new Seam(clientOptionsBuilder.build());
     }

@@ -25,11 +25,13 @@ import java.util.Optional;
 public final class ClientSession {
     private final String clientSessionId;
 
-    private final Optional<String> userIdentifierKey;
+    private final String workspaceId;
 
     private final OffsetDateTime createdAt;
 
     private final String token;
+
+    private final Optional<String> userIdentifierKey;
 
     private final double deviceCount;
 
@@ -37,28 +39,30 @@ public final class ClientSession {
 
     private final List<String> connectWebviewIds;
 
-    private final String workspaceId;
+    private final List<String> userIdentityIds;
 
     private final Map<String, Object> additionalProperties;
 
     private ClientSession(
             String clientSessionId,
-            Optional<String> userIdentifierKey,
+            String workspaceId,
             OffsetDateTime createdAt,
             String token,
+            Optional<String> userIdentifierKey,
             double deviceCount,
             List<String> connectedAccountIds,
             List<String> connectWebviewIds,
-            String workspaceId,
+            List<String> userIdentityIds,
             Map<String, Object> additionalProperties) {
         this.clientSessionId = clientSessionId;
-        this.userIdentifierKey = userIdentifierKey;
+        this.workspaceId = workspaceId;
         this.createdAt = createdAt;
         this.token = token;
+        this.userIdentifierKey = userIdentifierKey;
         this.deviceCount = deviceCount;
         this.connectedAccountIds = connectedAccountIds;
         this.connectWebviewIds = connectWebviewIds;
-        this.workspaceId = workspaceId;
+        this.userIdentityIds = userIdentityIds;
         this.additionalProperties = additionalProperties;
     }
 
@@ -67,9 +71,9 @@ public final class ClientSession {
         return clientSessionId;
     }
 
-    @JsonProperty("user_identifier_key")
-    public Optional<String> getUserIdentifierKey() {
-        return userIdentifierKey;
+    @JsonProperty("workspace_id")
+    public String getWorkspaceId() {
+        return workspaceId;
     }
 
     @JsonProperty("created_at")
@@ -80,6 +84,11 @@ public final class ClientSession {
     @JsonProperty("token")
     public String getToken() {
         return token;
+    }
+
+    @JsonProperty("user_identifier_key")
+    public Optional<String> getUserIdentifierKey() {
+        return userIdentifierKey;
     }
 
     @JsonProperty("device_count")
@@ -97,12 +106,12 @@ public final class ClientSession {
         return connectWebviewIds;
     }
 
-    @JsonProperty("workspace_id")
-    public String getWorkspaceId() {
-        return workspaceId;
+    @JsonProperty("user_identity_ids")
+    public List<String> getUserIdentityIds() {
+        return userIdentityIds;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ClientSession && equalTo((ClientSession) other);
@@ -115,29 +124,31 @@ public final class ClientSession {
 
     private boolean equalTo(ClientSession other) {
         return clientSessionId.equals(other.clientSessionId)
-                && userIdentifierKey.equals(other.userIdentifierKey)
+                && workspaceId.equals(other.workspaceId)
                 && createdAt.equals(other.createdAt)
                 && token.equals(other.token)
+                && userIdentifierKey.equals(other.userIdentifierKey)
                 && deviceCount == other.deviceCount
                 && connectedAccountIds.equals(other.connectedAccountIds)
                 && connectWebviewIds.equals(other.connectWebviewIds)
-                && workspaceId.equals(other.workspaceId);
+                && userIdentityIds.equals(other.userIdentityIds);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(
                 this.clientSessionId,
-                this.userIdentifierKey,
+                this.workspaceId,
                 this.createdAt,
                 this.token,
+                this.userIdentifierKey,
                 this.deviceCount,
                 this.connectedAccountIds,
                 this.connectWebviewIds,
-                this.workspaceId);
+                this.userIdentityIds);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -147,9 +158,13 @@ public final class ClientSession {
     }
 
     public interface ClientSessionIdStage {
-        CreatedAtStage clientSessionId(String clientSessionId);
+        WorkspaceIdStage clientSessionId(String clientSessionId);
 
         Builder from(ClientSession other);
+    }
+
+    public interface WorkspaceIdStage {
+        CreatedAtStage workspaceId(String workspaceId);
     }
 
     public interface CreatedAtStage {
@@ -161,11 +176,7 @@ public final class ClientSession {
     }
 
     public interface DeviceCountStage {
-        WorkspaceIdStage deviceCount(double deviceCount);
-    }
-
-    public interface WorkspaceIdStage {
-        _FinalStage workspaceId(String workspaceId);
+        _FinalStage deviceCount(double deviceCount);
     }
 
     public interface _FinalStage {
@@ -186,17 +197,25 @@ public final class ClientSession {
         _FinalStage addConnectWebviewIds(String connectWebviewIds);
 
         _FinalStage addAllConnectWebviewIds(List<String> connectWebviewIds);
+
+        _FinalStage userIdentityIds(List<String> userIdentityIds);
+
+        _FinalStage addUserIdentityIds(String userIdentityIds);
+
+        _FinalStage addAllUserIdentityIds(List<String> userIdentityIds);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder
             implements ClientSessionIdStage,
+                    WorkspaceIdStage,
                     CreatedAtStage,
                     TokenStage,
                     DeviceCountStage,
-                    WorkspaceIdStage,
                     _FinalStage {
         private String clientSessionId;
+
+        private String workspaceId;
 
         private OffsetDateTime createdAt;
 
@@ -204,7 +223,7 @@ public final class ClientSession {
 
         private double deviceCount;
 
-        private String workspaceId;
+        private List<String> userIdentityIds = new ArrayList<>();
 
         private List<String> connectWebviewIds = new ArrayList<>();
 
@@ -217,67 +236,88 @@ public final class ClientSession {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(ClientSession other) {
             clientSessionId(other.getClientSessionId());
-            userIdentifierKey(other.getUserIdentifierKey());
+            workspaceId(other.getWorkspaceId());
             createdAt(other.getCreatedAt());
             token(other.getToken());
+            userIdentifierKey(other.getUserIdentifierKey());
             deviceCount(other.getDeviceCount());
             connectedAccountIds(other.getConnectedAccountIds());
             connectWebviewIds(other.getConnectWebviewIds());
-            workspaceId(other.getWorkspaceId());
+            userIdentityIds(other.getUserIdentityIds());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("client_session_id")
-        public CreatedAtStage clientSessionId(String clientSessionId) {
+        public WorkspaceIdStage clientSessionId(String clientSessionId) {
             this.clientSessionId = clientSessionId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
+        @JsonSetter("workspace_id")
+        public CreatedAtStage workspaceId(String workspaceId) {
+            this.workspaceId = workspaceId;
+            return this;
+        }
+
+        @java.lang.Override
         @JsonSetter("created_at")
         public TokenStage createdAt(OffsetDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("token")
         public DeviceCountStage token(String token) {
             this.token = token;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_count")
-        public WorkspaceIdStage deviceCount(double deviceCount) {
+        public _FinalStage deviceCount(double deviceCount) {
             this.deviceCount = deviceCount;
             return this;
         }
 
-        @Override
-        @JsonSetter("workspace_id")
-        public _FinalStage workspaceId(String workspaceId) {
-            this.workspaceId = workspaceId;
+        @java.lang.Override
+        public _FinalStage addAllUserIdentityIds(List<String> userIdentityIds) {
+            this.userIdentityIds.addAll(userIdentityIds);
             return this;
         }
 
-        @Override
+        @java.lang.Override
+        public _FinalStage addUserIdentityIds(String userIdentityIds) {
+            this.userIdentityIds.add(userIdentityIds);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "user_identity_ids", nulls = Nulls.SKIP)
+        public _FinalStage userIdentityIds(List<String> userIdentityIds) {
+            this.userIdentityIds.clear();
+            this.userIdentityIds.addAll(userIdentityIds);
+            return this;
+        }
+
+        @java.lang.Override
         public _FinalStage addAllConnectWebviewIds(List<String> connectWebviewIds) {
             this.connectWebviewIds.addAll(connectWebviewIds);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage addConnectWebviewIds(String connectWebviewIds) {
             this.connectWebviewIds.add(connectWebviewIds);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "connect_webview_ids", nulls = Nulls.SKIP)
         public _FinalStage connectWebviewIds(List<String> connectWebviewIds) {
             this.connectWebviewIds.clear();
@@ -285,19 +325,19 @@ public final class ClientSession {
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage addAllConnectedAccountIds(List<String> connectedAccountIds) {
             this.connectedAccountIds.addAll(connectedAccountIds);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage addConnectedAccountIds(String connectedAccountIds) {
             this.connectedAccountIds.add(connectedAccountIds);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "connected_account_ids", nulls = Nulls.SKIP)
         public _FinalStage connectedAccountIds(List<String> connectedAccountIds) {
             this.connectedAccountIds.clear();
@@ -305,30 +345,31 @@ public final class ClientSession {
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage userIdentifierKey(String userIdentifierKey) {
             this.userIdentifierKey = Optional.of(userIdentifierKey);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "user_identifier_key", nulls = Nulls.SKIP)
         public _FinalStage userIdentifierKey(Optional<String> userIdentifierKey) {
             this.userIdentifierKey = userIdentifierKey;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public ClientSession build() {
             return new ClientSession(
                     clientSessionId,
-                    userIdentifierKey,
+                    workspaceId,
                     createdAt,
                     token,
+                    userIdentifierKey,
                     deviceCount,
                     connectedAccountIds,
                     connectWebviewIds,
-                    workspaceId,
+                    userIdentityIds,
                     additionalProperties);
         }
     }

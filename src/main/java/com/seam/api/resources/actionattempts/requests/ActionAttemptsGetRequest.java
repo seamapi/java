@@ -32,7 +32,7 @@ public final class ActionAttemptsGetRequest {
         return actionAttemptId;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ActionAttemptsGetRequest && equalTo((ActionAttemptsGetRequest) other);
@@ -47,12 +47,12 @@ public final class ActionAttemptsGetRequest {
         return actionAttemptId.equals(other.actionAttemptId);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.actionAttemptId);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -80,20 +80,20 @@ public final class ActionAttemptsGetRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(ActionAttemptsGetRequest other) {
             actionAttemptId(other.getActionAttemptId());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("action_attempt_id")
         public _FinalStage actionAttemptId(String actionAttemptId) {
             this.actionAttemptId = actionAttemptId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public ActionAttemptsGetRequest build() {
             return new ActionAttemptsGetRequest(actionAttemptId, additionalProperties);
         }

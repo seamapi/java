@@ -3,38 +3,45 @@
  */
 package com.seam.api.resources.accesscodes;
 
-import com.seam.api.core.ApiError;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.seam.api.core.ClientOptions;
+import com.seam.api.core.MediaTypes;
 import com.seam.api.core.ObjectMappers;
 import com.seam.api.core.RequestOptions;
+import com.seam.api.core.SeamApiApiError;
+import com.seam.api.core.SeamApiError;
 import com.seam.api.core.Suppliers;
+import com.seam.api.errors.SeamApiBadRequestError;
+import com.seam.api.errors.SeamApiUnauthorizedError;
 import com.seam.api.resources.accesscodes.requests.AccessCodesCreateMultipleRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesCreateRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesDeleteRequest;
+import com.seam.api.resources.accesscodes.requests.AccessCodesGenerateCodeRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesGetRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesListRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesPullBackupAccessCodeRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesUpdateRequest;
 import com.seam.api.resources.accesscodes.simulate.SimulateClient;
+import com.seam.api.resources.accesscodes.types.AccessCodesCreateMultipleResponse;
+import com.seam.api.resources.accesscodes.types.AccessCodesCreateResponse;
+import com.seam.api.resources.accesscodes.types.AccessCodesDeleteResponse;
+import com.seam.api.resources.accesscodes.types.AccessCodesGenerateCodeResponse;
+import com.seam.api.resources.accesscodes.types.AccessCodesGetResponse;
+import com.seam.api.resources.accesscodes.types.AccessCodesListResponse;
+import com.seam.api.resources.accesscodes.types.AccessCodesPullBackupAccessCodeResponse;
+import com.seam.api.resources.accesscodes.types.AccessCodesUpdateResponse;
 import com.seam.api.resources.accesscodes.unmanaged.UnmanagedClient;
 import com.seam.api.types.AccessCode;
-import com.seam.api.types.AccessCodesCreateMultipleResponse;
-import com.seam.api.types.AccessCodesCreateResponse;
-import com.seam.api.types.AccessCodesDeleteResponse;
-import com.seam.api.types.AccessCodesGetResponse;
-import com.seam.api.types.AccessCodesListResponse;
-import com.seam.api.types.AccessCodesPullBackupAccessCodeResponse;
-import com.seam.api.types.AccessCodesUpdateResponse;
-import com.seam.api.types.ActionAttempt;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Supplier;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
-import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class AccessCodesClient {
     protected final ClientOptions clientOptions;
@@ -61,9 +68,9 @@ public class AccessCodesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -71,19 +78,36 @@ public class AccessCodesClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
                 AccessCodesCreateResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesCreateResponse.class);
+                        ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), AccessCodesCreateResponse.class);
                 return parsedResponse.getAccessCode();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
@@ -99,9 +123,9 @@ public class AccessCodesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -109,27 +133,44 @@ public class AccessCodesClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
                 AccessCodesCreateMultipleResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), AccessCodesCreateMultipleResponse.class);
+                        responseBody.string(), AccessCodesCreateMultipleResponse.class);
                 return parsedResponse.getAccessCodes();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
-    public ActionAttempt delete(AccessCodesDeleteRequest request) {
+    public AccessCodesDeleteResponse delete(AccessCodesDeleteRequest request) {
         return delete(request, null);
     }
 
-    public ActionAttempt delete(AccessCodesDeleteRequest request, RequestOptions requestOptions) {
+    public AccessCodesDeleteResponse delete(AccessCodesDeleteRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/delete")
@@ -137,9 +178,9 @@ public class AccessCodesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -147,24 +188,94 @@ public class AccessCodesClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
-                AccessCodesDeleteResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesDeleteResponse.class);
-                return parsedResponse.getActionAttempt();
+                return ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), AccessCodesDeleteResponse.class);
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
-    public AccessCode getById(String accessCodeId) {
-        return get(AccessCodesGetRequest.builder().accessCodeId(accessCodeId).build());
+    public AccessCode generateCode(AccessCodesGenerateCodeRequest request) {
+        return generateCode(request, null);
+    }
+
+    public AccessCode generateCode(AccessCodesGenerateCodeRequest request, RequestOptions requestOptions) {
+        HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
+                .newBuilder()
+                .addPathSegments("access_codes/generate_code")
+                .build();
+        RequestBody body;
+        try {
+            body = RequestBody.create(
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
+        }
+        Request okhttpRequest = new Request.Builder()
+                .url(httpUrl)
+                .method("POST", body)
+                .headers(Headers.of(clientOptions.headers(requestOptions)))
+                .addHeader("Content-Type", "application/json")
+                .build();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
+            if (response.isSuccessful()) {
+                AccessCodesGenerateCodeResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
+                        responseBody.string(), AccessCodesGenerateCodeResponse.class);
+                return parsedResponse.getGeneratedCode();
+            }
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
+                    response.code(),
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+        } catch (IOException e) {
+            throw new SeamApiError("Network error executing HTTP request", e);
+        }
+    }
+
+    public AccessCode get() {
+        return get(AccessCodesGetRequest.builder().build());
     }
 
     public AccessCode get(AccessCodesGetRequest request) {
@@ -179,9 +290,9 @@ public class AccessCodesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -189,24 +300,37 @@ public class AccessCodesClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
                 AccessCodesGetResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesGetResponse.class);
+                        ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), AccessCodesGetResponse.class);
                 return parsedResponse.getAccessCode();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
-    }
-
-    public AccessCode get() {
-        return get(AccessCodesGetRequest.builder().build());
     }
 
     public List<AccessCode> list(AccessCodesListRequest request) {
@@ -221,9 +345,9 @@ public class AccessCodesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -231,19 +355,36 @@ public class AccessCodesClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
                 AccessCodesListResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesListResponse.class);
+                        ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), AccessCodesListResponse.class);
                 return parsedResponse.getAccessCodes();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
@@ -260,9 +401,9 @@ public class AccessCodesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -270,27 +411,44 @@ public class AccessCodesClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
-                AccessCodesPullBackupAccessCodeResponse parsedResposne = ObjectMappers.JSON_MAPPER.readValue(
-                        response.body().string(), AccessCodesPullBackupAccessCodeResponse.class);
-                return parsedResposne.getBackupAccessCode();
+                AccessCodesPullBackupAccessCodeResponse parsedResponse = ObjectMappers.JSON_MAPPER.readValue(
+                        responseBody.string(), AccessCodesPullBackupAccessCodeResponse.class);
+                return parsedResponse.getBackupAccessCode();
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 
-    public ActionAttempt update(AccessCodesUpdateRequest request) {
+    public AccessCodesUpdateResponse update(AccessCodesUpdateRequest request) {
         return update(request, null);
     }
 
-    public ActionAttempt update(AccessCodesUpdateRequest request, RequestOptions requestOptions) {
+    public AccessCodesUpdateResponse update(AccessCodesUpdateRequest request, RequestOptions requestOptions) {
         HttpUrl httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("access_codes/update")
@@ -298,9 +456,9 @@ public class AccessCodesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaType.parse("application/json"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+        } catch (JsonProcessingException e) {
+            throw new SeamApiError("Failed to serialize request", e);
         }
         Request okhttpRequest = new Request.Builder()
                 .url(httpUrl)
@@ -308,19 +466,34 @@ public class AccessCodesClient {
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
                 .build();
-        try {
-            Response response =
-                    clientOptions.httpClient().newCall(okhttpRequest).execute();
+        OkHttpClient client = clientOptions.httpClient();
+        if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
+            client = clientOptions.httpClientWithTimeout(requestOptions);
+        }
+        try (Response response = client.newCall(okhttpRequest).execute()) {
+            ResponseBody responseBody = response.body();
             if (response.isSuccessful()) {
-                AccessCodesUpdateResponse parsedResponse =
-                        ObjectMappers.JSON_MAPPER.readValue(response.body().string(), AccessCodesUpdateResponse.class);
-                return parsedResponse.getActionAttempt();
+                return ObjectMappers.JSON_MAPPER.readValue(responseBody.string(), AccessCodesUpdateResponse.class);
             }
-            throw new ApiError(
+            String responseBodyString = responseBody != null ? responseBody.string() : "{}";
+            try {
+                switch (response.code()) {
+                    case 400:
+                        throw new SeamApiBadRequestError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                    case 401:
+                        throw new SeamApiUnauthorizedError(
+                                ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
+                }
+            } catch (JsonProcessingException ignored) {
+                // unable to map error response, throwing generic error
+            }
+            throw new SeamApiApiError(
+                    "Error with status code " + response.code(),
                     response.code(),
-                    ObjectMappers.JSON_MAPPER.readValue(response.body().string(), Object.class));
+                    ObjectMappers.JSON_MAPPER.readValue(responseBodyString, Object.class));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SeamApiError("Network error executing HTTP request", e);
         }
     }
 

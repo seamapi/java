@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
-import com.seam.api.types.DevicesListDeviceProvidersRequestProviderCategory;
+import com.seam.api.types.ProviderCategory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -21,23 +21,22 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = DevicesListDeviceProvidersRequest.Builder.class)
 public final class DevicesListDeviceProvidersRequest {
-    private final Optional<DevicesListDeviceProvidersRequestProviderCategory> providerCategory;
+    private final Optional<ProviderCategory> providerCategory;
 
     private final Map<String, Object> additionalProperties;
 
     private DevicesListDeviceProvidersRequest(
-            Optional<DevicesListDeviceProvidersRequestProviderCategory> providerCategory,
-            Map<String, Object> additionalProperties) {
+            Optional<ProviderCategory> providerCategory, Map<String, Object> additionalProperties) {
         this.providerCategory = providerCategory;
         this.additionalProperties = additionalProperties;
     }
 
     @JsonProperty("provider_category")
-    public Optional<DevicesListDeviceProvidersRequestProviderCategory> getProviderCategory() {
+    public Optional<ProviderCategory> getProviderCategory() {
         return providerCategory;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof DevicesListDeviceProvidersRequest && equalTo((DevicesListDeviceProvidersRequest) other);
@@ -52,12 +51,12 @@ public final class DevicesListDeviceProvidersRequest {
         return providerCategory.equals(other.providerCategory);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.providerCategory);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -68,7 +67,7 @@ public final class DevicesListDeviceProvidersRequest {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder {
-        private Optional<DevicesListDeviceProvidersRequestProviderCategory> providerCategory = Optional.empty();
+        private Optional<ProviderCategory> providerCategory = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -81,12 +80,12 @@ public final class DevicesListDeviceProvidersRequest {
         }
 
         @JsonSetter(value = "provider_category", nulls = Nulls.SKIP)
-        public Builder providerCategory(Optional<DevicesListDeviceProvidersRequestProviderCategory> providerCategory) {
+        public Builder providerCategory(Optional<ProviderCategory> providerCategory) {
             this.providerCategory = providerCategory;
             return this;
         }
 
-        public Builder providerCategory(DevicesListDeviceProvidersRequestProviderCategory providerCategory) {
+        public Builder providerCategory(ProviderCategory providerCategory) {
             this.providerCategory = Optional.of(providerCategory);
             return this;
         }
