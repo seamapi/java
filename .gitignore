@@ -7,6 +7,7 @@
 .settings
 .node
 build
+src/main/java/com/seam/api/SeamBuilder.java
 
 # IntelliJ
 *.iml

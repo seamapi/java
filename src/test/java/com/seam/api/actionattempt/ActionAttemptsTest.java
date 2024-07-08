@@ -5,6 +5,7 @@ import com.seam.api.TestUtils;
 import com.seam.api.TestUtils.FakeSeamStartedResponse;
 import com.seam.api.resources.accesscodes.requests.AccessCodesCreateRequest;
 import com.seam.api.resources.accesscodes.requests.AccessCodesDeleteRequest;
+import com.seam.api.resources.accesscodes.types.AccessCodesDeleteResponse;
 import com.seam.api.types.AccessCode;
 import com.seam.api.types.ActionAttempt;
 import com.seam.api.types.Device;
@@ -41,7 +42,7 @@ public final class ActionAttemptsTest {
                         .code("4444")
                         .build());
 
-        ActionAttempt deleteActionAttempt = seam.accessCodes()
+        AccessCodesDeleteResponse deleteActionAttempt = seam.accessCodes()
                 .delete(AccessCodesDeleteRequest.builder()
                         .accessCodeId(createdAccessCode.getAccessCodeId())
                         .build());
