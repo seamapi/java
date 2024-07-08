@@ -1,5 +1,6 @@
 package com.seam.api.connectedaccounts;
 
+import com.seam.api.resources.connectedaccounts.types.ConnectedAccountsGetRequest;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -11,7 +12,6 @@ import com.seam.api.Seam;
 import com.seam.api.TestUtils;
 import com.seam.api.TestUtils.FakeSeamStartedResponse;
 import com.seam.api.types.ConnectedAccount;
-import com.seam.api.types.ConnectedAccountsGetRequest;
 
 public final class ConnectedAccountsTest {
 

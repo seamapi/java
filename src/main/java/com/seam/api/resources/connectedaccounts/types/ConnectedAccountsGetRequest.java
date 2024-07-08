@@ -66,6 +66,14 @@ public final class ConnectedAccountsGetRequest {
         return new ConnectedAccountsGetRequest(value, 1);
     }
 
+    public static ConnectedAccountsGetRequest id(String id) {
+        return new ConnectedAccountsGetRequest(
+            ConnectedAccountsGetRequestConnectedAccountId.builder()
+                .connectedAccountId(id)
+                .build(),
+            0);
+    }
+
     public interface Visitor<T> {
         T visit(ConnectedAccountsGetRequestConnectedAccountId value);
 
