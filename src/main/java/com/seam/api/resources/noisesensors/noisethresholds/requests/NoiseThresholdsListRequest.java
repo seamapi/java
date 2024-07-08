@@ -9,21 +9,27 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = NoiseThresholdsListRequest.Builder.class)
 public final class NoiseThresholdsListRequest {
     private final String deviceId;
 
+    private final Optional<Boolean> isProgrammed;
+
     private final Map<String, Object> additionalProperties;
 
-    private NoiseThresholdsListRequest(String deviceId, Map<String, Object> additionalProperties) {
+    private NoiseThresholdsListRequest(
+            String deviceId, Optional<Boolean> isProgrammed, Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
+        this.isProgrammed = isProgrammed;
         this.additionalProperties = additionalProperties;
     }
 
@@ -32,7 +38,12 @@ public final class NoiseThresholdsListRequest {
         return deviceId;
     }
 
-    @Override
+    @JsonProperty("is_programmed")
+    public Optional<Boolean> getIsProgrammed() {
+        return isProgrammed;
+    }
+
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof NoiseThresholdsListRequest && equalTo((NoiseThresholdsListRequest) other);
@@ -44,15 +55,15 @@ public final class NoiseThresholdsListRequest {
     }
 
     private boolean equalTo(NoiseThresholdsListRequest other) {
-        return deviceId.equals(other.deviceId);
+        return deviceId.equals(other.deviceId) && isProgrammed.equals(other.isProgrammed);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.deviceId);
+        return Objects.hash(this.deviceId, this.isProgrammed);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -69,33 +80,53 @@ public final class NoiseThresholdsListRequest {
 
     public interface _FinalStage {
         NoiseThresholdsListRequest build();
+
+        _FinalStage isProgrammed(Optional<Boolean> isProgrammed);
+
+        _FinalStage isProgrammed(Boolean isProgrammed);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements DeviceIdStage, _FinalStage {
         private String deviceId;
 
+        private Optional<Boolean> isProgrammed = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(NoiseThresholdsListRequest other) {
             deviceId(other.getDeviceId());
+            isProgrammed(other.getIsProgrammed());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public _FinalStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
+        public _FinalStage isProgrammed(Boolean isProgrammed) {
+            this.isProgrammed = Optional.of(isProgrammed);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "is_programmed", nulls = Nulls.SKIP)
+        public _FinalStage isProgrammed(Optional<Boolean> isProgrammed) {
+            this.isProgrammed = isProgrammed;
+            return this;
+        }
+
+        @java.lang.Override
         public NoiseThresholdsListRequest build() {
-            return new NoiseThresholdsListRequest(deviceId, additionalProperties);
+            return new NoiseThresholdsListRequest(deviceId, isProgrammed, additionalProperties);
         }
     }
 }

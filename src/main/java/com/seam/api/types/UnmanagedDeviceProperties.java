@@ -20,6 +20,8 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonDeserialize(builder = UnmanagedDeviceProperties.Builder.class)
 public final class UnmanagedDeviceProperties {
+    private final Optional<UnmanagedDevicePropertiesAccessoryKeypad> accessoryKeypad;
+
     private final String name;
 
     private final boolean online;
@@ -30,50 +32,123 @@ public final class UnmanagedDeviceProperties {
 
     private final Optional<String> imageAltText;
 
+    private final Optional<Double> batteryLevel;
+
+    private final Optional<UnmanagedDevicePropertiesBattery> battery;
+
+    private final Optional<Boolean> onlineAccessCodesEnabled;
+
+    private final Optional<Boolean> offlineAccessCodesEnabled;
+
     private final UnmanagedDevicePropertiesModel model;
 
     private final Map<String, Object> additionalProperties;
 
     private UnmanagedDeviceProperties(
+            Optional<UnmanagedDevicePropertiesAccessoryKeypad> accessoryKeypad,
             String name,
             boolean online,
             Optional<String> manufacturer,
             Optional<String> imageUrl,
             Optional<String> imageAltText,
+            Optional<Double> batteryLevel,
+            Optional<UnmanagedDevicePropertiesBattery> battery,
+            Optional<Boolean> onlineAccessCodesEnabled,
+            Optional<Boolean> offlineAccessCodesEnabled,
             UnmanagedDevicePropertiesModel model,
             Map<String, Object> additionalProperties) {
+        this.accessoryKeypad = accessoryKeypad;
         this.name = name;
         this.online = online;
         this.manufacturer = manufacturer;
         this.imageUrl = imageUrl;
         this.imageAltText = imageAltText;
+        this.batteryLevel = batteryLevel;
+        this.battery = battery;
+        this.onlineAccessCodesEnabled = onlineAccessCodesEnabled;
+        this.offlineAccessCodesEnabled = offlineAccessCodesEnabled;
         this.model = model;
         this.additionalProperties = additionalProperties;
     }
 
+    /**
+     * @return Represents the accessory keypad state.
+     */
+    @JsonProperty("accessory_keypad")
+    public Optional<UnmanagedDevicePropertiesAccessoryKeypad> getAccessoryKeypad() {
+        return accessoryKeypad;
+    }
+
+    /**
+     * @return Name of the device.
+     */
     @JsonProperty("name")
     public String getName() {
         return name;
     }
 
+    /**
+     * @return Indicates whether the device is online.
+     */
     @JsonProperty("online")
     public boolean getOnline() {
         return online;
     }
 
+    /**
+     * @return Manufacturer of the device.
+     */
     @JsonProperty("manufacturer")
     public Optional<String> getManufacturer() {
         return manufacturer;
     }
 
+    /**
+     * @return Image URL for the device.
+     */
     @JsonProperty("image_url")
     public Optional<String> getImageUrl() {
         return imageUrl;
     }
 
+    /**
+     * @return Alt text for the device image.
+     */
     @JsonProperty("image_alt_text")
     public Optional<String> getImageAltText() {
         return imageAltText;
+    }
+
+    /**
+     * @return Indicates the battery level of the device as a decimal value between 0 and 1, inclusive.
+     */
+    @JsonProperty("battery_level")
+    public Optional<Double> getBatteryLevel() {
+        return batteryLevel;
+    }
+
+    /**
+     * @return Represents the current status of the battery charge level. Values are &quot;critical,&quot; which indicates an extremely low level, suggesting imminent shutdown or an urgent need for charging; &quot;low,&quot; which signifies that the battery is under the preferred threshold and should be charged soon; &quot;good,&quot; which denotes a satisfactory charge level, adequate for normal use without the immediate need for recharging; and &quot;full,&quot; which represents a battery that is fully charged, providing the maximum duration of usage.
+     */
+    @JsonProperty("battery")
+    public Optional<UnmanagedDevicePropertiesBattery> getBattery() {
+        return battery;
+    }
+
+    /**
+     * @return Indicates whether it is currently possible to use online access codes for the device.
+     */
+    @JsonProperty("online_access_codes_enabled")
+    public Optional<Boolean> getOnlineAccessCodesEnabled() {
+        return onlineAccessCodesEnabled;
+    }
+
+    /**
+     * @return Indicates whether it is currently possible to use offline access codes for the device.
+     */
+    @JsonProperty("offline_access_codes_enabled")
+    public Optional<Boolean> getOfflineAccessCodesEnabled() {
+        return offlineAccessCodesEnabled;
     }
 
     @JsonProperty("model")
@@ -81,7 +156,7 @@ public final class UnmanagedDeviceProperties {
         return model;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof UnmanagedDeviceProperties && equalTo((UnmanagedDeviceProperties) other);
@@ -93,20 +168,36 @@ public final class UnmanagedDeviceProperties {
     }
 
     private boolean equalTo(UnmanagedDeviceProperties other) {
-        return name.equals(other.name)
+        return accessoryKeypad.equals(other.accessoryKeypad)
+                && name.equals(other.name)
                 && online == other.online
                 && manufacturer.equals(other.manufacturer)
                 && imageUrl.equals(other.imageUrl)
                 && imageAltText.equals(other.imageAltText)
+                && batteryLevel.equals(other.batteryLevel)
+                && battery.equals(other.battery)
+                && onlineAccessCodesEnabled.equals(other.onlineAccessCodesEnabled)
+                && offlineAccessCodesEnabled.equals(other.offlineAccessCodesEnabled)
                 && model.equals(other.model);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.name, this.online, this.manufacturer, this.imageUrl, this.imageAltText, this.model);
+        return Objects.hash(
+                this.accessoryKeypad,
+                this.name,
+                this.online,
+                this.manufacturer,
+                this.imageUrl,
+                this.imageAltText,
+                this.batteryLevel,
+                this.battery,
+                this.onlineAccessCodesEnabled,
+                this.offlineAccessCodesEnabled,
+                this.model);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -132,6 +223,10 @@ public final class UnmanagedDeviceProperties {
     public interface _FinalStage {
         UnmanagedDeviceProperties build();
 
+        _FinalStage accessoryKeypad(Optional<UnmanagedDevicePropertiesAccessoryKeypad> accessoryKeypad);
+
+        _FinalStage accessoryKeypad(UnmanagedDevicePropertiesAccessoryKeypad accessoryKeypad);
+
         _FinalStage manufacturer(Optional<String> manufacturer);
 
         _FinalStage manufacturer(String manufacturer);
@@ -143,6 +238,22 @@ public final class UnmanagedDeviceProperties {
         _FinalStage imageAltText(Optional<String> imageAltText);
 
         _FinalStage imageAltText(String imageAltText);
+
+        _FinalStage batteryLevel(Optional<Double> batteryLevel);
+
+        _FinalStage batteryLevel(Double batteryLevel);
+
+        _FinalStage battery(Optional<UnmanagedDevicePropertiesBattery> battery);
+
+        _FinalStage battery(UnmanagedDevicePropertiesBattery battery);
+
+        _FinalStage onlineAccessCodesEnabled(Optional<Boolean> onlineAccessCodesEnabled);
+
+        _FinalStage onlineAccessCodesEnabled(Boolean onlineAccessCodesEnabled);
+
+        _FinalStage offlineAccessCodesEnabled(Optional<Boolean> offlineAccessCodesEnabled);
+
+        _FinalStage offlineAccessCodesEnabled(Boolean offlineAccessCodesEnabled);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -153,92 +264,223 @@ public final class UnmanagedDeviceProperties {
 
         private UnmanagedDevicePropertiesModel model;
 
+        private Optional<Boolean> offlineAccessCodesEnabled = Optional.empty();
+
+        private Optional<Boolean> onlineAccessCodesEnabled = Optional.empty();
+
+        private Optional<UnmanagedDevicePropertiesBattery> battery = Optional.empty();
+
+        private Optional<Double> batteryLevel = Optional.empty();
+
         private Optional<String> imageAltText = Optional.empty();
 
         private Optional<String> imageUrl = Optional.empty();
 
         private Optional<String> manufacturer = Optional.empty();
 
+        private Optional<UnmanagedDevicePropertiesAccessoryKeypad> accessoryKeypad = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(UnmanagedDeviceProperties other) {
+            accessoryKeypad(other.getAccessoryKeypad());
             name(other.getName());
             online(other.getOnline());
             manufacturer(other.getManufacturer());
             imageUrl(other.getImageUrl());
             imageAltText(other.getImageAltText());
+            batteryLevel(other.getBatteryLevel());
+            battery(other.getBattery());
+            onlineAccessCodesEnabled(other.getOnlineAccessCodesEnabled());
+            offlineAccessCodesEnabled(other.getOfflineAccessCodesEnabled());
             model(other.getModel());
             return this;
         }
 
-        @Override
+        /**
+         * <p>Name of the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         @JsonSetter("name")
         public OnlineStage name(String name) {
             this.name = name;
             return this;
         }
 
-        @Override
+        /**
+         * <p>Indicates whether the device is online.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         @JsonSetter("online")
         public ModelStage online(boolean online) {
             this.online = online;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("model")
         public _FinalStage model(UnmanagedDevicePropertiesModel model) {
             this.model = model;
             return this;
         }
 
-        @Override
+        /**
+         * <p>Indicates whether it is currently possible to use offline access codes for the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage offlineAccessCodesEnabled(Boolean offlineAccessCodesEnabled) {
+            this.offlineAccessCodesEnabled = Optional.of(offlineAccessCodesEnabled);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "offline_access_codes_enabled", nulls = Nulls.SKIP)
+        public _FinalStage offlineAccessCodesEnabled(Optional<Boolean> offlineAccessCodesEnabled) {
+            this.offlineAccessCodesEnabled = offlineAccessCodesEnabled;
+            return this;
+        }
+
+        /**
+         * <p>Indicates whether it is currently possible to use online access codes for the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage onlineAccessCodesEnabled(Boolean onlineAccessCodesEnabled) {
+            this.onlineAccessCodesEnabled = Optional.of(onlineAccessCodesEnabled);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "online_access_codes_enabled", nulls = Nulls.SKIP)
+        public _FinalStage onlineAccessCodesEnabled(Optional<Boolean> onlineAccessCodesEnabled) {
+            this.onlineAccessCodesEnabled = onlineAccessCodesEnabled;
+            return this;
+        }
+
+        /**
+         * <p>Represents the current status of the battery charge level. Values are &quot;critical,&quot; which indicates an extremely low level, suggesting imminent shutdown or an urgent need for charging; &quot;low,&quot; which signifies that the battery is under the preferred threshold and should be charged soon; &quot;good,&quot; which denotes a satisfactory charge level, adequate for normal use without the immediate need for recharging; and &quot;full,&quot; which represents a battery that is fully charged, providing the maximum duration of usage.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage battery(UnmanagedDevicePropertiesBattery battery) {
+            this.battery = Optional.of(battery);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "battery", nulls = Nulls.SKIP)
+        public _FinalStage battery(Optional<UnmanagedDevicePropertiesBattery> battery) {
+            this.battery = battery;
+            return this;
+        }
+
+        /**
+         * <p>Indicates the battery level of the device as a decimal value between 0 and 1, inclusive.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage batteryLevel(Double batteryLevel) {
+            this.batteryLevel = Optional.of(batteryLevel);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "battery_level", nulls = Nulls.SKIP)
+        public _FinalStage batteryLevel(Optional<Double> batteryLevel) {
+            this.batteryLevel = batteryLevel;
+            return this;
+        }
+
+        /**
+         * <p>Alt text for the device image.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         public _FinalStage imageAltText(String imageAltText) {
             this.imageAltText = Optional.of(imageAltText);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "image_alt_text", nulls = Nulls.SKIP)
         public _FinalStage imageAltText(Optional<String> imageAltText) {
             this.imageAltText = imageAltText;
             return this;
         }
 
-        @Override
+        /**
+         * <p>Image URL for the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         public _FinalStage imageUrl(String imageUrl) {
             this.imageUrl = Optional.of(imageUrl);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "image_url", nulls = Nulls.SKIP)
         public _FinalStage imageUrl(Optional<String> imageUrl) {
             this.imageUrl = imageUrl;
             return this;
         }
 
-        @Override
+        /**
+         * <p>Manufacturer of the device.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
         public _FinalStage manufacturer(String manufacturer) {
             this.manufacturer = Optional.of(manufacturer);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "manufacturer", nulls = Nulls.SKIP)
         public _FinalStage manufacturer(Optional<String> manufacturer) {
             this.manufacturer = manufacturer;
             return this;
         }
 
-        @Override
+        /**
+         * <p>Represents the accessory keypad state.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage accessoryKeypad(UnmanagedDevicePropertiesAccessoryKeypad accessoryKeypad) {
+            this.accessoryKeypad = Optional.of(accessoryKeypad);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "accessory_keypad", nulls = Nulls.SKIP)
+        public _FinalStage accessoryKeypad(Optional<UnmanagedDevicePropertiesAccessoryKeypad> accessoryKeypad) {
+            this.accessoryKeypad = accessoryKeypad;
+            return this;
+        }
+
+        @java.lang.Override
         public UnmanagedDeviceProperties build() {
             return new UnmanagedDeviceProperties(
-                    name, online, manufacturer, imageUrl, imageAltText, model, additionalProperties);
+                    accessoryKeypad,
+                    name,
+                    online,
+                    manufacturer,
+                    imageUrl,
+                    imageAltText,
+                    batteryLevel,
+                    battery,
+                    onlineAccessCodesEnabled,
+                    offlineAccessCodesEnabled,
+                    model,
+                    additionalProperties);
         }
     }
 }

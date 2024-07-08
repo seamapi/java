@@ -40,7 +40,7 @@ public final class UnmanagedUpdateRequest {
         return isManaged;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof UnmanagedUpdateRequest && equalTo((UnmanagedUpdateRequest) other);
@@ -55,12 +55,12 @@ public final class UnmanagedUpdateRequest {
         return deviceId.equals(other.deviceId) && isManaged == other.isManaged;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.deviceId, this.isManaged);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -94,28 +94,28 @@ public final class UnmanagedUpdateRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(UnmanagedUpdateRequest other) {
             deviceId(other.getDeviceId());
             isManaged(other.getIsManaged());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public IsManagedStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("is_managed")
         public _FinalStage isManaged(boolean isManaged) {
             this.isManaged = isManaged;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public UnmanagedUpdateRequest build() {
             return new UnmanagedUpdateRequest(deviceId, isManaged, additionalProperties);
         }

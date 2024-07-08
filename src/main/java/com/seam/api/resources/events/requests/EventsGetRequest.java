@@ -54,7 +54,7 @@ public final class EventsGetRequest {
         return deviceId;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof EventsGetRequest && equalTo((EventsGetRequest) other);
@@ -69,12 +69,12 @@ public final class EventsGetRequest {
         return eventId.equals(other.eventId) && eventType.equals(other.eventType) && deviceId.equals(other.deviceId);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.eventId, this.eventType, this.deviceId);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }

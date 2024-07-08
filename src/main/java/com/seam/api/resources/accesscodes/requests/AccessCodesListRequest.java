@@ -25,12 +25,18 @@ public final class AccessCodesListRequest {
 
     private final Optional<List<String>> accessCodeIds;
 
+    private final Optional<String> userIdentifierKey;
+
     private final Map<String, Object> additionalProperties;
 
     private AccessCodesListRequest(
-            String deviceId, Optional<List<String>> accessCodeIds, Map<String, Object> additionalProperties) {
+            String deviceId,
+            Optional<List<String>> accessCodeIds,
+            Optional<String> userIdentifierKey,
+            Map<String, Object> additionalProperties) {
         this.deviceId = deviceId;
         this.accessCodeIds = accessCodeIds;
+        this.userIdentifierKey = userIdentifierKey;
         this.additionalProperties = additionalProperties;
     }
 
@@ -44,7 +50,12 @@ public final class AccessCodesListRequest {
         return accessCodeIds;
     }
 
-    @Override
+    @JsonProperty("user_identifier_key")
+    public Optional<String> getUserIdentifierKey() {
+        return userIdentifierKey;
+    }
+
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof AccessCodesListRequest && equalTo((AccessCodesListRequest) other);
@@ -56,15 +67,17 @@ public final class AccessCodesListRequest {
     }
 
     private boolean equalTo(AccessCodesListRequest other) {
-        return deviceId.equals(other.deviceId) && accessCodeIds.equals(other.accessCodeIds);
+        return deviceId.equals(other.deviceId)
+                && accessCodeIds.equals(other.accessCodeIds)
+                && userIdentifierKey.equals(other.userIdentifierKey);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.deviceId, this.accessCodeIds);
+        return Objects.hash(this.deviceId, this.accessCodeIds, this.userIdentifierKey);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -85,11 +98,17 @@ public final class AccessCodesListRequest {
         _FinalStage accessCodeIds(Optional<List<String>> accessCodeIds);
 
         _FinalStage accessCodeIds(List<String> accessCodeIds);
+
+        _FinalStage userIdentifierKey(Optional<String> userIdentifierKey);
+
+        _FinalStage userIdentifierKey(String userIdentifierKey);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements DeviceIdStage, _FinalStage {
         private String deviceId;
+
+        private Optional<String> userIdentifierKey = Optional.empty();
 
         private Optional<List<String>> accessCodeIds = Optional.empty();
 
@@ -98,36 +117,50 @@ public final class AccessCodesListRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(AccessCodesListRequest other) {
             deviceId(other.getDeviceId());
             accessCodeIds(other.getAccessCodeIds());
+            userIdentifierKey(other.getUserIdentifierKey());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("device_id")
         public _FinalStage deviceId(String deviceId) {
             this.deviceId = deviceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
+        public _FinalStage userIdentifierKey(String userIdentifierKey) {
+            this.userIdentifierKey = Optional.of(userIdentifierKey);
+            return this;
+        }
+
+        @java.lang.Override
+        @JsonSetter(value = "user_identifier_key", nulls = Nulls.SKIP)
+        public _FinalStage userIdentifierKey(Optional<String> userIdentifierKey) {
+            this.userIdentifierKey = userIdentifierKey;
+            return this;
+        }
+
+        @java.lang.Override
         public _FinalStage accessCodeIds(List<String> accessCodeIds) {
             this.accessCodeIds = Optional.of(accessCodeIds);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "access_code_ids", nulls = Nulls.SKIP)
         public _FinalStage accessCodeIds(Optional<List<String>> accessCodeIds) {
             this.accessCodeIds = accessCodeIds;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public AccessCodesListRequest build() {
-            return new AccessCodesListRequest(deviceId, accessCodeIds, additionalProperties);
+            return new AccessCodesListRequest(deviceId, accessCodeIds, userIdentifierKey, additionalProperties);
         }
     }
 }

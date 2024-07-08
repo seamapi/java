@@ -5,15 +5,43 @@ package com.seam.api.core;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 public final class RequestOptions {
     private final String apiKey;
 
     private final String seamWorkspace;
 
-    private RequestOptions(String apiKey, String seamWorkspace) {
+    private final String seamClientSessionToken;
+
+    private final String clientSessionToken;
+
+    private final Optional<Integer> timeout;
+
+    private final TimeUnit timeoutTimeUnit;
+
+    private RequestOptions(
+            String apiKey,
+            String seamWorkspace,
+            String seamClientSessionToken,
+            String clientSessionToken,
+            Optional<Integer> timeout,
+            TimeUnit timeoutTimeUnit) {
         this.apiKey = apiKey;
         this.seamWorkspace = seamWorkspace;
+        this.seamClientSessionToken = seamClientSessionToken;
+        this.clientSessionToken = clientSessionToken;
+        this.timeout = timeout;
+        this.timeoutTimeUnit = timeoutTimeUnit;
+    }
+
+    public Optional<Integer> getTimeout() {
+        return timeout;
+    }
+
+    public TimeUnit getTimeoutTimeUnit() {
+        return timeoutTimeUnit;
     }
 
     public Map<String, String> getHeaders() {
@@ -22,7 +50,13 @@ public final class RequestOptions {
             headers.put("Authorization", "Bearer " + this.apiKey);
         }
         if (this.seamWorkspace != null) {
-            headers.put("Seam-Workspace", this.seamWorkspace);
+            headers.put("seam-workspace", this.seamWorkspace);
+        }
+        if (this.seamClientSessionToken != null) {
+            headers.put("seam-client-session-token", this.seamClientSessionToken);
+        }
+        if (this.clientSessionToken != null) {
+            headers.put("client-session-token", this.clientSessionToken);
         }
         return headers;
     }
@@ -36,6 +70,14 @@ public final class RequestOptions {
 
         private String seamWorkspace = null;
 
+        private String seamClientSessionToken = null;
+
+        private String clientSessionToken = null;
+
+        private Optional<Integer> timeout = null;
+
+        private TimeUnit timeoutTimeUnit = TimeUnit.SECONDS;
+
         public Builder apiKey(String apiKey) {
             this.apiKey = apiKey;
             return this;
@@ -46,8 +88,30 @@ public final class RequestOptions {
             return this;
         }
 
+        public Builder seamClientSessionToken(String seamClientSessionToken) {
+            this.seamClientSessionToken = seamClientSessionToken;
+            return this;
+        }
+
+        public Builder clientSessionToken(String clientSessionToken) {
+            this.clientSessionToken = clientSessionToken;
+            return this;
+        }
+
+        public Builder timeout(Integer timeout) {
+            this.timeout = Optional.of(timeout);
+            return this;
+        }
+
+        public Builder timeout(Integer timeout, TimeUnit timeoutTimeUnit) {
+            this.timeout = Optional.of(timeout);
+            this.timeoutTimeUnit = timeoutTimeUnit;
+            return this;
+        }
+
         public RequestOptions build() {
-            return new RequestOptions(apiKey, seamWorkspace);
+            return new RequestOptions(
+                    apiKey, seamWorkspace, seamClientSessionToken, clientSessionToken, timeout, timeoutTimeUnit);
         }
     }
 }

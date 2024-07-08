@@ -9,15 +9,45 @@ import com.seam.api.core.Environment;
 public final class SeamBuilder {
     private ClientOptions.Builder clientOptionsBuilder = ClientOptions.builder();
 
+    private String apiKey = null;
+
+    private String seamWorkspace = null;
+
+    private String seamClientSessionToken = null;
+
+    private String clientSessionToken = null;
+
     private Environment environment = Environment.DEFAULT;
 
+    /**
+     * Sets apiKey
+     */
     public SeamBuilder apiKey(String apiKey) {
-        this.clientOptionsBuilder.addHeader("Authorization", "Bearer " + apiKey);
+        this.apiKey = apiKey;
         return this;
     }
 
+    /**
+     * Sets seamWorkspace
+     */
     public SeamBuilder seamWorkspace(String seamWorkspace) {
-        this.clientOptionsBuilder.addHeader("Seam-Workspace", seamWorkspace);
+        this.seamWorkspace = seamWorkspace;
+        return this;
+    }
+
+    /**
+     * Sets seamClientSessionToken
+     */
+    public SeamBuilder seamClientSessionToken(String seamClientSessionToken) {
+        this.seamClientSessionToken = seamClientSessionToken;
+        return this;
+    }
+
+    /**
+     * Sets clientSessionToken
+     */
+    public SeamBuilder clientSessionToken(String clientSessionToken) {
+        this.clientSessionToken = clientSessionToken;
         return this;
     }
 
@@ -32,6 +62,19 @@ public final class SeamBuilder {
     }
 
     public Seam build() {
+        this.clientOptionsBuilder.addHeader("Authorization", "Bearer " + this.apiKey);
+        if (seamWorkspace == null) {
+            throw new RuntimeException("Please provide seamWorkspace");
+        }
+        this.clientOptionsBuilder.addHeader("seam-workspace", this.seamWorkspace);
+        if (seamClientSessionToken == null) {
+            throw new RuntimeException("Please provide seamClientSessionToken");
+        }
+        this.clientOptionsBuilder.addHeader("seam-client-session-token", this.seamClientSessionToken);
+        if (clientSessionToken == null) {
+            throw new RuntimeException("Please provide clientSessionToken");
+        }
+        this.clientOptionsBuilder.addHeader("client-session-token", this.clientSessionToken);
         clientOptionsBuilder.environment(this.environment);
         return new Seam(clientOptionsBuilder.build());
     }

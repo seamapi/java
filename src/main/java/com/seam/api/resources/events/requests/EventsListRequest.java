@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
-import com.seam.api.types.EventsListRequestBetweenItem;
-import com.seam.api.types.EventsListRequestEventType;
-import com.seam.api.types.EventsListRequestEventTypesItem;
+import com.seam.api.resources.events.types.EventsListRequestBetweenItem;
+import com.seam.api.types.EventType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,11 +35,13 @@ public final class EventsListRequest {
 
     private final Optional<List<String>> accessCodeIds;
 
-    private final Optional<EventsListRequestEventType> eventType;
+    private final Optional<EventType> eventType;
 
-    private final Optional<List<EventsListRequestEventTypesItem>> eventTypes;
+    private final Optional<List<EventType>> eventTypes;
 
     private final Optional<String> connectedAccountId;
+
+    private final Optional<Double> limit;
 
     private final Map<String, Object> additionalProperties;
 
@@ -51,9 +52,10 @@ public final class EventsListRequest {
             Optional<List<String>> deviceIds,
             Optional<String> accessCodeId,
             Optional<List<String>> accessCodeIds,
-            Optional<EventsListRequestEventType> eventType,
-            Optional<List<EventsListRequestEventTypesItem>> eventTypes,
+            Optional<EventType> eventType,
+            Optional<List<EventType>> eventTypes,
             Optional<String> connectedAccountId,
+            Optional<Double> limit,
             Map<String, Object> additionalProperties) {
         this.since = since;
         this.between = between;
@@ -64,6 +66,7 @@ public final class EventsListRequest {
         this.eventType = eventType;
         this.eventTypes = eventTypes;
         this.connectedAccountId = connectedAccountId;
+        this.limit = limit;
         this.additionalProperties = additionalProperties;
     }
 
@@ -98,12 +101,12 @@ public final class EventsListRequest {
     }
 
     @JsonProperty("event_type")
-    public Optional<EventsListRequestEventType> getEventType() {
+    public Optional<EventType> getEventType() {
         return eventType;
     }
 
     @JsonProperty("event_types")
-    public Optional<List<EventsListRequestEventTypesItem>> getEventTypes() {
+    public Optional<List<EventType>> getEventTypes() {
         return eventTypes;
     }
 
@@ -112,7 +115,12 @@ public final class EventsListRequest {
         return connectedAccountId;
     }
 
-    @Override
+    @JsonProperty("limit")
+    public Optional<Double> getLimit() {
+        return limit;
+    }
+
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof EventsListRequest && equalTo((EventsListRequest) other);
@@ -132,10 +140,11 @@ public final class EventsListRequest {
                 && accessCodeIds.equals(other.accessCodeIds)
                 && eventType.equals(other.eventType)
                 && eventTypes.equals(other.eventTypes)
-                && connectedAccountId.equals(other.connectedAccountId);
+                && connectedAccountId.equals(other.connectedAccountId)
+                && limit.equals(other.limit);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(
                 this.since,
@@ -146,10 +155,11 @@ public final class EventsListRequest {
                 this.accessCodeIds,
                 this.eventType,
                 this.eventTypes,
-                this.connectedAccountId);
+                this.connectedAccountId,
+                this.limit);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -172,11 +182,13 @@ public final class EventsListRequest {
 
         private Optional<List<String>> accessCodeIds = Optional.empty();
 
-        private Optional<EventsListRequestEventType> eventType = Optional.empty();
+        private Optional<EventType> eventType = Optional.empty();
 
-        private Optional<List<EventsListRequestEventTypesItem>> eventTypes = Optional.empty();
+        private Optional<List<EventType>> eventTypes = Optional.empty();
 
         private Optional<String> connectedAccountId = Optional.empty();
+
+        private Optional<Double> limit = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -193,6 +205,7 @@ public final class EventsListRequest {
             eventType(other.getEventType());
             eventTypes(other.getEventTypes());
             connectedAccountId(other.getConnectedAccountId());
+            limit(other.getLimit());
             return this;
         }
 
@@ -263,23 +276,23 @@ public final class EventsListRequest {
         }
 
         @JsonSetter(value = "event_type", nulls = Nulls.SKIP)
-        public Builder eventType(Optional<EventsListRequestEventType> eventType) {
+        public Builder eventType(Optional<EventType> eventType) {
             this.eventType = eventType;
             return this;
         }
 
-        public Builder eventType(EventsListRequestEventType eventType) {
+        public Builder eventType(EventType eventType) {
             this.eventType = Optional.of(eventType);
             return this;
         }
 
         @JsonSetter(value = "event_types", nulls = Nulls.SKIP)
-        public Builder eventTypes(Optional<List<EventsListRequestEventTypesItem>> eventTypes) {
+        public Builder eventTypes(Optional<List<EventType>> eventTypes) {
             this.eventTypes = eventTypes;
             return this;
         }
 
-        public Builder eventTypes(List<EventsListRequestEventTypesItem> eventTypes) {
+        public Builder eventTypes(List<EventType> eventTypes) {
             this.eventTypes = Optional.of(eventTypes);
             return this;
         }
@@ -295,6 +308,17 @@ public final class EventsListRequest {
             return this;
         }
 
+        @JsonSetter(value = "limit", nulls = Nulls.SKIP)
+        public Builder limit(Optional<Double> limit) {
+            this.limit = limit;
+            return this;
+        }
+
+        public Builder limit(Double limit) {
+            this.limit = Optional.of(limit);
+            return this;
+        }
+
         public EventsListRequest build() {
             return new EventsListRequest(
                     since,
@@ -306,6 +330,7 @@ public final class EventsListRequest {
                     eventType,
                     eventTypes,
                     connectedAccountId,
+                    limit,
                     additionalProperties);
         }
     }

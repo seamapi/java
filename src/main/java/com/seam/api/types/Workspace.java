@@ -24,6 +24,8 @@ public final class Workspace {
 
     private final String name;
 
+    private final String companyName;
+
     private final boolean isSandbox;
 
     private final Optional<String> connectPartnerName;
@@ -33,11 +35,13 @@ public final class Workspace {
     private Workspace(
             String workspaceId,
             String name,
+            String companyName,
             boolean isSandbox,
             Optional<String> connectPartnerName,
             Map<String, Object> additionalProperties) {
         this.workspaceId = workspaceId;
         this.name = name;
+        this.companyName = companyName;
         this.isSandbox = isSandbox;
         this.connectPartnerName = connectPartnerName;
         this.additionalProperties = additionalProperties;
@@ -53,6 +57,11 @@ public final class Workspace {
         return name;
     }
 
+    @JsonProperty("company_name")
+    public String getCompanyName() {
+        return companyName;
+    }
+
     @JsonProperty("is_sandbox")
     public boolean getIsSandbox() {
         return isSandbox;
@@ -63,7 +72,7 @@ public final class Workspace {
         return connectPartnerName;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof Workspace && equalTo((Workspace) other);
@@ -77,16 +86,17 @@ public final class Workspace {
     private boolean equalTo(Workspace other) {
         return workspaceId.equals(other.workspaceId)
                 && name.equals(other.name)
+                && companyName.equals(other.companyName)
                 && isSandbox == other.isSandbox
                 && connectPartnerName.equals(other.connectPartnerName);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.workspaceId, this.name, this.isSandbox, this.connectPartnerName);
+        return Objects.hash(this.workspaceId, this.name, this.companyName, this.isSandbox, this.connectPartnerName);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -102,7 +112,11 @@ public final class Workspace {
     }
 
     public interface NameStage {
-        IsSandboxStage name(String name);
+        CompanyNameStage name(String name);
+    }
+
+    public interface CompanyNameStage {
+        IsSandboxStage companyName(String companyName);
     }
 
     public interface IsSandboxStage {
@@ -118,10 +132,13 @@ public final class Workspace {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static final class Builder implements WorkspaceIdStage, NameStage, IsSandboxStage, _FinalStage {
+    public static final class Builder
+            implements WorkspaceIdStage, NameStage, CompanyNameStage, IsSandboxStage, _FinalStage {
         private String workspaceId;
 
         private String name;
+
+        private String companyName;
 
         private boolean isSandbox;
 
@@ -132,52 +149,60 @@ public final class Workspace {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(Workspace other) {
             workspaceId(other.getWorkspaceId());
             name(other.getName());
+            companyName(other.getCompanyName());
             isSandbox(other.getIsSandbox());
             connectPartnerName(other.getConnectPartnerName());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("workspace_id")
         public NameStage workspaceId(String workspaceId) {
             this.workspaceId = workspaceId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("name")
-        public IsSandboxStage name(String name) {
+        public CompanyNameStage name(String name) {
             this.name = name;
             return this;
         }
 
-        @Override
+        @java.lang.Override
+        @JsonSetter("company_name")
+        public IsSandboxStage companyName(String companyName) {
+            this.companyName = companyName;
+            return this;
+        }
+
+        @java.lang.Override
         @JsonSetter("is_sandbox")
         public _FinalStage isSandbox(boolean isSandbox) {
             this.isSandbox = isSandbox;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public _FinalStage connectPartnerName(String connectPartnerName) {
             this.connectPartnerName = Optional.of(connectPartnerName);
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter(value = "connect_partner_name", nulls = Nulls.SKIP)
         public _FinalStage connectPartnerName(Optional<String> connectPartnerName) {
             this.connectPartnerName = connectPartnerName;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public Workspace build() {
-            return new Workspace(workspaceId, name, isSandbox, connectPartnerName, additionalProperties);
+            return new Workspace(workspaceId, name, companyName, isSandbox, connectPartnerName, additionalProperties);
         }
     }
 }

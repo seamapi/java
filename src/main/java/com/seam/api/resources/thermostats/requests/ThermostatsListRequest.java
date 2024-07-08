@@ -12,6 +12,9 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.seam.api.core.ObjectMappers;
+import com.seam.api.resources.thermostats.types.ThermostatsListRequestCustomMetadataHasValue;
+import com.seam.api.resources.thermostats.types.ThermostatsListRequestExcludeIfItem;
+import com.seam.api.resources.thermostats.types.ThermostatsListRequestIncludeIfItem;
 import com.seam.api.types.DeviceType;
 import com.seam.api.types.Manufacturer;
 import java.time.OffsetDateTime;
@@ -42,6 +45,14 @@ public final class ThermostatsListRequest {
 
     private final Optional<OffsetDateTime> createdBefore;
 
+    private final Optional<String> userIdentifierKey;
+
+    private final Optional<Map<String, ThermostatsListRequestCustomMetadataHasValue>> customMetadataHas;
+
+    private final Optional<List<ThermostatsListRequestIncludeIfItem>> includeIf;
+
+    private final Optional<List<ThermostatsListRequestExcludeIfItem>> excludeIf;
+
     private final Map<String, Object> additionalProperties;
 
     private ThermostatsListRequest(
@@ -54,6 +65,10 @@ public final class ThermostatsListRequest {
             Optional<List<String>> deviceIds,
             Optional<Double> limit,
             Optional<OffsetDateTime> createdBefore,
+            Optional<String> userIdentifierKey,
+            Optional<Map<String, ThermostatsListRequestCustomMetadataHasValue>> customMetadataHas,
+            Optional<List<ThermostatsListRequestIncludeIfItem>> includeIf,
+            Optional<List<ThermostatsListRequestExcludeIfItem>> excludeIf,
             Map<String, Object> additionalProperties) {
         this.connectedAccountId = connectedAccountId;
         this.connectedAccountIds = connectedAccountIds;
@@ -64,9 +79,16 @@ public final class ThermostatsListRequest {
         this.deviceIds = deviceIds;
         this.limit = limit;
         this.createdBefore = createdBefore;
+        this.userIdentifierKey = userIdentifierKey;
+        this.customMetadataHas = customMetadataHas;
+        this.includeIf = includeIf;
+        this.excludeIf = excludeIf;
         this.additionalProperties = additionalProperties;
     }
 
+    /**
+     * @return List all devices owned by this connected account
+     */
     @JsonProperty("connected_account_id")
     public Optional<String> getConnectedAccountId() {
         return connectedAccountId;
@@ -112,7 +134,27 @@ public final class ThermostatsListRequest {
         return createdBefore;
     }
 
-    @Override
+    @JsonProperty("user_identifier_key")
+    public Optional<String> getUserIdentifierKey() {
+        return userIdentifierKey;
+    }
+
+    @JsonProperty("custom_metadata_has")
+    public Optional<Map<String, ThermostatsListRequestCustomMetadataHasValue>> getCustomMetadataHas() {
+        return customMetadataHas;
+    }
+
+    @JsonProperty("include_if")
+    public Optional<List<ThermostatsListRequestIncludeIfItem>> getIncludeIf() {
+        return includeIf;
+    }
+
+    @JsonProperty("exclude_if")
+    public Optional<List<ThermostatsListRequestExcludeIfItem>> getExcludeIf() {
+        return excludeIf;
+    }
+
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ThermostatsListRequest && equalTo((ThermostatsListRequest) other);
@@ -132,10 +174,14 @@ public final class ThermostatsListRequest {
                 && manufacturer.equals(other.manufacturer)
                 && deviceIds.equals(other.deviceIds)
                 && limit.equals(other.limit)
-                && createdBefore.equals(other.createdBefore);
+                && createdBefore.equals(other.createdBefore)
+                && userIdentifierKey.equals(other.userIdentifierKey)
+                && customMetadataHas.equals(other.customMetadataHas)
+                && includeIf.equals(other.includeIf)
+                && excludeIf.equals(other.excludeIf);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(
                 this.connectedAccountId,
@@ -146,10 +192,14 @@ public final class ThermostatsListRequest {
                 this.manufacturer,
                 this.deviceIds,
                 this.limit,
-                this.createdBefore);
+                this.createdBefore,
+                this.userIdentifierKey,
+                this.customMetadataHas,
+                this.includeIf,
+                this.excludeIf);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -178,6 +228,15 @@ public final class ThermostatsListRequest {
 
         private Optional<OffsetDateTime> createdBefore = Optional.empty();
 
+        private Optional<String> userIdentifierKey = Optional.empty();
+
+        private Optional<Map<String, ThermostatsListRequestCustomMetadataHasValue>> customMetadataHas =
+                Optional.empty();
+
+        private Optional<List<ThermostatsListRequestIncludeIfItem>> includeIf = Optional.empty();
+
+        private Optional<List<ThermostatsListRequestExcludeIfItem>> excludeIf = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -193,6 +252,10 @@ public final class ThermostatsListRequest {
             deviceIds(other.getDeviceIds());
             limit(other.getLimit());
             createdBefore(other.getCreatedBefore());
+            userIdentifierKey(other.getUserIdentifierKey());
+            customMetadataHas(other.getCustomMetadataHas());
+            includeIf(other.getIncludeIf());
+            excludeIf(other.getExcludeIf());
             return this;
         }
 
@@ -295,6 +358,51 @@ public final class ThermostatsListRequest {
             return this;
         }
 
+        @JsonSetter(value = "user_identifier_key", nulls = Nulls.SKIP)
+        public Builder userIdentifierKey(Optional<String> userIdentifierKey) {
+            this.userIdentifierKey = userIdentifierKey;
+            return this;
+        }
+
+        public Builder userIdentifierKey(String userIdentifierKey) {
+            this.userIdentifierKey = Optional.of(userIdentifierKey);
+            return this;
+        }
+
+        @JsonSetter(value = "custom_metadata_has", nulls = Nulls.SKIP)
+        public Builder customMetadataHas(
+                Optional<Map<String, ThermostatsListRequestCustomMetadataHasValue>> customMetadataHas) {
+            this.customMetadataHas = customMetadataHas;
+            return this;
+        }
+
+        public Builder customMetadataHas(Map<String, ThermostatsListRequestCustomMetadataHasValue> customMetadataHas) {
+            this.customMetadataHas = Optional.of(customMetadataHas);
+            return this;
+        }
+
+        @JsonSetter(value = "include_if", nulls = Nulls.SKIP)
+        public Builder includeIf(Optional<List<ThermostatsListRequestIncludeIfItem>> includeIf) {
+            this.includeIf = includeIf;
+            return this;
+        }
+
+        public Builder includeIf(List<ThermostatsListRequestIncludeIfItem> includeIf) {
+            this.includeIf = Optional.of(includeIf);
+            return this;
+        }
+
+        @JsonSetter(value = "exclude_if", nulls = Nulls.SKIP)
+        public Builder excludeIf(Optional<List<ThermostatsListRequestExcludeIfItem>> excludeIf) {
+            this.excludeIf = excludeIf;
+            return this;
+        }
+
+        public Builder excludeIf(List<ThermostatsListRequestExcludeIfItem> excludeIf) {
+            this.excludeIf = Optional.of(excludeIf);
+            return this;
+        }
+
         public ThermostatsListRequest build() {
             return new ThermostatsListRequest(
                     connectedAccountId,
@@ -306,6 +414,10 @@ public final class ThermostatsListRequest {
                     deviceIds,
                     limit,
                     createdBefore,
+                    userIdentifierKey,
+                    customMetadataHas,
+                    includeIf,
+                    excludeIf,
                     additionalProperties);
         }
     }

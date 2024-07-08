@@ -33,7 +33,7 @@ public final class ClimateSettingSchedulesDeleteRequest {
         return climateSettingScheduleId;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ClimateSettingSchedulesDeleteRequest
@@ -49,12 +49,12 @@ public final class ClimateSettingSchedulesDeleteRequest {
         return climateSettingScheduleId.equals(other.climateSettingScheduleId);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.climateSettingScheduleId);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
@@ -82,20 +82,20 @@ public final class ClimateSettingSchedulesDeleteRequest {
 
         private Builder() {}
 
-        @Override
+        @java.lang.Override
         public Builder from(ClimateSettingSchedulesDeleteRequest other) {
             climateSettingScheduleId(other.getClimateSettingScheduleId());
             return this;
         }
 
-        @Override
+        @java.lang.Override
         @JsonSetter("climate_setting_schedule_id")
         public _FinalStage climateSettingScheduleId(String climateSettingScheduleId) {
             this.climateSettingScheduleId = climateSettingScheduleId;
             return this;
         }
 
-        @Override
+        @java.lang.Override
         public ClimateSettingSchedulesDeleteRequest build() {
             return new ClimateSettingSchedulesDeleteRequest(climateSettingScheduleId, additionalProperties);
         }

@@ -45,7 +45,7 @@ public final class ClimateSettingSchedulesGetRequest {
         return deviceId;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ClimateSettingSchedulesGetRequest && equalTo((ClimateSettingSchedulesGetRequest) other);
@@ -60,12 +60,12 @@ public final class ClimateSettingSchedulesGetRequest {
         return climateSettingScheduleId.equals(other.climateSettingScheduleId) && deviceId.equals(other.deviceId);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.climateSettingScheduleId, this.deviceId);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }

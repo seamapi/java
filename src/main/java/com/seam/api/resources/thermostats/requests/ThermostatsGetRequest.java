@@ -43,7 +43,7 @@ public final class ThermostatsGetRequest {
         return name;
     }
 
-    @Override
+    @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
         return other instanceof ThermostatsGetRequest && equalTo((ThermostatsGetRequest) other);
@@ -58,12 +58,12 @@ public final class ThermostatsGetRequest {
         return deviceId.equals(other.deviceId) && name.equals(other.name);
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
         return Objects.hash(this.deviceId, this.name);
     }
 
-    @Override
+    @java.lang.Override
     public String toString() {
         return ObjectMappers.stringify(this);
     }
